@@ -1,7 +1,5 @@
 {
-	"name": "",
 	"type": "module",
-	"version": "0.0.1",
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
@@ -11,5 +9,6 @@
 	},
 	"dependencies": {
 		"astro": "^2.0.15"
-	}
+	},
+	"private": "true"
 }
