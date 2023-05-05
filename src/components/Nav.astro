@@ -1,0 +1,41 @@
+---
+const links: { label: string, href: string }[] = [
+  { label: "Home", href: "/" },
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
+];
+---
+<nav 
+  class:list={[
+    "flex flex-col container mx-auto gap-6 items-center p-8",
+    "sm:flex-row sm:justify-between",
+  ]}
+>
+  <div>
+    <a href="/" class="text-3xl font-bold">
+      Sandeep Dilip
+    </a>
+  </div>
+  <ul class="flex w-min rounded-full bg-white p-2 shadow-lg shadow-black-400">
+    {
+      links.map(({ label, href }) => (
+        <li class="text-zinc-600 text-sm">
+          <a
+            aria-current={Astro.url.pathname === href}
+            class:list={[
+              "py-1 px-2",
+              {
+                "text-cyan-800 rounded-full bg-zinc-100":
+                  Astro.url.pathname === href ||
+                  (href !== '/' && Astro.url.pathname.startsWith(href)),
+              },
+            ]}
+            href={href}
+          >
+            {label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
