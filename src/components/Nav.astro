@@ -9,23 +9,26 @@ const links: { label: string, href: string }[] = [
   class:list={[
     "flex flex-col container mx-auto gap-6 items-center p-8",
     "sm:flex-row sm:justify-between",
+    "z-50",
   ]}
 >
-  <div>
-    <a href="/" class="text-3xl font-bold">
+  <div class="rounded-full bg-white p-2 shadow-md shadow-black-400">
+    <a href="/" class="rounded-full px-5 py-1 text-xl font-bold text-zinc-600 transition duration-200 hover:text-cyan-600">
       Sandeep Dilip
     </a>
   </div>
-  <ul class="flex w-min rounded-full bg-white p-2 shadow-lg shadow-black-400">
+  <ul class="flex w-min rounded-full bg-white p-2 shadow-md shadow-black-400">
     {
       links.map(({ label, href }) => (
         <li class="text-zinc-600 text-sm">
           <a
             aria-current={Astro.url.pathname === href}
             class:list={[
+              "rounded-full",
               "py-1 px-2",
+              "transition duration-200 hover:text-cyan-500",
               {
-                "text-cyan-800 rounded-full bg-zinc-100":
+                "text-cyan-600":
                   Astro.url.pathname === href ||
                   (href !== '/' && Astro.url.pathname.startsWith(href)),
               },
