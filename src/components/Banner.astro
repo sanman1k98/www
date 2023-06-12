@@ -1,0 +1,15 @@
+---
+import Logo from "./Logo.astro";
+import Nav from "./Nav.astro";
+---
+
+<header
+  class:list={[
+    "flex flex-col container mx-auto gap-6 items-center p-8",
+    "sm:flex-row sm:justify-between",
+    "z-50",
+  ]}
+>
+  <Logo />
+  <Nav />
+</header>
