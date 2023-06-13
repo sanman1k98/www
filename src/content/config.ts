@@ -1,5 +1,14 @@
 import { defineCollection, z } from "astro:content";
-import * as info from "@/schemas/info";
+import { cv, info } from "@/schemas";
+
+export const cvSchema = z.union([
+  cv.base,
+  cv.project,
+  cv.education,
+  cv.experience,
+  cv.volunteering,
+  cv.certification,
+]);
 
 export const infoSchema = z.union([
   info.base,
@@ -8,6 +17,10 @@ export const infoSchema = z.union([
 ]);
 
 export const collections = {
+  cv: defineCollection({
+    type: "content",
+    schema: cvSchema,
+  }),
   info: defineCollection({
     type: "data",
     schema: infoSchema,
