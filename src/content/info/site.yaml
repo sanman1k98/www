@@ -1,0 +1,11 @@
+type: links
+links:
+  home:
+    text: Home
+    href: /
+  work:
+    text: Work
+    href: /work
+  about:
+    text: About
+    href: /about
