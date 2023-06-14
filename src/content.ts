@@ -37,4 +37,6 @@ export function createInfoEntryTypeGuard<T extends InfoEntryType>(type: T) {
 export const cvEntries = await getCollection("cv");
 export const infoEntries = await getCollection("info");
 
+export const contact = infoEntries.find(entry => entry.id === "secret/contact") as InfoEntry<"contact">;
+
 export const siteInfo = infoEntries.find(entry => entry.id === "site") as InfoEntry<"links">;
