@@ -1,0 +1,3 @@
+[submodule "src/content/cv"]
+	path = src/content/cv
+	url = https://github.com/sanman1k98/cv.git
