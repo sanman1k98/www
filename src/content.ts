@@ -55,6 +55,6 @@ export function compareCvEntryDateranges<
 export const cvEntries = (await getCollection("cv")).sort(compareCvEntryDateranges).reverse();
 export const infoEntries = await getCollection("info");
 
-export const contact = infoEntries.find(entry => entry.id === "secret/contact") as InfoEntry<"contact">;
+export const contactInfo = infoEntries.find(entry => entry.id === "secret/contact") as InfoEntry<"contact">;
 
 export const siteInfo = infoEntries.find(entry => entry.id === "site") as InfoEntry<"links">;
