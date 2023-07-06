@@ -26,13 +26,11 @@ const { Content: Objective } = await objective.render();
 
     <Section heading="Experience">
       {
-        experience.filter(exp => !exp.data.internship).map(async (exp) => {
-          const { Content } = await exp.render();
+        experience.filter(exp => !exp.data.internship).map(exp => {
           return (
-            <Entry>
+            <Entry entry={exp}>
               <h3 slot="heading">{exp.data.title}</h3>
               <p slot="subheading">{exp.data.employer.name}</p>
-              <Content />
             </Entry>
           )
         })

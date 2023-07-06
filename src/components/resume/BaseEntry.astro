@@ -1,7 +1,17 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = { entry: CollectionEntry<"cv"> };
+
+const { entry } = Astro.props;
+
+const { Content } = await entry.render();
+---
+
 <article>
   <header>
     <slot name="heading" />
     <slot name="subheading" />
   </header>
-  <slot />
+  <Content />
 </article>
