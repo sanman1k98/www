@@ -1,0 +1,26 @@
+---
+/**
+ * Generate routes for excluded pages when running in dev server.
+ */
+export async function getStaticPaths() {
+  // Don't generate extra routes for production builds
+  if (import.meta.env.PROD) return [];
+
+  // Get excluded Astro pages (prefixed with an underscore)
+  const pages = await Astro.glob("./_*.astro");
+
+  // Return array of objects to create the routes
+  return pages.map(({ url, default: Page }) => {
+    return {
+      // Remove "/_" from file URL to use as route segment
+      params: { slug: url?.slice(2) },
+      // Pass in the Astro component as a prop
+      props: { Page },
+    };
+  });
+}
+
+const { Page } = Astro.props;
+---
+
+<Page />
