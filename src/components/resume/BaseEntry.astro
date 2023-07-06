@@ -1,0 +1,16 @@
+---
+type Props = {
+  heading?: string;
+  subheading?: string;
+};
+
+const { heading, subheading } = Astro.props;
+---
+
+<article>
+  <header>
+    {heading && <h3>{heading}</h3>}
+    {subheading && <p>{subheading}</p>}
+  </header>
+  <slot />
+</article>
