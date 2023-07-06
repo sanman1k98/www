@@ -10,6 +10,7 @@ import Entry from "@/components/resume/BaseEntry.astro";
 
 const objective = cvEntries.find(entry => entry.slug === "objective")!;
 const experience = cvEntries.filter(isType("experience"));
+const projects = cvEntries.filter(isType("project"));
 
 const { Content: Objective } = await objective.render();
 ---
@@ -31,6 +32,19 @@ const { Content: Objective } = await objective.render();
             <Entry entry={exp}>
               <h3 slot="heading">{exp.data.title}</h3>
               <p slot="subheading">{exp.data.employer.name}</p>
+            </Entry>
+          )
+        })
+      }
+    </Section>
+
+    <Section heading="Projects">
+      {
+        projects.filter(proj => !proj.data.draft).map(proj => {
+          return (
+            <Entry entry={proj}>
+              <h3 slot="heading">{proj.data.name}</h3>
+              <p slot="subheading">{proj.data.description}</p>
             </Entry>
           )
         })
