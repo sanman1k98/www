@@ -1,7 +1,43 @@
 ---
+import {
+  cvEntries,
+  createCvEntryTypeGuard as isType,
+} from "@/content";
+
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/resume/BaseSection.astro";
+import Entry from "@/components/resume/BaseEntry.astro";
+
+const objective = cvEntries.find(entry => entry.slug === "objective")!;
+const experience = cvEntries.filter(isType("experience"));
+
+const { Content: Objective } = await objective.render();
 ---
 
 <BaseLayout title="Sandeep Dilip's Resume">
-  <h1>Resume page</h1>
+  <header>
+    <h1>Sandeep Dilip</h1>
+  </header>
+
+  <main>
+    <Section heading="Objective">
+      <Objective />
+    </Section>
+
+    <Section heading="Experience">
+      {
+        experience.filter(exp => !exp.data.internship).map(async (exp) => {
+          const { Content } = await exp.render();
+          return (
+            <Entry
+              heading={exp.data.title}
+              subheading={exp.data.employer.name}
+            >
+              <Content />
+            </Entry>
+          )
+        })
+      }
+    </Section>
+  </main>
 </BaseLayout>
