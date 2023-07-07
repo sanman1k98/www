@@ -6,7 +6,7 @@ import {
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/resume/BaseSection.astro";
-import Entry from "@/components/resume/BaseEntry.astro";
+import ExperienceEntry from "@/components/resume/ExperienceEntry.astro";
 import ProjectEntry from "@/components/resume/ProjectEntry.astro";
 import CertificationEntry from "@/components/resume/CertificationEntry.astro";
 
@@ -30,14 +30,7 @@ const { Content: Objective } = await objective.render();
 
     <Section heading="Experience">
       {
-        experience.filter(exp => !exp.data.internship).map(exp => {
-          return (
-            <Entry entry={exp}>
-              <h3>{exp.data.title}</h3>
-              <p>{exp.data.employer.name}</p>
-            </Entry>
-          )
-        })
+        experience.filter(exp => !exp.data.internship).map(exp => <ExperienceEntry entry={exp} />)
       }
     </Section>
 
