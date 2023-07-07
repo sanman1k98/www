@@ -1,0 +1,22 @@
+---
+import Entry from "./BaseEntry.astro";
+import type { CvEntry } from "@/content";
+
+type Props = { entry: CvEntry<"certification"> };
+const { entry } = Astro.props;
+
+const date = entry.data.issueDate.toLocaleString(
+  "en",
+  {
+    year: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  }
+);
+---
+
+<Entry { entry }>
+  <h3>{entry.data.name}</h3>
+  <p>{entry.data.organization.name}</p>
+  <time>{date}</time>
+</Entry>
