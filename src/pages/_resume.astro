@@ -53,5 +53,11 @@ const { Content: Objective } = await objective.render();
         education.map(edu => <EducationEntry entry={edu} />)
       }
     </Section>
+
+    <Section heading="Internships">
+      {
+        experience.filter(exp => exp.data.internship).map(exp => <ExperienceEntry entry={exp} />)
+      }
+    </Section>
   </main>
 </BaseLayout>
