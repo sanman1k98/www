@@ -7,6 +7,7 @@ import {
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/resume/BaseSection.astro";
 import Entry from "@/components/resume/BaseEntry.astro";
+import ProjectEntry from "@/components/resume/ProjectEntry.astro";
 
 const objective = cvEntries.find(entry => entry.slug === "objective")!;
 const experience = cvEntries.filter(isType("experience"));
@@ -40,14 +41,7 @@ const { Content: Objective } = await objective.render();
 
     <Section heading="Projects">
       {
-        projects.filter(proj => !proj.data.draft).map(proj => {
-          return (
-            <Entry entry={proj}>
-              <h3 slot="heading">{proj.data.name}</h3>
-              <p slot="subheading">{proj.data.description}</p>
-            </Entry>
-          )
-        })
+        projects.filter(proj => !proj.data.draft).map(proj => <ProjectEntry entry={proj} />)
       }
     </Section>
   </main>
