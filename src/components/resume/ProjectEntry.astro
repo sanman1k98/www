@@ -1,0 +1,14 @@
+---
+import Entry from "./BaseEntry.astro";
+import type { CvEntry } from "@/content";
+
+type Props = { entry: CvEntry<"project"> };
+const { entry } = Astro.props;
+---
+
+<Entry { entry }>
+  <h3 slot="heading">
+    <a href={entry.data.githubUrl}>{entry.data.name}</a>
+  </h3>
+  <p slot="subheading">{entry.data.description}</p>
+</Entry>
