@@ -8,9 +8,9 @@ const { entry } = Astro.props;
 ---
 
 <Entry { entry }>
-  <h3 slot="heading">
+  <h3>
     <a href={entry.data.githubUrl}>{entry.data.name}</a>
   </h3>
-  <p slot="subheading">{entry.data.description}</p>
-  <DateRange slot="time" { entry } />
+  <p>{entry.data.description}</p>
+  <DateRange { entry }/>
 </Entry>

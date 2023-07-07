@@ -31,8 +31,8 @@ const { Content: Objective } = await objective.render();
         experience.filter(exp => !exp.data.internship).map(exp => {
           return (
             <Entry entry={exp}>
-              <h3 slot="heading">{exp.data.title}</h3>
-              <p slot="subheading">{exp.data.employer.name}</p>
+              <h3>{exp.data.title}</h3>
+              <p>{exp.data.employer.name}</p>
             </Entry>
           )
         })
