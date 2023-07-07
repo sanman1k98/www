@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry, z } from "astro:content";
+import type { daterange } from "@/schemas/misc";
+
+type Props = {
+  entry: CollectionEntry<"cv"> & {
+    data: z.infer<typeof daterange>;
+  };
+};
+
+const {
+  entry: {
+    data: { start, end },
+  },
+} = Astro.props;
+
+const dateFormat = Intl.DateTimeFormat("en", { year: "numeric", month: "long", timeZone: "UTC" });
+let dateRange: string;
+
+if (end) {
+  dateRange = dateFormat.formatRange(start, end);
+} else {
+  dateRange = `${dateFormat.format(start)} – Present`;
+}
+---
+
+<time>{dateRange}</time>
