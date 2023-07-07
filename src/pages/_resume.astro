@@ -8,10 +8,12 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/resume/BaseSection.astro";
 import Entry from "@/components/resume/BaseEntry.astro";
 import ProjectEntry from "@/components/resume/ProjectEntry.astro";
+import CertificationEntry from "@/components/resume/CertificationEntry.astro";
 
 const objective = cvEntries.find(entry => entry.slug === "objective")!;
 const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("project"));
+const certifications = cvEntries.filter(isType("certification"));
 
 const { Content: Objective } = await objective.render();
 ---
@@ -42,6 +44,12 @@ const { Content: Objective } = await objective.render();
     <Section heading="Projects">
       {
         projects.filter(proj => !proj.data.draft).map(proj => <ProjectEntry entry={proj} />)
+      }
+    </Section>
+
+    <Section heading="Certification">
+      {
+        certifications.map(cert => <CertificationEntry entry={cert} />)
       }
     </Section>
   </main>
