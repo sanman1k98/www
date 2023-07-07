@@ -1,16 +1,19 @@
 ---
 import type { CollectionEntry } from "astro:content";
 
-type Props = { entry: CollectionEntry<"cv"> };
-
+type Props = { entry?: CollectionEntry<"cv"> };
 const { entry } = Astro.props;
+let Content;
 
-const { Content } = await entry.render();
+if (entry) {
+  const rendered = await entry.render();
+  Content = rendered.Content;
+}
 ---
 
 <article>
   <header>
     <slot />
   </header>
-  <Content />
+  {Content && <Content />}
 </article>
