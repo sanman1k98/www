@@ -1,0 +1,14 @@
+---
+import Entry from "./BaseEntry.astro";
+import DateRange from "./DateRange.astro";
+import type { CvEntry } from "@/content";
+
+type Props = { entry: CvEntry<"education"> };
+const { entry } = Astro.props;
+---
+
+<Entry>
+  <h3>{entry.data.major}</h3>
+  <p>{entry.data.school.name}</p>
+  <DateRange { entry }/>
+</Entry>
