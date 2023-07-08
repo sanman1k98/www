@@ -38,7 +38,7 @@ const { Content: Objective } = await objective.render();
       }
     </Section>
 
-    <Section heading="Projects">
+    <Section heading="Open source">
       {
         projects.filter(proj => !proj.data.draft).map(proj => <ProjectEntry entry={proj} />)
       }
