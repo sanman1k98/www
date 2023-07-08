@@ -15,7 +15,7 @@ else orgName = entry.data.organization.name;
 ---
 
 <Entry { entry }>
-  <h3>{entry.data.title}</h3>
-  <p>{orgName}</p>
-  <DateRange { entry }/>
+  <Fragment slot="heading">{entry.data.title}</Fragment>
+  <Fragment slot="subheading">{orgName}</Fragment>
+  <DateRange slot="after-subheading" { entry }/>
 </Entry>

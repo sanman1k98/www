@@ -8,7 +8,7 @@ const { entry } = Astro.props;
 ---
 
 <Entry>
-  <h3>{entry.data.major}</h3>
-  <p>{entry.data.school.name}</p>
-  <DateRange { entry }/>
+  <Fragment slot="heading">{entry.data.major}</Fragment>
+  <Fragment slot="subheading">{entry.data.school.name}</Fragment>
+  <DateRange slot="after-subheading" { entry }/>
 </Entry>
