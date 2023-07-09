@@ -6,7 +6,8 @@ import prefetch from "@astrojs/prefetch";
 export default defineConfig({
   integrations: [
     UnoCSS({
-      injectReset: "@unocss/reset/sanitize/sanitize.css",
+      // When passing true, "@unocss/reset/tailwind.css" will be used
+      injectReset: true,
     }),
     prefetch(),
   ],
