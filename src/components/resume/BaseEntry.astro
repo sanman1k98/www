@@ -14,16 +14,20 @@ if (entry) {
 <article class="m-3 mb-5">
   <header class="mb-2">
     {Astro.slots.has("heading") && (
-      <h3 class="text-lg mb-3">
+      <h3 class="font-600 text-slate-700 text-lg tracking-tight">
         <slot name="heading"/>
       </h3>
     )}
     {Astro.slots.has("subheading") && (
-      <p>
+      <p class="leading-tight font-500 text-slate-400">
         <slot name="subheading"/>
       </p>
     )}
     <slot name="after-subheading"/>
   </header>
-  {Content && <Content />}
+  {Content && (
+    <div class="leading-tight text-slate-700">
+      <Content />
+    </div>
+  )}
 </article>

@@ -18,5 +18,5 @@ const date = entry.data.issueDate.toLocaleString(
 <Entry { entry }>
   <Fragment slot="heading">{entry.data.name}</Fragment>
   <Fragment slot="subheading">{entry.data.organization.name}</Fragment>
-  <time slot="after-subheading">{date}</time>
+  <time class="leading-tight font-500 text-slate-400" slot="after-subheading">{date}</time>
 </Entry>
