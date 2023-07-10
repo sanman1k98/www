@@ -12,9 +12,15 @@ if (entry) {
 ---
 
 <style>
-article > div :global(li) {
-  margin-bottom: 0.3rem;
-}
+  article > div :global(ul) {
+    margin-left: 2ch;
+    list-style-type: disc;
+    list-style-position: outside;
+  }
+
+  article > div :global(li) {
+    margin-bottom: 0.3rem;
+  }
 </style>
 
 <article class="m-3 mb-5">
