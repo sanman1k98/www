@@ -5,9 +5,18 @@ type Props = {
 };
 
 const { heading, class: className } = Astro.props;
+
+const id = heading
+  .toLowerCase()
+  .split(" ")
+  .join("-");
 ---
 
 <section class:list={["mt-6", className]}>
-  <h2 class="mb-4 font-600 text-xs text-slate-500 uppercase tracking-[0.2em]">{heading}</h2>
+  <h2 id={id} class="before:content-['#_'] mb-4 font-600 text-xs text-slate-500 uppercase tracking-[0.2em]">
+    <a href={("#").concat(id)}>
+      {heading}
+    </a>
+  </h2>
   <slot />
 </section>
