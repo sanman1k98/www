@@ -41,47 +41,49 @@ const { Content: Objective } = await objective.render();
     </div>
   </header>
 
-  <main class="max-w-prose print:max-w-screen-sm mx-auto px-4 font-mono text-sm sm:text-base text-slate-700">
-    <Section heading="Objective">
-      <div class="m-3 leading-tight font-400">
-        <Objective />
-      </div>
-    </Section>
+  <main class="sm:flex justify-evenly px-6 font-mono text-sm sm:text-base text-slate-700">
+    <div class="max-w-prose print:max-w-screen-sm">
+      <Section heading="Objective">
+        <div class="m-3 leading-tight font-400">
+          <Objective />
+        </div>
+      </Section>
 
-    <Section heading="Experience">
-      {
-        experience.filter(exp => !exp.data.internship).map(exp => <ExperienceEntry entry={exp} />)
-      }
-    </Section>
+      <Section heading="Experience">
+        {
+          experience.filter(exp => !exp.data.internship).map(exp => <ExperienceEntry entry={exp} />)
+        }
+      </Section>
 
-    <Section heading="Open source">
-      {
-        projects.filter(proj => !proj.data.draft).map(proj => <ProjectEntry entry={proj} />)
-      }
-    </Section>
+      <Section heading="Open source">
+        {
+          projects.filter(proj => !proj.data.draft).map(proj => <ProjectEntry entry={proj} />)
+        }
+      </Section>
 
-    <Section heading="Certification">
-      {
-        certifications.map(cert => <CertificationEntry entry={cert} />)
-      }
-    </Section>
+      <Section heading="Certification">
+        {
+          certifications.map(cert => <CertificationEntry entry={cert} />)
+        }
+      </Section>
 
-    <Section heading="Volunteering">
-      {
-        volunteering.map(vol => <ExperienceEntry entry={vol} />)
-      }
-    </Section>
+      <Section heading="Volunteering">
+        {
+          volunteering.map(vol => <ExperienceEntry entry={vol} />)
+        }
+      </Section>
 
-    <Section heading="Education">
-      {
-        education.map(edu => <EducationEntry entry={edu} />)
-      }
-    </Section>
+      <Section heading="Education">
+        {
+          education.map(edu => <EducationEntry entry={edu} />)
+        }
+      </Section>
 
-    <Section heading="Internships">
-      {
-        experience.filter(exp => exp.data.internship).map(exp => <ExperienceEntry entry={exp} />)
-      }
-    </Section>
+      <Section heading="Internships">
+        {
+          experience.filter(exp => exp.data.internship).map(exp => <ExperienceEntry entry={exp} />)
+        }
+      </Section>
+    </div>
   </main>
 </BaseLayout>
