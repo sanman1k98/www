@@ -6,6 +6,7 @@ import {
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/resume/BaseSection.astro";
+import SkillDetails from "@/components/resume/SkillDetails.astro";
 import ExperienceEntry from "@/components/resume/ExperienceEntry.astro";
 import ProjectEntry from "@/components/resume/ProjectEntry.astro";
 import CertificationEntry from "@/components/resume/CertificationEntry.astro";
@@ -13,6 +14,7 @@ import EducationEntry from "@/components/resume/EducationEntry.astro";
 
 const objective = cvEntries.find(entry => entry.slug === "objective")!;
 const skills = cvEntries.find(entry => entry.slug === "skills")!;
+const skillCategories = cvEntries.filter(isType("skills"));
 const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("project"));
 const volunteering = cvEntries.filter(isType("volunteering"));
@@ -56,9 +58,13 @@ const { Content: Skills } = await skills.render();
     {// TODO: style skills section for mobile screens }
     <Section
       heading="Skills"
-      class="container mx-auto order-last lg:order-none"
+      class="container mx-auto"
     >
-      <Skills />
+      <div class="m-3">
+        <SkillDetails entry={skillCategories.find(entry => entry.data.category === "Languages")!}/>
+        <SkillDetails entry={skillCategories.find(entry => entry.data.category === "Technologies")!}/>
+        <SkillDetails entry={skillCategories.find(entry => entry.data.category === "Other")!}/>
+      </div>
     </Section>
 
     <div class="max-w-prose mx-auto">
