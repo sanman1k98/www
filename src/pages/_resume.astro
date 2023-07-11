@@ -12,6 +12,7 @@ import CertificationEntry from "@/components/resume/CertificationEntry.astro";
 import EducationEntry from "@/components/resume/EducationEntry.astro";
 
 const objective = cvEntries.find(entry => entry.slug === "objective")!;
+const skills = cvEntries.find(entry => entry.slug === "skills")!;
 const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("project"));
 const volunteering = cvEntries.filter(isType("volunteering"));
@@ -19,6 +20,7 @@ const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
 
 const { Content: Objective } = await objective.render();
+const { Content: Skills } = await skills.render();
 ---
 
 <style is:global>
@@ -41,14 +43,25 @@ const { Content: Objective } = await objective.render();
     </div>
   </header>
 
-  <main class="sm:flex justify-evenly px-6 font-mono text-sm sm:text-base text-slate-700">
-    <div class="max-w-prose print:max-w-screen-sm">
-      <Section heading="Objective">
-        <div class="m-3 leading-tight font-400">
-          <Objective />
-        </div>
-      </Section>
+  <main class="grid grid-cols-1 lg:grid-cols-[max-content_max-content] justify-center lg:gap-x-10 px-6 font-mono text-sm sm:text-base text-slate-700">
+    <Section
+      heading="Objective"
+      class="lg:col-span-2 mx-auto max-w-prose lg:max-w-4xl"
+    >
+      <div class="m-3 leading-tight font-400">
+        <Objective />
+      </div>
+    </Section>
 
+    {// TODO: style skills section for mobile screens }
+    <Section
+      heading="Skills"
+      class="container mx-auto order-last lg:order-none"
+    >
+      <Skills />
+    </Section>
+
+    <div class="max-w-prose mx-auto">
       <Section heading="Experience">
         {
           experience.filter(exp => !exp.data.internship).map(exp => <ExperienceEntry entry={exp} />)
