@@ -21,7 +21,7 @@ const education = cvEntries.filter(isType("education"));
 const { Content: Objective } = await objective.render();
 ---
 
-<style>
+<style is:global>
   @media print {
     :root {
       font-size: 10.5px;
