@@ -22,11 +22,3 @@ export const contact = base
     phone: z.string(),
     email: z.string().email(),
   });
-
-export const skills = base
-  .extend({
-    type: z.literal("skills"),
-    languages: z.string().array(),
-    libraries: z.string().array(),
-    miscellaneous: z.string().array(),
-  });

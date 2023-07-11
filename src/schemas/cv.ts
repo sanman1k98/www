@@ -14,6 +14,14 @@ export const base = z
   })
   .strict();
 
+export const skills = base
+  .extend({
+    type: z.literal("skills"),
+    category: z
+      .string()
+      .describe("e.g., languages or frameworks"),
+  });
+
 export const experience = base
   .extend({
     type: z.literal("experience"),
