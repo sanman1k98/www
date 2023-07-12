@@ -45,7 +45,7 @@ const { Content: Skills } = await skills.render();
     </div>
   </header>
 
-  <main class="grid grid-cols-1 lg:grid-cols-[max-content_max-content] justify-center lg:gap-x-10 px-6 font-mono text-sm sm:text-base text-slate-700">
+  <main class="mx-auto grid grid-cols-1 lg:grid-cols-[max-content_max-content] justify-center lg:gap-x-10 px-6 font-mono text-sm sm:text-base text-slate-700">
     <Section
       heading="Objective"
       class="lg:col-span-2 mx-auto max-w-prose lg:max-w-4xl"
@@ -58,9 +58,9 @@ const { Content: Skills } = await skills.render();
     {// TODO: style skills section for mobile screens }
     <Section
       heading="Skills"
-      class="container mx-auto"
+      class="mr-auto sm:mx-auto sm:w-[65ch] lg:w-auto lg:max-w-prose"
     >
-      <div class="m-3">
+      <div class="md:flex lg:block justify-between pr-8">
         <SkillDetails entry={skillCategories.find(entry => entry.data.category === "Languages")!}/>
         <SkillDetails entry={skillCategories.find(entry => entry.data.category === "Technologies")!}/>
         <SkillDetails entry={skillCategories.find(entry => entry.data.category === "Miscellaneous")!}/>
