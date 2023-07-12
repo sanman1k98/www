@@ -13,8 +13,7 @@ import CertificationEntry from "./_components/CertificationEntry.astro";
 import EducationEntry from "./_components/EducationEntry.astro";
 
 const objective = cvEntries.find(entry => entry.slug === "objective")!;
-const skills = cvEntries.find(entry => entry.slug === "skills")!;
-const skillCategories = cvEntries.filter(isType("skills"));
+const skills = cvEntries.filter(isType("skills"));
 const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("project"));
 const volunteering = cvEntries.filter(isType("volunteering"));
@@ -22,7 +21,6 @@ const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
 
 const { Content: Objective } = await objective.render();
-const { Content: Skills } = await skills.render();
 ---
 
 <style is:global>
@@ -61,9 +59,9 @@ const { Content: Skills } = await skills.render();
       class="mr-auto sm:mx-auto sm:w-[65ch] lg:w-auto lg:max-w-prose"
     >
       <div class="md:flex lg:block justify-between pr-8">
-        <SkillDetails entry={skillCategories.find(entry => entry.data.category === "Languages")!}/>
-        <SkillDetails entry={skillCategories.find(entry => entry.data.category === "Technologies")!}/>
-        <SkillDetails entry={skillCategories.find(entry => entry.data.category === "Miscellaneous")!}/>
+        <SkillDetails entry={skills.find(entry => entry.data.category === "Languages")!}/>
+        <SkillDetails entry={skills.find(entry => entry.data.category === "Technologies")!}/>
+        <SkillDetails entry={skills.find(entry => entry.data.category === "Miscellaneous")!}/>
       </div>
     </Section>
 
