@@ -1,8 +1,12 @@
 ---
 import type { CvEntry } from "@/content";
 
-type Props = { entry: CvEntry<"skills"> };
-const { entry } = Astro.props;
+type Props = {
+  entry: CvEntry<"skills">;
+  class?: string;
+};
+
+const { entry, class: className } = Astro.props;
 const { Content } = await entry.render();
 ---
 
@@ -22,7 +26,7 @@ const { Content } = await entry.render();
   }
 </style>
 
-<details>
+<details class={["", className]}>
   <summary class="[&_*]:inline mb-2 text-lg">
     <h3 class="font-600">
       {entry.data.category}
