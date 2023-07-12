@@ -5,12 +5,12 @@ import {
 } from "@/content";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import Section from "@/components/resume/BaseSection.astro";
-import SkillDetails from "@/components/resume/SkillDetails.astro";
-import ExperienceEntry from "@/components/resume/ExperienceEntry.astro";
-import ProjectEntry from "@/components/resume/ProjectEntry.astro";
-import CertificationEntry from "@/components/resume/CertificationEntry.astro";
-import EducationEntry from "@/components/resume/EducationEntry.astro";
+import Section from "./_components/BaseSection.astro";
+import SkillDetails from "./_components/SkillDetails.astro";
+import ExperienceEntry from "./_components/ExperienceEntry.astro";
+import ProjectEntry from "./_components/ProjectEntry.astro";
+import CertificationEntry from "./_components/CertificationEntry.astro";
+import EducationEntry from "./_components/EducationEntry.astro";
 
 const objective = cvEntries.find(entry => entry.slug === "objective")!;
 const skills = cvEntries.find(entry => entry.slug === "skills")!;
