@@ -24,6 +24,12 @@ const { Content } = await entry.render();
   details[open] > summary::after {
     content: " -";
   }
+
+  @media print {
+    details[open] > summary::after {
+      content: "";
+    }
+  }
 </style>
 
 <details class:list={["w-44", className]}>
