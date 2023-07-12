@@ -26,13 +26,13 @@ const { Content } = await entry.render();
   }
 </style>
 
-<details class:list={["", className]}>
+<details class:list={["w-44", className]}>
   <summary class="[&_*]:inline mb-2 text-lg">
     <h3 class="font-600">
       {entry.data.category}
     </h3>
   </summary>
-  <div class="[&_ul]:mb-5 [&_ul]:ml-[2ch]">
+  <div class="[&_ul]:mb-5 [&_ul]:ml-[1ch]">
     <Content />
   </div>
 </details>
