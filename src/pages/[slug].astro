@@ -7,7 +7,7 @@ export async function getStaticPaths() {
   if (import.meta.env.PROD) return [];
 
   // Get excluded Astro pages (prefixed with an underscore)
-  const pages = await Astro.glob("./_*.astro");
+  const pages = await Astro.glob("./_*/index.astro");
 
   // Return array of objects to create the routes
   return pages.map(({ url, default: Page }) => {
