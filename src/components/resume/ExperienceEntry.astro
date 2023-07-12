@@ -1,4 +1,5 @@
 ---
+import { getEntry } from "astro:content";
 import Entry from "./BaseEntry.astro";
 import DateRange from "./DateRange.astro";
 import {
@@ -14,8 +15,8 @@ if (isType("experience")(entry)) orgName = entry.data.employer.name;
 else orgName = entry.data.organization.name;
 ---
 
-<Entry { entry }>
+<Entry entry={entry}>
   <Fragment slot="heading">{entry.data.title}</Fragment>
   <Fragment slot="subheading">{orgName}</Fragment>
-  <DateRange slot="after-subheading" { entry }/>
+  <DateRange slot="after-subheading" entry={entry}/>
 </Entry>

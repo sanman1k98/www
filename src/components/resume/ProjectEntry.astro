@@ -7,8 +7,8 @@ type Props = { entry: CvEntry<"project"> };
 const { entry } = Astro.props;
 ---
 
-<Entry { entry }>
+<Entry entry={entry}>
   <a slot="heading" href={entry.data.githubUrl}>{entry.data.name}</a>
   <Fragment slot="subheading">{entry.data.description}</Fragment>
-  <DateRange slot="after-subheading" { entry }/>
+  <DateRange slot="after-subheading" entry={entry}/>
 </Entry>
