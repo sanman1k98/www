@@ -7,12 +7,11 @@ import {
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "./_components/BaseSection.astro";
 import SkillDetails from "./_components/SkillDetails.astro";
-import ExperienceEntry from "./_components/ExperienceEntry.astro";
-import ProjectEntry from "./_components/ProjectEntry.astro";
-import CertificationEntry from "./_components/CertificationEntry.astro";
-import EducationEntry from "./_components/EducationEntry.astro";
+import Experience from "./_components/ExperienceEntry.astro";
+import Project from "./_components/ProjectEntry.astro";
+import Certification from "./_components/CertificationEntry.astro";
+import Education from "./_components/EducationEntry.astro";
 
-const objective = cvEntries.find(entry => entry.slug === "objective")!;
 const skills = cvEntries.filter(isType("skills"));
 const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("project"));
@@ -20,6 +19,7 @@ const volunteering = cvEntries.filter(isType("volunteering"));
 const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
 
+const objective = cvEntries.find(entry => entry.slug === "objective")!;
 const { Content: Objective } = await objective.render();
 ---
 
@@ -68,37 +68,37 @@ const { Content: Objective } = await objective.render();
     <div class="max-w-prose mx-auto">
       <Section heading="Experience">
         {
-          experience.filter(exp => !exp.data.internship).map(exp => <ExperienceEntry entry={exp} />)
+          experience.filter(exp => !exp.data.internship).map(exp => <Experience entry={exp} />)
         }
       </Section>
 
       <Section heading="Open source">
         {
-          projects.filter(proj => !proj.data.draft).map(proj => <ProjectEntry entry={proj} />)
+          projects.filter(proj => !proj.data.draft).map(proj => <Project entry={proj} />)
         }
       </Section>
 
       <Section heading="Certification">
         {
-          certifications.map(cert => <CertificationEntry entry={cert} />)
+          certifications.map(cert => <Certification entry={cert} />)
         }
       </Section>
 
       <Section heading="Volunteering">
         {
-          volunteering.map(vol => <ExperienceEntry entry={vol} />)
+          volunteering.map(vol => <Experience entry={vol} />)
         }
       </Section>
 
       <Section heading="Education">
         {
-          education.map(edu => <EducationEntry entry={edu} />)
+          education.map(edu => <Education entry={edu} />)
         }
       </Section>
 
       <Section heading="Internships">
         {
-          experience.filter(exp => exp.data.internship).map(exp => <ExperienceEntry entry={exp} />)
+          experience.filter(exp => exp.data.internship).map(exp => <Experience entry={exp} />)
         }
       </Section>
     </div>
