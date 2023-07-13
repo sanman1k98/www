@@ -16,6 +16,24 @@ export const links = base
     links: z.record(link),
   });
 
+export const socials = base
+  .extend({
+    type: z.literal("socials"),
+    linkedin: z.object({
+      url: z.string().url(),
+    }),
+    github: z.object({
+      url: z.string().url(),
+    }).transform(gh => {
+      return { ...gh, username: gh.url.split("/").pop() };
+    }),
+    instagram: z.object({
+      url: z.string().url(),
+    }).transform(ig => {
+      return { ...ig, username: ig.url.split("/").pop() };
+    }),
+  });
+
 export const contact = base
   .extend({
     type: z.literal("contact"),

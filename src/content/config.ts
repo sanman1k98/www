@@ -14,6 +14,7 @@ export const cvSchema = z.union([
 export const infoSchema = z.union([
   info.base,
   info.links,
+  info.socials,
   info.contact,
 ]);
 
