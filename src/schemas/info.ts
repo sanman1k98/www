@@ -16,6 +16,7 @@ export const links = base
     links: z.record(link),
   });
 
+// TODO: Extract schema which computes username from url
 export const socials = base
   .extend({
     type: z.literal("socials"),
@@ -25,12 +26,18 @@ export const socials = base
     github: z.object({
       url: z.string().url(),
     }).transform(gh => {
-      return { ...gh, username: gh.url.split("/").pop() };
+      const url = new URL(gh.url);
+      const path = url.pathname;
+      const username = path.slice(1);
+      return { ...gh, username };
     }),
     instagram: z.object({
       url: z.string().url(),
     }).transform(ig => {
-      return { ...ig, username: ig.url.split("/").pop() };
+      const url = new URL(ig.url);
+      const path = url.pathname;
+      const username = path.slice(1);
+      return { ...ig, username };
     }),
   });
 
