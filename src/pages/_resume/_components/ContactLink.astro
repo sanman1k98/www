@@ -1,10 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 
-type Props = HTMLAttributes<"a"> & {
-  label: string;
-  text: string;
-};
+type Props = HTMLAttributes<"a"> & { text: string };
 
 const {
   class: className,
@@ -21,5 +18,6 @@ const {
   ]}
   href={href}
 >
-  {title}<span class="hidden sm:inline before:content-[':_']">{text}</span>
+  <span class="sm:after:content-[':']">{title}</span>
+  <span class="hidden sm:inline">{text}</span>
 </a>
