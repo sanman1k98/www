@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import ContactLink from "./ContactLink.astro";
 import { env } from "@/utils"
 import { socials } from "@/content";
 
@@ -25,7 +26,11 @@ const { github: gh, linkedin: li } = socials;
       </>
     )}
     <li>
-      <a href={gh.url}>github</a>
+      <ContactLink
+        href={gh.url}
+        title="github"
+        text={gh.username!}
+      />
     </li>
     <li>
       <a href={li.url}>linkedin</a>

@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"a"> & {
+  label: string;
+  text: string;
+};
+
+const {
+  class: className,
+  href,
+  title,
+  text,
+} = Astro.props;
+---
+
+<a
+  class:list={[
+    "underline",
+    className
+  ]}
+  href={href}
+>
+  {title}<span class="hidden sm:inline before:content-[':_']">{text}</span>
+</a>
