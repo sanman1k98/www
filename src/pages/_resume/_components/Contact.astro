@@ -1,16 +1,22 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import { env } from "@/utils"
-import { socialsInfo } from "@/content";
+import { socials } from "@/content";
 
 type Props = HTMLAttributes<"address">;
 const { class: className } = Astro.props;
+const { github: gh, linkedin: li } = socials;
 ---
 
 <address class:list={["", className]}>
   <ul>
-    {import.meta.env.DEV && env.EMAIL && <li>{env.EMAIL}</li>}
-    {import.meta.env.DEV && env.PHONE && <li>{env.PHONE}</li>}
-    <li><a href={socialsInfo.data.github.url}>{socialsInfo.data.github.username}</a></li>
+    {import.meta.env.DEV && (
+      <>
+        {env.EMAIL && <li><a href={`mailto:${env.EMAIL}`}>email</a></li>}
+        {env.PHONE && <li><a href={`tel:${env.PHONE}`}>phone</a></li>}
+      </>
+    )}
+    <li><a href={gh.url}>github</a></li>
+    <li><a href={li.url}>linkedin</a></li>
   </ul>
 </address>
