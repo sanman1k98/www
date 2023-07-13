@@ -12,11 +12,23 @@ const { github: gh, linkedin: li } = socials;
   <ul>
     {import.meta.env.DEV && (
       <>
-        {env.EMAIL && <li><a href={`mailto:${env.EMAIL}`}>email</a></li>}
-        {env.PHONE && <li><a href={`tel:${env.PHONE}`}>phone</a></li>}
+        {env.EMAIL && (
+          <li>
+            <a href={`mailto:${env.EMAIL}`}>email</a>
+          </li>
+        )}
+        {env.PHONE && (
+          <li>
+            <a href={`tel:${env.PHONE}`}>phone</a>
+          </li>
+        )}
       </>
     )}
-    <li><a href={gh.url}>github</a></li>
-    <li><a href={li.url}>linkedin</a></li>
+    <li>
+      <a href={gh.url}>github</a>
+    </li>
+    <li>
+      <a href={li.url}>linkedin</a>
+    </li>
   </ul>
 </address>
