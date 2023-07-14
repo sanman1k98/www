@@ -15,7 +15,6 @@ export const infoSchema = z.union([
   info.base,
   info.links,
   info.socials,
-  info.contact,
 ]);
 
 export const collections = {

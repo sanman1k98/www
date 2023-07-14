@@ -40,10 +40,3 @@ export const socials = base
       return { ...ig, username };
     }),
   });
-
-export const contact = base
-  .extend({
-    type: z.literal("contact"),
-    phone: z.string(),
-    email: z.string().email(),
-  });
