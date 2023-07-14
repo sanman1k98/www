@@ -18,7 +18,15 @@ export const link = z
       }),
     ]),
     title: z.string().optional(),
-    target: z.enum(["_blank", "_self", "_parent", "_top"]).optional(),
+    target: z
+      .enum([
+        "_blank",
+        "_self",
+        "_parent",
+        "_top"
+      ])
+      .optional()
+      .default("_blank"),
     rel: z.string().optional(),
   });
 
