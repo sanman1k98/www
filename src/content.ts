@@ -56,6 +56,4 @@ export const cvEntries = (await getCollection("cv")).sort(compareCvEntryDaterang
 export const infoEntries = await getCollection("info");
 
 const socialsInfo = infoEntries.find(entry => entry.id === "socials") as InfoEntry<"socials">;
-export const socials = socialsInfo.data;
-
-export const siteInfo = infoEntries.find(entry => entry.id === "site") as InfoEntry<"links">;
+export const socials = socialsInfo.data.socials;

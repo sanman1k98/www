@@ -1,13 +1,25 @@
-import { z } from "astro:content";
+import { z } from "astro/zod";
 
+/** Use to create HTMLAnchorElements. */
 export const link = z
   .object({
+    /** String to set to `HTMLAnchorElement.innerText`. */
     text: z.string(),
-    href: z
-      .string()
-      .refine(href => href.startsWith("/"), {
-        message: "href must begin with '/'",
+    href: z.union([
+      z.string().url(),
+      z.string().refine(s => {
+        switch (true) {
+          case s.startsWith("/"): return true;
+          case s.startsWith("#"): return true;
+          case s.startsWith("mailto:"): return true;
+          case s.startsWith("tel:"): return true;
+          default: return false;
+        }
       }),
+    ]),
+    title: z.string().optional(),
+    target: z.enum(["_blank", "_self", "_parent", "_top"]).optional(),
+    rel: z.string().optional(),
   });
 
 export const daterange = z

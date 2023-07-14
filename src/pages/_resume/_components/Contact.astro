@@ -1,39 +1,39 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import ContactLink from "./ContactLink.astro";
 import { env } from "@/utils"
 import { socials } from "@/content";
 
 type Props = HTMLAttributes<"address">;
 const { class: className } = Astro.props;
-const { github: gh, linkedin: li } = socials;
 ---
 
-<address class:list={["", className]}>
+<address class:list={["[&_a]:underline", className]}>
   <ul>
     {import.meta.env.DEV && (
       <>
         {env.EMAIL && (
           <li>
-            <a href={`mailto:${env.EMAIL}`}>email</a>
+            <a href={`mailto:${env.EMAIL}`}>
+              <span class="after:content-[':']">Email</span>
+              <span>{env.EMAIL}</span>
+            </a>
           </li>
         )}
         {env.PHONE && (
           <li>
-            <a href={`tel:${env.PHONE}`}>phone</a>
+            <a href={`tel:${env.PHONE}`}>
+              <span class="after:content-[':']">Phone</span>
+              <span>{env.PHONE}</span>
+            </a>
           </li>
         )}
       </>
     )}
     <li>
-      <ContactLink
-        href={gh.url}
-        title="github"
-        text={gh.username!}
-      />
+      <a href={socials.linkedin.href}>{socials.linkedin.text}</a>
     </li>
     <li>
-      <a href={li.url}>linkedin</a>
+      <a href={socials.github.href}>{socials.github.text}</a>
     </li>
   </ul>
 </address>

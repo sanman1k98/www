@@ -12,31 +12,24 @@ export const base = z
 
 export const links = base
   .extend({
-    type: z.literal("links"),
+    type: z
+      .literal("links")
+      .optional()
+      .default("links"),
     links: z.record(link),
   });
 
-// TODO: Extract schema which computes username from url
-export const socials = base
-  .extend({
-    type: z.literal("socials"),
-    linkedin: z.object({
-      url: z.string().url(),
-    }),
-    github: z.object({
-      url: z.string().url(),
-    }).transform(gh => {
-      const url = new URL(gh.url);
-      const path = url.pathname;
-      const username = path.slice(1);
-      return { ...gh, username };
-    }),
-    instagram: z.object({
-      url: z.string().url(),
-    }).transform(ig => {
-      const url = new URL(ig.url);
-      const path = url.pathname;
-      const username = path.slice(1);
-      return { ...ig, username };
-    }),
-  });
+const socialPlatform = z.enum([
+  "instagram",
+  "linkedin",
+  "twitter",
+  "github",
+]);
+
+export const socials = base.extend({
+  type: z
+    .literal("socials")
+    .optional()
+    .default("socials"),
+  socials: z.record(socialPlatform, link),
+});
