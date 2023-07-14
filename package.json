@@ -13,6 +13,7 @@
   },
   "private": "true",
   "devDependencies": {
+    "@unocss/preset-web-fonts": "^0.53.5",
     "@unocss/reset": "^0.53.5",
     "unocss": "^0.53.5"
   }
