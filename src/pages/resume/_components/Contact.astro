@@ -7,7 +7,7 @@ type Props = HTMLAttributes<"address">;
 const { class: className } = Astro.props;
 ---
 
-<address class:list={["[&_a]:underline", className]}>
+<address class:list={["[&_a]:underline [&_a]:text-cyan-600", className]}>
   <ul>
     {import.meta.env.DEV && (
       <>
