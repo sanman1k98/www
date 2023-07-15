@@ -58,9 +58,9 @@ const { Content: Objective } = await objective.render();
     {// TODO: style skills section for mobile screens }
     <Section
       heading="Skills"
-      class="mr-auto sm:mx-auto sm:w-[65ch] lg:w-auto lg:max-w-prose"
+      class="sm:mx-auto sm:w-[65ch] lg:w-auto lg:max-w-prose"
     >
-      <div class="md:flex lg:block justify-between pr-8">
+      <div class="ml-3 md:ml-0 md:flex lg:block justify-between pr-8">
         <SkillDetails entry={skills.find(entry => entry.data.category === "Languages")!}/>
         <SkillDetails entry={skills.find(entry => entry.data.category === "Technologies")!}/>
         <SkillDetails entry={skills.find(entry => entry.data.category === "Miscellaneous")!}/>
