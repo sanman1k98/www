@@ -3,6 +3,12 @@ import type { HTMLAttributes } from "astro/types";
 import { env } from "@/utils"
 import { socials } from "@/content";
 
+// Manually define socialsArray to ensure order
+const items = [
+  socials.linkedin,
+  socials.github,
+];
+
 type Props = HTMLAttributes<"address">;
 const { class: className } = Astro.props;
 ---
@@ -30,11 +36,13 @@ const { class: className } = Astro.props;
     <li class="hidden print:inline">
       <a href={import.meta.env.SITE}>{new URL(import.meta.env.SITE).hostname}</a>
     </li>
-    <li>
-      <a href={socials.linkedin.href}>{socials.linkedin.text}</a>
-    </li>
-    <li>
-      <a href={socials.github.href}>{socials.github.text}</a>
-    </li>
+    {items
+      .filter(item => !!item)
+      .map(item => (
+        <li>
+          <a href={item.href}>{item.text}</a>
+        </li>
+      ))
+    }
   </ul>
 </address>
