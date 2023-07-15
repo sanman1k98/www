@@ -8,27 +8,28 @@ const { class: className } = Astro.props;
 ---
 
 <address class:list={["[&_a]:underline [&_a]:text-cyan-600", className]}>
-  <ul>
-    {import.meta.env.DEV && (
-      <>
-        {env.EMAIL && (
-          <li>
-            <a href={`mailto:${env.EMAIL}`}>
-              <span class="after:content-[':']">Email</span>
-              <span>{env.EMAIL}</span>
-            </a>
-          </li>
-        )}
-        {env.PHONE && (
-          <li>
-            <a href={`tel:${env.PHONE}`}>
-              <span class="after:content-[':']">Phone</span>
-              <span>{env.PHONE}</span>
-            </a>
-          </li>
-        )}
-      </>
-    )}
+  {import.meta.env.DEV && (
+    <ul class="hidden print:flex justify-center [&_li]:px-4">
+      {env.EMAIL && (
+        <li>
+          <a href={`mailto:${env.EMAIL}`}>
+            {env.EMAIL}
+          </a>
+        </li>
+      )}
+      {env.PHONE && (
+        <li>
+          <a href={`tel:${env.PHONE}`}>
+            {env.PHONE}
+          </a>
+        </li>
+      )}
+    </ul>
+  )}
+  <ul class="flex justify-center [&_li]:px-4">
+    <li class="hidden print:inline">
+      <a href={import.meta.env.SITE}>{new URL(import.meta.env.SITE).hostname}</a>
+    </li>
     <li>
       <a href={socials.linkedin.href}>{socials.linkedin.text}</a>
     </li>
