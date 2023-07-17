@@ -3,8 +3,8 @@ import type { HTMLAttributes } from "astro/types";
 import { env } from "@/utils"
 import { socials } from "@/content";
 
-// Manually define socialsArray to ensure order
-const items = [
+// Explicitly define array to specify order of dynamically-generated elements
+const links = [
   socials.linkedin,
   socials.github,
 ];
@@ -37,13 +37,14 @@ const { class: className } = Astro.props;
     <li class="hidden print:inline">
       <a href={import.meta.env.SITE}>{new URL(import.meta.env.SITE).hostname}</a>
     </li>
-    {items
-      .filter(item => !!item)
-      .map(item => (
+    {links.map(link => {
+      if (!link) return;
+      const { text, ...attrs } = link;
+      return (
         <li>
-          <a href={item.href}>{item.text}</a>
+          <a { ...attrs }>{text}</a>
         </li>
-      ))
+      )})
     }
   </ul>
 </address>
