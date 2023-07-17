@@ -1,4 +1,4 @@
-import { z } from "astro:content";
+import { z } from "astro/zod";
 import { daterange, tags, org } from "./misc";
 
 export const base = z
