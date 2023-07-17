@@ -47,14 +47,16 @@ const { Content: Objective } = await objective.render();
   </header>
 
   <main class="mx-auto grid grid-cols-1 lg:grid-cols-[max-content_max-content] justify-center lg:gap-x-10 px-6 font-mono text-sm sm:text-base text-slate-700">
-    <Section
-      heading="Objective"
-      class="lg:col-span-2 mx-auto max-w-prose lg:max-w-4xl"
-    >
-      <div class="m-3 leading-tight font-400">
-        <Objective />
-      </div>
-    </Section>
+    {import.meta.env.DEV && (
+      <Section
+        heading="Objective"
+        class="lg:col-span-2 mx-auto max-w-prose lg:max-w-4xl"
+      >
+        <div class="m-3 leading-tight font-400">
+          <Objective />
+        </div>
+      </Section>
+    )}
 
     {// TODO: style skills section for mobile screens }
     <Section
