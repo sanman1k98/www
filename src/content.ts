@@ -36,12 +36,22 @@ export function createInfoEntryTypeGuard<T extends InfoEntryType>(type: T) {
   return (entry: CollectionEntry<"info">): entry is InfoEntry<T> => entry.data.type === type;
 }
 
+/** Compare two entries in the "cv" collection by their date ranges. Intended
+ * to be used with `Array.prototype.sort()`.
+ *
+ * Return zero if both entries don't have start dates, otherwise compare both
+ * entries by their end dates.
+ *
+ * If the end dates are equal (e.g., they are both undefined which means they
+ * are both ongoing), compare the entries by their start dates.
+ */
 export function compareCvEntryDateranges<
   E extends CollectionEntry<"cv"> & {
     data: Partial<z.infer<typeof daterange>>;
   }
 >(a: E, b: E) {
   if (!(a.data.start && b.data.start)) return 0;
+  // Create a value for undefined end dates
   const present = Date.now().valueOf();
   const [startA, startB, endA, endB] = [
     a.data.start.valueOf(),
@@ -49,6 +59,7 @@ export function compareCvEntryDateranges<
     a.data.end?.valueOf() ?? present,
     b.data.end?.valueOf() ?? present,
   ];
+  // NOTE: JS considers 0 to be falsy
   return endA - endB || startA - startB;
 }
 
