@@ -5,7 +5,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "print": "./jxa/print-pdf.js http://localhost:3000/resume"
   },
   "dependencies": {
     "@astrojs/prefetch": "^0.2.3",
