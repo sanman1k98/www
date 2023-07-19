@@ -36,8 +36,9 @@ export function createInfoEntryTypeGuard<T extends InfoEntryType>(type: T) {
   return (entry: CollectionEntry<"info">): entry is InfoEntry<T> => entry.data.type === type;
 }
 
-/** Compare two entries in the "cv" collection by their date ranges. Intended
- * to be used with `Array.prototype.sort()`.
+/**
+ * Compare two entries in the "cv" collection by their date ranges. Intended to
+ * be used with `Array.prototype.sort()`.
  *
  * Return zero if both entries don't have start dates, otherwise compare both
  * entries by their end dates.
