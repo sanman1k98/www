@@ -3,6 +3,7 @@ import {
   cvEntries,
   createCvEntryTypeGuard as isType,
 } from "@/content";
+import { env } from "@/utils"
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "./_components/BaseSection.astro";
@@ -20,8 +21,11 @@ const volunteering = cvEntries.filter(isType("volunteering"));
 const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
 
-const objective = cvEntries.find(entry => entry.slug === "objective")!;
-const { Content: Objective } = await objective.render();
+let Objective;
+if (env.BUILD_INCLUDE_PERSONAL) {
+  const objective = cvEntries.find(entry => entry.slug === "objective")!;
+  Objective = (await objective.render()).Content;
+}
 ---
 
 <style is:global>
@@ -51,7 +55,7 @@ const { Content: Objective } = await objective.render();
   </header>
 
   <main class="mx-auto grid grid-cols-1 lg:grid-cols-[max-content_max-content] justify-center lg:gap-x-10 px-6 font-mono text-sm sm:text-base text-slate-700">
-    {import.meta.env.DEV && (
+    {env.BUILD_INCLUDE_PERSONAL && Objective && (
       <Section
         heading="Objective"
         class="lg:col-span-2 mx-auto max-w-prose lg:max-w-4xl"
