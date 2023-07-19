@@ -14,28 +14,22 @@ const { class: className } = Astro.props;
 ---
 
 <address class:list={["[&_a]:underline [&_a]:text-cyan-600", className]}>
-  {import.meta.env.DEV && (
-    <ul class="hidden print:flex justify-center [&_li]:px-4">
-      {env.EMAIL && (
-        <li>
-          <a href={`mailto:${env.EMAIL}`}>
-            {env.EMAIL}
-          </a>
-        </li>
-      )}
-      {env.PHONE && (
-        <li>
-          <a href={`tel:${env.PHONE}`}>
-            {env.PHONE}
-          </a>
-        </li>
-      )}
-    </ul>
-  )}
   {// TODO: use icons for social links }
   <ul class="flex justify-center [&_li]:px-4">
+    {env.BUILD_INCLUDE_PERSONAL && (
+      <li class="hidden print:inline">
+        <a href={`mailto:${env.PERSONAL_EMAIL}`}>
+          {env.PERSONAL_EMAIL}
+        </a>
+      </li>
+      <li class="hidden print:inline">
+        <a href={`tel:${env.PERSONAL_PHONE}`}>
+          {env.PERSONAL_PHONE}
+        </a>
+      </li>
+    )}
     <li class="hidden print:inline">
-      <a href={import.meta.env.SITE}>{new URL(import.meta.env.SITE).hostname}</a>
+      <a href={import.meta.env.SITE}>Portfolio</a>
     </li>
     {links.map(link => {
       if (!link) return;
