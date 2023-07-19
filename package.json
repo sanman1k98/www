@@ -2,6 +2,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "dev:personal": "BUILD_INCLUDE_PERSONAL=true astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
