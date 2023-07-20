@@ -10,14 +10,13 @@ if (import.meta.env.DEV) links.push({
 });
 ---
 <nav >
-  <ul class="flex w-min rounded-full bg-white p-2 shadow-md shadow-black-400">
+  <ul class="flex w-max rounded-full bg-white p-2 shadow-md shadow-black-400">
     {
       links.map(({ label, href }) => (
         <li class="text-zinc-600 text-sm">
           <a
             aria-current={Astro.url.pathname === href}
             class:list={[
-              "rounded-full",
               "py-1 px-2",
               "transition duration-200 hover:text-cyan-500",
               {
