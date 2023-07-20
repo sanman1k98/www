@@ -10,7 +10,8 @@ export default defineConfig({
     presetWebFonts({
       provider: "none",
       fonts: {
-        mono: ["Cascadia Code PL",],
+        mono: ["Cascadia Code PL"],
+        quicksand: ["Quicksand Variable", "sans-serif"],
       },
     }),
   ],
