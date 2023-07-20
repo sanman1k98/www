@@ -1,32 +1,41 @@
-# Work in progress
+# ⚠️ Work in progress ⚠️
+
+## 💻 Developing
+
+```sh
+git clone --recurse-submodules https://github.com/sanman1k98/www.git
+```
 
 ## 🚀 Project Structure
 
 ```
 /
+├── jxa/                  # macOS scripts and automation
 ├── public/
-│   └── favicon.svg
+│   ├── fonts/
+│   └── ...
 ├── src/
 │   ├── content/
 │   │   ├── cv/ -> https://github.com/sanman1k98/cv.git
 │   │   ├── info/
-│   │   └── config.ts
+│   │   └── config.ts     # Defines collections using "src/schemas"
 │   ├── components/
 │   │   └── ...
 │   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       ├── about.astro
-│       ├── index.astro
-│       └── work.astro
+│   │   └── ...
+│   ├── pages/
+│   │   ├── resume/       # Uses "cv" collection entries
+│   │   └── ...
+│   │── schemas/          # Zod schemas
+│   │   ├── cv.ts
+│   │   ├── env.ts        # Used in "src/utils"
+│   │   ├── info.ts
+│   │   └── ...
+│   │── utils/
+│   │   └── ...
+│   └── content.ts        # Collection entries and helpers
 └── package.json
 ```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
 
 ## 🧞 Commands
 
