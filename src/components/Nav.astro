@@ -1,18 +1,18 @@
 ---
-const links: { label: string, href: string }[] = [
-  { label: "Home", href: "/" },
-  { label: "Work", href: "/work" },
-  { label: "About", href: "/about" },
+const links: { text: string, href: string }[] = [
+  { text: "Home", href: "/" },
+  { text: "Work", href: "/work" },
+  { text: "About", href: "/about" },
 ];
 
 if (import.meta.env.DEV) links.push({
-  label: "Resume", href: "/resume",
+  text: "Resume", href: "/resume",
 });
 ---
 <nav >
   <ul class="flex w-max rounded-full bg-white p-2 shadow-md shadow-black-400">
     {
-      links.map(({ label, href }) => (
+      links.map(({ text, href }) => (
         <li class="text-zinc-600 text-sm">
           <a
             aria-current={Astro.url.pathname === href}
@@ -27,7 +27,7 @@ if (import.meta.env.DEV) links.push({
             ]}
             href={href}
           >
-            {label}
+            {text}
           </a>
         </li>
       ))
