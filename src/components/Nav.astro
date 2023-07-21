@@ -1,36 +1,37 @@
 ---
-const links: { text: string, href: string }[] = [
-  { text: "Home", href: "/" },
-  { text: "Work", href: "/work" },
-  { text: "About", href: "/about" },
-];
+import { links } from "@/content";
 
-if (import.meta.env.DEV) links.push({
-  text: "Resume", href: "/resume",
-});
+const pages = links.pages
+  .map(page => {
+    switch (page.text.toLowerCase()) {
+      case "resume": return;
+    }
+    const current = Astro.url.pathname === page.href
+      || (page.href !== '/' && Astro.url.pathname.startsWith(page.href));
+    return { "aria-current": current, ...page };
+  });
 ---
-<nav >
+<nav>
   <ul class="flex w-max rounded-full bg-white p-2 shadow-md shadow-black-400">
     {
-      links.map(({ text, href }) => (
-        <li class="text-zinc-600 text-sm">
-          <a
-            aria-current={Astro.url.pathname === href}
-            class:list={[
-              "py-1 px-2",
-              "transition duration-200 hover:text-cyan-500",
-              {
-                "text-cyan-600":
-                  Astro.url.pathname === href ||
-                  (href !== '/' && Astro.url.pathname.startsWith(href)),
-              },
-            ]}
-            href={href}
-          >
-            {text}
-          </a>
-        </li>
-      ))
+      pages.map(link => {
+        if (!link) return;
+        const { text, ...attrs } = link;
+        return (
+          <li class="text-zinc-600 text-sm">
+            <a
+              class:list={[
+                "py-1 px-2",
+                "transition duration-200 hover:text-cyan-500",
+                link["aria-current"] && "text-cyan-600",
+              ]}
+              { ...attrs }
+            >
+              {text}
+            </a>
+          </li>
+        )
+      })
     }
   </ul>
 </nav>
