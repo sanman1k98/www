@@ -3,8 +3,15 @@ import { z } from "astro/zod";
 /** Use to create HTMLAnchorElements. */
 export const link = z
   .object({
-    /** String to set to `HTMLAnchorElement.innerText`. */
+
+    /**
+     * **Required**: string to set the inner text of the anchor element.
+     */
     text: z.string(),
+
+    /**
+     * **Required**: URL to set the href attribute of the anchor element.
+     */
     href: z.union([
       z.string().url(),
       z.string().refine(s => {
@@ -17,7 +24,15 @@ export const link = z
         }
       }),
     ]),
+
+    /**
+     * **Optional**: string to set the title attribute of the anchor element.
+     */
     title: z.string().optional(),
+
+    /**
+     * **Optional**: where to load the URL; defaults to "_self".
+     */
     target: z
       .enum([
         "_blank",
@@ -25,8 +40,7 @@ export const link = z
         "_parent",
         "_top"
       ])
-      .optional()
-      .default("_blank"),
+      .default("_self"),
     rel: z.string().optional(),
   });
 
