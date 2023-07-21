@@ -1,0 +1,16 @@
+links:
+
+- text: Home
+  href: /
+
+- text: Photos
+  href: /photos
+
+- text: About
+  href: /about
+
+- text: Contact
+  href: /contact
+
+- text: Resume
+  href: /resume
