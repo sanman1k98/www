@@ -14,19 +14,5 @@ export const links = base
     type: z
       .literal("links")
       .default("links"),
-    links: z.record(link),
+    links: link.array(),
   });
-
-const socialPlatform = z.enum([
-  "instagram",
-  "linkedin",
-  "twitter",
-  "github",
-]);
-
-export const socials = base.extend({
-  type: z
-    .literal("socials")
-    .default("socials"),
-  socials: z.record(socialPlatform, link),
-});

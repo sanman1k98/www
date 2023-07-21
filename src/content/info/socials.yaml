@@ -1,7 +1,9 @@
-socials:
-  github:
-    text: GitHub
-    href: https://github.com/sanman1k98
-  linkedin:
-    text: LinkedIn
-    href: https://www.linkedin.com/in/sandeepdilip/
+links:
+
+- text: GitHub
+  href: https://github.com/sanman1k98
+  target: _blank
+
+- text: LinkedIn
+  href: https://www.linkedin.com/in/sandeepdilip/
+  target: _blank

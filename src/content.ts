@@ -67,5 +67,12 @@ export function compareCvEntryDateranges<
 export const cvEntries = (await getCollection("cv")).sort(compareCvEntryDateranges).reverse();
 export const infoEntries = await getCollection("info");
 
-const socialsInfo = infoEntries.find(entry => entry.id === "socials") as InfoEntry<"socials">;
-export const socials = socialsInfo.data.socials;
+const linksEntries = infoEntries.filter(createInfoEntryTypeGuard("links"));
+
+export const links = Object.fromEntries(
+  linksEntries.map(entry => [entry.id, entry.data.links])
+);
+
+export const socials = Object.fromEntries(
+  links.socials.map(link => [link.text.toLowerCase(), link])
+);
