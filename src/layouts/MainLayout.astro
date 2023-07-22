@@ -2,14 +2,20 @@
 import BaseLayout from "./BaseLayout.astro";
 import Banner from "@/components/Banner.astro";
 
-export interface Props {
+interface Props {
   title: string;
+  description?: string;
+
+  /**
+   * Styles the `<main>` element.
+   */
+  class?: string;
 };
 
-const { title } = Astro.props;
+const { class: className, ...head } = Astro.props;
 ---
 
-<BaseLayout title={title}>
+<BaseLayout { ...head }>
   <Banner />
   <slot />
 </BaseLayout>
