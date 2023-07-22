@@ -10,7 +10,7 @@
     "print": "./jxa/print-pdf.js http://localhost:3000/resume"
   },
   "dependencies": {
-    "@astrojs/prefetch": "^0.2.3",
+    "@astrojs/prefetch": "^0.3.0",
     "@fontsource-variable/quicksand": "^5.0.5",
     "astro": "^2.9.1"
   },
