@@ -1,0 +1,24 @@
+---
+import { links as linkGroups } from "@/content";
+
+const groups = [
+  linkGroups.pages,
+  linkGroups.resources,
+  linkGroups.socials
+];
+---
+
+<footer class="container">
+  <nav class="flex justify-evenly text-zinc-600">
+    {groups.map(group => (
+      <ul>
+        {
+          group.map(link => {
+            const { text, ...attrs } = link;
+            return <li><a {...attrs}>{text}</a></li>;
+          })
+        }
+      </ul>
+    ))}
+  </nav>
+</footer>
