@@ -8,14 +8,14 @@ const groups = [
 ];
 ---
 
-<footer class="container">
-  <nav class="flex justify-evenly text-zinc-600">
+<footer class="container mx-auto p-8">
+  <nav class="flex justify-between text-zinc-600">
     {groups.map(group => (
       <ul>
         {
           group.map(link => {
             const { text, ...attrs } = link;
-            return <li><a {...attrs}>{text}</a></li>;
+            return <li class="m-2"><a {...attrs}>{text}</a></li>;
           })
         }
       </ul>
