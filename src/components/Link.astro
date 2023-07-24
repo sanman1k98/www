@@ -1,0 +1,11 @@
+---
+import type { link } from "@/schemas/misc";
+import type { z } from "astro/zod"
+
+type Props = z.infer<typeof link>;
+const { text, ...attrs } = Astro.props;
+---
+
+<a { ...attrs }>
+  <slot>{text}</slot>
+</a>

@@ -1,5 +1,7 @@
 import { z } from "astro/zod";
 
+// TODO: constrain the ZodObject schema using HTMLAttributes type.
+
 /** Use to create HTMLAnchorElements. */
 export const link = z
   .object({
