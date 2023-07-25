@@ -1,14 +1,18 @@
 ---
-import { links as linkGroups } from "@/content";
+import { links } from "@/content";
+
+type Props = { class?: string };
 
 const groups = [
-  linkGroups.pages,
-  linkGroups.resources,
-  linkGroups.socials
+  links.pages,
+  links.resources,
+  links.socials
 ];
+
+const { class: className } = Astro.props;
 ---
 
-<footer class="container mx-auto p-8">
+<footer class:list={["container mx-auto p-8", className]}>
   <nav class="flex justify-between text-zinc-600">
     {groups.map(group => (
       <ul>
