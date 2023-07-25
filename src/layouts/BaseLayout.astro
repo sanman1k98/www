@@ -5,15 +5,20 @@ import Meta from '@/components/HeadMeta.astro';
 interface Props {
   title: string,
   description?: string,
+
+  /** Styles the `<body>` element. */
+  class?: string,
 };
+
+const { class: className, ...meta } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <Meta { ...Astro.props } />
+    <Meta { ...meta } />
   </head>
-  <body>
+  <body class={className}>
     <slot />
   </body>
 </html>
