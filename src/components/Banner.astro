@@ -1,11 +1,15 @@
 ---
 import Logo from "./Logo.astro";
 import Nav from "./Nav.astro";
+
+type Props = { class?: string };
+const { class: className } = Astro.props;
 ---
 
 <header
   class:list={[
-    "flex flex-col container mx-auto items-center p-8",
+    className,
+    "flex flex-col mx-auto items-center p-8",
     "sm:flex-row sm:justify-between",
     "z-50",
   ]}>
