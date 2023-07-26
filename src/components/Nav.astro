@@ -20,12 +20,12 @@ const pages = links.pages
         if (!link) return;
         const { text, ...attrs } = link;
         return (
-          <li class="font-redhat font-500 text-sm text-zinc-600">
+          <li class="font-redhat font-500 text-sm text-slate-800">
             <a
               class:list={[
                 "py-1 px-2",
-                "transition duration-200 hover:text-cyan-500",
-                link["aria-current"] && "text-cyan-600",
+                "transition duration-200 hover:text-sky-500",
+                link["aria-current"] && "text-sky-500",
               ]}
               { ...attrs }
             >
