@@ -3,9 +3,11 @@ import { links } from "@/content";
 
 const pages = links.pages
   .map(page => {
+    // Filter out pages that I don't want in the component
     switch (page.text.toLowerCase()) {
       case "resume": return;
     }
+    // Find out which page is the current one
     const current = Astro.url.pathname === page.href
       || (page.href !== '/' && Astro.url.pathname.startsWith(page.href));
     return { "aria-current": current, ...page };
@@ -18,7 +20,7 @@ const pages = links.pages
         if (!link) return;
         const { text, ...attrs } = link;
         return (
-          <li class="text-zinc-600 text-sm">
+          <li class="font-redhat font-500 text-sm text-zinc-600">
             <a
               class:list={[
                 "py-1 px-2",
