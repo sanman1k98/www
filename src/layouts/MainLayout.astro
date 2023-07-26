@@ -18,7 +18,11 @@ const { class: className, ...head } = Astro.props;
 
 <BaseLayout { ...head }>
   <Banner class="absolute inset-x-0 top-0"/>
-  <main class:list={["min-h-screen", className]}>
+  <main class:list={[
+    className,
+    "min-h-screen",
+    "bg-gradient-to-b from-sky-50 to-transparent",
+  ]}>
     <slot />
   </main>
   <Footer />
