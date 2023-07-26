@@ -12,6 +12,7 @@ export default defineConfig({
       fonts: {
         mono: ["Cascadia Code PL"],
         quicksand: ["Quicksand Variable", "sans-serif"],
+        redhat: ["Red Hat Display Variable", "sans-serif"],
       },
     }),
   ],
