@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/MainLayout.astro';
-import Card from '../components/Card.astro';
+import memoji from "../assets/memoji.png";
 ---
 
 <Layout
@@ -8,8 +8,17 @@ import Card from '../components/Card.astro';
   class="flex flex-col justify-center items-center"
 >
   <section>
-    <div>
-      <h1 class="font-quicksand bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-pink-500 tracking-tight font-600 text-6xl">Hello World!</h1>
+    <div class="flex flex-col lg:flex-row justify-center items-center">
+      <div class="w-42 sm:w-48 lg:w-56 m-3 md:m-6 rounded-full bg-gradient-to-tr from-sky-400 to-transparent shadow-xl">
+        <img
+          src={memoji.src}
+          width={memoji.width}
+          height={memoji.height}
+          alt="Sandeep Dilip's Memoji"
+          class="object-scale-down rounded-full shadow-inner shadow-sky-50"
+        >
+      </div>
+      <h1 class="text-center font-quicksand tracking-tighter font-600 text-5xl sm:text-6xl md:text-7xl lg:text-9xl bg-clip-text drop-shadow-xl text-transparent bg-gradient-to-r from-sky-500 to-pink-500 tracking-tight">Hello World!</h1>
     </div>
   </section>
 </Layout>
