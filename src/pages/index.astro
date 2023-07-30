@@ -8,7 +8,8 @@ import memoji from "../assets/memoji.png";
   class="flex flex-col justify-center items-center"
 >
   <section>
-    <div class="flex flex-col lg:flex-row justify-center items-center">
+    <div class="relative flex flex-col lg:flex-row justify-center items-center">
+      <div class="-z-50 absolute inset-0 bg-gradient-to-t from-sky-100 to-transparent blur-2xl"></div>
       <div class="w-42 sm:w-48 lg:w-56 m-3 md:m-6 rounded-full bg-gradient-to-tr from-sky-400 to-transparent shadow-xl">
         <img
           src={memoji.src}
