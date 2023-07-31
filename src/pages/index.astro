@@ -5,20 +5,26 @@ import Memoji from "@/components/Memoji.astro";
 
 <Layout
   title="Sandeep Dilip's homepage"
-  class="flex flex-col justify-center items-center divide-y-6"
+  class="flex flex-col place-items-center divide-y-6"
 >
-  <section class="flex flex-col sm:flex-row justify-center items-center">
-    <Memoji class="w-42 sm:w-48 lg:w-56 m-3"/>
-    <h1 class="
-      m-4 p-6
-      border-x-4
-      font-quicksand font-500
-      text-sky-950
-      text-xl sm:text-2xl lg:text-4xl
-      text-center md:text-left
-      tracking-tight md:tracking-tighter
-    ">
-      My name is <b>Sandeep Dilip</b> <br />and I'm a software developer.
-    </h1>
+  <section class="h-screen flex flex-col place-content-center">
+    <div class="relative flex flex-col sm:flex-row place-items-center">
+      <Memoji class="w-42 sm:w-48 lg:w-56 m-3"/>
+      <h1 class="
+        m-4 p-6
+        border-x-4
+        font-quicksand font-500
+        text-sky-950
+        text-xl sm:text-2xl lg:text-4xl
+        text-center md:text-left
+        tracking-tight md:tracking-tighter
+      ">
+        My name is <b>Sandeep Dilip</b><br />and I'm a software developer.
+      </h1>
+    </div>
+  </section>
+
+  <section class="min-h-[75vh] flex flex-col justify-center items center">
+    <h2 class="font-quicksand text-lg text-center">I also like taking pictures.</h2>
   </section>
 </Layout>
