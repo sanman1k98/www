@@ -10,14 +10,35 @@ const { class: className } = Astro.props;
   className,
   "relative"
 ]}>
-  <div class="-z-50 absolute inset-0 bg-gradient-to-tr from-slate-300 blur-3xl"></div>
-  <div class="rounded-full border-9 border-white bg-gradient-to-tr from-sky-400 shadow-xl hover:border-6 hover:brightness-105 hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transform-gpu transition-all duration-500 ease">
+  <div class="
+    -z-50 absolute inset-0
+    bg-gradient-to-tr from-slate-300
+    blur-3xl
+  "/>
+  <div
+    class="
+      rounded-full
+      border-9 border-white
+      bg-gradient-to-tr from-sky-400
+      shadow-xl
+      transform-gpu transition-all duration-500
+      hover:shadow-2xl
+      hover:border-6
+      hover:brightness-105
+      hover:scale-105 hover:-translate-y-1
+  ">
     <img
       src={memoji.src}
       width={memoji.width}
       height={memoji.height}
       alt="Sandeep Dilip's Memoji"
-      class="object-scale-down rounded-full shadow-inner shadow-sky-50 hover:shadow-transparent hover:scale-105 hover:-translate-y-1 hover:-skew-x-1 hover:drop-shadow-md hover:rotate-1 transform-gpu transition-all duration-350 ease"
+      class="
+        object-scale-down rounded-full
+        shadow-inner shadow-sky-50
+        transform-gpu transition-all duration-350
+        hover:shadow-transparent hover:drop-shadow-md
+        hover:scale-105 hover:-translate-y-1 hover:-skew-x-1 hover:rotate-1
+      "
     >
   </div>
 </div>
