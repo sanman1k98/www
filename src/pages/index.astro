@@ -5,21 +5,23 @@ import memoji from "../assets/memoji.png";
 
 <Layout
   title="Sandeep Dilip's homepage"
-  class="flex flex-col justify-center items-center"
+  class="flex flex-col justify-center items-center divide-y-6"
 >
-  <section>
-    <div class="relative flex flex-col lg:flex-row justify-center items-center">
-      <div class="-z-50 absolute inset-0 bg-gradient-to-t from-sky-100 to-transparent blur-2xl"></div>
-      <div class="w-42 sm:w-48 lg:w-56 m-3 md:m-6 rounded-full bg-gradient-to-tr from-sky-400 to-transparent shadow-xl">
+  <section class="flex flex-col place-content-center">
+    <div class="relative flex flex-col sm:flex-row items-center">
+      <div class="-z-50 absolute inset-0 bg-gradient-to-tr from-slate-300 blur-3xl"></div>
+      <div class="w-42 sm:w-48 lg:w-56 m-3 rounded-full bg-gradient-to-tr from-sky-400 shadow-xl hover:brightness-105 hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transform-gpu transition-all duration-500 ease">
         <img
           src={memoji.src}
           width={memoji.width}
           height={memoji.height}
           alt="Sandeep Dilip's Memoji"
-          class="object-scale-down rounded-full shadow-inner shadow-sky-50"
+          class="object-scale-down rounded-full shadow-inner shadow-sky-50 hover:shadow-transparent hover:scale-105 hover:-translate-y-1 hover:-skew-x-1 hover:drop-shadow-md hover:rotate-1 transform-gpu transition-all duration-350 ease"
         >
       </div>
-      <h1 class="text-center font-quicksand tracking-tighter font-600 text-5xl sm:text-6xl md:text-7xl lg:text-9xl bg-clip-text drop-shadow-xl text-transparent bg-gradient-to-r from-sky-500 to-pink-500 tracking-tight">Hello World!</h1>
+      <h1 class="min-w-max m-4 p-6 border-x-4 text-center md:text-left font-quicksand tracking-tight md:tracking-tighter font-500 text-xl sm:text-2xl lg:text-4xl text-sky-950 ">
+        My name is <b>Sandeep Dilip</b> <br />and I'm a software developer.
+      </h1>
     </div>
   </section>
 </Layout>
