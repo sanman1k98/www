@@ -16,18 +16,14 @@ interface Props {
 const { class: className, ...head } = Astro.props;
 ---
 
-<style is:global>
-  #background-filter {
-    filter: url(#noise);
-  }
-</style>
-
 <BaseLayout { ...head }>
   <Banner class="absolute inset-x-0 top-0"/>
-  <main class:list={[
-    className,
-    "relative min-h-screen",
-  ]}>
+  <main
+    class:list={[
+      className,
+      "relative min-h-screen",
+    ]}
+  >
     <div
       class="
         -z-50 absolute inset-0
@@ -35,7 +31,7 @@ const { class: className, ...head } = Astro.props;
       "
     />
     <div
-      id="background-filter"
+      style="filter: url(#noise);"
       class="
         -z-50 absolute inset-0
         brightness-25 opacity-16
