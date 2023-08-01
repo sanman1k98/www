@@ -32,12 +32,15 @@ const { class: className, ...head } = Astro.props;
       class="
         -z-50 absolute inset-0
         bg-gradient-to-b from-sky-50
+        mix-blend-hard-light
       "
     />
     <div
       id="background-filter"
       class="
         -z-50 absolute inset-0
+        brightness-25 opacity-30
+        mix-blend-hard-light
       "
     />
     <slot />
