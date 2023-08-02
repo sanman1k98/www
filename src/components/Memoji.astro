@@ -6,20 +6,19 @@ type Props = { class?: string };
 const { class: className } = Astro.props;
 ---
 
-<div class:list={[
-  className,
-  "relative"
-]}>
-  <div class="
-    rounded-full
-    outline outline-white outline-8 md:outline-10 lg:outline-12
-    bg-gradient-to-tr from-sky-300
-    shadow-xl
-    transform-gpu transition-all duration-500
-    hover:shadow-2xl
-    hover:brightness-105
-    hover:scale-105 hover:-translate-y-1
-  ">
+<div class:list={[className, "relative"]}>
+  <div
+    class="
+      rounded-full
+      outline outline-white outline-8 md:outline-10 lg:outline-12
+      bg-gradient-to-tr from-sky-300
+      shadow-xl
+      transform-gpu transition-all duration-500
+      hover:shadow-2xl
+      hover:brightness-105
+      hover:scale-105 hover:-translate-y-1
+    "
+  >
     <img
       src={memoji.src}
       width={memoji.width}
