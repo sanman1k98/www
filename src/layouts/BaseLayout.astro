@@ -7,11 +7,14 @@ interface Props {
   title: string,
   description?: string,
 
-  /** Styles the `<body>` element. */
+  /** Classes to add to the `<body>` element. */
   class?: string,
+
+  /** Styles to add to the `<body>` element. */
+  style?: string,
 };
 
-const { class: className, ...meta } = Astro.props;
+const { class: className, style, ...meta } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -19,7 +22,7 @@ const { class: className, ...meta } = Astro.props;
   <head>
     <Meta { ...meta } />
   </head>
-  <body class={className}>
+  <body class={className} {style}>
     <slot />
   </body>
 </html>
