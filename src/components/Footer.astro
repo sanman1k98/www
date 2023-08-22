@@ -12,8 +12,12 @@ const groups = [
 const { class: className } = Astro.props;
 ---
 
-<footer class:list={["container mx-auto p-8", className]}>
-  <nav class="flex justify-between text-zinc-600">
+<footer class:list={[
+  "container mx-auto p-8",
+  "font-redhat font-450 text-sky-950",
+  className
+]}>
+  <nav class="flex justify-between">
     {groups.map(group => (
       <ul>
         {
