@@ -25,22 +25,22 @@ const { class: className, ...head } = Astro.props;
     ]}
   >
     <div
-      class="
-        -z-50 absolute inset-0
-        bg-gradient-to-b from-sky-50
-      "
-    />
-    <div
       style="filter: url(#noise);"
       class="
         -z-50 absolute inset-0
-        brightness-25 opacity-16
+      "
+    />
+    <div
+      class="
+        -z-50 absolute inset-0
+        bg-gradient-to-b from-sky-50/80 to-white/70
+        mix-blend-lighten
       "
     />
     <slot />
   </main>
-  <svg xmlns="http://www.w3.org/2000/svg">
   <Footer class="absolute inset-x-0 bottom-0"/>
+  <svg class="hidden">
     <defs>
       <filter id="noise">
         <feTurbulence baseFrequency="0.001 0.01"/>
