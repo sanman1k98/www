@@ -17,34 +17,33 @@ const { class: className, ...head } = Astro.props;
 ---
 
 <BaseLayout class="relative" { ...head }>
+  <div>
+    {/* NOTE: Firefox cannot apply CSS filters using `<svg>` elements with `display: none;` */}
+    <svg class="invisible h-0 w-0">
+      <defs>
+        <filter id="noise">
+          <feTurbulence baseFrequency="0.001 0.01"/>
+        </filter>
+      </defs>
+    </svg>
+
+    {/* A simple Perlin noise pattern using the SVG filter above */}
+    <div class="-z-50 absolute inset-0" style="filter: url(#noise);"/>
+
+    {/* A gradient on top of the noise pattern */}
+    <div class="
+      -z-50 absolute inset-0
+      mix-blend-normal
+      bg-gradient-to-b
+      from-50% from-sky-50/85
+      via-90% via-sky-100/60
+      to-95% to-white
+    "/>
+  </div>
+
   <Banner class="absolute inset-x-0 top-0"/>
-  <main
-    class:list={[
-      className,
-      "relative min-h-screen",
-    ]}
-  >
-    <div
-      style="filter: url(#noise);"
-      class="
-        -z-50 absolute inset-0
-      "
-    />
-    <div
-      class="
-        -z-50 absolute inset-0
-        bg-gradient-to-b from-20% from-sky-50/80 via-80% via-white/70 to-90% to-white
-        mix-blend-lighten
-      "
-    />
+  <main class:list={["min-h-screen", className]}>
     <slot />
   </main>
-  <Footer class="absolute inset-x-0 bottom-0"/>
-  <svg class="hidden">
-    <defs>
-      <filter id="noise">
-        <feTurbulence baseFrequency="0.001 0.01"/>
-      </filter>
-    </defs>
-  </svg>
+  <Footer />
 </BaseLayout>
