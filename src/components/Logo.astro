@@ -1,6 +1,11 @@
-<div class="m-2 shadow-black-400">
+<div class="relative m-2">
+  {/*
+    Subtle drop-shadow-like effect uring a blurred div; increases text contrast
+    against background
+  */}
+  <div class="-z-50 absolute inset-0 bg-white blur-lg"/>
   <a href="/" class:list={[
-    "text-4xl font-450 tracking-tight font-quicksand text-sky-950",
+    "text-4xl font-quicksand font-450 text-sky-950 tracking-tight",
     "transition duration-200 hover:text-sky-500",
   ]}>
     <span>nice</span><span>sandeep</span>
