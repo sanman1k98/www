@@ -6,15 +6,12 @@ type Props = { class?: string };
 const { class: className } = Astro.props;
 ---
 
-<div>
-  <header
-    class:list={[
-      className,
-      "container mx-auto flex flex-col mx-auto items-center p-8",
-      "sm:flex-row sm:justify-between",
-      "z-50",
-    ]}>
-    <Logo />
-    <Nav />
-  </header>
-</div>
+<header class:list={[
+  className,
+  "container mx-auto flex flex-col mx-auto items-center p-8",
+  "sm:flex-row sm:justify-between",
+  "z-50",
+]}>
+  <Logo />
+  <Nav />
+</header>
