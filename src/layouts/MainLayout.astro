@@ -37,7 +37,15 @@ const { class: className, ...head } = Astro.props;
       bg-gradient-to-b
       from-50% from-sky-50/85
       via-90% via-sky-100/60
-      to-95% to-white
+    "/>
+
+    {/* A gradient at the bottom of the page*/}
+    <div class="
+      -z-50 absolute inset-x-0 bottom-0 h-96
+      mix-blend-normal
+      bg-gradient-to-b
+      from-transparent
+      to-50% to-white
     "/>
   </div>
 
