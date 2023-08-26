@@ -2,6 +2,11 @@ import { z } from "astro/zod";
 
 export default z.object({
   /**
+   * Authentication token used by the gh CLI; retrieved with `gh auth token`.
+   */
+  GITHUB_TOKEN: z.string(),
+
+  /**
    * To be displayed on the resume page when printing.
    */
   PERSONAL_PHONE: z.string(),
