@@ -38,21 +38,33 @@ export const experience = base
   .merge(daterange)
   .merge(tags.partial());
 
-export const project = base
+export const open_source = base
+  .merge(daterange.partial())
+  .merge(tags.partial())
   .extend({
-    type: z.literal("project"),
-    name: z.string(),
-    description: z
-      .string()
-      .max(65)
-      .describe("short description of the project"),
-    githubUrl: z
-      .string()
-      .url()
-      .describe("Link to GitHub repository"),
+    type: z.literal("open-source").default("open-source"),
+
+    /**
+     * **Required**: a GitHub link to a repository or a pull request.
+     *
+     * Will be used to create a title and description for the entry if not specified.
+     */
+    githubUrl: z.string().url(),
+
+    /**
+     * Override the automatically created title for the entry.
+     */
+    title: z.string().optional(),
+
+    /**
+     * Override the automatically created description for the entry.
+     */
+    description: z.string().optional(),
   })
-  .merge(daterange)
-  .merge(tags);
+  .transform(entry => {
+    // TODO: get title and description from `githubUrl`
+    return entry;
+  });
 
 export const education = base
   .extend({
