@@ -3,12 +3,11 @@ import Entry from "./BaseEntry.astro";
 import DateRange from "./DateRange.astro";
 import type { CvEntry } from "@/content";
 
-type Props = { entry: CvEntry<"project"> };
+type Props = { entry: CvEntry<"open-source"> };
 const { entry } = Astro.props;
 ---
 
 <Entry entry={entry}>
-  <a slot="heading" href={entry.data.githubUrl}>{entry.data.name}</a>
+  <a slot="heading" href={entry.data.githubUrl}>{entry.data.title}</a>
   <Fragment slot="subheading">{entry.data.description}</Fragment>
-  <DateRange slot="after-subheading" entry={entry}/>
 </Entry>

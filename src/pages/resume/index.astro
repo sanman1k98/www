@@ -10,13 +10,13 @@ import Section from "./_components/BaseSection.astro";
 import Contact from "./_components/Contact.astro";
 import SkillDetails from "./_components/SkillDetails.astro";
 import Experience from "./_components/ExperienceEntry.astro";
-import Project from "./_components/ProjectEntry.astro";
+import OpenSource from "./_components/OpenSourceEntry.astro";
 import Certification from "./_components/CertificationEntry.astro";
 import Education from "./_components/EducationEntry.astro";
 
 const skills = cvEntries.filter(isType("skills"));
 const experience = cvEntries.filter(isType("experience"));
-const projects = cvEntries.filter(isType("project"));
+const projects = cvEntries.filter(isType("open-source"));
 const volunteering = cvEntries.filter(isType("volunteering"));
 const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
@@ -87,7 +87,7 @@ if (env.BUILD_INCLUDE_PERSONAL) {
 
       <Section heading="Open source">
         {
-          projects.filter(proj => !proj.data.draft).map(proj => <Project entry={proj} />)
+          projects.filter(proj => !proj.data.draft).map(proj => <OpenSource entry={proj} />)
         }
       </Section>
 
