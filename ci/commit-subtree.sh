@@ -1,5 +1,5 @@
-BRANCH="deploy"
-SUBTREE="dist"
+SUBTREE="$1"
+BRANCH="$2"
 
 # add static files to the index
 git add --force "${SUBTREE}"
