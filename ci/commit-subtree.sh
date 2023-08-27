@@ -4,6 +4,7 @@ set -euo pipefail
 SUBTREE="$1"
 BRANCH="$2"
 
+# check if the directory exists
 if [[ ! -d "${SUBTREE}" ]]; then
   echo "Directory \"${SUBTREE}\" does not exist"
   exit 1
@@ -21,4 +22,8 @@ commit_id="$(git commit-tree --gpg-sign -p "${BRANCH}" -m 'ci: deploy' "${tree_h
 # update branch to point to new commit
 git update-ref "refs/heads/${BRANCH}" "${commit_id}"
 
+# show commit stats
+git show --stat "${BRANCH}"
+
+# remove the static files from the index
 git rm -r --quiet --cached "${SUBTREE}"
