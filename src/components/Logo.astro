@@ -1,4 +1,10 @@
-<div class="relative m-2">
+---
+type Props = { class?: string };
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={[className, "relative m-2"]}>
   {/*
     Subtle drop-shadow-like effect uring a blurred div; increases text contrast
     against background
