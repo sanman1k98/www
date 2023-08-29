@@ -17,7 +17,7 @@ const { class: className, ...head } = Astro.props;
 ---
 
 <BaseLayout class="relative" { ...head }>
-  <div>
+  <div aria-hidden="true">
     {/* NOTE: Firefox cannot apply CSS filters using `<svg>` elements with `display: none;` */}
     <svg class="invisible h-0 w-0">
       <defs>
