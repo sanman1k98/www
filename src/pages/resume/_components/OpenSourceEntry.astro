@@ -8,6 +8,12 @@ const { entry } = Astro.props;
 ---
 
 <Entry entry={entry}>
-  <a slot="heading" href={entry.data.githubUrl}>{entry.data.title}</a>
+  <a
+    slot="heading"
+    href={entry.data.githubUrl}
+    target="_blank"
+  >
+    {entry.data.title}
+  </a>
   <Fragment slot="subheading">{entry.data.description}</Fragment>
 </Entry>
