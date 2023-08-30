@@ -13,10 +13,18 @@ interface Props {
   class?: string;
 };
 
-const { class: className, ...head } = Astro.props;
+const {
+  title,
+  description,
+  class: className,
+} = Astro.props;
 ---
 
-<BaseLayout class="relative" { ...head }>
+<BaseLayout
+  class="relative"
+  title={title + " | nicesandeep"}
+  {description}
+>
   <div aria-hidden="true">
     {/* NOTE: Firefox cannot apply CSS filters using `<svg>` elements with `display: none;` */}
     <svg class="invisible h-0 w-0">
