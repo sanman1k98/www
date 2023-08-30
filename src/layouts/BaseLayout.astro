@@ -21,6 +21,7 @@ const { class: className, style, ...meta } = Astro.props;
 <html lang="en">
   <head>
     <Meta { ...meta } />
+    <slot name="head"/>
   </head>
   <body class={className} {style}>
     <slot />
