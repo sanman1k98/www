@@ -1,26 +1,30 @@
 ---
 import { links } from "@/content";
 
-const pages = links.pages
-  .map(page => {
-    // Filter out pages that I don't want in the component
-    switch (page.text.toLowerCase()) {
-      case "resume": return;
-    }
-    // Find out which page is the current one
-    const current = Astro.url.pathname === page.href
-      || (page.href !== '/' && Astro.url.pathname.startsWith(page.href));
-    return { "aria-current": current, ...page };
-  });
+type Props = { class?: string };
+
+const { class: className } = Astro.props;
+
+const pages = links.pages.map(page => {
+  // Filter out pages that I don't want in the component
+  switch (page.text.toLowerCase()) {
+    case "resume": return;
+  }
+  // Find out which page is the current one
+  const current = Astro.url.pathname === page.href
+    || (page.href !== '/' && Astro.url.pathname.startsWith(page.href));
+  return { "aria-current": current, ...page };
+});
 ---
-<nav>
+
+<nav class:list={[className, "font-redhat font-450 text-sm text-sky-950"]}>
   <ul class="flex w-max rounded-full bg-white p-2 shadow-md shadow-black-400">
     {
       pages.map(link => {
         if (!link) return;
         const { text, ...attrs } = link;
         return (
-          <li class="font-redhat font-450 text-sm text-sky-950">
+          <li>
             <a
               class:list={[
                 "py-1 px-2",
