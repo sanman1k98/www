@@ -11,7 +11,9 @@ const { title, description } = Astro.props;
 <meta name="viewport" content="width=device-width" />
 
 <title>{title}</title>
-<meta name="description" content={description} />
+{Astro.slots.has("description") && (
+  <meta name="description" content={description} />
+)}
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
