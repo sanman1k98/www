@@ -1,5 +1,6 @@
 ---
 import Page from "@/layouts/MainLayout.astro";
+import { links } from "@/content";
 ---
 
 <Page
@@ -8,9 +9,12 @@ import Page from "@/layouts/MainLayout.astro";
 >
   <address class="font-redhat text-sky-950">
     <ul>
-      <li><a>Email</a></li>
-      <li><a>GitHub</a></li>
-      <li><a>LinkedIn</a></li>
+      {
+        links.socials.map(link => {
+          const { text, ...attrs } = link;
+          return <li class="m-2"><a {...attrs}>{text}</a></li>;
+        })
+      }
     </ul>
   </address>
 </Page>
