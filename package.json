@@ -10,11 +10,12 @@
     "print": "./jxa/print-pdf.js http://localhost:3000/resume"
   },
   "dependencies": {
-    "@astrojs/prefetch": "^0.3.0",
+    "@astrojs/prefetch": "^0.4.0",
     "@fontsource-variable/quicksand": "^5.0.5",
     "@fontsource-variable/red-hat-display": "^5.0.6",
-    "astro": "^2.9.1",
+    "astro": "^3.0.5",
     "octokit": "^3.1.0",
+    "sharp": "^0.32.5",
     "unocss": "^0.55.4"
   },
   "private": "true",

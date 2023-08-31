@@ -12,7 +12,4 @@ export default defineConfig({
     }),
     prefetch(),
   ],
-  experimental: {
-    assets: true,
-  },
 });
