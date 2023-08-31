@@ -3,9 +3,16 @@ import type { link } from "@/schemas/misc";
 import type { z } from "astro/zod"
 
 type Props = z.infer<typeof link>;
-const { text, ...attrs } = Astro.props;
+const {
+  text,
+  icon = "i-carbon-arrow-up-right",
+  ...attrs
+} = Astro.props;
 ---
 
 <a { ...attrs }>
-  <slot>{text}</slot>
+  <span>
+    <slot>{text}</slot>
+  </span>
+  <div class:list={[icon, "mx-1 inline-block"]}></div>
 </a>
