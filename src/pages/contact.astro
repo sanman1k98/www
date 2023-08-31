@@ -12,7 +12,14 @@ import { links } from "@/content";
       {
         links.socials.map(link => {
           const { text, ...attrs } = link;
-          return <li class="m-2"><a {...attrs}>{text}</a></li>;
+          return (
+            <li class="m-2">
+              <a {...attrs}>
+                <span>{text}</span>
+                <div class="i-carbon-link mx-1 inline-block"></div>
+              </a>
+            </li>
+          );
         })
       }
     </ul>
