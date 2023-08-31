@@ -1,9 +1,11 @@
 links:
 
 - text: GitHub
+  icon: i-carbon-logo-github
   href: https://github.com/sanman1k98
   target: _blank
 
 - text: LinkedIn
+  icon: i-carbon-logo-linkedin
   href: https://www.linkedin.com/in/sandeepdilip/
   target: _blank
