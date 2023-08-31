@@ -69,10 +69,17 @@ export const infoEntries = await getCollection("info");
 
 const linksEntries = infoEntries.filter(createInfoEntryTypeGuard("links"));
 
+/**
+ * Keys are filenames of "links" entries in the "info" collection.
+ */
 export const links = Object.fromEntries(
   linksEntries.map(entry => [entry.id, entry.data.links])
 );
 
+/**
+ * A dictionary created from items in the "socials" entry, where each key is
+ * the "text" value of each item.
+ */
 export const socials = Object.fromEntries(
   links.socials.map(link => [link.text.toLowerCase(), link])
 );
