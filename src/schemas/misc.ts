@@ -44,6 +44,9 @@ export const link = z
       ])
       .default("_self"),
     rel: z.string().optional(),
+
+    /** **Optional**: An UnoCSS class that specifies an icon. */
+    icon: z.string().optional(),
   });
 
 export const daterange = z
