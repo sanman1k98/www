@@ -1,6 +1,7 @@
 #!/bin/sh
 set -euo pipefail
 
+# TODO: use `getopt` or `getopts` to parse args to script
 SUBTREE="$1"
 BRANCH="$2"
 
