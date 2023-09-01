@@ -1,5 +1,6 @@
 ---
 import Page from "@/layouts/MainLayout.astro";
+import Link from "@/components/Link.astro";
 import { links } from "@/content";
 ---
 
@@ -10,17 +11,9 @@ import { links } from "@/content";
   <address class="font-redhat text-sky-950">
     <ul>
       {
-        links.socials.map(link => {
-          const { text, ...attrs } = link;
-          return (
-            <li class="m-2">
-              <a {...attrs}>
-                <span>{text}</span>
-                <div class="i-carbon-link mx-1 inline-block"></div>
-              </a>
-            </li>
-          );
-        })
+        links.socials.map(link => (
+          <li class="m-2"><Link { ...link }/></li>
+        ))
       }
     </ul>
   </address>
