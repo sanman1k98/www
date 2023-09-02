@@ -9,7 +9,3 @@ cp -R "./.github" "./dist/"
 
 # Commit subtree to the "deploy" branch
 ./commit-subtree.sh "dist" "deploy"
-
-# Push the "deploy" branch to trigger the GitHub Workflow
-# that deploys to Pages
-git push origin deploy
