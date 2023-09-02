@@ -3,6 +3,9 @@ set -euo pipefail
 
 # TODO: consolidate deployment scripts
 
+# TODO: exit early if working directory is dirty
+
+# Build the site for static deployment
 bun run build
 
 # Copy the GitHub Workflow into the directory containing
