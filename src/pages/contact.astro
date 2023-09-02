@@ -1,20 +1,39 @@
 ---
 import Page from "@/layouts/MainLayout.astro";
 import Link from "@/components/Link.astro";
-import { links } from "@/content";
+import { socials } from "@/content";
 ---
 
 <Page
   title="Contact"
   class="flex flex-col justify-center items-center"
 >
-  <address class="font-redhat text-sky-950">
+  <address class="
+    font-quicksand tracking-tighter not-italic text-sky-950
+    text-4xl font-430 leading-snug
+    sm:text-6xl sm:font-450 sm:leading-snug
+  ">
     <ul>
-      {
-        links.socials.map(link => (
-          <li class="m-2"><Link { ...link }/></li>
-        ))
-      }
+      <li>
+        <a
+          class="flex items-center gap-2"
+          href={socials.github.href}
+          target={socials.github.target}
+        >
+          <div class="i-ph-github-logo-duotone inline-block"></div>
+          <span>{socials.github.text}</span>
+        </a>
+      </li>
+      <li>
+        <a
+          class="flex items-center gap-2"
+          href={socials.linkedin.href}
+          target={socials.linkedin.target}
+        >
+          <div class="i-ph-linkedin-logo-duotone inline-block"></div>
+          <span>{socials.linkedin.text}</span>
+        </a>
+      </li>
     </ul>
   </address>
 </Page>
