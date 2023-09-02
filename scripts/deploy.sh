@@ -10,4 +10,4 @@ bun run build
 cp -R "./.github" "./dist/"
 
 # Commit subtree to the "deploy" branch
-./commit-subtree.sh "dist" "deploy"
+./scripts/commit-subtree.sh "dist" "deploy"
