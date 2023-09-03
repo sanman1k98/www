@@ -3,12 +3,19 @@ import {
   presetUno,
   presetWebFonts,
   presetIcons,
-} from "unocss"
+} from "unocss";
 
 export default defineConfig({
   presets: [
     presetUno(),
-    presetIcons(),
+    presetIcons({
+      extraProperties: {
+        "display": "inline-block",
+        "height": "1.2em",
+        "width": "1.2em",
+        "vertical-align": "text-bottom",
+      },
+    }),
     presetWebFonts({
       provider: "none",
       fonts: {
