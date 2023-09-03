@@ -13,20 +13,33 @@ const { class: className } = Astro.props;
 ---
 
 <footer class:list={[
-  "container mx-auto p-8",
+  "w-full p-6",
   "font-redhat font-450 text-sky-950",
   className
 ]}>
-  <nav class="flex justify-between">
-    {groups.map(group => (
-      <ul>
-        {
-          group.map(link => {
-            const { text, ...attrs } = link;
-            return <li class="m-2"><a {...attrs}>{text}</a></li>;
-          })
-        }
-      </ul>
-    ))}
-  </nav>
+  <ul class="
+    flex mx-auto justify-center
+    [&_li]:px-3 divide-x-2
+    sm:[&_li]:px-4
+  ">
+    <li>
+      <a
+        href="/resume"
+      >
+        Resume
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://github.com/sanman1k98/www"
+        target="_blank"
+      >
+        Site source
+      </a>
+    </li>
+    <li>
+      <span>&copy; {new Date().getFullYear()}</span>
+      <span class="hidden sm:inline"> Sandeep Dilip</span>
+    </li>
+  </ul>
 </footer>
