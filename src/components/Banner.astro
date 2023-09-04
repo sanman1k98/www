@@ -8,10 +8,12 @@ const { class: className } = Astro.props;
 
 <header class:list={[
   className,
-  "container mx-auto flex flex-col mx-auto items-center p-8",
-  "sm:flex-row sm:justify-between",
+  "flex container mx-auto",
+  "justify-between items-center",
+  "lt-sm:px-[7vw] sm:px-8",
+  "gap-2",
   "z-50",
 ]}>
-  <Logo />
-  <Nav />
+  <Logo class="mb-2"/>
+  <Nav class="text-sm sm:text-base sm:tracking-tight"/>
 </header>
