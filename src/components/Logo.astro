@@ -1,11 +1,9 @@
 ---
 type Props = { class?: string };
-const { class: className } = Astro.props;
-
 const words = ["nice", "sandeep"];
 ---
 
-<div class:list={[className, "relative"]}>
+<div class:list={[Astro.props.class, "relative"]}>
   {/*
     Subtle drop-shadow-like effect uring a blurred div; increases text contrast
     against background
