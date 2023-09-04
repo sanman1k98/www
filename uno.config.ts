@@ -3,9 +3,11 @@ import {
   presetUno,
   presetWebFonts,
   presetIcons,
+  transformerDirectives
 } from "unocss";
 
 export default defineConfig({
+  transformers: [transformerDirectives()],
   presets: [
     presetUno(),
     presetIcons({
