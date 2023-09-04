@@ -5,38 +5,27 @@ const { class: className } = Astro.props;
 const words = ["nice", "sandeep"];
 ---
 
-<style>
-.char:hover {
-  @apply text-sky-500 \-translate-y-1;
-}
-
-.char:hover + .char,
-.char:has(+:hover) {
-  @apply text-sky-400 \-translate-y-0.5;
-}
-
-.char:hover + .char + .char,
-.char:has(+ * +:hover) {
-  @apply text-sky-300;
-}
-</style>
-
 <div class:list={[className, "relative"]}>
   {/*
     Subtle drop-shadow-like effect uring a blurred div; increases text contrast
     against background
   */}
   <div class="-z-50 absolute inset-0 bg-white blur-lg"/>
-  <a href="/" class:list={[
-    "text-5xl font-quicksand font-450 text-sky-950 tracking-tight",
-  ]}>
+  <a href="/" class="
+    inline-block p-1
+    text-5xl
+    font-quicksand font-450 tracking-tight
+    bg-gradient-to-r from-25% from-sky-600 to-60% to-pink-500
+    bg-clip-text text-transparent
+  ">
     {
       words.map(word => Array.from(word, ((char, i) => (
         <span class={`
-          char
           ${i === 0 ? "inline-block" : "hidden"}
           media-[(min-width:580px)]:inline-block
-          transition
+          transition duration-200
+          @hover:text-white/60
+          [&:hover+*,&:has(+:hover)]:text-white/30
         `}>
           {char}
         </span>
