@@ -8,23 +8,24 @@ import Memoji from "@/components/Memoji.astro";
   class="flex flex-col place-items-center"
 >
   <section class="h-screen flex flex-col place-content-center">
-    <div class="relative flex flex-col sm:flex-row place-items-center">
+    <div class="relative flex flex-col sm:flex-row place-items-center gap-4">
       <div class="
         -z-50 absolute inset-0
         bg-gradient-to-tr from-white
         blur-3xl
       "/>
-      <Memoji class="w-42 sm:w-48 lg:w-56 m-3"/>
+      <Memoji class="w-48 md:w-56 lg:w-72"/>
       <h1 class="
-        py-4 sm:m-6 sm:p-6
-        border-b-4
+        py-4 sm:p-6
         font-quicksand font-500
         text-sky-950
-        text-xl sm:text-2xl lg:text-4xl
-        text-center md:text-left
+        text-2xl sm:text-4xl md:text-5xl lg:text-7xl
+        text-center sm:text-left
         tracking-tight md:tracking-tighter
+        lt-lg:leading-tight lg:leading-[1.1]
       ">
-        Hey! My name is <b>Sandeep Dilip</b><br />and I'm a software developer.
+        Hey! My name is<br/>
+        <b class="text-[1.25em]">Sandeep Dilip</b>
       </h1>
     </div>
   </section>
