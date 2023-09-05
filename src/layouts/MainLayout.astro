@@ -53,7 +53,7 @@ const title = titleString
   </div>
 
   <Banner class="absolute inset-x-0 top-0 mt-[3vh] sm:mt-8"/>
-  <main class:list={["min-h-screen", Astro.props.class]}>
+  <main transition:animate="fade" class:list={["min-h-screen", Astro.props.class]}>
     <slot />
   </main>
   <Footer />
