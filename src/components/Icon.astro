@@ -1,0 +1,21 @@
+---
+const icons = {
+  github: "i-ph-github-logo-duotone",
+  linkedin: "i-ph-linkedin-logo-duotone",
+} as const;
+
+type Props = {
+  name: keyof typeof icons,
+  label?: string,
+  class?: string,
+};
+
+const a11y = Astro.props.label
+  ? ({ "aria-label": Astro.props.label } as const)
+  : ({ "aria-hidden": "true" } as const);
+---
+
+<div { ... a11y } class:list={[
+  icons[Astro.props.name],
+  Astro.props.class,
+]}/>
