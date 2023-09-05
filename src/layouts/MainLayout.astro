@@ -3,7 +3,7 @@ import BaseLayout from "./BaseLayout.astro";
 import Banner from "@/components/Banner.astro";
 import Footer from "@/components/Footer.astro";
 
-interface Props {
+type Props = {
   title: string;
   description?: string;
 
@@ -13,18 +13,13 @@ interface Props {
   class?: string;
 };
 
-const {
-  title,
-  description,
-  class: className,
-} = Astro.props;
+const { title: titleString, description } = Astro.props;
+const title = titleString
+  ? (titleString + " | nicesandeep")
+  : "nicesandeep";
 ---
 
-<BaseLayout
-  class="relative"
-  title={title + " | nicesandeep"}
-  {description}
->
+<BaseLayout {title} {description} class="relative">
   <div aria-hidden="true">
     {/* NOTE: Firefox cannot apply CSS filters using `<svg>` elements with `display: none;` */}
     <svg class="invisible h-0 w-0">
@@ -58,7 +53,7 @@ const {
   </div>
 
   <Banner class="absolute inset-x-0 top-0 mt-[3vh] sm:mt-8"/>
-  <main class:list={["min-h-screen", className]}>
+  <main class:list={["min-h-screen", Astro.props.class]}>
     <slot />
   </main>
   <Footer />
