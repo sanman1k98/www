@@ -17,26 +17,16 @@ import { links } from "@/content";
               { ...attrs }
               class="
                 flex items-center
-                gap-2 sm:gap-0
-                font-quicksand font-430
+                font-quicksand font-450
                 not-italic text-sky-950
                 tracking-tighter
-                sm:font-450
-                sm:text-7xl md:text-8xl
+                text-7xl md:text-8xl
                 transition duration-200
                 hover:text-sky-500
               "
             >
-              <Icon
-                name={icon}
-                label={text}
-                class="lt-sm:text-[15vh]"
-              />
-              <span class="
-                lt-sm:hidden
-              ">
-                {text}
-              </span>
+              <Icon name={icon} label={text}/>
+              <span class="lt-sm:hidden">{text}</span>
             </a>
           </li>
         ))
