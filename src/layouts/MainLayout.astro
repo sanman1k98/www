@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from "astro:transitions";
 import BaseLayout from "./BaseLayout.astro";
 import Banner from "@/components/Banner.astro";
 import Footer from "@/components/Footer.astro";
@@ -20,6 +21,7 @@ const title = titleString
 ---
 
 <BaseLayout {title} {description} class="relative">
+  <ViewTransitions slot="head"/>
   <div aria-hidden="true">
     {/* NOTE: Firefox cannot apply CSS filters using `<svg>` elements with `display: none;` */}
     <svg class="invisible h-0 w-0">
