@@ -2,8 +2,9 @@
 type Props = { class?: string };
 ---
 
-{/* Adds a Perlin noise background to a parent element with its `position:relative;`. */}
-<div aria-hidden="true" class={Astro.props.class}>
+{/* Adds a background to a parent element with `position:relative;`. */}
+<div aria-hidden="true" class:list={[Astro.props.class]}>
+
   {/* NOTE: Firefox cannot apply CSS filters using `<svg>` elements with `display: none;` */}
   <svg class="invisible h-0 w-0">
     <defs>
@@ -13,25 +14,18 @@ type Props = { class?: string };
     </defs>
   </svg>
 
-  {/* A simple Perlin noise pattern using the SVG filter above */}
-  <div class="-z-50 absolute inset-0" style="filter: url(#noise);"/>
+  {/* A simple Perlin noise pattern using the SVG filter above. */}
+  <div class="absolute inset-0" style="filter: url(#noise);"/>
 
-  {/* A gradient on top of the noise pattern */}
+  {/* A gradient on top of the noise pattern. */}
   <div class="
-    -z-50 absolute inset-0
-    mix-blend-normal
+    absolute inset-0
     bg-gradient-to-b
     from-50% from-sky-50/85
     via-90% via-sky-100/60
   "/>
 
-  {/* A gradient at the bottom of the page*/}
-  <div class="
-    -z-50 absolute inset-x-0 bottom-0 h-36
-    mix-blend-normal
-    bg-gradient-to-b
-    from-transparent
-    to-50% to-white
-  "/>
-</div>
+  {/* Add additional gradients here. */}
+  <slot />
 
+</div>
