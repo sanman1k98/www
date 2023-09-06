@@ -4,8 +4,10 @@ links:
   icon: github
   href: https://github.com/sanman1k98
   target: _blank
+  rel: noreferrer noopener
 
 - text: LinkedIn
   icon: linkedin
   href: https://www.linkedin.com/in/sandeepdilip/
   target: _blank
+  rel: noreferrer noopener
