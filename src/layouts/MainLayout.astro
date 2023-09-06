@@ -1,5 +1,4 @@
 ---
-import { ViewTransitions } from "astro:transitions";
 import BaseLayout from "./BaseLayout.astro";
 import Perlin from "@/components/Perlin.astro";
 import Banner from "@/components/Banner.astro";
@@ -22,9 +21,6 @@ const title = titleString
 ---
 
 <BaseLayout {title} {description} class="relative">
-  {/* Add Astro view transitions to the `<head>` element. */}
-  <ViewTransitions slot="head"/>
-
   {/* Background to fill the whole page. */}
   <Perlin class="absolute inset-0 -z-50"/>
 
