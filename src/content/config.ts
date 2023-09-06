@@ -29,8 +29,11 @@ export const collections = {
     type: "data",
     schema: ({ image }) => z.array(
       z.object({
-        src: image(),
-        alt: z.string(),
+        src: image().refine(img => img.width <= 1080 || img.height <= 1080, {
+          message: "Image is greater than 1080p; don't upload the hi-res stuff for free!"
+        }),
+        // Setting `alt=""` tells screen readers to ignore the image
+        alt: z.string().default(""),
       })
     ),
   }),
