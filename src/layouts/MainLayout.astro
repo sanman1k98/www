@@ -22,11 +22,20 @@ const title = titleString
 ---
 
 <BaseLayout {title} {description} class="relative">
+  {/* Add Astro view transitions to the `<head>` element. */}
   <ViewTransitions slot="head"/>
+
+  {/* Background to fill the whole page. */}
   <Perlin />
+
+  {/* Site logo and navigation components. */}
   <Banner class="absolute inset-x-0 top-0 mt-[3vh] sm:mt-8"/>
+
+  {/* Slot for main content. */}
   <main transition:animate="fade" class:list={["min-h-screen", Astro.props.class]}>
     <slot />
   </main>
+
+  {/* Other links and copyright information. */}
   <Footer />
 </BaseLayout>
