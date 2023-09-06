@@ -1,0 +1,16 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import Page from "@/layouts/MainLayout.astro";
+
+const photos = (await getCollection("photos"))[0].data;
+---
+
+<Page
+  title="Photos"
+  class="flex flex-col justify-center items-center"
+>
+  {
+    photos.map(attrs => <Image { ...attrs }/>)
+  }
+</Page>

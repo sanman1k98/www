@@ -25,4 +25,13 @@ export const collections = {
     type: "data",
     schema: infoSchema,
   }),
+  photos: defineCollection({
+    type: "data",
+    schema: ({ image }) => z.array(
+      z.object({
+        src: image(),
+        alt: z.string(),
+      })
+    ),
+  }),
 };
