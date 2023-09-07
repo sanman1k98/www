@@ -9,12 +9,24 @@ type Props = {
   description?: string;
 
   /**
-   * Styles the `<main>` element.
+   * Classes to add to the `<main>` element.
    */
   class?: string;
+
+  /**
+   * Styles to add to the `<main>` element.
+   */
+  style?: string;
 };
 
-const { title: titleString, description } = Astro.props;
+const {
+  title: titleString,
+  description,
+  class: className,
+  style,
+  ...attrs
+} = Astro.props;
+
 const title = titleString
   ? (titleString + " | nicesandeep")
   : "nicesandeep";
@@ -28,7 +40,12 @@ const title = titleString
   <Banner class="absolute inset-x-0 top-0 mt-[3vh] sm:mt-8"/>
 
   {/* Slot for main content. */}
-  <main transition:animate="fade" class:list={["min-h-screen", Astro.props.class]}>
+  <main
+    transition:animate="fade"
+    {style}
+    class:list={["min-h-screen", className]}
+    { ...attrs }
+  >
     <slot />
   </main>
 
