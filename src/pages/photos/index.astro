@@ -20,7 +20,7 @@ photos.forEach((img, i) => columns[i % 3].push(img));
       <div class="flex flex-col gap-8">
         {
           col.map(img => (
-            <div>
+            <div class="border-12 border-white rounded-lg relative transition hover:scale-110 shadow-lg">
               <a href={`/photos`}>
                 <Image { ...img } class="object-scale-down"/>
               </a>
