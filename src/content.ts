@@ -83,3 +83,5 @@ export const links = Object.fromEntries(
 export const socials = Object.fromEntries(
   links.socials.map(link => [link.text.toLowerCase(), link])
 );
+
+export const photos = (await getCollection("photos"))[0].data;

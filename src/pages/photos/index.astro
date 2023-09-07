@@ -1,9 +1,8 @@
 ---
-import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import Page from "@/layouts/MainLayout.astro";
+import { photos } from "@/content";
 
-const photos = (await getCollection("photos"))[0].data;
 ---
 
 <Page
