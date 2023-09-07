@@ -3,36 +3,82 @@ import { Image } from "astro:assets";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 
-const columns = [[], [], []];
-photos.forEach((img, i) => columns[i % 3].push(img));
+/**
+ * Horizontally flowing masonry layout using pure CSS.
+ *
+ * Since the dimensions of the items in the layout are known, an implicitly
+ * created CSS grid with fixed-width columns and short row tracks can be used
+ * to emulate a masonry layout.
+ *
+ * Use the aspect ratio of each item along with its column width to calculate
+ * how many rows it must span.
+ */
+
+/**
+ * Size of the `grid-auto-rows` in px.
+ *
+ * Also used to calculate gaps between items and columns.
+ */
+const gap = 16;
+const sm = 19 * gap;
+const md = 14 * gap;
+const lg = 19 * gap;
+const xl = 24 * gap;
+
+const calcSpan = (size: number, h: number, w: number) => Math.floor(((size * h)/w)/gap);
 ---
 
 <Page
   title="Photos"
+  style={`
+    --masonry-gap:${gap}px;
+    --masonry-w-sm:${sm}px;
+    --masonry-w-md:${md}px;
+    --masonry-w-lg:${lg}px;
+    --masonry-w-xl:${xl}px;
+  `}
   class={`
-    pt-30 md:pt-36 gap-8
-    container mx-auto px-8
-    grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+    pt-30 md:pt-36 lt-sm:gap-y-8 sm:gap-x-8
+    justify-center mx-auto px-8
+    grid grid-cols-1
+    sm:auto-rows-[var(--masonry-gap)]
+    sm:grid-cols-[repeat(2,var(--masonry-w-sm))]
+    md:grid-cols-[repeat(3,var(--masonry-w-md))]
+    lg:grid-cols-[repeat(3,var(--masonry-w-lg))]
+    xl:grid-cols-[repeat(3,var(--masonry-w-xl))]
   `}
 >
   {
-    columns.map(col => (
-      <div class="flex flex-col gap-8">
-        {
-          col.map(img => (
-            <div class="
-              border-12 border-white rounded-lg
-              transition duration-200
-              hover:scale-105
-              shadow-md hover:shadow-lg
-            ">
-              <a href={`/photos`}>
-                <Image { ...img } class="object-scale-down"/>
-              </a>
-            </div>
-          ))
-        }
-      </div>
+    photos.map((img, i) => (
+      <figure
+        style={`
+          --masonry-span-sm:${calcSpan(sm, img.src.height, img.src.width) + 2};
+          --masonry-span-md:${calcSpan(md, img.src.height, img.src.width) + 2};
+          --masonry-span-lg:${calcSpan(lg, img.src.height, img.src.width) + 2};
+          --masonry-span-xl:${calcSpan(xl, img.src.height, img.src.width) + 2};
+          --masonry-h-sm:calc(var(--masonry-gap) * ${calcSpan(sm, img.src.height, img.src.width)});
+          --masonry-h-md:calc(var(--masonry-gap) * ${calcSpan(md, img.src.height, img.src.width)});
+          --masonry-h-lg:calc(var(--masonry-gap) * ${calcSpan(lg, img.src.height, img.src.width)});
+          --masonry-h-xl:calc(var(--masonry-gap) * ${calcSpan(xl, img.src.height, img.src.width)});
+        `}
+        class="
+          overflow-clip
+          transition duration-350
+          hover:scale-105
+          sm:row-[span_var(--masonry-span-sm)]
+          md:row-[span_var(--masonry-span-md)]
+          lg:row-[span_var(--masonry-span-lg)]
+          xl:row-[span_var(--masonry-span-xl)]
+          sm:h-[var(--masonry-h-sm)]
+          md:h-[var(--masonry-h-md)]
+          lg:h-[var(--masonry-h-lg)]
+          xl:h-[var(--masonry-h-xl)]
+        "
+      >
+        <a href={`/photos/${i + 1}`}>
+          <Image { ...img } class="object-contain"/>
+        </a>
+      </figure>
     ))
   }
 </Page>
