@@ -3,13 +3,31 @@ import { Image } from "astro:assets";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 
+const columns = [[], [], []];
+photos.forEach((img, i) => columns[i % 3].push(img));
 ---
 
 <Page
   title="Photos"
-  class="flex flex-col justify-center items-center"
+  class={`
+    gap-8
+    grid grid-cols-3
+    place-items-center place-content-evenly
+  `}
 >
   {
-    photos.map(attrs => <Image { ...attrs }/>)
+    columns.map(col => (
+      <div class="flex flex-col gap-8">
+        {
+          col.map(img => (
+            <div>
+              <a href={`/photos`}>
+                <Image { ...img } class="object-scale-down"/>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    ))
   }
 </Page>
