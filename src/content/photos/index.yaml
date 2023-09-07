@@ -1,9 +1,12 @@
 - src: ./philly-purple.png
   alt: Philadelphia with a purple skyline
 
-- src: ./philly-night.png
+- src: ./muttom-beach.png
+
+- src: ./red-tree-2.png
+
+- src: ./traffic-jam.png
 
 - src: ./fake-plant.png
 
-- src: ./muttom-beach.png
-
+- src: ./philly-night.png
