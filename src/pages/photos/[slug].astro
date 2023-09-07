@@ -1,0 +1,18 @@
+---
+import { Image } from "astro:assets";
+import Page from "@/layouts/MainLayout.astro";
+import { photos } from "@/content";
+
+export function getStaticPaths() {
+  return photos.map((_, i) => ({ params: { slug: (i + 1) } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<Page
+  title="Page not found"
+  class="flex flex-col justify-center items-center"
+>
+  <Image { ...photos[slug] }
+</Page>
