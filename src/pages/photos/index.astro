@@ -17,25 +17,25 @@ import { photos } from "@/content";
 /** Size of the row tracks in px. */
 const TRACK = 16;
 
-const validateLength = (width: number) => {
-  if (width % TRACK === 0) return width;
+const validateSize = (size: number) => {
+  if (size % TRACK === 0) return size;
   throw new Error(`
-    The given length (${width}) must be evenly divisible by the constant "TRACK" (${TRACK}).
-    > ${width} % ${TRACK} = ${width % TRACK}
-    Hint: use ${width - (width % TRACK)}
+    The given size (${size}) must be evenly divisible by the constant "TRACK" (${TRACK}).
+    > ${size} % ${TRACK} = ${size % TRACK}
+    Hint: use ${size - (size % TRACK)}
   `);
 }
 
 /** Gap between elements and columns. */
-const GUTTER = validateLength(32);
+const GUTTER = validateSize(32);
 
 /** Column widths for different breakpoints. */
 const COL_WIDTH = {
-  SM: validateLength(288),
-  MD: validateLength(336),
-  LG: validateLength(304),
-  XL: validateLength(384),
-  "2XL": validateLength(480),
+  SM: validateSize(288),
+  MD: validateSize(336),
+  LG: validateSize(304),
+  XL: validateSize(384),
+  "2XL": validateSize(480),
 };
 
 /** Returns a height directly proportional to the given width. */
