@@ -27,6 +27,37 @@ const xl = 24 * gap;
 
 const calcSpan = (size: number, h: number, w: number) => Math.floor(((size * h)/w)/gap);
 ---
+<style>
+/* Copied from https://antfu.me/posts/sliding-enter-animation */
+@keyframes enter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px)
+  }
+
+  to {
+    opacity: 1;
+    transform: none
+  }
+}
+
+[data-animate] {
+  --stagger: 0;
+  --delay: 120ms;
+  --start: 0ms;
+}
+
+@media (prefers-reduced-motion:no-preference) {
+  [data-animate] {
+    animation: enter .6s both;
+    animation-delay: calc(var(--stagger) * var(--delay) + var(--start));
+  }
+}
+
+[data-animation-controller=false] [data-animate] {
+  animation: none;
+}
+</style>
 
 <Page
   title="Photos"
@@ -51,7 +82,9 @@ const calcSpan = (size: number, h: number, w: number) => Math.floor(((size * h)/
   {
     photos.map((img, i) => (
       <figure
+        data-animate
         style={`
+          --stagger:${i + 1};
           --masonry-span-sm:${calcSpan(sm, img.src.height, img.src.width) + 2};
           --masonry-span-md:${calcSpan(md, img.src.height, img.src.width) + 2};
           --masonry-span-lg:${calcSpan(lg, img.src.height, img.src.width) + 2};
