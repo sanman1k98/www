@@ -38,13 +38,7 @@ const COL_WIDTH = {
   "2XL": validateLength(480),
 };
 
-/**
- * Returns a proportional height for the given width.
- *
- * @param scaledWidth - a width to derive the scaled height from
- * @param origHeight - original height
- * @param origWidth - original width
- */
+/** Returns a height directly proportional to the given width. */
 const getScaledHeight = (
   scaledWidth: number,
   origHeight: number,
