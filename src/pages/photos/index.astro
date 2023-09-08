@@ -14,18 +14,68 @@ import { photos } from "@/content";
  * how many rows it must span.
  */
 
-/**
- * Size of the `grid-auto-rows` in px.
- *
- * Also used to calculate gaps between items and columns.
- */
-const gap = 16;
-const sm = 19 * gap;
-const md = 14 * gap;
-const lg = 19 * gap;
-const xl = 24 * gap;
+/** Size of the row tracks in px. */
+const TRACK = 16;
 
-const calcSpan = (size: number, h: number, w: number) => Math.floor(((size * h)/w)/gap);
+const validateLength = (width: number) => {
+  if (width % TRACK === 0) return width;
+  throw new Error("`width` must be evenly divisible by `TRACK`");
+}
+
+/** Gap between elements and columns. */
+const GUTTER = validateLength(48);
+
+/** Column widths for different breakpoints. */
+const COL_WIDTH = {
+  SM: validateLength(304),
+  MD: validateLength(224),
+  LG: validateLength(224),
+  XL: validateLength(384),
+};
+
+/**
+ * Returns a proportional height for the given width.
+ *
+ * @param scaledWidth - a width to derive the scaled height from
+ * @param origHeight - original height
+ * @param origWidth - original width
+ */
+const getScaledHeight = (
+  scaledWidth: number,
+  origHeight: number,
+  origWidth: number
+) => ((scaledWidth * origHeight)/origWidth);
+
+/**
+ * Calculates the number of rows that can span within an element with the given
+ * height.
+ */
+const calcSpan = (height: number) => Math.floor(height/TRACK);
+
+/**
+ * Returns a string value for an element's "style" attribute with the given
+ * dimensions.
+ */
+function generateMasonryStyles(height, width) {
+  let styles = "";
+  // Create CSS variables for each column width and breakpoint
+  for (const [breakpoint, colWidth] of Object.entries(COL_WIDTH)) {
+    const bp = breakpoint.toLowerCase();
+
+    // An exact height value directly proportional to the new width
+    const scaledHeight = getScaledHeight(colWidth, height, width);
+
+    // Number of rows to span while mostly preserving aspect ratio
+    const rowSpan = calcSpan(scaledHeight);
+
+    // The height of the element aligned to the track
+    styles += `--masonry-h-${bp}:${rowSpan * TRACK}px;`;
+
+    // Number of rows to span plus additional rows for vertical spacing
+    styles += `--masonry-span-${bp}:${rowSpan + (GUTTER/TRACK)};`;
+  }
+  return styles;
+}
 ---
 <style>
 /* Copied from https://antfu.me/posts/sliding-enter-animation */
@@ -62,17 +112,19 @@ const calcSpan = (size: number, h: number, w: number) => Math.floor(((size * h)/
 <Page
   title="Photos"
   style={`
-    --masonry-gap:${gap}px;
-    --masonry-w-sm:${sm}px;
-    --masonry-w-md:${md}px;
-    --masonry-w-lg:${lg}px;
-    --masonry-w-xl:${xl}px;
+    --masonry-track:${TRACK}px;
+    --masonry-gutter:${GUTTER}px;
+    --masonry-w-sm:${COL_WIDTH.SM}px;
+    --masonry-w-md:${COL_WIDTH.MD}px;
+    --masonry-w-lg:${COL_WIDTH.LG}px;
+    --masonry-w-xl:${COL_WIDTH.XL}px;
   `}
   class={`
-    pt-30 md:pt-36 lt-sm:gap-y-8 sm:gap-x-8
+    pt-30 md:pt-36 lt-sm:gap-y-8 
     justify-center mx-auto px-8
     grid grid-cols-1
-    sm:auto-rows-[var(--masonry-gap)]
+    sm:gap-x-[var(--masonry-gutter)]
+    sm:auto-rows-[var(--masonry-track)]
     sm:grid-cols-[repeat(2,var(--masonry-w-sm))]
     md:grid-cols-[repeat(3,var(--masonry-w-md))]
     lg:grid-cols-[repeat(3,var(--masonry-w-lg))]
@@ -80,40 +132,34 @@ const calcSpan = (size: number, h: number, w: number) => Math.floor(((size * h)/
   `}
 >
   {
-    photos.map((img, i) => (
-      <figure
-        data-animate
-        style={`
-          --stagger:${i + 1};
-          --masonry-span-sm:${calcSpan(sm, img.src.height, img.src.width) + 2};
-          --masonry-span-md:${calcSpan(md, img.src.height, img.src.width) + 2};
-          --masonry-span-lg:${calcSpan(lg, img.src.height, img.src.width) + 2};
-          --masonry-span-xl:${calcSpan(xl, img.src.height, img.src.width) + 2};
-          --masonry-h-sm:calc(var(--masonry-gap) * ${calcSpan(sm, img.src.height, img.src.width)});
-          --masonry-h-md:calc(var(--masonry-gap) * ${calcSpan(md, img.src.height, img.src.width)});
-          --masonry-h-lg:calc(var(--masonry-gap) * ${calcSpan(lg, img.src.height, img.src.width)});
-          --masonry-h-xl:calc(var(--masonry-gap) * ${calcSpan(xl, img.src.height, img.src.width)});
-        `}
-        class="
-          overflow-clip
-          rouned-md border-white border-12
-          transition duration-350
-          hover:scale-105
-          shadow-md hover:shadow-lg
-          sm:row-[span_var(--masonry-span-sm)]
-          md:row-[span_var(--masonry-span-md)]
-          lg:row-[span_var(--masonry-span-lg)]
-          xl:row-[span_var(--masonry-span-xl)]
-          sm:h-[var(--masonry-h-sm)]
-          md:h-[var(--masonry-h-md)]
-          lg:h-[var(--masonry-h-lg)]
-          xl:h-[var(--masonry-h-xl)]
-        "
-      >
-        <a href={`/photos/${i + 1}`}>
-          <Image { ...img } class="object-contain"/>
-        </a>
-      </figure>
-    ))
+    photos.map((img, i) => {
+      const { height, width } = img.src;
+      return (
+        <figure
+          data-animate
+          style={`
+            --stagger:${i + 1};${generateMasonryStyles(height, width)}
+          `}
+          class="
+            overflow-clip
+            bg-white border-white border-12
+            transition duration-350
+            group shadow-lg hover:shadow-xl
+            sm:row-[span_var(--masonry-span-sm)]
+            md:row-[span_var(--masonry-span-md)]
+            lg:row-[span_var(--masonry-span-lg)]
+            xl:row-[span_var(--masonry-span-xl)]
+            sm:h-[var(--masonry-h-sm)]
+            md:h-[var(--masonry-h-md)]
+            lg:h-[var(--masonry-h-lg)]
+            xl:h-[var(--masonry-h-xl)]
+          "
+        >
+          <a href={`/photos/${i + 1}`} class="h-full">
+            <Image { ...img } class="object-contain"/>
+          </a>
+        </figure>
+      )
+    })
   }
 </Page>
