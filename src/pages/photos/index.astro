@@ -35,6 +35,7 @@ const COL_WIDTH = {
   MD: validateLength(224),
   LG: validateLength(224),
   XL: validateLength(384),
+  "2XL": validateLength(480),
 };
 
 /**
@@ -110,6 +111,7 @@ function generateMasonryStyles(height, width) {
     --masonry-w-md:${COL_WIDTH.MD}px;
     --masonry-w-lg:${COL_WIDTH.LG}px;
     --masonry-w-xl:${COL_WIDTH.XL}px;
+    --masonry-w-2xl:${COL_WIDTH["2XL"]}px;
   `}
   class={`
     pt-30 md:pt-36 lt-sm:gap-y-8 
@@ -121,6 +123,7 @@ function generateMasonryStyles(height, width) {
     md:grid-cols-[repeat(3,var(--masonry-w-md))]
     lg:grid-cols-[repeat(3,var(--masonry-w-lg))]
     xl:grid-cols-[repeat(3,var(--masonry-w-xl))]
+    2xl:grid-cols-[repeat(3,var(--masonry-w-2xl))]
   `}
 >
   {
@@ -141,10 +144,12 @@ function generateMasonryStyles(height, width) {
             md:row-[span_var(--masonry-span-md)]
             lg:row-[span_var(--masonry-span-lg)]
             xl:row-[span_var(--masonry-span-xl)]
+            2xl:row-[span_var(--masonry-span-2xl)]
             sm:h-[var(--masonry-h-sm)]
             md:h-[var(--masonry-h-md)]
             lg:h-[var(--masonry-h-lg)]
             xl:h-[var(--masonry-h-xl)]
+            2xl:h-[var(--masonry-h-2xl)]
           "
         >
           <a href={`/photos/${i + 1}`} class="h-full">
