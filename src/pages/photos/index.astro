@@ -31,9 +31,9 @@ const GUTTER = validateLength(32);
 
 /** Column widths for different breakpoints. */
 const COL_WIDTH = {
-  SM: validateLength(304),
-  MD: validateLength(224),
-  LG: validateLength(224),
+  SM: validateLength(288),
+  MD: validateLength(336),
+  LG: validateLength(304),
   XL: validateLength(384),
   "2XL": validateLength(480),
 };
@@ -120,7 +120,7 @@ function generateMasonryStyles(height, width) {
     sm:gap-x-[var(--masonry-gutter)]
     sm:auto-rows-[var(--masonry-track)]
     sm:grid-cols-[repeat(2,var(--masonry-w-sm))]
-    md:grid-cols-[repeat(3,var(--masonry-w-md))]
+    md:grid-cols-[repeat(2,var(--masonry-w-md))]
     lg:grid-cols-[repeat(3,var(--masonry-w-lg))]
     xl:grid-cols-[repeat(3,var(--masonry-w-xl))]
     2xl:grid-cols-[repeat(3,var(--masonry-w-2xl))]
