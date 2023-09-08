@@ -78,34 +78,22 @@ function generateMasonryStyles(height, width) {
 }
 ---
 <style>
-/* Copied from https://antfu.me/posts/sliding-enter-animation */
-@keyframes enter {
-  0% {
-    opacity: 0;
-    transform: translateY(10px)
-  }
-
-  to {
-    opacity: 1;
-    transform: none
-  }
+/* Adapted from https://antfu.me/posts/sliding-enter-animation */
+@keyframes slide-enter {
+  0% { opacity: 0; transform: translateY(10px) }
+  to { opacity: 1; transform: translateY(0) }
 }
-
-[data-animate] {
-  --stagger: 0;
-  --delay: 120ms;
-  --start: 0ms;
+[data-slide-enter] {
+  --enter-step: 0;
+  --enter-delay: 120ms;
+  --enter-start: 0ms;
 }
-
+[data-slide-controller=false] [data-slide-enter] { animation: none; }
 @media (prefers-reduced-motion:no-preference) {
-  [data-animate] {
-    animation: enter .6s both;
-    animation-delay: calc(var(--stagger) * var(--delay) + var(--start));
+  [data-slide-enter] {
+    animation: slide-enter .6s both 1;
+    animation-delay: calc(var(--enter-step) * var(--enter-delay) + var(--enter-start));
   }
-}
-
-[data-animation-controller=false] [data-animate] {
-  animation: none;
 }
 </style>
 
@@ -136,9 +124,9 @@ function generateMasonryStyles(height, width) {
       const { height, width } = img.src;
       return (
         <figure
-          data-animate
+          data-slide-enter
           style={`
-            --stagger:${i + 1};${generateMasonryStyles(height, width)}
+            --enter-step:${i + 1};${generateMasonryStyles(height, width)}
           `}
           class="
             overflow-clip
