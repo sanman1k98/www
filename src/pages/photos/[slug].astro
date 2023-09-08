@@ -4,20 +4,20 @@ import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 
 export function getStaticPaths() {
-  return photos.map((img, i) =>
+  return photos.map((image, index) =>
     ({
-      params: { slug: (i + 1) },
-      props: { img },
+      params: { slug: (index + 1) },
+      props: { image, index },
     })
   );
 }
 
-const { img } = Astro.props;
+const { image, index } = Astro.props;
 ---
 
 <Page
-  title={img.alt}
+  title={image.alt}
   class="flex flex-col justify-center items-center"
 >
-  <Image { ...img }
+  <Image { ...image }
 </Page>
