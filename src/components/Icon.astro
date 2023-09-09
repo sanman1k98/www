@@ -2,10 +2,14 @@
 const icons = {
   github: "i-ph-github-logo-duotone",
   linkedin: "i-ph-linkedin-logo-duotone",
-} as const;
+};
+
+type Icon = keyof typeof icons;
 
 type Props = {
-  name: keyof typeof icons,
+  // `(string & {})` allows passing of any string while also getting
+  // autocomplete for the keys of `icons`.
+  name: Icon | (string & {}),
   label?: string,
   class?: string,
 };
@@ -16,6 +20,6 @@ const a11y = Astro.props.label
 ---
 
 <div { ... a11y } class:list={[
-  icons[Astro.props.name],
+  icons[Astro.props.name as Icon],
   Astro.props.class,
 ]}/>
