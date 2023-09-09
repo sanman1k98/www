@@ -1,18 +1,24 @@
 ---
+import type {
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+  GetStaticPaths
+} from "astro";
 import { Image } from "astro:assets";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 
-export function getStaticPaths() {
-  return photos.map((image, index) =>
-    ({
-      params: { slug: (index + 1) },
-      props: { image, index },
-    })
-  );
-}
+export const getStaticPaths = (() => 
+  photos.map((image, index) => ({
+    params: { slug: (index + 1) },
+    props: { image, index },
+  }))
+) satisfies GetStaticPaths;
 
-const { image, index } = Astro.props;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+
+const { image } = Astro.props;
 ---
 
 <Page
