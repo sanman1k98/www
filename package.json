@@ -2,11 +2,11 @@
   "type": "module",
   "private": "true",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
+    "dev": "bun --bun run astro dev",
+    "start": "bun --bun run astro dev",
     "check": "bun --bun run astro check && tsc --noEmit",
-    "build": "astro build",
-    "preview": "astro preview",
+    "build": "bun --bun run astro build",
+    "preview": "bun --bun run astro preview",
     "astro": "astro"
   },
   "dependencies": {
