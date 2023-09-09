@@ -55,7 +55,7 @@ const calcSpan = (height: number) => Math.floor(height/TRACK);
  * Returns a string value for an element's "style" attribute with the given
  * dimensions.
  */
-function generateMasonryStyles(height, width) {
+function generateMasonryStyles(height: number, width: number) {
   let styles = "";
   // Create CSS variables for each column width and breakpoint
   for (const [breakpoint, colWidth] of Object.entries(COL_WIDTH)) {
