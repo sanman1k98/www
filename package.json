@@ -2,6 +2,7 @@
   "type": "module",
   "private": "true",
   "scripts": {
+    "prepare": "bun --bun run panda codegen",
     "dev": "bun --bun run astro dev",
     "start": "bun --bun run astro dev",
     "check": "bun --bun run astro check && tsc --noEmit",
@@ -23,6 +24,8 @@
   "devDependencies": {
     "@astrojs/check": "^0.2.0",
     "@astrojs/ts-plugin": "^1.1.3",
+    "@pandacss/astro": "^0.14.0",
+    "@pandacss/dev": "^0.14.0",
     "@types/node": "^20.4.2",
     "bun-types": "^1.0.1",
     "typescript": "^5.2.2"

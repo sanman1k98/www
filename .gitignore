@@ -23,3 +23,4 @@ pnpm-debug.log*
 
 # secret content e.g., contact info
 src/content/info/secret/
+styled-system
