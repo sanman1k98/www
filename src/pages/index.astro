@@ -1,6 +1,10 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "@/layouts/MainLayout.astro";
 import Memoji from "@/components/Memoji.astro";
+import { photos } from "@/content";
+
+const photoSamples = photos.slice(0, 5);
 ---
 
 <Layout
@@ -29,11 +33,64 @@ import Memoji from "@/components/Memoji.astro";
     </div>
   </section>
 
-  <section class="min-h-[75vh] flex flex-col place-content-center">
-    <h2 class="font-quicksand text-xl text-center">I also like taking pictures.</h2>
+  <hr class="-mt-[15vh] w-80%"/>
+
+  <section class="my-[15vh] mx-4">
+    <h2 class="
+      font-quicksand font-500
+      text-center mb-4
+      text-xl sm:text-3xl md:text-4xl lg:text-6xl
+    ">
+      I'm a software developer and<br/>
+      <b class="text-[1.25em]">I love programming!</b>
+    </h2>
   </section>
 
-  <section class="min-h-[75vh] flex flex-col place-content-center">
-    <h2 class="font-quicksand text-xl text-center">You can find me on these platforms.</h2>
+  <hr class="w-80%"/>
+
+  <section class="mt-24">
+    <h2 class="
+      font-quicksand font-500
+      text-center mb-8
+      text-xl sm:text-3xl md:text-4xl
+    ">
+      I also like taking pictures
+    </h2>
+    <div class="
+      flex items-center gap-6
+      px-8 pb-8
+      w-full
+      h-50 sm:h-56 md:h-62 lg:h-68
+      overflow-x-auto
+    ">
+      {
+        photoSamples.map(({ slug: _, ...attrs }) => (
+          <figure class="shrink-0 border-white border-12 shadow-md h-full">
+            <Image { ...attrs } class={`
+              object-cover h-full
+              w-50 sm:w-60 md:w-72 lg:w-96
+            `}/>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <hr class="my-[15vh] w-80%"/>
+
+  <section class="mx-4">
+    <h2 class="
+      font-quicksand font-500
+      text-center mb-8
+      text-xl sm:text-3xl md:text-4xl
+    ">
+      <a href="/contact" class="
+        transition duration-200 hover:text-sky-500
+        underline underline-offset-2 decoration-0 decoration-transparent
+        hover:decoration-current hover:decoration-1
+      ">
+        You can find me online<span class="ml-1 i-ph-arrow-right"></span>
+      </a>
+    </h2>
   </section>
 </Layout>
