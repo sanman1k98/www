@@ -9,26 +9,27 @@ import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 
 export const getStaticPaths = (() => 
-  photos.map((image, index) => ({
-    params: { slug: (index + 1) },
-    props: { image, index },
+  photos.map(photo => ({
+    params: { slug: photo.slug },
+    props: { photo },
   }))
 ) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 
-const { image } = Astro.props;
+const { photo } = Astro.props;
+const { slug: _, ...attrs } = photo;
 ---
 
 <Page
-  title={image.alt}
+  title={photo.alt}
   class="flex flex-col items-center"
 >
   <figure class="
     mt-30 md:mt-36 mx-4 border-white border-12
     shadow-xl
   ">
-    <Image { ...image }/>
+    <Image { ...attrs }/>
   </figure>
 </Page>

@@ -34,7 +34,11 @@ export const collections = {
         }),
         // Setting `alt=""` tells screen readers to ignore the image
         alt: z.string().default(""),
-      })
-    ),
+      }))
+      .transform(
+        photos => photos.map(
+          (photo, index) => ({ slug: index + 1, ...photo })
+        )
+      ),
   }),
 };

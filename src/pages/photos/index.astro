@@ -121,8 +121,9 @@ function generateMasonryStyles(height: number, width: number) {
   `}
 >
   {
-    photos.map((img, i) => {
-      const { height, width } = img.src;
+    photos.map((photo, i) => {
+      const { slug, ...attrs } = photo;
+      const { height, width } = photo.src;
       return (
         <figure
           data-slide-enter
@@ -146,8 +147,8 @@ function generateMasonryStyles(height: number, width: number) {
             2xl:h-[var(--masonry-h-2xl)]
           "
         >
-          <a href={`/photos/${i + 1}`} class="h-full">
-            <Image { ...img } class="object-contain"/>
+          <a href={`/photos/${slug}`} class="h-full">
+            <Image { ...attrs } class="object-contain"/>
           </a>
         </figure>
       )
