@@ -85,11 +85,18 @@ const photoSamples = photos.slice(0, 5);
       text-xl sm:text-3xl md:text-4xl
     ">
       <a href="/contact" class="
+        group
         transition duration-200 hover:text-sky-500
-        underline underline-offset-2 decoration-0 decoration-transparent
-        hover:decoration-current hover:decoration-1
+        underline underline-offset-4 decoration-0 decoration-transparent
+        hover:decoration-current hover:decoration-2
       ">
-        You can find me online<span class="ml-1 i-ph-arrow-right"></span>
+        You can find me online
+        <span class="
+          ml-1 i-ph-arrow-right
+          transition duration-200
+          group-hover:translate-x-2
+          group-hover:text-sky-800
+        "></span>
       </a>
     </h2>
   </section>
