@@ -2,7 +2,6 @@
   "type": "module",
   "private": "true",
   "scripts": {
-    "prepare": "bun --bun run panda codegen",
     "dev": "bun --bun run astro dev",
     "start": "bun --bun run astro dev",
     "check": "bun --bun run astro check && tsc --noEmit",
