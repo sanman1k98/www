@@ -10,7 +10,6 @@ git clone --recurse-submodules https://github.com/sanman1k98/www.git
 
 ```
 /
-├── jxa/                  # macOS scripts and automation
 ├── public/
 │   ├── fonts/
 │   └── ...
@@ -18,6 +17,7 @@ git clone --recurse-submodules https://github.com/sanman1k98/www.git
 │   ├── content/
 │   │   ├── cv/ -> https://github.com/sanman1k98/cv.git
 │   │   ├── info/
+│   │   ├── photos/
 │   │   └── config.ts     # Defines collections using "src/schemas"
 │   ├── components/
 │   │   └── ...
@@ -26,15 +26,16 @@ git clone --recurse-submodules https://github.com/sanman1k98/www.git
 │   ├── pages/
 │   │   ├── resume/       # Uses "cv" collection entries
 │   │   └── ...
-│   │── schemas/          # Zod schemas
+│   ├── schemas/          # Zod schemas
 │   │   ├── cv.ts
 │   │   ├── env.ts        # Used in "src/utils"
 │   │   ├── info.ts
 │   │   └── ...
-│   │── utils/
+│   ├── utils/
 │   │   └── ...
 │   └── content.ts        # Collection entries and helpers
-└── package.json
+├── package.json
+└── ...
 ```
 
 ## 🧞 Commands
