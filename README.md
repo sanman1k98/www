@@ -6,6 +6,10 @@
 git clone --recurse-submodules https://github.com/sanman1k98/www.git
 ```
 
+<!-- TODO: suggest using a dummy "cv" collection to build the project for those without access to the private submodule -->
+> [!NOTE]
+> This project uses a private git submodule for the "cv" content collection which is used to generate the `/resume` page.
+
 ## 🚀 Project Structure
 
 ```
