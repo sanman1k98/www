@@ -7,6 +7,14 @@ import {
 } from "unocss";
 
 export default defineConfig({
+  shortcuts: {
+    link: `
+      transition duration-200
+      underline underline-offset-[0.1em]
+      decoration-0 decoration-transparent
+      hover:text-sky-500 hover:decoration-current hover:decoration-[0.07em]
+    `,
+  },
   transformers: [transformerDirectives()],
   presets: [
     presetUno(),
