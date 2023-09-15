@@ -27,10 +27,8 @@ const pages = links.pages.map(page => {
           <li>
             <a
               class:list={[
-                "py-1 px-2",
-                "transition duration-200 hover:text-sky-500",
-                "underline underline-offset-2 decoration-0 decoration-transparent hover:decoration-current hover:decoration-1",
-                link["aria-current"] && "text-sky-500",
+                "py-1 px-2 link",
+                link["aria-current"] && "text-sky-600",
               ]}
               { ...attrs }
             >
