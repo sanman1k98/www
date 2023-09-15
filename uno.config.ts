@@ -29,7 +29,7 @@ export default defineConfig({
     presetWebFonts({
       provider: "none",
       fonts: {
-        mono: ["Cascadia Code PL"],
+        mono: ["Cascadia Code PL", "monospace"],
         quicksand: ["Quicksand Variable", "sans-serif"],
         redhat: ["Red Hat Display Variable", "sans-serif"],
       },
