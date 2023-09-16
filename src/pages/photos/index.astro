@@ -4,15 +4,64 @@ import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 
 /**
- * Horizontally flowing masonry layout using pure CSS.
+ * Horizontally flowing masonry layout using (mostly) CSS.
  *
- * Since the dimensions of the items in the layout are known, an implicitly
- * created CSS grid with fixed-width columns and short row tracks can be used
- * to emulate a masonry layout.
+ * Use CSS grid to emulate a masonry layout. Calculate dimensions of each item
+ * in the layout using fixed absolute units, then convert them into relative
+ * units that scale with the viewport width.
  *
- * Use the aspect ratio of each item along with its column width to calculate
- * how many rows it must span.
+ * NOTE: calculations are done only for two and three column layouts.
  */
+
+// Row track size in pixels
+const trackSize = 12;
+
+const gapFactor = 2;
+
+// Minimum viewport widths in pixels
+const twoColBreakpoint = 640;     // @screen sm
+const threeColBreakpoint = 1280;  // @screen xl
+
+// Exact column widths at minimum breakpoints in pixels
+const smColWidth = 240;
+const xlColWidth = 336;
+
+const calcSmSpan = (h: number, w: number) => {
+  const scaledHeight = (smColWidth * h) / w;
+  return Math.floor(scaledHeight / trackSize);
+};
+
+const calcXlSpan = (h: number, w: number) => {
+  const scaledHeight = (xlColWidth * h) / w;
+  return Math.floor(scaledHeight / trackSize);
+};
+
+const smTrack = 100 / (twoColBreakpoint / trackSize);
+const xlTrack = 100 / (threeColBreakpoint / trackSize);
+
+const fluidValues = {
+  /** Used to create gaps between items and columns */
+  "--masonry-gap-factor": 2,
+  "--masonry-sm-track": `${100 / (twoColBreakpoint / trackSize)}vw`,
+  "--masonry-xl-track": `${100 / (threeColBreakpoint / trackSize)}vw`,
+  "--masonry-sm-col": `${100 / (twoColBreakpoint / smColWidth)}vw`,
+  "--masonry-xl-col": `${100 / (threeColBreakpoint / xlColWidth)}vw`,
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /** Size of the row tracks in px. */
 const TRACK = 16;
@@ -89,18 +138,53 @@ function generateMasonryStyles(height: number, width: number) {
   return styles;
 }
 ---
-<style>
+<style define:vars={fluidValues} is:global>
+main {
+  display: grid;
+  grid-template-columns: fit-content;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  main {
+    grid-auto-rows: var(--masonry-sm-track);
+    grid-template-columns: repeat(2, var(--masonry-sm-col));
+    column-gap: calc(var(--masonry-gap-factor) * var(--masonry-sm-track));
+  }
+
+  .masonry-item {
+    grid-row: span var(--masonry-sm-span);
+    height: var(--masonry-sm-h);
+  }
+}
+
+@media (min-width: 1280px) {
+  main {
+    grid-auto-rows: var(--masonry-xl-track);
+    grid-template-columns: repeat(3, var(--masonry-xl-col));
+    column-gap: calc(var(--masonry-gap-factor) * var(--masonry-xl-track));
+  }
+
+  .masonry-item {
+    grid-row: span var(--masonry-xl-span);
+    height: var(--masonry-xl-h);
+  }
+}
+
 /* Adapted from https://antfu.me/posts/sliding-enter-animation */
 @keyframes slide-enter {
   0% { opacity: 0; transform: translateY(10px) }
   to { opacity: 1; transform: translateY(0) }
 }
+
 [data-slide-enter] {
   --enter-step: 0;
   --enter-delay: 90ms;
   --enter-start: 0ms;
 }
+
 [data-slide-controller=false] [data-slide-enter] { animation: none; }
+
 @media (prefers-reduced-motion:no-preference) {
   [data-slide-enter] {
     animation: slide-enter .6s both 1;
@@ -111,49 +195,37 @@ function generateMasonryStyles(height: number, width: number) {
 
 <Page
   title="Photos"
-  style={masonryStyles}
-  class={`
-    pt-30 md:pt-36 lt-sm:gap-y-8 
-    justify-center mx-auto px-8
-    grid grid-cols-1
-    sm:gap-x-[var(--masonry-gutter)]
-    sm:auto-rows-[var(--masonry-track)]
-    sm:grid-cols-[repeat(2,var(--masonry-w-sm))]
-    md:grid-cols-[repeat(2,var(--masonry-w-md))]
-    lg:grid-cols-[repeat(3,var(--masonry-w-lg))]
-    xl:grid-cols-[repeat(3,var(--masonry-w-xl))]
-    2xl:grid-cols-[repeat(3,var(--masonry-w-2xl))]
-  `}
+  style={fluidValues}
+  class="pt-30 md:pt-36 lt-sm:px-[8vw] lt-sm:gap-y-8"
 >
   {
     photos.map((photo, i) => {
       const { slug, ...attrs } = photo;
       const { height, width } = photo.src;
+      const [smSpan, xlSpan] = [
+        calcSmSpan(height, width),
+        calcXlSpan(height, width),
+      ];
       return (
         <figure
           data-slide-enter
-          style={`
-            --enter-step:${i + 1};${generateMasonryStyles(height, width)}
-          `}
+          style={{
+            "--enter-step": i + 1,
+            "--masonry-sm-span": smSpan + gapFactor,
+            "--masonry-sm-h": `${smSpan * smTrack}vw`,
+            "--masonry-xl-span": xlSpan + gapFactor,
+            "--masonry-xl-h": `${xlSpan * xlTrack}vw`,
+          }}
           class="
+            masonry-item
             overflow-clip
             bg-white border-white border-12
             transition duration-350
             shadow-lg hover:shadow-xl
-            sm:row-[span_var(--masonry-span-sm)]
-            md:row-[span_var(--masonry-span-md)]
-            lg:row-[span_var(--masonry-span-lg)]
-            xl:row-[span_var(--masonry-span-xl)]
-            2xl:row-[span_var(--masonry-span-2xl)]
-            sm:h-[var(--masonry-h-sm)]
-            md:h-[var(--masonry-h-md)]
-            lg:h-[var(--masonry-h-lg)]
-            xl:h-[var(--masonry-h-xl)]
-            2xl:h-[var(--masonry-h-2xl)]
           "
         >
-          <a href={`/photos/${slug}`} class="h-full">
-            <Image { ...attrs } class="object-contain"/>
+          <a href={`/photos/${slug}`}>
+            <Image { ...attrs } class="object-cover h-full w-full"/>
           </a>
         </figure>
       )
