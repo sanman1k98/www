@@ -38,17 +38,17 @@ import { photos } from "@/content";
 
 /* Begin masonry layout styles */
 main {
-  --masonry-gap-factor: 2;
   display: grid;
-  grid-template-columns: 80vw;
+  grid-template-columns: 85vw;
   justify-content: center;
-  gap: 7.5vw
+  gap: 6vw
 }
 
 @media (min-width: 640px) {
   main {
-    --masonry-track: 1.875;
-    --masonry-col: 37.5;
+    --masonry-track: 1;
+    --masonry-col: 45;
+    --masonry-gap-factor: 2;
     grid-auto-rows: calc(1vw * var(--masonry-track));
     grid-template-columns: repeat(2, calc(1vw * var(--masonry-col)));
     gap: 0 calc(1vw * calc(var(--masonry-gap-factor) * var(--masonry-track)));
@@ -62,8 +62,8 @@ main {
 
 @media (min-width: 1280px) {
   main {
-    --masonry-track: 0.9375;
-    --masonry-col: 26.25;
+    --masonry-track: 1;
+    --masonry-col: 28;
     grid-template-columns: repeat(3, calc(1vw * var(--masonry-col)));
   }
 }
