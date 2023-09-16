@@ -12,41 +12,6 @@ import { photos } from "@/content";
  *
  * NOTE: calculations are done only for two and three column layouts.
  */
-
-// Row track size in pixels
-const trackSize = 12;
-
-const gapFactor = 2;
-
-// Minimum viewport widths in pixels
-const twoColBreakpoint = 640;     // @screen sm
-const threeColBreakpoint = 1280;  // @screen xl
-
-// Exact column widths at minimum breakpoints in pixels
-const smColWidth = 240;
-const xlColWidth = 336;
-
-const calcSmSpan = (h: number, w: number) => {
-  const scaledHeight = (smColWidth * h) / w;
-  return Math.floor(scaledHeight / trackSize);
-};
-
-const calcXlSpan = (h: number, w: number) => {
-  const scaledHeight = (xlColWidth * h) / w;
-  return Math.floor(scaledHeight / trackSize);
-};
-
-const smTrack = 100 / (twoColBreakpoint / trackSize);
-const xlTrack = 100 / (threeColBreakpoint / trackSize);
-
-const fluidValues = {
-  /** Used to create gaps between items and columns */
-  "--masonry-gap-factor": 2,
-  "--masonry-sm-track": `${100 / (twoColBreakpoint / trackSize)}vw`,
-  "--masonry-xl-track": `${100 / (threeColBreakpoint / trackSize)}vw`,
-  "--masonry-sm-col": `${100 / (twoColBreakpoint / smColWidth)}vw`,
-  "--masonry-xl-col": `${100 / (threeColBreakpoint / xlColWidth)}vw`,
-};
 ---
 
 <style is:global>
@@ -71,6 +36,7 @@ const fluidValues = {
   }
 }
 
+/* Begin masonry layout styles */
 main {
   --masonry-gap-factor: 2;
   display: grid;
@@ -111,19 +77,11 @@ main {
     photos.map((photo, i) => {
       const { slug, ...attrs } = photo;
       const { height, width } = photo.src;
-      const [smSpan, xlSpan] = [
-        calcSmSpan(height, width),
-        calcXlSpan(height, width),
-      ];
       return (
         <div
           data-slide-enter
           style={{
             "--enter-step": i + 1,
-            "--masonry-sm-span": smSpan + gapFactor,
-            "--masonry-sm-h": `${smSpan * smTrack}vw`,
-            "--masonry-xl-span": xlSpan + gapFactor,
-            "--masonry-xl-h": `${xlSpan * xlTrack}vw`,
             "--ratio": height / width,
           }}
         >
