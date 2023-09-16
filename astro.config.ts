@@ -12,4 +12,7 @@ export default defineConfig({
       injectReset: true,
     }),
   ],
+  image: {
+    service: { entrypoint: "astro/assets/services/sharp" },
+  },
 });
