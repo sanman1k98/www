@@ -48,18 +48,20 @@ const fluidValues = {
   "--masonry-xl-col": `${100 / (threeColBreakpoint / xlColWidth)}vw`,
 };
 ---
+
 <style define:vars={fluidValues} is:global>
 main {
   display: grid;
-  grid-template-columns: fit-content;
+  grid-template-columns: 80vw;
   justify-content: center;
+  gap: 7.5vw
 }
 
 @media (min-width: 640px) {
   main {
     grid-auto-rows: var(--masonry-sm-track);
     grid-template-columns: repeat(2, var(--masonry-sm-col));
-    column-gap: calc(var(--masonry-gap-factor) * var(--masonry-sm-track));
+    gap: 0 calc(var(--masonry-gap-factor) * var(--masonry-sm-track));
   }
 
   .masonry-item {
@@ -72,7 +74,7 @@ main {
   main {
     grid-auto-rows: var(--masonry-xl-track);
     grid-template-columns: repeat(3, var(--masonry-xl-col));
-    column-gap: calc(var(--masonry-gap-factor) * var(--masonry-xl-track));
+    gap: 0 calc(var(--masonry-gap-factor) * var(--masonry-xl-track));
   }
 
   .masonry-item {
@@ -106,7 +108,7 @@ main {
 <Page
   title="Photos"
   style={fluidValues}
-  class="pt-30 md:pt-36 lt-sm:px-[8vw] lt-sm:gap-y-8"
+  class="pt-30 md:pt-36"
 >
   {
     photos.map((photo, i) => {
