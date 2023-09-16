@@ -72,6 +72,7 @@ const fluidValues = {
 }
 
 main {
+  --masonry-gap-factor: 2;
   display: grid;
   grid-template-columns: 80vw;
   justify-content: center;
@@ -80,34 +81,30 @@ main {
 
 @media (min-width: 640px) {
   main {
-    grid-auto-rows: var(--masonry-sm-track);
-    grid-template-columns: repeat(2, var(--masonry-sm-col));
-    gap: 0 calc(var(--masonry-gap-factor) * var(--masonry-sm-track));
+    --masonry-track: 1.875;
+    --masonry-col: 37.5;
+    grid-auto-rows: calc(1vw * var(--masonry-track));
+    grid-template-columns: repeat(2, calc(1vw * var(--masonry-col)));
+    gap: 0 calc(1vw * calc(var(--masonry-gap-factor) * var(--masonry-track)));
   }
 
   main > * {
-    grid-row: span var(--masonry-sm-span);
-    height: var(--masonry-sm-h);
+    grid-row: span calc(calc(var(--masonry-col) * var(--ratio)) / var(--masonry-track));
+    padding-block: calc(1vw * var(--masonry-track));
   }
 }
 
 @media (min-width: 1280px) {
   main {
-    grid-auto-rows: var(--masonry-xl-track);
-    grid-template-columns: repeat(3, var(--masonry-xl-col));
-    gap: 0 calc(var(--masonry-gap-factor) * var(--masonry-xl-track));
-  }
-
-  main > * {
-    grid-row: span var(--masonry-xl-span);
-    height: var(--masonry-xl-h);
+    --masonry-track: 0.9375;
+    --masonry-col: 26.25;
+    grid-template-columns: repeat(3, calc(1vw * var(--masonry-col)));
   }
 }
 </style>
 
 <Page
   title="Photos"
-  style={fluidValues}
   class="pt-30 md:pt-36"
 >
   {
@@ -119,7 +116,7 @@ main {
         calcXlSpan(height, width),
       ];
       return (
-        <figure
+        <div
           data-slide-enter
           style={{
             "--enter-step": i + 1,
@@ -127,18 +124,22 @@ main {
             "--masonry-sm-h": `${smSpan * smTrack}vw`,
             "--masonry-xl-span": xlSpan + gapFactor,
             "--masonry-xl-h": `${xlSpan * xlTrack}vw`,
+            "--ratio": height / width,
           }}
-          class="
-            overflow-clip
-            bg-white border-white border-12
-            transition duration-350
-            shadow-lg hover:shadow-xl
-          "
         >
-          <a href={`/photos/${slug}`}>
-            <Image { ...attrs } class="object-cover h-full w-full"/>
-          </a>
-        </figure>
+          <figure
+            class="
+              overflow-clip h-full
+              bg-white border-white border-12
+              transition duration-350
+              shadow-lg hover:shadow-xl
+            "
+          >
+            <a href={`/photos/${slug}`}>
+              <Image { ...attrs } class="object-cover h-full w-full"/>
+            </a>
+          </figure>
+        </div>
       )
     })
   }
