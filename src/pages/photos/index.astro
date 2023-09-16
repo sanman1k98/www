@@ -31,12 +31,25 @@ const GUTTER = validateSize(32);
 
 /** Column widths for different breakpoints. */
 const COL_WIDTH = {
-  SM: validateSize(288),
-  MD: validateSize(336),
-  LG: validateSize(304),
-  XL: validateSize(384),
+  SM   : validateSize(288),
+  MD   : validateSize(336),
+  LG   : validateSize(304),
+  XL   : validateSize(384),
   "2XL": validateSize(480),
 };
+
+const masonryStyles = {
+  "--masonry-track" : `${TRACK}px`,
+  // Gap between elements and columns.
+  "--masonry-gutter": `${validateSize(32)}px`,
+
+  // Column widths for different breakpoints.
+  "--masonry-w-sm"  : `${validateSize(288)}px`,
+  "--masonry-w-md"  : `${validateSize(336)}px`,
+  "--masonry-w-lg"  : `${validateSize(304)}px`,
+  "--masonry-w-xl"  : `${validateSize(384)}px`,
+  "--masonry-w-2xl" : `${validateSize(480)}px`,
+}
 
 /** Returns a height directly proportional to the given width. */
 const getScaledHeight = (
@@ -98,15 +111,7 @@ function generateMasonryStyles(height: number, width: number) {
 
 <Page
   title="Photos"
-  style={`
-    --masonry-track:${TRACK}px;
-    --masonry-gutter:${GUTTER}px;
-    --masonry-w-sm:${COL_WIDTH.SM}px;
-    --masonry-w-md:${COL_WIDTH.MD}px;
-    --masonry-w-lg:${COL_WIDTH.LG}px;
-    --masonry-w-xl:${COL_WIDTH.XL}px;
-    --masonry-w-2xl:${COL_WIDTH["2XL"]}px;
-  `}
+  style={masonryStyles}
   class={`
     pt-30 md:pt-36 lt-sm:gap-y-8 
     justify-center mx-auto px-8
