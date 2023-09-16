@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import Icon from "@/components/Icon.astro";
 import { env } from "@/utils"
 import { socials } from "@/content";
 
@@ -14,8 +15,7 @@ const { class: className } = Astro.props;
 ---
 
 <address class:list={["[&_a]:underline [&_a]:text-cyan-600", className]}>
-  {// TODO: use icons for social links }
-  <ul class="flex justify-center [&_li]:px-4">
+  <ul class="[&_li]:px-4">
     {env.BUILD_INCLUDE_PERSONAL && (
       <li class="hidden print:inline">
         <a href={`mailto:${env.PERSONAL_EMAIL}`}>
@@ -33,10 +33,13 @@ const { class: className } = Astro.props;
     </li>
     {links.map(link => {
       if (!link) return;
-      const { text, ...attrs } = link;
+      const { text, icon, ...attrs } = link;
       return (
         <li>
-          <a { ...attrs }>{text}</a>
+          <a { ...attrs }>
+            <span class="hidden sm:inline">{text}</span>
+            <Icon name={icon} label={text} class="ml-1"/>
+          </a>
         </li>
       )})
     }

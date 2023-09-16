@@ -44,14 +44,22 @@ if (env.BUILD_INCLUDE_PERSONAL) {
 
 <BaseLayout title="Sandeep Dilip's Resume">
   {// TODO: Center align header on mobile screens }
-  <header class="container max-w-5xl sm:flex justify-between mx-auto my-6 px-6 sm:px-10 font-mono">
+  <header class="
+    container max-w-5xl
+    mx-auto my-6 px-6 sm:px-10
+    flex justify-between items-center
+    font-mono
+  ">
     <div class="text-left">
       <h1 class="font-600 text-3xl text-slate-900 tracking-tighter">
         <a href="/">Sandeep Dilip</a>
       </h1>
       <p class="text-slate-500">Software Developer</p>
     </div>
-    <Contact class="mt-4 text-sm text-right leading-relaxed"/>
+    <Contact class={`
+      text-2xl text-center
+      sm:text-base sm:[&_li]:text-right 
+    `}/>
   </header>
 
   <main class="mx-auto grid grid-cols-1 lg:grid-cols-[max-content_max-content] justify-center lg:gap-x-10 px-6 font-mono text-sm sm:text-base text-slate-700">
