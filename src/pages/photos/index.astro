@@ -85,7 +85,7 @@ main {
     gap: 0 calc(var(--masonry-gap-factor) * var(--masonry-sm-track));
   }
 
-  .masonry-item {
+  main > * {
     grid-row: span var(--masonry-sm-span);
     height: var(--masonry-sm-h);
   }
@@ -98,7 +98,7 @@ main {
     gap: 0 calc(var(--masonry-gap-factor) * var(--masonry-xl-track));
   }
 
-  .masonry-item {
+  main > * {
     grid-row: span var(--masonry-xl-span);
     height: var(--masonry-xl-h);
   }
@@ -129,7 +129,6 @@ main {
             "--masonry-xl-h": `${xlSpan * xlTrack}vw`,
           }}
           class="
-            masonry-item
             overflow-clip
             bg-white border-white border-12
             transition duration-350
