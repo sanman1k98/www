@@ -44,26 +44,35 @@ main {
   gap: 6vw
 }
 
+/* Two column masonry layout */
 @media (min-width: 640px) {
   main {
-    --masonry-track: 1;
-    --masonry-col: 45;
-    --masonry-gap-factor: 2;
+    /* Store <number> values because some calculations require a <number>/<integer> result */
+    --masonry-track: 1; --masonry-col: 45;
+    /* Multiply by `1vw` to convert <number> to a <length> */
     grid-auto-rows: calc(1vw * var(--masonry-track));
     grid-template-columns: repeat(2, calc(1vw * var(--masonry-col)));
-    gap: 0 calc(1vw * calc(var(--masonry-gap-factor) * var(--masonry-track)));
+    /* Have column gaps that are twice the size of the row tracks */
+    gap: 0 calc(1vw * calc(2 * var(--masonry-track)));
   }
 
-  main > * {
+  /* Style wrapper div for each item in the layout */
+  main > div {
+    /* Calculate how many rows to span given the aspect ratio, plus two rows for padding */
+    /* `calc()` will round to nearest integer */
     grid-row: span calc(calc(calc(var(--masonry-col) * var(--ratio)) / var(--masonry-track)) + 2);
+    /* Add top and bottom padding to match the column gap */
     padding-block: calc(1vw * var(--masonry-track));
   }
+
+  /* Set each item to span the height within their parents  */
+  main > div > *:only-child { height: 100%; }
 }
 
+/* Three column masonry layout */
 @media (min-width: 1280px) {
   main {
-    --masonry-track: 1;
-    --masonry-col: 28;
+    --masonry-track: 1; --masonry-col: 28;
     grid-template-columns: repeat(3, calc(1vw * var(--masonry-col)));
   }
 }
@@ -76,18 +85,15 @@ main {
   {
     photos.map((photo, i) => {
       const { slug, ...attrs } = photo;
-      const { height, width } = photo.src;
+      const { height: h, width: w } = photo.src;
       return (
         <div
           data-slide-enter
-          style={{
-            "--enter-step": i + 1,
-            "--ratio": height / width,
-          }}
+          style={{ "--enter-step": i + 1, "--ratio": h / w }}
         >
           <figure
             class="
-              overflow-clip h-full
+              overflow-clip
               bg-white border-white border-12 shadow-lg
               transition duration-350
               hover:shadow-xl media-[(hover:hover)and(pointer:fine)]:scale-102
