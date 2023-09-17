@@ -55,7 +55,7 @@ main {
   }
 
   main > * {
-    grid-row: span calc(calc(var(--masonry-col) * var(--ratio)) / var(--masonry-track));
+    grid-row: span calc(calc(calc(var(--masonry-col) * var(--ratio)) / var(--masonry-track)) + 2);
     padding-block: calc(1vw * var(--masonry-track));
   }
 }
