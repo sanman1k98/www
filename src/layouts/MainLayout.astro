@@ -21,7 +21,7 @@ type Props = {
 
 const {
   title: titleString,
-  description,
+  description: descString,
   class: className,
   style,
   ...attrs
@@ -30,6 +30,7 @@ const {
 const title = titleString
   ? (titleString + " | nicesandeep")
   : "nicesandeep";
+const description = descString ?? "Sandeep Dilip's personal website"
 ---
 
 <BaseLayout {title} {description} class="relative">
