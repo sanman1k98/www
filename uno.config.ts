@@ -13,6 +13,7 @@ export default defineConfig({
       underline underline-offset-[0.1em]
       decoration-0 decoration-transparent
       hover:text-sky-500 hover:decoration-current hover:decoration-[0.07em]
+      print:text-sky-700 print:decoration-current print:decoration-[0.07em]
     `,
   },
   transformers: [transformerDirectives()],
