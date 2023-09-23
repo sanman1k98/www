@@ -11,10 +11,13 @@ const { title, description } = Astro.props;
 <meta name="viewport" content="width=device-width" />
 
 <title>{title}</title>
-{Astro.slots.has("description") && (
-  <meta name="description" content={description} />
-)}
+<meta name="description" content={description} />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<meta property="og:title" content={title}/>
+<meta property="og:description" content={description}/>
+<meta property="og:image" content="/og-image.jpg"/>
+<meta property="og:type" content="website"/>
 
 <meta name="theme-color" content="#BAE6FD">
