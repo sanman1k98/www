@@ -14,7 +14,7 @@ type Props = HTMLAttributes<"address">;
 const { class: className } = Astro.props;
 ---
 
-<address class:list={["[&_a]:underline [&_a]:text-cyan-600", className]}>
+<address class:list={["[&_a]:underline [&_a]:text-sky-700", className]}>
   <ul class="[&_li]:px-4">
     {env.BUILD_INCLUDE_PERSONAL && (
       <li class="hidden print:inline">
