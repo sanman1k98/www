@@ -17,18 +17,18 @@ const { class: className } = Astro.props;
 <address class:list={["[&_a]:underline [&_a]:text-sky-700", className]}>
   <ul class="[&_li]:px-4">
     {env.BUILD_INCLUDE_PERSONAL && (
-      <li class="hidden print:inline">
+      <li class="hidden print:list-item">
         <a href={`mailto:${env.PERSONAL_EMAIL}`}>
           {env.PERSONAL_EMAIL}
         </a>
       </li>
-      <li class="hidden print:inline">
+      <li class="hidden print:list-item">
         <a href={`tel:${env.PERSONAL_PHONE}`}>
           {env.PERSONAL_PHONE}
         </a>
       </li>
     )}
-    <li class="hidden print:inline">
+    <li class="hidden print:list-item">
       <a href={import.meta.env.SITE}>Website</a>
     </li>
     {links.map(link => {
