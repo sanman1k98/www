@@ -11,34 +11,28 @@ const { Content } = await entry.render();
 ---
 
 <style>
-  details > summary::-webkit-details-marker,
-  details > summary::marker {
-    display: none;
-    content: "";
-  }
+  /* Remove default disclosure triangle icon */
+  summary::-webkit-details-marker,
+  summary::marker { display: none; content: ""; }
 
-  details > summary::after {
-    content: " +";
-  }
+  /* Spacing */
+  details { margin-bottom: 0.5rem; }
+  details > summary { margin-bottom: 0.5rem; }
+  details > :global(:not(summary)) { margin-left: 1ch; }
+  details[open] { margin-bottom: 1.25rem; }
 
-  details[open] > summary::after {
-    content: " -";
-  }
+  /* Custom disclosure icons */
+  details > summary::after { content: '►'; margin-left: 0.5rem; }
+  details[open] > summary::after { content: "-"; }
 
   @media print {
-    details[open] > summary::after {
-      content: "";
-    }
+    summary::after { display: none; }
   }
 </style>
 
 <details class:list={["w-max", className]}>
-  <summary class="[&_*]:inline mb-2 text-lg cursor-pointer">
-    <h3 class="font-600">
-      {entry.data.category}
-    </h3>
+  <summary class="text-lg font-600 cursor-pointer">
+    {entry.data.category}
   </summary>
-  <div class="[&_ul]:mb-5 [&_ul]:ml-[1ch]">
-    <Content />
-  </div>
+  <Content />
 </details>
