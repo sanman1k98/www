@@ -91,6 +91,10 @@ export const certification = base
       .date()
       .optional()
       .describe("Date the certification expires"),
+    url: z
+      .string()
+      .url()
+      .optional(),
   });
 
 export const volunteering = base
