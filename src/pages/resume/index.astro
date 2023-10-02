@@ -96,15 +96,15 @@ if (env.BUILD_INCLUDE_PERSONAL) {
         }
       </Section>
 
-      <Section heading="Open source">
-        {
-          projects.filter(proj => !proj.data.draft).map(proj => <OpenSource entry={proj} />)
-        }
-      </Section>
-
       <Section heading="Certification">
         {
           certifications.map(cert => <Certification entry={cert} />)
+        }
+      </Section>
+
+      <Section heading="Open source">
+        {
+          projects.filter(proj => !proj.data.draft).map(proj => <OpenSource entry={proj} />)
         }
       </Section>
 
