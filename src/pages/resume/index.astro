@@ -82,10 +82,13 @@ if (env.BUILD_INCLUDE_PERSONAL) {
       heading="Skills"
       class="sm:mx-auto sm:w-[65ch] lg:w-auto lg:max-w-prose"
     >
-      <div class="w-48 ml-3 md:ml-0 md:flex lg:block justify-between pr-8">
-        <SkillDetails entry={skills.find(entry => entry.data.category === "Languages")!}/>
-        <SkillDetails entry={skills.find(entry => entry.data.category === "Technologies")!}/>
-        <SkillDetails entry={skills.find(entry => entry.data.category === "Miscellaneous")!}/>
+      <div class="
+        ml-3 md:ml-0 lg:pr-8 print:pr-8
+        md:flex lg:block justify-between
+      ">
+        <SkillDetails class="w-40" entry={skills.find(entry => entry.data.category === "Languages")!}/>
+        <SkillDetails class="w-48" entry={skills.find(entry => entry.data.category === "Technologies")!}/>
+        <SkillDetails class="w-48" entry={skills.find(entry => entry.data.category === "Miscellaneous")!}/>
       </div>
     </Section>
 
