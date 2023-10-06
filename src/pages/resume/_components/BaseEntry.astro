@@ -1,8 +1,22 @@
 ---
 import type { CollectionEntry } from "astro:content";
 
-type Props = { entry?: CollectionEntry<"cv"> };
-const { entry } = Astro.props;
+type Props = {
+  entry?: CollectionEntry<"cv">,
+  link?: string,
+  heading?: string,
+  subheading?: string,
+  date?: string,
+};
+
+const {
+  entry,
+  link,
+  heading,
+  subheading,
+  date,
+} = Astro.props;
+
 let Content;
 
 if (entry) {
@@ -25,21 +39,39 @@ if (entry) {
 
 <article class="m-3 mb-5">
   <header class="mb-2">
-    {Astro.slots.has("heading") && (
+    {(Astro.slots.has("heading") || heading) && (
       <h3 class="leading-snug font-600 text-slate-700 text-lg tracking-tight">
-        <slot name="heading"/>
+        {link ? (
+          <a
+            class="group text-sky-700 link"
+            href={link}
+            target="_blank"
+          >
+            <span><slot name="heading">{heading}</slot></span>
+            <div class="
+              print:hidden
+              i-ph-arrow-up-right-bold
+              transition-transform duration-200
+              group-hover:translate-x-1 group-hover:-translate-y-1
+            "></div>
+          </a>
+        ) : (
+          <slot name="heading">{heading}</slot>
+        )}
       </h3>
     )}
-    {Astro.slots.has("subheading") && (
+    {(Astro.slots.has("subheading") || subheading) && (
       <p class="leading-tight text-slate-500">
-        <slot name="subheading"/>
+        <slot name="subheading">{subheading}</slot>
       </p>
     )}
     <slot name="after-subheading"/>
   </header>
-  {Content && (
+  {(Astro.slots.has("default") || Content) && (
     <div class="leading-tight">
-      <Content />
+      <slot>
+        <Content />
+      </slot>
     </div>
   )}
 </article>
