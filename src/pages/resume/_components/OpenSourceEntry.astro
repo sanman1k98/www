@@ -7,20 +7,7 @@ type Props = { entry: CvEntry<"open-source"> };
 const { entry } = Astro.props;
 ---
 
-<Entry entry={entry}>
-  <a
-    slot="heading"
-    class="group text-sky-700 link"
-    href={entry.data.githubUrl}
-    target="_blank"
-  >
-    <span>{entry.data.title}</span>
-    <div class="
-      print:hidden
-      i-ph-arrow-up-right-bold
-      transition-transform duration-200
-      group-hover:translate-x-1 group-hover:-translate-y-1
-    "></div>
-  </a>
+<Entry {entry} link={entry.data.githubUrl}>
+  <Fragment slot="heading">{entry.data.title}</Fragment>
   <Fragment slot="subheading">{entry.data.description}</Fragment>
 </Entry>

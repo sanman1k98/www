@@ -15,21 +15,8 @@ const date = entry.data.issueDate.toLocaleString(
 );
 ---
 
-<Entry {entry}>
-  <a
-    slot="heading"
-    class="group text-sky-700 link"
-    href={entry.data.url}
-    target="_blank"
-  >
-    <span>{entry.data.name}</span>
-    <div class="
-      print:hidden
-      i-ph-arrow-up-right-bold
-      transition-transform duration-200
-      group-hover:translate-x-1 group-hover:-translate-y-1
-    "></div>
-  </a>
+<Entry link={entry.data.url}>
+  <Fragment slot="heading">{entry.data.name}</Fragment>
   <Fragment slot="subheading">{entry.data.organization.name}</Fragment>
   <time class="leading-tight text-slate-500" slot="after-subheading">{date}</time>
 </Entry>
