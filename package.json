@@ -7,6 +7,7 @@
     "check": "bun --bun run astro check && tsc --noEmit",
     "build": "bun --bun run astro build",
     "preview": "bun --bun run astro preview",
+    "deploy": "./scripts/deploy.sh && git push origin deploy",
     "astro": "astro"
   },
   "dependencies": {
