@@ -48,7 +48,10 @@ main {
 @screen sm {
   main {
     /* Store <number> values because some calculations require a <number>/<integer> result */
-    --masonry-track: 1; --masonry-col: 45;
+    --masonry-track: 1; --masonry-col: calc(var(--masonry-track) * 45);
+    /* Define max sizes */
+    --masonry-max-col-w: 548px;
+    --masonry-max-track-size: calc(var(--masonry-max-col-w) / var(--masonry-col));
     /* Multiply by `1vw` to convert <number> to a <length> */
     grid-auto-rows: calc(1vw * var(--masonry-track));
     grid-template-columns: repeat(2, calc(1vw * var(--masonry-col)));
@@ -62,7 +65,7 @@ main {
     /* `calc()` will round to nearest integer */
     grid-row: span calc(calc(calc(var(--masonry-col) * var(--ratio)) / var(--masonry-track)) + 2);
     /* Add top and bottom padding to match the column gap */
-    padding-block: calc(1vw * var(--masonry-track));
+    padding-block: min(calc(1vw * var(--masonry-track)), var(--masonry-max-track-size));
   }
 
   /* Set each item to span the height within their parents  */
@@ -72,8 +75,9 @@ main {
 /* Three column masonry layout */
 @screen xl {
   main {
-    --masonry-track: 1; --masonry-col: 28;
-    grid-template-columns: repeat(3, calc(1vw * var(--masonry-col)));
+    --masonry-track: 1; --masonry-col: calc(var(--masonry-track) * 28);
+    grid-auto-rows: min(calc(1vw * var(--masonry-track)), var(--masonry-max-track-size));
+    grid-template-columns: repeat(3, min(calc(1vw * var(--masonry-col)), var(--masonry-max-col-w)));
   }
 }
 </style>
