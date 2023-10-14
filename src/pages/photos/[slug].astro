@@ -7,7 +7,6 @@ import type {
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 
-// TODO: use the `paginate()` function to create pages for each photo
 export const getStaticPaths = (() => 
   photos.map(photo => ({
     params: { slug: photo.slug },
