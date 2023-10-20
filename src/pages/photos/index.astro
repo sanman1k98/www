@@ -48,13 +48,13 @@ main {
 @screen sm {
   main {
     /* Store <number> values because some calculations require a <number>/<integer> result */
-    --masonry-track: 1; --masonry-col: calc(var(--masonry-track) * 45);
+    --masonry-track: 1; --masonry-col: calc(var(--masonry-track) * 42);
     /* Define max sizes */
     --masonry-max-col-w: 548px;
     --masonry-max-track-size: calc(var(--masonry-max-col-w) / var(--masonry-col));
     /* Multiply by `1vw` to convert <number> to a <length> */
     grid-auto-rows: calc(1vw * var(--masonry-track));
-    grid-template-columns: repeat(2, calc(1vw * var(--masonry-col)));
+    grid-template-columns: repeat(2, min(calc(1vw * var(--masonry-col)), var(--masonry-max-col-w)));
     /* Have column gaps that are twice the size of the row tracks */
     gap: 0 calc(1vw * calc(2 * var(--masonry-track)));
   }

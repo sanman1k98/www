@@ -33,6 +33,12 @@ const title = titleString
 const description = descString ?? "Sandeep Dilip's personal website"
 ---
 
+<style is:global>
+  main {
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+  }
+</style>
+
 <BaseLayout {title} {description} class="relative">
   {/* Background to fill the whole page. */}
   <Perlin class="absolute inset-0 -z-50"/>
