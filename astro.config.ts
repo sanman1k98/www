@@ -1,12 +1,11 @@
 import { defineConfig } from 'astro/config';
+import sitemap from "@astrojs/sitemap"
 import UnoCSS from "unocss/astro";
-// import pandacss from "@pandacss/astro";
 
-// https://astro.build/config
 export default defineConfig({
   site: "https://nicesandeep.com",
   integrations: [
-    // pandacss(),
+    sitemap(),
     UnoCSS({
       // When passing true, "@unocss/reset/tailwind.css" will be used
       injectReset: true,
