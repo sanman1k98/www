@@ -63,3 +63,7 @@ All commands are run from the root of the project, from a terminal:
 ## 🚀 Deploying
 
 The site is hosted on GitHub Pages using static files in the [`deploy` branch](https://github.com/sanman1k98/www/tree/deploy). Deployments are triggered when the repository owner (me) pushes to the `deploy` branch. See the [`.github/workflows`](https://github.com/sanman1k98/www/tree/main/.github/workflows) and [`scripts`](https://github.com/sanman1k98/www/tree/main/scripts) directories for more information.
+
+## 📜 License
+
+Source code is licensed under [MIT](https://github.com/sanman1k98/www/blob/main/LICENSE).
