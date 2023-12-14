@@ -4,17 +4,22 @@ export default z.object({
   /**
    * Authentication token used by the gh CLI; retrieved with `gh auth token`.
    */
-  GITHUB_TOKEN: z.string(),
+  GITHUB_TOKEN: z.string().optional(),
 
   /**
    * To be displayed on the resume page when printing.
    */
-  PERSONAL_PHONE: z.string(),
+  PERSONAL_PHONE: z
+    .string()
+    .default("+1-800-NOT-REAL"),
 
   /**
    * To be displayed on the resume page when printing.
    */
-  PERSONAL_EMAIL: z.string().email(),
+  PERSONAL_EMAIL: z
+    .string()
+    .email()
+    .default("placeholder@example.com"),
 
   /**
    * Use to display personal contact information on the resume page.
@@ -26,7 +31,7 @@ export default z.object({
    * ```sh
    * BUILD_INCLUDE_PERSONAL=true bun run astro build
    * ```
-   * You can then go to http://localhost:3000/resume and print the page and save
+   * You can then go to http://localhost:4321/resume and print the page and save
    * as a PDF which will contain personal contact information.
    *
    * @remarks
