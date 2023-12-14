@@ -39,7 +39,7 @@ const { class: className } = Astro.props;
       const { text, icon, ...attrs } = link;
       return (
         <li>
-          <a { ...attrs }>
+          <a class="flex justify-end content-center" { ...attrs }>
             <span class="hidden sm:inline">{text}</span>
             <Icon name={icon} label={text} class="print:hidden ml-1"/>
           </a>
