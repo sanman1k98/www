@@ -13,9 +13,11 @@ const id = heading
 ---
 
 <section class:list={["mt-6", className]}>
-  <h2 id={id} class="before:content-['#_'] mb-4 font-600 text-xs text-slate-500 uppercase tracking-[0.2em]">
-    <a href={("#").concat(id)}>
-      {heading}
+  <h2 id={id} class="mb-4 font-600 text-xs text-slate-500 uppercase tracking-[0.2em]">
+    <a href={("#").concat(id)} class="flex gap-x-2 whitespace-nowrap">
+      <span aria-hidden="true">#</span>
+      <span>{heading}</span>
+      <span aria-hidden="true" class="inline-block h-px w-full self-center bg-slate-300"></span>
     </a>
   </h2>
   <slot />
