@@ -64,9 +64,9 @@ const photoSamples = photos.slice(0, 5);
       overflow-x-auto
     ">
       {
-        photoSamples.map(({ slug: _, ...attrs }) => (
+        photoSamples.map(({ slug: _, file, alt }) => (
           <figure class="shrink-0 border-white border-12 shadow-md h-full">
-            <Image { ...attrs } class={`
+            <Image src={file} {alt} class={`
               object-cover h-full
               w-50 sm:w-60 md:w-72 lg:w-96
             `}/>

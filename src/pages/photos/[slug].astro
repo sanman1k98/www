@@ -4,6 +4,7 @@ import type {
   InferGetStaticPropsType,
   GetStaticPaths
 } from "astro";
+import { Debug } from "astro:components";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 
@@ -18,7 +19,7 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 
 const { photo } = Astro.props;
-const { slug, src: { format: _, ...attrs } } = photo;
+const { slug, file: { format: _, ...attrs } } = photo;
 ---
 
 <Page

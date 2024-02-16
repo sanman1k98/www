@@ -89,8 +89,8 @@ main {
 >
   {
     photos.map((photo, i) => {
-      const { slug, ...attrs } = photo;
-      const { height: h, width: w } = photo.src;
+      const { slug, file, alt } = photo;
+      const { height: h, width: w } = file;
       return (
         <div
           data-slide-enter
@@ -106,7 +106,7 @@ main {
             "
           >
             <a href={`/photos/${slug}`}>
-              <Image { ...attrs } class="object-cover h-full w-full"/>
+              <Image src={file} {alt} class="object-cover h-full w-full"/>
             </a>
           </figure>
         </div>

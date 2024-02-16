@@ -1,18 +1,18 @@
-- src: ./philly-purple.png
+- file: ./philly-purple.png
   alt: Philadelphia with a purple skyline
 
-- src: ./muttom-beach.png
+- file: ./muttom-beach.png
 
-- src: ./red-tree-1.png
+- file: ./red-tree-1.png
 
-- src: ./red-tree-2.png
+- file: ./red-tree-2.png
 
-- src: ./traffic-jam.png
+- file: ./traffic-jam.png
 
-- src: ./fake-plant.png
+- file: ./fake-plant.png
 
-- src: ./philly-night.png
+- file: ./philly-night.png
 
-- src: ./cymbal.png
+- file: ./cymbal.png
 
-- src: ./graduation.png
+- file: ./graduation.png
