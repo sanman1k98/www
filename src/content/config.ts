@@ -1,5 +1,5 @@
 import { defineCollection, z } from "astro:content";
-import { cv, info } from "@/schemas";
+import { cv, info, photos } from "@/schemas";
 
 export const cvSchema = z.union([
   cv.base,
@@ -27,18 +27,6 @@ export const collections = {
   }),
   photos: defineCollection({
     type: "data",
-    schema: ({ image }) => z.array(
-      z.object({
-        src: image().refine(img => img.width <= 1080 || img.height <= 1080, {
-          message: "Image is greater than 1080p; don't upload the hi-res stuff for free!"
-        }),
-        // Setting `alt=""` tells screen readers to ignore the image
-        alt: z.string().default(""),
-      }))
-      .transform(
-        photos => photos.map(
-          (photo, index) => ({ slug: index + 1, ...photo })
-        )
-      ),
-  }),
+    schema: ({ image }) => photos({ image }),
+  })
 };
