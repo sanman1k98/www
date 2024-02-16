@@ -5,11 +5,9 @@ export const base = z
   .object({
     type: z
       .literal("base")
-      .optional()
       .default("base"),
     draft: z
       .boolean()
-      .optional()
       .default(false),
   })
   .strict();
@@ -31,7 +29,6 @@ export const experience = base
     employer: org,
     internship: z
       .boolean()
-      .optional()
       .default(false)
       .describe("true if this entry is an internship"),
   })
