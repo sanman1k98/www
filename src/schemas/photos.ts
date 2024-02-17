@@ -1,6 +1,5 @@
 import { z, type SchemaContext } from "astro:content";
 import { fileURLToPath } from "node:url";
-import sharp from "sharp";
 import exifReader, { type Exif } from "exif-reader";
 
 const PHOTOS_COLLECTION_DIR = new URL("../content/photos/", import.meta.url);
@@ -9,6 +8,8 @@ const PHOTOS_COLLECTION_DIR = new URL("../content/photos/", import.meta.url);
 // see: https://stackoverflow.com/questions/1821515/how-is-exif-info-encoded#14115795
 type TagGroup = keyof Omit<Exif, "bigEndian">;
 type ExifTags = { [key in TagGroup]?: Exif[key] };
+
+let sharp: typeof import("sharp");
 
 /** Converts Buffers into number arrays. */
 const fixExif = (data: ExifTags) => {
@@ -49,6 +50,9 @@ export const photos = ({ image }: SchemaContext): z.ZodSchema => {
         // Get the absolute path to the original image
         const fileURL = new URL(path, PHOTOS_COLLECTION_DIR);
         const imagePath = fileURLToPath(fileURL);
+
+        // Dynamically load sharp
+        if (!sharp) sharp = (await import("sharp")).default;
 
         // Give sharp path to image
         const { exif: buf } = await sharp(imagePath).metadata();
