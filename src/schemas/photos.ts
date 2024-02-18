@@ -26,7 +26,7 @@ const fixExif = (data: ExifTags) => {
   return data;
 }
 
-export const photos = ({ image }: SchemaContext): z.ZodSchema => {
+export const photos = ({ image }: SchemaContext) => {
   return z
     .object({
       /** Relative path to image file. */
