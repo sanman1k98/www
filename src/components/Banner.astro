@@ -2,14 +2,25 @@
 import Logo from "./Logo.astro";
 import Nav from "./Nav.astro";
 
-type Props = { class?: string };
-const { class: className } = Astro.props;
+type Props = {
+  class?: string,
+  style?: string,
+  /** Set to `true` to absolutely position at the top. */
+  inset?: boolean,
+};
+
+const {
+  class: className,
+  style,
+  inset = false
+} = Astro.props;
 ---
 
 <header class:list={[
   className,
   "flex container mx-auto",
   "justify-between items-center",
+  inset && "absolute inset-x-0 top-0",
   "lt-sm:px-[7vw] sm:px-8",
   "gap-2",
   "z-50",

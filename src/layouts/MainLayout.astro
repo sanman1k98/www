@@ -8,15 +8,14 @@ type Props = {
   title?: string;
   description?: string;
 
-  /**
-   * Classes to add to the `<main>` element.
-   */
+  /** Classes to add to the `<main>` element. */
   class?: string;
 
-  /**
-   * Styles to add to the `<main>` element.
-   */
+  /** Styles to add to the `<main>` element. */
   style?: string;
+
+  /** Absolutely position the banner at the top; defaults to true.*/
+  "inset-banner"?: boolean;
 };
 
 const {
@@ -24,6 +23,7 @@ const {
   description: descString,
   class: className,
   style,
+  "inset-banner": insetBanner = true,
   ...attrs
 } = Astro.props;
 
@@ -45,7 +45,7 @@ const description = descString ?? "Sandeep Dilip's personal website"
   <Perlin class="absolute inset-0 -z-50"/>
 
   {/* Site logo and navigation components. */}
-  <Banner class="absolute inset-x-0 top-0 mt-[3vh] sm:mt-8"/>
+  <Banner inset={insetBanner} class="pt-[3vh] sm:pt-8"/>
 
   {/* Slot for main content. */}
   <main
