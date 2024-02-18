@@ -25,15 +25,15 @@ const { slug, file } = photo;
 <Page
   title={photo.alt}
   class="flex flex-col items-center"
+  inset-banner={true}
 >
+  <div class="h-32 w-full bg-gradient-to-t from-white"/>
   <figure
     transition:name={`photo-${slug}`}
-    class="
-      mt-30 md:mt-36 mx-4 border-white border-12
-      shadow-xl
-    "
+    class="w-full bg-white"
   >
     <img
+      class="mx-auto"
       src={file.src}
       height={file.height}
       width={file.width}
@@ -42,4 +42,5 @@ const { slug, file } = photo;
       loading="lazy"
     />
   </figure>
+  <div class="h-48 w-full bg-gradient-to-b from-white"/>
 </Page>
