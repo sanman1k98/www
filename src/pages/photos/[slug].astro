@@ -4,9 +4,9 @@ import type {
   InferGetStaticPropsType,
   GetStaticPaths
 } from "astro";
-import { Debug } from "astro:components";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
+import { getShutterSpeed, getExposureComp } from "@/lib/exif";
 
 export const getStaticPaths = (() => 
   photos.map(photo => ({
@@ -19,11 +19,31 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 
 const { photo } = Astro.props;
-const { slug, file } = photo;
+const { slug, file, exif } = photo;
+
+let exifinfo;
+
+if (exif) {
+  const dateFormat = Intl.DateTimeFormat("en", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "UTC",
+  });
+
+  exifinfo = {
+    camera: exif.Image.Model,
+    datetime: dateFormat.format(exif.Photo.DateTimeOriginal),
+    f: exif.Photo.FNumber,
+    focallen: exif.Photo.FocalLengthIn35mmFilm ?? exif.Photo.FocalLength,
+    iso: exif.Photo.ISOSpeedRatings,
+    shutter: getShutterSpeed(exif.Photo.ExposureTime),
+    ev: getExposureComp(exif.Photo.ExposureBiasValue),
+  }
+}
 ---
 
 <Page
-  title={photo.alt}
+  title="Photos"
   class="flex flex-col items-center"
   inset-banner={true}
 >
@@ -39,8 +59,20 @@ const { slug, file } = photo;
       width={file.width}
       alt={photo.alt}
       decoding="async"
-      loading="lazy"
     />
+    <figcaption class="max-w-prose mx-auto px-4 font-mono text-xs">
+      <ul class="my-4 flex justify-between text-slate-600">
+        <li>ISO {exifinfo.iso}</li>
+        <li>{exifinfo.focallen} mm</li>
+        <li>{exifinfo.ev} ev</li>
+        <li>f/{exifinfo.f}</li>
+        <li>{exifinfo.shutter}s</li>
+      </ul>
+      <ul class="flex justify-around text-slate-400">
+        <li><time>{exifinfo.datetime}</time></li>
+        <li>{exifinfo.camera}</li>
+      </ul>
+    </figcaption>
   </figure>
   <div class="h-48 w-full bg-gradient-to-b from-white"/>
 </Page>
