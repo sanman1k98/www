@@ -3,21 +3,16 @@ import { daterange, tags, org } from "./misc";
 
 export const base = z
   .object({
-    type: z
-      .literal("base")
-      .default("base"),
-    draft: z
-      .boolean()
-      .default(false),
+    type: z.literal("base").default("base"),
+    draft: z.boolean().default(false),
   })
   .strict();
 
 export const skills = base
   .extend({
-    type: z.literal("skills"),
-    category: z
-      .string()
-      .describe("e.g., languages or frameworks"),
+    type: z.literal("skills").default("skills"),
+    /** Type of skills listed in this entry e.g., "Languages" or "Technologies". */
+    skills: z.string()
   });
 
 export const experience = base
