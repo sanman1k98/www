@@ -7,12 +7,9 @@ import { env } from "@/utils"
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "./_components/BaseSection.astro";
+import Entry from "./_components/BaseEntry.astro";
 import Contact from "./_components/Contact.astro";
 import SkillDetails from "./_components/SkillDetails.astro";
-import Experience from "./_components/ExperienceEntry.astro";
-import OpenSource from "./_components/OpenSourceEntry.astro";
-import Certification from "./_components/CertificationEntry.astro";
-import Education from "./_components/EducationEntry.astro";
 
 const skills = cvEntries.filter(isType("skills"));
 const experience = cvEntries.filter(isType("experience"));
@@ -95,37 +92,84 @@ if (env.BUILD_INCLUDE_PERSONAL) {
     <div class="max-w-prose mx-auto">
       <Section heading="Experience">
         {
-          experience.filter(exp => !exp.data.internship).map(exp => <Experience entry={exp} />)
+          experience
+            .filter(exp => !exp.data.internship)
+            .map(exp => (
+              <Entry
+                heading={exp.data.title}
+                subheading={exp.data.employer.name}
+                time={[exp.data.start, exp.data.end]}
+                entry={exp}
+              />
+            ))
         }
       </Section>
 
       <Section heading="Certification">
         {
-          certifications.map(cert => <Certification entry={cert} />)
+          certifications.map(cert => (
+            <Entry
+              link={cert.data.url}
+              heading={cert.data.name}
+              subheading={cert.data.organization.name}
+              time={cert.data.issueDate}
+            />
+          ))
         }
       </Section>
 
       <Section heading="Open source">
         {
-          projects.filter(proj => !proj.data.draft).map(proj => <OpenSource entry={proj} />)
+          projects
+            .filter(proj => !proj.data.draft)
+            .map(proj => (
+              <Entry
+                link={proj.data.githubUrl}
+                heading={proj.data.title}
+                subheading={proj.data.description}
+                entry={proj}
+              />
+            ))
         }
       </Section>
 
       <Section heading="Volunteering">
         {
-          volunteering.map(vol => <Experience entry={vol} />)
+          volunteering.map(vol => (
+            <Entry
+              heading={vol.data.title}
+              subheading={vol.data.organization.name}
+              time={[vol.data.start, vol.data.end]}
+              entry={vol}
+            />
+          ))
         }
       </Section>
 
       <Section heading="Education">
         {
-          education.map(edu => <Education entry={edu} />)
+          education.map(edu => (
+            <Entry
+              heading={edu.data.major}
+              subheading={edu.data.school.name}
+              time={[edu.data.start, edu.data.end]}
+            />
+          ))
         }
       </Section>
 
       <Section heading="Internships">
         {
-          experience.filter(exp => exp.data.internship).map(exp => <Experience entry={exp} />)
+          experience
+            .filter(exp => exp.data.internship)
+            .map(exp => (
+              <Entry
+                heading={exp.data.title}
+                subheading={exp.data.employer.name}
+                time={[exp.data.start, exp.data.end]}
+                entry={exp}
+              />
+            ))
         }
       </Section>
     </div>
