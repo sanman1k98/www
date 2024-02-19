@@ -6,7 +6,8 @@ type Props = {
   link?: string,
   heading?: string,
   subheading?: string,
-  date?: string,
+  "after-subheading"?: string,
+  time?: string | Date | [Date, Date?]
 };
 
 const {
@@ -14,15 +15,27 @@ const {
   link,
   heading,
   subheading,
-  date,
+  "after-subheading": afterSubheading,
+  time
 } = Astro.props;
 
-let Content;
+let timetext = typeof time === "string" && time;
 
-if (entry) {
-  const rendered = await entry.render();
-  Content = rendered.Content;
+if (!timetext) {
+  const dateFormat = Intl.DateTimeFormat("en", {
+    year: "numeric", month: "long", timeZone: "UTC"
+  });
+  if (time instanceof Date) {
+    timetext = dateFormat.format(time);
+  } else if (time instanceof Array) {
+    const [start, end] = time;
+    timetext = end
+      ? dateFormat.formatRange(start, end)
+      : `${dateFormat.format(start)} - Present`;
+  }
 }
+
+const { Content } = await entry?.render() ?? {};
 ---
 
 <style>
@@ -67,12 +80,14 @@ if (entry) {
         <slot name="subheading">{subheading}</slot>
       </p>
     )}
-    <slot name="after-subheading"/>
+    <slot name="after-subheading">
+      <time class="leading-tight text-slate-500">{timetext}</time>
+    </slot>
   </header>
   {(Astro.slots.has("default") || Content) && (
     <div class="leading-tight">
       <slot>
-        <Content />
+        {Content && <Content />}
       </slot>
     </div>
   )}
