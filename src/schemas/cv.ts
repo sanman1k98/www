@@ -16,6 +16,8 @@ export const skills = base
   });
 
 export const experience = base
+  .merge(daterange)
+  .merge(tags.partial())
   .extend({
     type: z.literal("experience"),
     title: z
@@ -26,9 +28,7 @@ export const experience = base
       .boolean()
       .default(false)
       .describe("true if this entry is an internship"),
-  })
-  .merge(daterange)
-  .merge(tags.partial());
+  });
 
 export const open_source = base
   .merge(daterange.partial())
@@ -59,13 +59,13 @@ export const open_source = base
   });
 
 export const education = base
+  .merge(daterange)
   .extend({
     type: z.literal("education"),
     school: org,
     major: z.string(),
     degree: z.string(),
-  })
-  .merge(daterange);
+  });
 
 export const certification = base
   .extend({
@@ -90,11 +90,11 @@ export const certification = base
   });
 
 export const volunteering = base
+  .merge(daterange)
   .extend({
     type: z.literal("volunteering"),
     title: z
       .string()
       .describe("Position title or role"),
     organization: org,
-  })
-  .merge(daterange);
+  });
