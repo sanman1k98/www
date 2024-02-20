@@ -92,13 +92,3 @@ export const certification = base
       .url()
       .optional(),
   });
-
-export const volunteering = base
-  .merge(daterange)
-  .extend({
-    type: z.literal("volunteering"),
-    title: z
-      .string()
-      .describe("Position title or role"),
-    organization: org,
-  });

@@ -7,7 +7,6 @@ export const cvSchema = z.union([
   cv.education,
   cv.experience,
   cv.open_source,
-  cv.volunteering,
   cv.certification,
 ]);
 
