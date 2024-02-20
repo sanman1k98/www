@@ -4,6 +4,7 @@ import type {
   InferGetStaticPropsType,
   GetStaticPaths
 } from "astro";
+import { Image } from "astro:assets";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 import { getShutterSpeed, getExposureComp } from "@/lib/exif";
@@ -52,13 +53,12 @@ if (exif) {
     transition:name={`photo-${slug}`}
     class="w-full bg-white"
   >
-    <img
+    <Image
       class="mx-auto"
-      src={file.src}
-      height={file.height}
-      width={file.width}
+      src={file}
       alt={photo.alt}
-      decoding="async"
+      format="png"
+      quality="max"
     />
     <figcaption class="max-w-prose mx-auto px-4 font-mono text-xs">
       <ul class="my-4 flex justify-between text-slate-600">
