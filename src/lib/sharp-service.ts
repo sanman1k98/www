@@ -45,6 +45,15 @@ const sharpService: LocalImageService<SharpImageServiceConfig> = {
       limitInputPixels: config.service.config.limitInputPixels,
     });
 
+    if (transform.quality === "orig") {
+      // FIXME: I don't know why colors are slightly off even with all the metadata
+      const { data, info } = await result
+        .rotate()
+        .keepMetadata()
+        .toBuffer({ resolveWithObject: true });
+      return { data, format: info.format };
+    }
+
     // Always call to adjust for EXIF data orientation
     result.rotate();
 
