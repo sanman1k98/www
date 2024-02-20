@@ -4,6 +4,7 @@ import UnoCSS from "unocss/astro";
 
 export default defineConfig({
   site: "https://nicesandeep.com",
+  prefetch: { prefetchAll: true },
   integrations: [
     sitemap(),
     UnoCSS({
