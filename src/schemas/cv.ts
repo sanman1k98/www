@@ -19,15 +19,19 @@ export const experience = base
   .merge(daterange)
   .merge(tags.partial())
   .extend({
-    type: z.literal("experience"),
-    title: z
-      .string()
-      .describe("position title or role"),
-    employer: org,
-    internship: z
-      .boolean()
-      .default(false)
-      .describe("true if this entry is an internship"),
+    type: z.literal("experience").default("experience"),
+    /** Type of experience. */
+    experience: z
+      .enum([
+        "work",
+        "internship",
+        "volunteering"
+      ])
+      .default("work"),
+    /** Position title or role. */
+    title: z.string(),
+    /** Employer or organization. */
+    organization: org,
   });
 
 export const open_source = base
