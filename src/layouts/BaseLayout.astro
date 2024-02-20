@@ -1,5 +1,4 @@
 ---
-import { ViewTransitions } from "astro:transitions";
 import "@fontsource-variable/quicksand";
 import "@fontsource-variable/red-hat-display";
 import Meta from '@/components/HeadMeta.astro';
@@ -22,7 +21,6 @@ const { class: className, style, ...meta } = Astro.props;
 <html lang="en">
   <head>
     <Meta { ...meta } />
-    <ViewTransitions />
     <slot name="head"/>
   </head>
   <body class={className} {style}>
