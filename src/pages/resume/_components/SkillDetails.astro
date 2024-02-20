@@ -22,7 +22,7 @@ const { Content } = await entry.render();
   details[open] { margin-bottom: 1.25rem; }
 
   /* Custom disclosure icons */
-  details > summary::after { content: '►'; margin-left: 0.5rem; }
+  details > summary::after { content: '+'; margin-left: 0.5rem; }
   details[open] > summary::after { content: "-"; }
 
   @media print {
