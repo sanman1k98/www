@@ -90,26 +90,11 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
       </div>
 
       <script define:vars={{ sidebarBreakpoint }}>
+      "use strict";
+
       const mql = window.matchMedia(`(min-width: ${sidebarBreakpoint})`);
       const details = document.querySelectorAll("details");
       const state = {}
-
-      details.forEach(
-        d => d.addEventListener("toggle", ev => {
-          if (!mql.matches) state[ev.target.id] = ev.target.open;
-        })
-      );
-
-      mql.addEventListener("change", ev => {
-        if (ev.matches) {
-          details.forEach(d => d.open = true);
-        } else {
-          details.forEach(d => {
-            d.open = state[d.id];
-            state[d.id] = d.open;
-          });
-        }
-      })
 
       if (mql.matches) {
         details.forEach(d => {
@@ -117,6 +102,18 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
           d.open = true;
         });
       }
+
+      const handleClick = (ev) => mql.matches && ev.preventDefault();
+      const saveState = ({ target }) => state[target.id] = mql.matches ? state[target.id] : target.open;
+
+      details.forEach(d => {
+        d.addEventListener("click", handleClick);
+        d.addEventListener("toggle", saveState);
+      });
+
+      mql.addEventListener("change",
+        (ev) => details.forEach(d => d.open = ev.matches || state[d.id])
+      );
       </script>
     </Section>
 
