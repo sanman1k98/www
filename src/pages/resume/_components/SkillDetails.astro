@@ -1,4 +1,5 @@
 ---
+import slugger from "github-slugger";
 import type { CvEntry } from "@/content";
 
 type Props = {
@@ -30,7 +31,7 @@ const { Content } = await entry.render();
   }
 </style>
 
-<details class:list={["", className]}>
+<details id={`${entry.id}`}class:list={["", className]}>
   <summary class="text-lg font-600 cursor-pointer">{entry.data.skills}</summary>
   <Content />
 </details>
