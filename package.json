@@ -11,7 +11,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/prefetch": "^0.4.0",
     "@astrojs/sitemap": "^3.0.2",
     "@fontsource-variable/quicksand": "^5.0.5",
     "@fontsource-variable/red-hat-display": "^5.0.6",
