@@ -3,7 +3,7 @@ import {
   cvEntries,
   createCvEntryTypeGuard as isType,
 } from "@/content";
-import { env } from "@/utils"
+import { env, unoBreakpoints } from "@/utils"
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "./_components/BaseSection.astro";
@@ -22,6 +22,8 @@ if (env.BUILD_INCLUDE_PERSONAL) {
   const objective = cvEntries.find(entry => entry.slug === "objective")!;
   Objective = (await objective.render()).Content;
 }
+
+const sidebarBreakpoint = unoBreakpoints["lg"];
 ---
 
 <style is:global>
@@ -86,6 +88,36 @@ if (env.BUILD_INCLUDE_PERSONAL) {
         <SkillDetails class="w-48" entry={skills.find(entry => entry.data.skills === "Technologies")!}/>
         <SkillDetails class="w-48" entry={skills.find(entry => entry.data.skills === "Miscellaneous")!}/>
       </div>
+
+      <script define:vars={{ sidebarBreakpoint }}>
+      const mql = window.matchMedia(`(min-width: ${sidebarBreakpoint})`);
+      const details = document.querySelectorAll("details");
+      const state = {}
+
+      details.forEach(
+        d => d.addEventListener("toggle", ev => {
+          if (!mql.matches) state[ev.target.id] = ev.target.open;
+        })
+      );
+
+      mql.addEventListener("change", ev => {
+        if (ev.matches) {
+          details.forEach(d => d.open = true);
+        } else {
+          details.forEach(d => {
+            d.open = state[d.id];
+            state[d.id] = d.open;
+          });
+        }
+      })
+
+      if (mql.matches) {
+        details.forEach(d => {
+          state[d.id] = false;
+          d.open = true;
+        });
+      }
+      </script>
     </Section>
 
     <div class="max-w-prose mx-auto">
