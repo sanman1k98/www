@@ -1,4 +1,8 @@
 ---
+import GithubSlugger from "github-slugger";
+
+const slugger = new GithubSlugger();
+
 type Props = {
   heading: string;
   class?: string;
@@ -6,10 +10,7 @@ type Props = {
 
 const { heading, class: className } = Astro.props;
 
-const id = heading
-  .toLowerCase()
-  .split(" ")
-  .join("-");
+const id = slugger.slug(heading);
 ---
 
 <section class:list={["mt-6", className]}>
