@@ -11,27 +11,15 @@ const { entry, class: className } = Astro.props;
 const { Content } = await entry.render();
 ---
 
-<style>
-  /* Remove default disclosure triangle icon */
-  summary::-webkit-details-marker,
-  summary::marker { display: none; content: ""; }
-
-  /* Spacing */
-  details { margin-bottom: 0.5rem; }
-  details > summary { margin-bottom: 0.5rem; }
-  details > :global(:not(summary)) { margin-left: 1ch; }
-  details[open] { margin-bottom: 1.25rem; }
-
-  /* Custom disclosure icons */
-  details > summary::after { content: '+'; margin-left: 0.5rem; }
-  details[open] > summary::after { content: "-"; }
-
-  @media print {
-    summary::after { display: none; }
-  }
-</style>
-
-<details id={`${entry.id}`}class:list={["", className]}>
-  <summary class="text-lg font-600 cursor-pointer">{entry.data.skills}</summary>
-  <Content />
+<details
+  id={`${entry.slug}`}
+  class:list={[className, "group mb-2 open:mb-3"]}
+>
+  <summary class="mb-2 text-lg font-600 cursor-pointer lg:cursor-auto">
+    <span class="underline lg:no-underline">{entry.data.skills}</span>
+    <span class="group-open:hidden">+</span>
+  </summary>
+  <div class="ml-2">
+    <Content />
+  </div>
 </details>

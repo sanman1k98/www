@@ -31,6 +31,10 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
     background-color: white;
   }
 
+  /* Remove default disclosure triangle icon */
+  summary::-webkit-details-marker,
+  summary::marker { display: none; content: ""; }
+
   @media print {
     :root {
       font-size: 10.5px;
