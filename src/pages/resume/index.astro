@@ -12,9 +12,9 @@ import Contact from "./_components/Contact.astro";
 import SkillDetails from "./_components/SkillDetails.astro";
 
 const objective = cvEntries.find(({ slug }) => slug === "objective")!;
-const langSkills = cvEntries.find(({ slug }) => slug === "skills/languages")!;
-const techSkills = cvEntries.find(({ slug }) => slug === "skills/technologies")!;
-const miscSkills = cvEntries.find(({ slug }) => slug === "skills/miscellaneous")!;
+const langSkills = cvEntries.find(({ slug }) => slug === "skills/lang")!;
+const techSkills = cvEntries.find(({ slug }) => slug === "skills/tech")!;
+const miscSkills = cvEntries.find(({ slug }) => slug === "skills/misc")!;
 
 const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("open-source"));
