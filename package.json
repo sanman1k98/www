@@ -16,7 +16,7 @@
     "@fontsource-variable/red-hat-display": "^5.0.6",
     "@iconify-json/carbon": "^1.1.20",
     "@iconify-json/ph": "^1.1.6",
-    "astro": "^4.4.1",
+    "astro": "^4.4.3",
     "exif-reader": "^2.0.1",
     "sharp": "^0.33.2",
     "unocss": "^0.58.5"
