@@ -34,6 +34,19 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
   summary::-webkit-details-marker,
   summary::marker { display: none; content: ""; }
 
+  main {
+    display: grid;
+    margin-inline: auto;
+    grid: auto / max-content;
+    justify-content: center;
+  }
+
+  @screen lg {
+    main {
+      grid: auto / max-content max-content;
+    }
+  }
+
   @media print {
     :root {
       font-size: 10.5px;
@@ -46,12 +59,12 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
 <BaseLayout
   title="Sandeep Dilip's Resume"
   description="Sandeep Dilip's professional experience, open source projects, contact links, and other information."
+  class="font-mono"
 >
   <header class="
     container max-w-5xl
     mx-auto my-6 px-6 sm:px-10
     flex justify-between items-center
-    font-mono
     print:mb-4
   ">
     <div class="text-left">
@@ -62,12 +75,12 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
     </div>
     <Contact class={`
       text-2xl text-center
-      sm:text-base sm:text-right 
+      sm:text-base sm:text-right
       print:text-right print:text-sm!
     `}/>
   </header>
 
-  <main class="mx-auto grid grid-cols-1 lg:grid-cols-[max-content_max-content] justify-center lg:gap-x-10 px-6 font-mono text-sm sm:text-base text-slate-700">
+  <main class="lg:gap-x-10 px-6 text-sm sm:text-base text-slate-700">
     {Objective && (
       <Section
         heading="Objective"
@@ -81,7 +94,7 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
 
     <Section
       heading="Skills"
-      class="sm:mx-auto sm:w-[65ch] lg:w-auto lg:max-w-prose"
+      class="sm:mx-auto sm:w-prose lg:w-auto lg:max-w-prose"
     >
       <div class="
         ml-3 lg:pr-8 print:pr-8
