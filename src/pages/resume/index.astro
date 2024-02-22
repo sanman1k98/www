@@ -11,8 +11,11 @@ import Entry from "./_components/BaseEntry.astro";
 import Contact from "./_components/Contact.astro";
 import SkillDetails from "./_components/SkillDetails.astro";
 
-const objective = cvEntries.find(({ id }) => id === "objective.md")!;
-const skills = cvEntries.filter(isType("skills"));
+const objective = cvEntries.find(({ slug }) => slug === "objective")!;
+const langSkills = cvEntries.find(({ slug }) => slug === "skills/languages")!;
+const techSkills = cvEntries.find(({ slug }) => slug === "skills/technologies")!;
+const miscSkills = cvEntries.find(({ slug }) => slug === "skills/miscellaneous")!;
+
 const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("open-source"));
 const certifications = cvEntries.filter(isType("certification"));
@@ -100,18 +103,9 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
         ml-3 lg:pr-8 print:pr-8
         md:flex lg:block justify-between
       ">
-        <SkillDetails
-          class="w-40 mb-3"
-          entry={skills.find(entry => entry.data.skills === "Languages")!}
-        />
-        <SkillDetails
-          class="w-48 mb-3"
-          entry={skills.find(entry => entry.data.skills === "Technologies")!}
-        />
-        <SkillDetails
-          class="w-48 mb-3"
-          entry={skills.find(entry => entry.data.skills === "Miscellaneous")!}
-        />
+        <SkillDetails class="w-40 mb-3" entry={langSkills}/>
+        <SkillDetails class="w-48 mb-3" entry={techSkills}/>
+        <SkillDetails class="w-48 mb-3" entry={miscSkills}/>
       </div>
 
       <script define:vars={{ sidebarBreakpoint }}>
