@@ -1,6 +1,6 @@
 import type { z } from "astro/zod";
 import envSchema from "@/schemas/env";
-import type { Theme } from "@unocss/preset-uno";
+import type { Theme } from "@unocss/preset-mini";
 import { resolveConfig } from "@unocss/core";
 import unoConfig from "uno.config";
 
