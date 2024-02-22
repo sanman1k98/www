@@ -11,17 +11,16 @@ import Entry from "./_components/BaseEntry.astro";
 import Contact from "./_components/Contact.astro";
 import SkillDetails from "./_components/SkillDetails.astro";
 
+const objective = cvEntries.find(({ id }) => id === "objective.md")!;
 const skills = cvEntries.filter(isType("skills"));
 const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("open-source"));
 const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
 
-let Objective;
-if (env.BUILD_INCLUDE_PERSONAL) {
-  const objective = cvEntries.find(entry => entry.slug === "objective")!;
-  Objective = (await objective.render()).Content;
-}
+const { Content: Objective } = env.BUILD_INCLUDE_PERSONAL
+  ? await objective.render() ?? {}
+  : { Content: null };
 
 const sidebarBreakpoint = unoBreakpoints["lg"];
 ---
@@ -69,7 +68,7 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
   </header>
 
   <main class="mx-auto grid grid-cols-1 lg:grid-cols-[max-content_max-content] justify-center lg:gap-x-10 px-6 font-mono text-sm sm:text-base text-slate-700">
-    {env.BUILD_INCLUDE_PERSONAL && Objective && (
+    {Objective && (
       <Section
         heading="Objective"
         class="lg:col-span-2 mx-auto max-w-prose lg:max-w-4xl"
