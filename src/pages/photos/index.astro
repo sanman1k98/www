@@ -87,6 +87,18 @@ main {
   description="Some of my favorite photos that I've taken"
   class="pt-30 md:pt-36"
 >
+  <script is:inline>
+    const main = document.querySelector("main");
+    window.addEventListener("pageshow", (ev) => {
+      if (ev.persisted && sessionStorage.getItem("photosScroll") > 0) {
+        main.dataset.slideController = false;
+      }
+    });
+    window.addEventListener("pagehide", () => {
+      sessionStorage.setItem("photosScroll", window.scrollY);
+    });
+  </script>
+
   {
     photos.map((photo, i) => {
       const { slug, file, alt } = photo;
