@@ -114,7 +114,17 @@ body{background-color:#f0f9ff}main{padding-inline:env(safe-area-inset-left) env(
           transition duration-200
           hover:text-white/60
           [&#38;:hover+*,&#38;:has(+:hover)]:text-white/30
-        "> p </span> </a> </div> <nav class="text-sm sm:text-base sm:tracking-tight font-redhat font-450 text-sky-950"> <ul class="flex w-max rounded-full bg-white p-2 shadow-md shadow-black-400"> <li> <a class="py-1 px-2 link" href="/" target="_self"> Home </a> </li><li> <a class="py-1 px-2 link text-sky-600" aria-current="true" href="/photos" target="_self"> Photos </a> </li><li> <a class="py-1 px-2 link" href="/contact" target="_self"> Contact </a> </li> </ul> </nav> </header><main class="min-h-screen text-sky-950 pt-30 md:pt-36" data-astro-transition-scope="astro-5az5qcg6-1"><div data-slide-enter style="--enter-step:1;--ratio:0.6666666666666666"><figure class="
+        "> p </span> </a> </div> <nav class="text-sm sm:text-base sm:tracking-tight font-redhat font-450 text-sky-950"> <ul class="flex w-max rounded-full bg-white p-2 shadow-md shadow-black-400"> <li> <a class="py-1 px-2 link" href="/" target="_self"> Home </a> </li><li> <a class="py-1 px-2 link text-sky-600" aria-current="true" href="/photos" target="_self"> Photos </a> </li><li> <a class="py-1 px-2 link" href="/contact" target="_self"> Contact </a> </li> </ul> </nav> </header><main class="min-h-screen text-sky-950 pt-30 md:pt-36" data-astro-transition-scope="astro-5az5qcg6-1"><script>
+    const main = document.querySelector("main");
+    window.addEventListener("pageshow", (ev) => {
+      if (ev.persisted && sessionStorage.getItem("photosScroll") > 0) {
+        main.dataset.slideController = false;
+      }
+    });
+    window.addEventListener("pagehide", () => {
+      sessionStorage.setItem("photosScroll", window.scrollY);
+    });
+  </script><div data-slide-enter style="--enter-step:1;--ratio:0.6666666666666666"><figure class="
               overflow-clip
               bg-white border-white border-12 shadow-lg
               transition duration-350
