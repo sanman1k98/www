@@ -170,7 +170,8 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
         }
       </Section>
 
-      <Section heading="Open source">
+      {/* HACK: force page break before */}
+      <Section heading="Open source" class="break-before-page">
         {
           projects
             .filter(proj => !proj.data.draft)

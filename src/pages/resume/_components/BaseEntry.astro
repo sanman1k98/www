@@ -50,7 +50,7 @@ const { Content } = await entry?.render() ?? {};
   }
 </style>
 
-<article class="m-3 mb-5">
+<article class="m-3 mb-5 break-before-avoid break-inside-avoid">
   <header class="mb-2">
     {(Astro.slots.has("heading") || heading) && (
       <h3 class="leading-snug font-600 text-slate-700 text-lg tracking-tight">
