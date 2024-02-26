@@ -9,7 +9,7 @@ export function getShutterSpeed(exposureTime: number | undefined): string {
 }
 
 export function getExposureComp(value: number | undefined): string {
-  if (!value) return "-.-";
+  if (value === undefined) return "-.-";
   if (!Number.isInteger(value)) return value.toFixed(1);
   return value.toString();
 }
