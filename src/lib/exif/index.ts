@@ -1,13 +1,15 @@
 import type { Exif } from "exif-reader";
 
 /** If the exposure time is < 1, it will return a fraction. */
-export function getShutterSpeed(exposureTime: number): string {
+export function getShutterSpeed(exposureTime: number | undefined): string {
+  if (!exposureTime) return "1/--"
   if (exposureTime >= 1) return exposureTime.toString();
   const reciprocal = 1 / exposureTime;
   return `1/${reciprocal}`;
 }
 
-export function getExposureComp(value: number): string {
+export function getExposureComp(value: number | undefined): string {
+  if (!value) return "-.-";
   if (!Number.isInteger(value)) return value.toFixed(1);
   return value.toString();
 }
