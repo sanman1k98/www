@@ -1,5 +1,11 @@
 import { z } from "astro/zod";
-import { daterange, tags, org } from "./misc";
+import { tags, org } from "./misc";
+
+export const daterange = z
+  .object({
+    start: z.coerce.date(),
+    end: z.coerce.date().optional(),
+  });
 
 export const base = z
   .object({

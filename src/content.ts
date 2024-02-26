@@ -1,18 +1,10 @@
-import {
-  getCollection,
-  type CollectionEntry,
-  type z,
-} from "astro:content";
-
-import type {
-  cvSchema,
-  infoSchema,
-} from "@/content/config";
-
-import type { daterange } from "@/schemas/misc";
+import { getCollection, type CollectionEntry, type z } from "astro:content";
+import type { cvSchema, infoSchema, photosSchema } from "@/content/config";
+import type { daterange } from "@/schemas/cv";
 
 type CvEntryData = z.infer<typeof cvSchema>;
 type InfoEntryData = z.infer<typeof infoSchema>;
+type PhotosEntryData = z.infer<ReturnType<typeof photosSchema>>;
 
 export type CvEntryType = CvEntryData["type"];
 export type InfoEntryType = InfoEntryData["type"];
@@ -24,6 +16,8 @@ export type CvEntry<T extends CvEntryType> = CollectionEntry<"cv"> & {
 export type InfoEntry<T extends InfoEntryType> = CollectionEntry<"info"> & {
   data: Extract<InfoEntryData, { type: T }>;
 };
+
+export type Photo = PhotosEntryData[number];
 
 export function createCvEntryTypeGuard<T extends CvEntryType>(type: T) {
   // @ts-ignore: errors when collection is empty
@@ -73,7 +67,7 @@ const linksEntries = infoEntries.filter(createInfoEntryTypeGuard("links"));
  */
 export const links = Object.fromEntries(
   linksEntries.map(entry => [entry.id, entry.data.links])
-);
+) as { [key in InfoEntry<"links">["id"]]: InfoEntry<"links">["data"]["links"] };
 
 /**
  * A dictionary created from items in the "socials" entry, where each key is

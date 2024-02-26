@@ -49,12 +49,6 @@ export const link = z
     icon: z.string().optional(),
   });
 
-export const daterange = z
-  .object({
-    start: z.coerce.date(),
-    end: z.coerce.date().optional(),
-  });
-
 export const tags = z
   .object({
     tags: z.string().array(),
