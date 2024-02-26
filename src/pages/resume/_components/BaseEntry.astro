@@ -81,7 +81,7 @@ const { Content } = await entry?.render() ?? {};
       </p>
     )}
     <slot name="after-subheading">
-      <time class="leading-tight text-slate-500">{timetext}</time>
+      <time class="leading-tight text-slate-500">{timetext || afterSubheading}</time>
     </slot>
   </header>
   {(Astro.slots.has("default") || Content) && (
