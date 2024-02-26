@@ -1,6 +1,6 @@
 import { z, type SchemaContext } from "astro:content";
 import { fileURLToPath } from "node:url";
-import exifReader, { type Exif } from "exif-reader";
+import exifReader, { type Exif, type GenericTag } from "exif-reader";
 
 const PHOTOS_COLLECTION_DIR = new URL("../content/photos/", import.meta.url);
 
@@ -11,16 +11,15 @@ type ExifTags = { [key in TagGroup]?: Exif[key] };
 
 let sharp: typeof import("sharp");
 
-/** Converts Buffers into number arrays. */
+/** Mutates the given object by converting any Buffers into number arrays. */
 const fixExif = (data: ExifTags) => {
   for (const group of Object.entries(data)) {
     const [_, tags] = group as [TagGroup, NonNullable<ExifTags[TagGroup]>];
     for (const tag of Object.entries(tags)) {
       const [name, value] = tag;
-      // @ts-ignore
       tags[name] = value instanceof Buffer
         ? Array.from(value)
-        : value;
+        : value as Exclude<GenericTag, Buffer>;
     }
   }
   return data;
@@ -51,19 +50,42 @@ export const photos = ({ image }: SchemaContext) => {
         const fileURL = new URL(path, PHOTOS_COLLECTION_DIR);
         const imagePath = fileURLToPath(fileURL);
 
-        // Dynamically load sharp
+        // Lazily load sharp
         if (!sharp) sharp = (await import("sharp")).default;
 
         // Give sharp path to image
         const { exif: buf } = await sharp(imagePath).metadata();
-        // Return without metadata if no EXIF present
-        if (!buf) return { file: transformed.data, ...rest };
 
+        // Error if an image has no EXIF metadata
+        if (!buf) {
+          ctx.addIssue({
+            code: "custom",
+            message: `Image ${path} does not contain any EXIF metadata.`,
+            fatal: true
+          });
+          return z.NEVER;
+        };
+
+        // Use `exif-reader` to parse information
         const { bigEndian: _, ...exifTags } = exifReader(buf);
+        // Astro only allows POJOs in collection entries.
+        const { Image, Photo, ...restExif } = fixExif(exifTags);
+
+        // Error if EXIF does not have "Photo" or "Image" IFDs
+        if (!Image || !Photo) {
+          ctx.addIssue({
+            code: "custom",
+            message: `EXIF metadata in image ${path} does not contain either "Photo" or "Image" IFDs.`,
+            fatal: true
+          });
+          return z.NEVER;
+        };
+
         return {
+          /** Transformed metadata which can be passed to `<Image />`, `getImage()`, or `<img>`. */
           file: transformed.data,
-          // Astro only allows POJOs in Data entries
-          exif: fixExif(exifTags),
+          /** Parsed EXIF metadata information. */
+          exif: { Image, Photo, ...restExif },
           ...rest
         };
       }

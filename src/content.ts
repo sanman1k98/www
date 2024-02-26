@@ -7,12 +7,9 @@ import {
 import type {
   cvSchema,
   infoSchema,
-  collections,
 } from "@/content/config";
 
 import type { daterange } from "@/schemas/misc";
-
-export type CollectionKey = keyof typeof collections;
 
 type CvEntryData = z.infer<typeof cvSchema>;
 type InfoEntryData = z.infer<typeof infoSchema>;
@@ -86,4 +83,7 @@ export const socials = Object.fromEntries(
   links.socials.map(link => [link.text.toLowerCase(), link])
 );
 
-export const photos = (await getCollection("photos"))[0].data;
+/** 
+ * A list of photos with alt text and transformed metadata.
+ */
+export const photos = (await getCollection("photos", ({ id }) => id === "index"))[0].data
