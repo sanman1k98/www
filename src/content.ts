@@ -29,12 +29,15 @@ export type InfoEntry<T extends InfoEntryType> = CollectionEntry<"info"> & {
 };
 
 export function createCvEntryTypeGuard<T extends CvEntryType>(type: T) {
+  // @ts-ignore: errors when collection is empty
   return (entry: CollectionEntry<"cv">): entry is CvEntry<T> => entry.data.type === type;
 }
 
 export function createInfoEntryTypeGuard<T extends InfoEntryType>(type: T) {
   return (entry: CollectionEntry<"info">): entry is InfoEntry<T> => entry.data.type === type;
 }
+
+type SortableCvEntry = CollectionEntry<"cv"> & { data: Partial<z.infer<typeof daterange>> };
 
 /**
  * Compare two entries in the "cv" collection by their date ranges. Intended to
@@ -46,11 +49,7 @@ export function createInfoEntryTypeGuard<T extends InfoEntryType>(type: T) {
  * If the end dates are equal (e.g., they are both undefined which means they
  * are both ongoing), compare the entries by their start dates.
  */
-export function compareCvEntryDateranges<
-  E extends CollectionEntry<"cv"> & {
-    data: Partial<z.infer<typeof daterange>>;
-  }
->(a: E, b: E) {
+export function compareCvEntryDateranges(a: SortableCvEntry, b: SortableCvEntry) {
   if (!(a.data.start && b.data.start)) return 0;
   // Create a value for undefined end dates
   const present = Date.now().valueOf();
@@ -60,11 +59,14 @@ export function compareCvEntryDateranges<
     a.data.end?.valueOf() ?? present,
     b.data.end?.valueOf() ?? present,
   ];
-  // NOTE: JS considers 0 to be falsy
+  // JS considers 0 to be falsy
   return endA - endB || startA - startB;
 }
 
-export const cvEntries = (await getCollection("cv")).sort(compareCvEntryDateranges).reverse();
+// An empty collection will return `undefined` i.e., when the "cv" git submodule is empty
+const maybeCvEntries: SortableCvEntry[] = await getCollection("cv") ?? [];
+
+export const cvEntries: CollectionEntry<"cv">[] = maybeCvEntries.sort(compareCvEntryDateranges).reverse();
 export const infoEntries = await getCollection("info");
 
 const linksEntries = infoEntries.filter(createInfoEntryTypeGuard("links"));
