@@ -14,34 +14,39 @@ git clone --recurse-submodules https://github.com/sanman1k98/www.git
 
 ```
 /
-├── .github/            # workflows that deploy the site
+├── .github/                    # workflows that deploy the site
 │   └── ...
-├── scripts/            # CI/CD related
+├── scripts/                    # CI/CD related
 │   └── ...
 ├── public/
 │   ├── fonts/
 │   └── ...
-├── src/
+├── src/                        # Has a `tsconfig.json` path alias "@/*"
+│   ├── components/
+│   │   ├── HeadMeta.astro      # Tags for SEO and stuff
+│   │   ├── Perlin.astro        # Website background pattern
+│   │   └── ...
 │   ├── content/
 │   │   ├── cv/ -> https://github.com/sanman1k98/cv.git
 │   │   ├── info/
-│   │   ├── photos/
-│   │   └── config.ts     # Defines collections using "src/schemas"
-│   ├── components/
-│   │   └── ...
+│   │   ├── photos/             # Contains an `index.yaml` and image files
+│   │   └── config.ts           # Defines collections using "src/schemas"
 │   ├── layouts/
-│   │   └── ...
+│   │   ├── BaseLayout.astro    # HTML and slot for `<body>`
+│   │   └── MainLayout.astro    # Components and slot for `<main>`
 │   ├── pages/
-│   │   ├── resume/       # Uses "cv" collection entries
+│   │   ├── resume/             # Uses "cv" collection entries
+│   │   ├── photos/
+│   │   ├── index.astro         # Landing page
 │   │   └── ...
-│   ├── schemas/          # Zod schemas
+│   ├── schemas/                # Zod schemas for Astro Content Collections
 │   │   ├── cv.ts
-│   │   ├── env.ts        # Used in "src/utils"
 │   │   ├── info.ts
-│   │   └── ...
+│   │   ├── misc.ts
+│   │   └── photos.ts           # Parses EXIF metadata
 │   ├── utils/
 │   │   └── ...
-│   └── content.ts        # Collection entries and helpers
+│   └── content.ts              # Content Collection Entries and types
 ├── package.json
 └── ...
 ```
@@ -54,9 +59,10 @@ All commands are run from the root of the project, from a terminal:
 | :--------------------- | :----------------------------------------------- |
 | `bun install`          | Installs dependencies                            |
 | `bun run dev`          | Starts local dev server at `localhost:4321`      |
+| `bun run check`        | Check project for type errors                    |
 | `bun run build`        | Build your production site to `./dist/`          |
 | `bun run preview`      | Preview your build locally, before deploying     |
-| `bun run deploy`      | Build and push to trigger deployment workflow     |
+| `bun run deploy`       | Build and push to trigger deployment workflow    |
 | `bun run astro ...`    | Run CLI commands like `astro add`, `astro check` |
 | `bun run astro --help` | Get help using the Astro CLI                     |
 
