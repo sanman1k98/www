@@ -18,6 +18,7 @@
     "@iconify-json/ph": "^1.1.6",
     "astro": "^4.4.4",
     "exif-reader": "^2.0.1",
+    "github-slugger": "^2.0.0",
     "sharp": "^0.33.2",
     "unocss": "^0.58.5"
   },
@@ -26,6 +27,9 @@
     "@astrojs/ts-plugin": "^1.5.3",
     "@types/bun": "^1.0.6",
     "@types/node": "^20.11.19",
+    "@unocss/core": "^0.58.5",
+    "@unocss/preset-mini": "^0.58.5",
+    "@unocss/reset": "^0.58.5",
     "typescript": "^5.3.3"
   },
   "trustedDependencies": [
