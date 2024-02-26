@@ -16,15 +16,18 @@ const {
 } = Astro.props;
 ---
 
-<header class:list={[
-  className,
-  "flex container mx-auto",
-  "justify-between items-center",
-  inset && "absolute inset-x-0 top-0",
-  "lt-sm:px-[7vw] sm:px-8",
-  "gap-2",
-  "z-50",
-]}>
+<header
+  {style}
+  class:list={[
+    className,
+    "flex container mx-auto",
+    "justify-between items-center",
+    inset && "absolute inset-x-0 top-0",
+    "lt-sm:px-[7vw] sm:px-8",
+    "gap-2",
+    "z-50",
+  ]}
+>
   <Logo class="mb-2"/>
   <Nav class="text-sm sm:text-base sm:tracking-tight"/>
 </header>
