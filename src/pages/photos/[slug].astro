@@ -22,24 +22,20 @@ type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 const { photo } = Astro.props;
 const { slug, file, exif } = photo;
 
-let exifinfo;
+const dateFormat = Intl.DateTimeFormat("en", {
+  dateStyle: "medium",
+  timeStyle: "short",
+  timeZone: "UTC",
+});
 
-if (exif) {
-  const dateFormat = Intl.DateTimeFormat("en", {
-    dateStyle: "medium",
-    timeStyle: "short",
-    timeZone: "UTC",
-  });
-
-  exifinfo = {
-    camera: exif.Image.Model,
-    datetime: dateFormat.format(exif.Photo.DateTimeOriginal),
-    f: exif.Photo.FNumber,
-    focallen: exif.Photo.FocalLengthIn35mmFilm ?? exif.Photo.FocalLength,
-    iso: exif.Photo.ISOSpeedRatings,
-    shutter: getShutterSpeed(exif.Photo.ExposureTime),
-    ev: getExposureComp(exif.Photo.ExposureBiasValue),
-  }
+const exifinfo = {
+  camera: exif.Image.Model,
+  datetime: dateFormat.format(exif.Photo.DateTimeOriginal),
+  f: exif.Photo.FNumber,
+  focallen: exif.Photo.FocalLengthIn35mmFilm ?? exif.Photo.FocalLength,
+  iso: exif.Photo.ISOSpeedRatings,
+  shutter: getShutterSpeed(exif.Photo.ExposureTime),
+  ev: getExposureComp(exif.Photo.ExposureBiasValue),
 }
 ---
 
