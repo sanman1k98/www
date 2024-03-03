@@ -1,33 +1,42 @@
 ---
 type Props = { class?: string };
-const words = ["nice", "sandeep"];
 ---
 
-<div class:list={[Astro.props.class, "relative"]}>
-  {/*
-    Subtle drop-shadow-like effect uring a blurred div; increases text contrast
-    against background
-  */}
-  <div class="-z-50 absolute inset-0 bg-white/80 blur-lg"/>
+<style>
+.logo-char {
+  transition-duration: 200ms;
+  display: inline-block;
+  color: transparent;
+  background-clip: text
+}
+
+@media (min-width: 500px) {
+  .logo-char { display: inline-block !important }
+}
+
+@media (hover: hover), (any-hover: hover) {
+  .logo-char:hover { color: rgb(255 255 255 / 0.6) }
+  .logo-char:hover+*, .logo-char:has(+:hover) {
+    color: rgb(255 255 255 / 0.3);
+  }
+}
+</style>
+
+<div class:list={[Astro.props.class]}>
   <a href="/" class="
-    inline-block p-1
-    text-5xl
-    font-quicksand font-450 tracking-tight
+    inline-block p-4 text-5xl
+    font-quicksand font-500 tracking-tighter bg-clip-text
     bg-gradient-to-r from-30% from-sky-600 to-70% to-pink-500
-    bg-clip-text text-transparent
   ">
     {
-      words.map(word => Array.from(word, ((char, i) => (
-        <span class={`
-          ${i === 0 ? "inline-block" : "hidden"}
-          media-[(min-width:580px)]:inline-block
-          transition duration-200
-          hover:text-white/60
-          [&:hover+*,&:has(+:hover)]:text-white/30
-        `}>
-          {char}
-        </span>
-      ))))
+      [
+        Array.from("nice", (char, i) => (
+          <span class:list={[i && "hidden!", "logo-char"]}>{char}</span>
+        )),
+        Array.from("sandeep", (char, i) =>
+          (<span class:list={[i && "hidden!", "logo-char logo-s"]}>{char}</span>
+        ))
+      ]
     }
   </a>
 </div>
