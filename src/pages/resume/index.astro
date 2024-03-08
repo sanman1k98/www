@@ -1,7 +1,7 @@
 ---
 import {
   cvEntries,
-  type CvEntry,
+  compareCvEntries,
   createCvEntryTypeGuard as isType,
 } from "@/content";
 import { env, unoBreakpoints } from "@/utils"
@@ -13,12 +13,10 @@ import Contact from "./_components/Contact.astro";
 import SkillDetails from "./_components/SkillDetails.astro";
 
 const objective = cvEntries.find(({ slug }) => slug === "objective")!;
-const langSkills = cvEntries.find(({ slug }) => slug === "skills/lang")! as CvEntry<"skills">;
-const techSkills = cvEntries.find(({ slug }) => slug === "skills/tech")! as CvEntry<"skills">;
-const miscSkills = cvEntries.find(({ slug }) => slug === "skills/misc")! as CvEntry<"skills">;
+const skills = cvEntries.filter(isType("skills")).toSorted(compareCvEntries);
 
 const experience = cvEntries.filter(isType("experience"));
-const projects = cvEntries.filter(isType("open-source"));
+const projects = cvEntries.filter(isType("open-source")).toSorted(compareCvEntries);
 const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
 
@@ -109,9 +107,13 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
         ml-3 lg:pr-8 print:pr-8
         md:flex lg:block justify-between
       ">
-        <SkillDetails class="w-40 mb-3" entry={langSkills}/>
-        <SkillDetails class="w-48 mb-3" entry={techSkills}/>
-        <SkillDetails class="w-48 mb-3" entry={miscSkills}/>
+        {
+          skills.map(
+            (skill, i) => (
+              <SkillDetails class:list={["mb-3", i === 0 ? "w-40" : "w-48"]} entry={skill}/>
+            )
+          )
+        }
       </div>
 
       <script define:vars={{ sidebarBreakpoint }}>
