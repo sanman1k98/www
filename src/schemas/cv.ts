@@ -8,11 +8,16 @@ export const daterange = z
   });
 
 export const base = z
-  .object({
+  .strictObject({
     type: z.literal("base").default("base"),
+    /** Set to `true` to exclude from building. */
     draft: z.boolean().default(false),
+    /**
+     * Can be used to manually sort entries and will take
+     * priority over start and end dates when sorting.
+     */
+    order: z.number().optional(),
   })
-  .strict();
 
 export const skills = base
   .extend({
