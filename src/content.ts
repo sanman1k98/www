@@ -30,20 +30,25 @@ export function createInfoEntryTypeGuard<T extends InfoEntryType>(type: T) {
 
 type SortableCvEntry = CollectionEntry<"cv"> & { data: Partial<z.infer<typeof daterange>> };
 
+const present = Date.now().valueOf();
+
 /**
- * Compare two entries in the "cv" collection by their date ranges. Intended to
- * be used with `Array.prototype.sort()`.
+ * A callback to sort entries in the "cv" collection by comparing which one
+ * happened most recently, or by their specified orders.
  *
- * Return zero if both entries don't have start dates, otherwise compare both
- * entries by their end dates.
- *
- * If the end dates are equal (e.g., they are both undefined which means they
- * are both ongoing), compare the entries by their start dates.
+ * Entries can be compared using values from the following fields if they exist
+ * on both, and are listed here from highest to lowest priority:
+ * 1. "order"
+ * 2. "end"
+ * 3. "start"
  */
-export function compareCvEntryDateranges(a: SortableCvEntry, b: SortableCvEntry) {
-  if (!(a.data.start && b.data.start)) return 0;
-  // Create a value for undefined end dates
-  const present = Date.now().valueOf();
+export function compareCvEntries(a: SortableCvEntry, b: SortableCvEntry): number {
+  // Check "order" values first
+  const [orderA, orderB] = [a.data.order, b.data.order];
+  if (orderA !== undefined && orderB !== undefined) return orderA - orderB;
+  // If and entry doesn't have a "start" they def don't have an "end", so we'll
+  // return 0 so they won't get sorted.
+  else if (!(a.data.start && b.data.start)) return 0;
   const [startA, startB, endA, endB] = [
     a.data.start.valueOf(),
     b.data.start.valueOf(),
@@ -57,14 +62,14 @@ export function compareCvEntryDateranges(a: SortableCvEntry, b: SortableCvEntry)
 // An empty collection will return `undefined` i.e., when the "cv" git submodule is empty
 const maybeCvEntries: SortableCvEntry[] = await getCollection("cv") ?? [];
 
-export const cvEntries: CollectionEntry<"cv">[] = maybeCvEntries.sort(compareCvEntryDateranges).reverse();
+/** Sorted in (mostly) reverse chronological order. */
+export const cvEntries: CollectionEntry<"cv">[] = maybeCvEntries.sort(compareCvEntries).reverse();
+
 export const infoEntries = await getCollection("info");
 
 const linksEntries = infoEntries.filter(createInfoEntryTypeGuard("links"));
 
-/**
- * Keys are filenames of "links" entries in the "info" collection.
- */
+/** Keys are filenames of "links" entries in the "info" collection. */
 export const links = Object.fromEntries(
   linksEntries.map(entry => [entry.id, entry.data.links])
 ) as { [key in InfoEntry<"links">["id"]]: InfoEntry<"links">["data"]["links"] };
