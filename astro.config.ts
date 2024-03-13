@@ -1,5 +1,6 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, sharpImageService } from 'astro/config';
 import sitemap from "@astrojs/sitemap"
+import icon from "astro-icon";
 import UnoCSS from "unocss/astro";
 
 export default defineConfig({
@@ -7,12 +8,11 @@ export default defineConfig({
   prefetch: { prefetchAll: true },
   integrations: [
     sitemap(),
+    icon(),
     UnoCSS({
       // When passing true, "@unocss/reset/tailwind.css" will be used
       injectReset: true,
     }),
   ],
-  image: {
-    service: { entrypoint: "./src/lib/sharp-service.ts" },
-  },
+  image: { service: sharpImageService() },
 });
