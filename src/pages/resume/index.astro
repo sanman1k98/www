@@ -70,18 +70,18 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
 
   <header class="
     container max-w-5xl
-    mx-auto my-6 px-6 sm:px-10
-    flex justify-between items-center
+    mx-auto my-6 px-2 sm:px-10
+    flex flex-wrap justify-between items-center gap-y-8
     print:mb-4
   ">
     <div class="text-left">
       <h1 class="text-3xl tracking-tighter font-600 text-slate-900">
         <a href="/">
-          <span aria-hidden="true" class="text-slate-400 mr-3">#</span>
+          <span aria-hidden="true" class="hidden sm:inline text-slate-300 mr-2">#</span>
           <span>Sandeep Dilip</span>
         </a>
       </h1>
-      <p class="text-slate-500 ml-8">Software Engineer</p>
+      <p class="text-slate-500 sm:ml-8">Software Engineer</p>
     </div>
     <Contact class={`
       text-2xl text-center
@@ -163,21 +163,7 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
         }
       </Section>
 
-      <Section heading="Certification">
-        {
-          certifications.map(({ data: cert }) => (
-            <Entry
-              link={cert.url}
-              heading={cert.name}
-              subheading={cert.organization.name}
-              time={cert.issueDate}
-            />
-          ))
-        }
-      </Section>
-
-      {/* HACK: force page break before */}
-      <Section heading="Open source" class="break-before-page">
+      <Section heading="Open source" class="">
         {
           projects
             .filter(proj => !proj.data.draft)
@@ -189,6 +175,19 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
                 entry={proj}
               />
             ))
+        }
+      </Section>
+
+      <Section heading="Certification">
+        {
+          certifications.map(({ data: cert }) => (
+            <Entry
+              link={cert.url}
+              heading={cert.name}
+              subheading={cert.organization.name}
+              time={cert.issueDate}
+            />
+          ))
         }
       </Section>
 
