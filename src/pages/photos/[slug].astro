@@ -1,6 +1,5 @@
 ---
 import type {
-  InferGetStaticParamsType,
   InferGetStaticPropsType,
   GetStaticPaths
 } from "astro";
@@ -17,10 +16,9 @@ export const getStaticPaths = (() =>
 ) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 
 const { photo } = Astro.props;
-const { slug, file, exif } = photo;
+const { file, exif } = photo;
 
 const dateFormat = Intl.DateTimeFormat("en", {
   dateStyle: "medium",
@@ -42,9 +40,8 @@ const exifinfo = {
 <Page
   title="Photos"
   class="flex flex-col items-center"
-  inset-banner={true}
+  fixed-banner={false}
 >
-  <div class="h-32 w-full bg-gradient-to-t from-white"/>
   <figure
     class="w-full bg-white"
   >
