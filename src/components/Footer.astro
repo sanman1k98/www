@@ -1,12 +1,10 @@
 ---
 type Props = { class?: string };
-
-const { class: className } = Astro.props;
 ---
 
 <footer class:list={[
-  "font-redhat font-450 text-sky-950",
-  className
+  Astro.props.class,
+  "font-redhat font-450 text-sky-950"
 ]}>
   <ul class="
     flex mx-auto justify-center
