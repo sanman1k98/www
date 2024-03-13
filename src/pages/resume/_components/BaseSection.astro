@@ -13,11 +13,11 @@ const { heading, class: className } = Astro.props;
 const id = slugger.slug(heading);
 ---
 
-<section class:list={["mt-6", className]}>
-  <h2 id={id} class="mb-4 font-600 text-xs text-slate-500 uppercase">
-    <a href={("#").concat(id)} class="flex gap-x-2 whitespace-nowrap">
+<section class:list={["mt-6 mx-2", className]}>
+  <h2 id={id} class="ml-2 mb-4 font-800 text-xs uppercase">
+    <a href={("#").concat(id)} class="flex whitespace-nowrap">
       <span aria-hidden="true" class="text-slate-300">##</span>
-      <span class="tracking-[0.2em]">{heading}</span>
+      <span class="mx-1 px-1 text-slate-500 tracking-[0.2em]">{heading}</span>
       <span aria-hidden="true" class="inline-block h-px w-full self-center bg-slate-300"></span>
     </a>
   </h2>
