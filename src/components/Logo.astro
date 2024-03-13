@@ -3,38 +3,44 @@ type Props = { class?: string };
 ---
 
 <style>
-.logo-char {
+a {
+  font-size: clamp(2.25rem, 6vmin, 3rem);
+  line-height: inherit;
+  letter-spacing: -0.06em;
+}
+
+span {
   transition-duration: 200ms;
   display: inline-block;
   color: transparent;
-  background-clip: text
+  background-clip: text;
 }
 
-@media (min-width: 500px) {
-  .logo-char { display: inline-block !important }
+@media (min-width: 492px) {
+  span { display: inline-block !important }
 }
 
 @media (hover: hover), (any-hover: hover) {
-  .logo-char:hover { color: rgb(255 255 255 / 0.6) }
-  .logo-char:hover+*, .logo-char:has(+:hover) {
-    color: rgb(255 255 255 / 0.3);
+  a:hover { filter: brightness(1.25) }
+  span:hover { color: rgb(255 255 255 / 0.45) }
+  span:hover+*, span:has(+:hover) {
+    color: rgb(255 255 255 / 0.25);
   }
 }
 </style>
 
 <div class:list={[Astro.props.class]}>
   <a href="/" class="
-    inline-block p-4 text-5xl
-    font-quicksand font-500 tracking-tighter bg-clip-text
-    bg-gradient-to-r from-30% from-sky-600 to-70% to-pink-500
+    inline-block pr-1 transition duration-600 font-quicksand font-500
+    bg-clip-text bg-gradient-to-r from-30% from-sky-600 to-70% to-pink-500
   ">
     {
       [
         Array.from("nice", (char, i) => (
-          <span class:list={[i && "hidden!", "logo-char"]}>{char}</span>
+          <span class:list={[i && "hidden!"]}>{char}</span>
         )),
-        Array.from("sandeep", (char, i) =>
-          (<span class:list={[i && "hidden!", "logo-char logo-s"]}>{char}</span>
+        Array.from("sandeep", (char, i) => (
+          <span class:list={[i && "hidden!"]}>{char}</span>
         ))
       ]
     }
