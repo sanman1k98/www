@@ -27,7 +27,7 @@ import { photos } from "@/content";
   --enter-start: 0ms;
 }
 
-[data-slide-controller=false] [data-slide-enter] { animation: none; }
+[data-slide-controller=false] [data-slide-enter] { animation: none }
 
 @media (prefers-reduced-motion:no-preference) {
   [data-slide-enter] {
@@ -88,14 +88,8 @@ main {
   class="pt-30 md:pt-36"
 >
   <script is:inline>
-    const main = document.querySelector("main");
-    window.addEventListener("pageshow", (ev) => {
-      if (ev.persisted && sessionStorage.getItem("photosScroll") > 0) {
-        main.dataset.slideController = false;
-      }
-    });
-    window.addEventListener("pagehide", () => {
-      sessionStorage.setItem("photosScroll", window.scrollY);
+    addEventListener("pageshow", (ev) => {
+      if (ev.persisted) document.querySelector("main").dataset.slideController = false; 
     });
   </script>
 
