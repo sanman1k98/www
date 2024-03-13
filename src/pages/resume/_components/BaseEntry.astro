@@ -56,16 +56,18 @@ const { Content } = await entry?.render() ?? {};
       <h3 class="leading-snug font-600 text-slate-700 text-lg tracking-tight">
         {link ? (
           <a
-            class="group flex max-w-fit decoration-current decoration-1 link"
+            class="group flex max-w-fit"
             href={link}
             target="_blank"
           >
-            <span><slot name="heading">{heading}</slot></span>
+            <span class="transition duration-200 font-650 underline underline-offset-3 decoration-2 decoration-sky-500 group-hover:text-sky-900 group-hover:decoration-3 group-hover:decoration-sky-400 print:underline-offset-2">
+              <slot name="heading">{heading}</slot>
+            </span>
             <div class="
               print:hidden
               i-ph-arrow-up-right-bold
-              transition-transform duration-200
-              opacity-50 scale-85
+              transition duration-300
+              text-slate-500 opacity-50 scale-85
               group-hover:translate-x-1 group-hover:-translate-y-1
               group-hover:opacity-100 group-hover:scale-100
             "></div>
