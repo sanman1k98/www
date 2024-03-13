@@ -6,9 +6,16 @@ import { links } from "@/content";
 
 <Page
   title="Contact"
-  class="flex flex-col justify-center items-center"
+  description="Sandeep Dilip's links to social media and contact information"
+  fixed-banner={false}
+  class="flex flex-col place-items-center"
 >
-  <address>
+  <address
+    style={{
+      paddingTop: "min(20svh, 256px)",
+      paddingBottom: "min(40vmin, 256px)",
+    }}
+  >
     <ul>
       {
         links.socials.map(({ text, icon, ...attrs }) => (
