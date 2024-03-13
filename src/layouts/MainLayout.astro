@@ -13,6 +13,8 @@ type Props = {
   style?: string;
   /** Absolutely position the banner at the top. */
   "fixed-banner"?: boolean;
+  /** Set to `false` to remove the padding on the `<main>` element. */
+  "safe-area-padding"?: boolean;
 };
 
 const {
@@ -21,6 +23,7 @@ const {
   class: className,
   style,
   "fixed-banner": fixedBanner = true,
+  "safe-area-padding": safeAreaPadding = true,
   ...attrs
 } = Astro.props;
 
@@ -32,7 +35,7 @@ const description = descString ?? "Sandeep Dilip's personal website"
 
 <style is:global>
   body { background-color: white }
-  main {
+  .safe-area-padding {
     padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
   }
 </style>
@@ -50,7 +53,11 @@ const description = descString ?? "Sandeep Dilip's personal website"
   {/* Slot for main content. */}
   <main
     {style}
-    class:list={["min-h-screen text-sky-950", className]}
+    class:list={[
+      className,
+      "min-h-screen text-sky-950",
+      safeAreaPadding && "safe-area-padding",
+    ]}
     { ...attrs }
   >
     <slot />
