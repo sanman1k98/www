@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import Icon from "@/components/Icon.astro";
+import { Icon } from "astro-icon/components";
 import { env } from "@/utils"
 import { socials } from "@/content";
 
@@ -41,7 +41,7 @@ const { class: className } = Astro.props;
         <li>
           <a class="flex justify-end content-center" { ...attrs }>
             <span class="hidden sm:inline">{text}</span>
-            <Icon name={icon} label={text} class="print:hidden ml-1"/>
+            <Icon name={icon} class="print:hidden inline-block size-[1.2em] ml-1"/>
           </a>
         </li>
       )})

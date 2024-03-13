@@ -45,7 +45,7 @@ export const link = z
       .default("_self"),
     rel: z.string().optional(),
 
-    /** **Optional**: An UnoCSS class that specifies an icon. */
+    /** **Optional**: An Iconify icon name. */
     icon: z.string().optional(),
   });
 
