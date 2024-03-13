@@ -15,17 +15,9 @@ type Props = { class?: string };
   </svg>
 
   {/* A simple Perlin noise pattern using the SVG filter above. */}
-  <div class="absolute inset-0" style="filter: url(#noise);"/>
+  <div class="absolute inset-0" style="filter:url(#noise)"></div>
 
-  {/* A gradient on top of the noise pattern. */}
-  <div class="
-    absolute inset-0
-    bg-gradient-to-b
-    from-50% from-sky-50/85
-    via-90% via-sky-100/60
-  "/>
-
-  {/* Add additional gradients here. */}
+  {/* Add additional patterns here. */}
   <slot />
 
 </div>

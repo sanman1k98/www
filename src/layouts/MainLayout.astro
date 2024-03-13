@@ -41,8 +41,11 @@ const description = descString ?? "Sandeep Dilip's personal website"
 </style>
 
 <BaseLayout {title} {description} class="relative">
-  {/* Background to fill the whole page. */}
-  <Perlin class="absolute inset-0 -z-50"/>
+  {/* A noise pattern background to fill the whole page. */}
+  <Perlin class="absolute inset-0 -z-50">
+    {/* A gradient on top of the noise. */}
+    <div class="absolute inset-0 bg-gradient-to-b from-50% from-sky-50/85 via-90% via-sky-100/60"></div>
+  </Perlin>
 
   {/* Site logo and navigation components. */}
   <Banner inset={insetBanner} class="py-[3vh] sm:py-8"/>
