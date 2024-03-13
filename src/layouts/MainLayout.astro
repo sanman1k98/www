@@ -7,15 +7,12 @@ import Footer from "@/components/Footer.astro";
 type Props = {
   title?: string;
   description?: string;
-
   /** Classes to add to the `<main>` element. */
   class?: string;
-
   /** Styles to add to the `<main>` element. */
   style?: string;
-
-  /** Absolutely position the banner at the top; defaults to true.*/
-  "inset-banner"?: boolean;
+  /** Absolutely position the banner at the top. */
+  "fixed-banner"?: boolean;
 };
 
 const {
@@ -23,7 +20,7 @@ const {
   description: descString,
   class: className,
   style,
-  "inset-banner": insetBanner = true,
+  "fixed-banner": fixedBanner = true,
   ...attrs
 } = Astro.props;
 
@@ -48,7 +45,7 @@ const description = descString ?? "Sandeep Dilip's personal website"
   </Perlin>
 
   {/* Site logo and navigation components. */}
-  <Banner inset={insetBanner} class="py-[3vh] sm:py-8"/>
+  <Banner fixed={fixedBanner} class="pb-1"/>
 
   {/* Slot for main content. */}
   <main
