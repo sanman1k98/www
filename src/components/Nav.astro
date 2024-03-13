@@ -3,8 +3,6 @@ import { links } from "@/content";
 
 type Props = { class?: string };
 
-const { class: className } = Astro.props;
-
 const pages = links.pages.map(page => {
   // Filter out pages that I don't want in the component
   switch (page.text.toLowerCase()) {
@@ -17,18 +15,37 @@ const pages = links.pages.map(page => {
 });
 ---
 
-<nav class:list={[className, "font-redhat font-450 text-sky-950"]}>
-  <ul class="flex w-max rounded-full bg-white p-2 shadow-md shadow-black-400">
+<style>
+li:last-child > a { padding-right: 0 }
+
+@media (hover: hover), (any-hover: hover) {
+  .group:hover li:not(:hover) { opacity: 0.65 }
+  .group:hover a:not(:hover) { opacity: 0.65 }
+  li:hover { opacity: 1 !important }
+  a:hover { 
+    text-decoration-color: theme(colors.sky.400);
+    text-decoration-thickness: 3px;
+    opacity: 1 !important;
+    color: black;
+  }
+}
+</style>
+
+<nav class:list={[Astro.props.class, "font-redhat font-500 text-sky-950"]}>
+  <ul class="group w-max flex divide-x-1">
     {
       pages.map(link => {
         if (!link) return;
         const { text, ...attrs } = link;
         return (
-          <li>
+          <li class="transition duration-900">
             <a
               class:list={[
-                "py-1 px-2 link",
-                link["aria-current"] && "text-sky-600",
+                "py-3 px-3 sm:px-5 md:px-7 transition duration-200 underline underline-offset-5",
+                {
+                  "underline-3 decoration-sky-500": link["aria-current"],
+                  "decoration-transparent": !link["aria-current"],
+                }
               ]}
               { ...attrs }
             >

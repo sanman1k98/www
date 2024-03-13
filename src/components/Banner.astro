@@ -5,14 +5,17 @@ import Nav from "./Nav.astro";
 type Props = {
   class?: string,
   style?: string,
-  /** Set to `true` to absolutely position at the top. */
-  inset?: boolean,
+  /**
+   * Set to `true` to absolutely position the `<header>` at the top and remove
+   * from normal flow.
+   */
+  fixed?: boolean,
 };
 
 const {
   class: className,
   style,
-  inset = false
+  fixed = false,
 } = Astro.props;
 ---
 
@@ -20,14 +23,11 @@ const {
   {style}
   class:list={[
     className,
-    "flex container mx-auto",
-    "justify-between items-center",
-    inset && "absolute inset-x-0 top-0",
-    "lt-sm:px-[7vw] sm:px-8",
-    "gap-2",
-    "z-50",
+    "flex justify-between items-center gap-x-2 px-[7vw] sm:px-8 z-50",
+    "bg-white/85 backdrop-blur-md border-b",
+    fixed ? "fixed inset-x-0" : "sticky", "top-0"
   ]}
 >
-  <Logo class="mb-2"/>
-  <Nav class="text-sm sm:text-base sm:tracking-tight"/>
+  <Logo class=""/>
+  <Nav class="text-sm sm:text-lg tracking-wider"/>
 </header>
