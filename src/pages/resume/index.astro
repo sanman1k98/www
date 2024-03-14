@@ -178,19 +178,6 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
         }
       </Section>
 
-      <Section heading="Certification">
-        {
-          certifications.map(({ data: cert }) => (
-            <Entry
-              link={cert.url}
-              heading={cert.name}
-              subheading={cert.organization.name}
-              time={cert.issueDate}
-            />
-          ))
-        }
-      </Section>
-
       <Section heading="Volunteering">
         {
           experience
@@ -203,6 +190,19 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
                 entry={exp}
               />
             ))
+        }
+      </Section>
+
+      <Section heading="Certification">
+        {
+          certifications.map(({ data: cert }) => (
+            <Entry
+              link={cert.url}
+              heading={cert.name}
+              subheading={cert.organization.name}
+              time={cert.issueDate}
+            />
+          ))
         }
       </Section>
 
