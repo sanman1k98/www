@@ -7,6 +7,9 @@ import {
 } from "unocss";
 
 export default defineConfig({
+  rules: [
+    ["list-dash", { "list-style-type": "'- '" }],
+  ],
   shortcuts: {
     link: `
       transition duration-200
