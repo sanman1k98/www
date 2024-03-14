@@ -76,9 +76,12 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
   ">
     <div class="text-left">
       <h1 class="text-3xl tracking-tighter font-600 text-slate-900">
-        <a href="/">
-          <span aria-hidden="true" class="hidden sm:inline text-slate-300 mr-2">#</span>
-          <span>Sandeep Dilip</span>
+        <a href="/" class="group">
+          <span aria-hidden="true" class="hidden sm:inline text-slate-300 mr-2 transition duration-1000 group-hover:text-sky-300">#</span>
+          <span class:list={[
+            "underline underline-offset-3 decoration-3 decoration-slate-400",
+            "transition duration-600 group-hover:text-sky-950 group-hover:decoration-sky-400"
+          ]}>Sandeep Dilip</span>
         </a>
       </h1>
       <p class="text-slate-500 italic sm:ml-6">Software Engineer</p>
