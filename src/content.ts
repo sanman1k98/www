@@ -30,7 +30,9 @@ export function createInfoEntryTypeGuard<T extends InfoEntryType>(type: T) {
 
 type SortableCvEntry = CollectionEntry<"cv"> & { data: Partial<z.infer<typeof daterange>> };
 
-const present = Date.now().valueOf();
+const present = new Date();
+let cvStart = present;
+let foundCvStart = false;
 
 /**
  * A callback to sort entries in the "cv" collection by comparing which one
@@ -52,9 +54,13 @@ export function compareCvEntries(a: SortableCvEntry, b: SortableCvEntry): number
   const [startA, startB, endA, endB] = [
     a.data.start.valueOf(),
     b.data.start.valueOf(),
-    a.data.end?.valueOf() ?? present,
-    b.data.end?.valueOf() ?? present,
+    a.data.end?.valueOf() ?? present.valueOf(),
+    b.data.end?.valueOf() ?? present.valueOf(),
   ];
+  if (!foundCvStart) {
+    if (startA < cvStart.valueOf()) cvStart = a.data.start;
+    else if (startB < cvStart.valueOf()) cvStart = b.data.start;
+  }
   // JS considers 0 to be falsy
   return endA - endB || startA - startB;
 }
@@ -64,6 +70,12 @@ const maybeCvEntries: SortableCvEntry[] = await getCollection("cv") ?? [];
 
 /** Sorted in (mostly) reverse chronological order. */
 export const cvEntries: CollectionEntry<"cv">[] = maybeCvEntries.sort(compareCvEntries).reverse();
+
+// Set this to true because we just sorted `cvEntries` using `compareCvEntries`
+foundCvStart = true;
+
+/** The earliest date specified in an entry from the "cv" collection. */
+export const CV_START = cvStart;
 
 export const infoEntries = await getCollection("info");
 
