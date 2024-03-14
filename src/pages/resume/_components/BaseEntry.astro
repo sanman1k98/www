@@ -1,13 +1,23 @@
 ---
 import type { CollectionEntry } from "astro:content";
 
+// Arbitrary date in the past
+const PAST: number = new Date("2016-05").valueOf();
+const NOW: number = Date.now();
+
+const getMixPercentage = (date?: Date): string => {
+  const diff = date ? NOW - date.valueOf() : 0
+  const decimal = 1 - (diff / (NOW - PAST));
+  return `${decimal * 100}%`
+}
+
 type Props = {
   entry?: CollectionEntry<"cv">,
   link?: string,
   heading?: string,
   subheading?: string,
   "after-subheading"?: string,
-  time?: string | Date | [Date, Date?]
+  time?: Date | [Date, Date?]
 };
 
 const {
@@ -15,20 +25,22 @@ const {
   link,
   heading,
   subheading,
-  "after-subheading": afterSubheading,
   time
 } = Astro.props;
 
-let timetext = typeof time === "string" && time;
+let timetext: string | null = null;
+let p2: string | null = null;
 
-if (!timetext) {
+if (time) {
   const dateFormat = Intl.DateTimeFormat("en", {
     year: "numeric", month: "long", timeZone: "UTC"
   });
   if (time instanceof Date) {
     timetext = dateFormat.format(time);
+    p2 = getMixPercentage(time);
   } else if (time instanceof Array) {
     const [start, end] = time;
+    p2 = getMixPercentage(end);
     timetext = end
       ? dateFormat.formatRange(start, end)
       : `${dateFormat.format(start)} - Present`;
@@ -47,6 +59,16 @@ const { Content } = await entry?.render() ?? {};
 
   article > div :global(li) {
     margin-bottom: 0.3rem;
+  }
+
+  time {
+    --past-color: theme(colors.violet.400);
+    --now-color: theme(colors.sky.600);
+    --p1: 0%;
+    --p2: 100%;
+    --start-color: color-mix(in lch shorter hue, var(--past-color) var(--p1), var(--now-color));
+    --end-color: color-mix(in lch shorter hue, var(--past-color), var(--now-color) var(--p2));
+    color: var(--end-color);
   }
 </style>
 
@@ -83,7 +105,7 @@ const { Content } = await entry?.render() ?? {};
       </p>
     )}
     <slot name="after-subheading">
-      <time class="leading-tight text-slate-500">{timetext || afterSubheading}</time>
+      {timetext && <time style={{"--p2": p2}} class="leading-tight text-slate-500">{timetext}</time>}
     </slot>
   </header>
   {(Astro.slots.has("default") || Content) && (
