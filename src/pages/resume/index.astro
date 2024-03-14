@@ -70,7 +70,7 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
 
   <header class="
     container max-w-5xl
-    mx-auto my-6 px-2 sm:px-10
+    mx-auto my-6 px-4 sm:px-10
     flex flex-wrap justify-between items-center gap-y-8
     print:mb-4
   ">
@@ -81,7 +81,7 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
           <span>Sandeep Dilip</span>
         </a>
       </h1>
-      <p class="text-slate-500 sm:ml-8">Software Engineer</p>
+      <p class="text-slate-500 sm:ml-6">Software Engineer</p>
     </div>
     <Contact class={`
       text-2xl text-center
@@ -90,7 +90,7 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
     `}/>
   </header>
 
-  <main class="lg:gap-x-10 px-6 text-sm sm:text-base text-slate-700">
+  <main class="lg:gap-x-10 text-sm sm:text-base text-slate-700">
     {Objective && (
       <Section
         heading="Objective"
@@ -227,7 +227,6 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
                 heading={exp.data.title}
                 subheading={exp.data.organization.name}
                 time={[exp.data.start, exp.data.end]}
-                entry={exp}
               />
             ))
         }
