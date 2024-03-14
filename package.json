@@ -11,29 +11,29 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.1.0",
-    "@fontsource-variable/quicksand": "^5.0.5",
-    "@fontsource-variable/red-hat-display": "^5.0.6",
-    "@iconify-json/carbon": "^1.1.20",
-    "@iconify-json/ph": "^1.1.6",
-    "astro": "^4.4.11",
+    "@astrojs/sitemap": "^3.1.1",
+    "@fontsource-variable/quicksand": "^5.0.17",
+    "@fontsource-variable/red-hat-display": "^5.0.20",
+    "@iconify-json/carbon": "^1.1.31",
+    "@iconify-json/ph": "^1.1.11",
+    "astro": "^4.5.4",
     "astro-icon": "^1.1.0",
     "exif-reader": "^2.0.1",
     "github-slugger": "^2.0.0",
     "sharp": "^0.33.2",
-    "unocss": "^0.58.5"
+    "unocss": "^0.58.6"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.5.5",
-    "@astrojs/ts-plugin": "^1.5.3",
-    "@types/bun": "^1.0.6",
-    "@types/node": "^20.11.19",
-    "@unocss/core": "^0.58.5",
-    "@unocss/preset-mini": "^0.58.5",
-    "@unocss/reset": "^0.58.5",
+    "@astrojs/check": "^0.5.9",
+    "@astrojs/ts-plugin": "^1.6.0",
+    "@types/bun": "^1.0.8",
+    "@types/node": "^20.11.27",
+    "@unocss/core": "^0.58.6",
+    "@unocss/preset-mini": "^0.58.6",
+    "@unocss/reset": "^0.58.6",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.13.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "trustedDependencies": [
     "sharp"
