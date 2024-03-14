@@ -50,16 +50,6 @@ const { Content } = await entry?.render() ?? {};
 ---
 
 <style>
-  article > div :global(ul) {
-    /* margin-left: 2ch; */
-    list-style-type: "- ";
-    list-style-position: outside;
-  }
-
-  article > div :global(li) {
-    /* margin-bottom: 0.3rem; */
-  }
-
   /* We can visualize how old or new an entry is using color. */
   time {
     /* A color representing the date from earliest entry in the "cv" collection. */
@@ -123,7 +113,7 @@ const { Content } = await entry?.render() ?? {};
     <slot name="after-subheading"/>
   </header>
   {(Astro.slots.has("default") || Content) && (
-    <div class:list={["ml-5 mt-2 [&_li]:mb-1.5 font-375 leading-tight text-slate-600"]}>
+    <div class:list={["ml-5 mt-3 [&_ul]:list-dash [&_li]:marker:text-slate-400 [&_li]:mb-1.5 font-375 leading-tight text-slate-600"]}>
       <slot>
         {Content && <Content />}
       </slot>
