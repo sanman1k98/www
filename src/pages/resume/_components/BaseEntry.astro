@@ -1,13 +1,12 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { CV_START } from "@/content";
 
-// Arbitrary date in the past
-const PAST: number = new Date("2016-05").valueOf();
 const NOW: number = Date.now();
 
 const getMixPercentage = (date?: Date): string => {
   const diff = date ? NOW - date.valueOf() : 0
-  const decimal = 1 - (diff / (NOW - PAST));
+  const decimal = 1 - (diff / (NOW - CV_START.valueOf()));
   return `${decimal * 100}%`
 }
 
@@ -61,13 +60,23 @@ const { Content } = await entry?.render() ?? {};
     margin-bottom: 0.3rem;
   }
 
+  /* We can visualize how old or new an entry is using color. */
   time {
-    --past-color: theme(colors.violet.400);
+    /* A color representing the date from earliest entry in the "cv" collection. */
+    --cv-start-color: theme(colors.violet.300);
+    /* A color representing the present date. */
     --now-color: theme(colors.sky.600);
+    /* Amount of `--cv-start-color` to mix. */
     --p1: 0%;
+    /* Amount of `--now-color` to mix. */
     --p2: 100%;
-    --start-color: color-mix(in lch shorter hue, var(--past-color) var(--p1), var(--now-color));
-    --end-color: color-mix(in lch shorter hue, var(--past-color), var(--now-color) var(--p2));
+    /* The start color determined by `--p1`. */
+    --start-color: color-mix(in lch shorter hue, var(--cv-start-color) var(--p1), var(--now-color));
+    /* The end color determined by `--p2`. */
+    --end-color: color-mix(in lch shorter hue, var(--cv-start-color), var(--now-color) var(--p2));
+
+    /* We'll just use the `--end-color` for now. */
+    /* TODO: apply a gradient to the text using both start and end colors. */
     color: var(--end-color);
   }
 </style>
