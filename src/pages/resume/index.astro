@@ -210,7 +210,7 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
         {
           education.map(({ data: edu }) => (
             <Entry
-              heading={edu.major}
+              heading={`${edu.degree} in ${edu.major}`}
               subheading={edu.school.name}
               time={[edu.start, edu.end]}
             />
