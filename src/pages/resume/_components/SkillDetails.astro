@@ -14,11 +14,11 @@ const { Content } = await entry.render();
   id={`${entry.slug}`}
   class:list={[className, "group"]}
 >
-  <summary class="mb-2 text-lg font-600 cursor-pointer lg:cursor-auto">
+  <summary class="mb-1 mt-4 text-lg leading-snug font-600 cursor-pointer lg:cursor-auto">
     <span class="underline underline-offset-2 decoration-2 lg:no-underline">{entry.data.skills}</span>
     <span class="group-open:hidden">+</span>
   </summary>
-  <div class="ml-2">
+  <div class="ml-3 my-1 font-370">
     <Content />
   </div>
 </details>

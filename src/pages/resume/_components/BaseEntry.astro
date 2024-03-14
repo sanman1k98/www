@@ -51,13 +51,13 @@ const { Content } = await entry?.render() ?? {};
 
 <style>
   article > div :global(ul) {
-    margin-left: 2ch;
+    /* margin-left: 2ch; */
     list-style-type: "- ";
     list-style-position: outside;
   }
 
   article > div :global(li) {
-    margin-bottom: 0.3rem;
+    /* margin-bottom: 0.3rem; */
   }
 
   /* We can visualize how old or new an entry is using color. */
@@ -82,43 +82,48 @@ const { Content } = await entry?.render() ?? {};
 </style>
 
 <article class="m-3 mb-5 break-before-avoid break-inside-avoid">
-  <header class="mb-2">
+  <header class="group">
     {(Astro.slots.has("heading") || heading) && (
-      <h3 class="leading-snug font-600 text-slate-700 text-lg tracking-tight">
+      <h3 class="leading-snug font-650 text-slate-700 text-lg">
         {link ? (
-          <a
-            class="group flex max-w-fit"
-            href={link}
-            target="_blank"
-          >
-            <span class="transition duration-300 font-650 underline underline-offset-2 decoration-2 decoration-sky-600 group-hover:text-sky-700 group-hover:decoration-sky-400">
+          <a class="group/link mb-0.5 flex max-w-fit" href={link} target="_blank">
+            <span class:list={[
+              "transition duration-300 underline underline-offset-2 decoration-2",
+              "decoration-slate-300 group-hover/link:text-sky-800 group-hover/link:decoration-sky-400"
+            ]}>
               <slot name="heading">{heading}</slot>
             </span>
-            <div class="
-              print:hidden
-              i-ph-arrow-up-right-bold
-              transition duration-300
-              text-slate-500 opacity-50 scale-85
-              group-hover:translate-x-1 group-hover:-translate-y-1
-              group-hover:opacity-100 group-hover:scale-100
-            "></div>
+            <div class:list={[
+              "print:hidden i-ph-arrow-up-right-bold transition duration-300 text-slate-500 opacity-50 scale-85",
+              "group-hover/link:translate-x-1 group-hover/link:-translate-y-1 group-hover/link:opacity-100 group-hover/link:scale-100",
+            ]}></div>
           </a>
         ) : (
           <slot name="heading">{heading}</slot>
         )}
       </h3>
     )}
-    {(Astro.slots.has("subheading") || subheading) && (
-      <p class="leading-tight text-slate-500 italic">
-        <slot name="subheading">{subheading}</slot>
+    {(Astro.slots.has("subheading") || subheading || timetext) && (
+      <p class:list={["flex flex-wrap pl-3 gap-y-0.5 divide-x-2 italic leading-tight tracking-tight text-neutral-500"]}>
+        <slot name="subheading">
+          {subheading && <span class:list={[timetext && "pr-2"]}>{subheading}</span>}
+          {
+            timetext && (
+              <time
+                style={`--p2:${p2}`}
+                class:list={["transition duration-2000 group-has-[a:hover]:text-inherit", subheading && "pl-3 ml-1"]}
+              >
+                {timetext}
+              </time>
+            )
+          }
+        </slot>
       </p>
     )}
-    <slot name="after-subheading">
-      {timetext && <time style={{"--p2": p2}} class="leading-tight text-slate-500">{timetext}</time>}
-    </slot>
+    <slot name="after-subheading"/>
   </header>
   {(Astro.slots.has("default") || Content) && (
-    <div class="leading-tight">
+    <div class:list={["ml-5 mt-2 [&_li]:mb-1.5 font-375 leading-tight text-slate-600"]}>
       <slot>
         {Content && <Content />}
       </slot>
