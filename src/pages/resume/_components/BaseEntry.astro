@@ -63,17 +63,17 @@ const { Content } = await entry?.render() ?? {};
   /* We can visualize how old or new an entry is using color. */
   time {
     /* A color representing the date from earliest entry in the "cv" collection. */
-    --cv-start-color: theme(colors.violet.300);
+    --cv-start-color: theme(colors.sky.500);
     /* A color representing the present date. */
-    --now-color: theme(colors.sky.600);
+    --now-color: theme(colors.sky.700);
     /* Amount of `--cv-start-color` to mix. */
     --p1: 0%;
     /* Amount of `--now-color` to mix. */
     --p2: 100%;
     /* The start color determined by `--p1`. */
-    --start-color: color-mix(in lch shorter hue, var(--cv-start-color) var(--p1), var(--now-color));
+    --start-color: color-mix(in lch longer hue, var(--cv-start-color) var(--p1), var(--now-color));
     /* The end color determined by `--p2`. */
-    --end-color: color-mix(in lch shorter hue, var(--cv-start-color), var(--now-color) var(--p2));
+    --end-color: color-mix(in lch longer hue, var(--cv-start-color), var(--now-color) var(--p2));
 
     /* We'll just use the `--end-color` for now. */
     /* TODO: apply a gradient to the text using both start and end colors. */
