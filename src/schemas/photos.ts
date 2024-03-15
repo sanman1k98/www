@@ -1,5 +1,5 @@
-import { z, type SchemaContext } from "astro:content";
 import { fileURLToPath } from "node:url";
+import { type SchemaContext, z } from "astro:content";
 import exifReader, { type Exif, type GenericTag } from "exif-reader";
 
 const PHOTOS_COLLECTION_DIR = new URL("../content/photos/", import.meta.url);
@@ -12,7 +12,7 @@ type ExifTags = { [key in TagGroup]?: Exif[key] };
 let sharp: typeof import("sharp");
 
 /** Mutates the given object by converting any Buffers into number arrays. */
-const fixExif = (data: ExifTags) => {
+function fixExif(data: ExifTags) {
   for (const group of Object.entries(data)) {
     const [_, tags] = group as [TagGroup, NonNullable<ExifTags[TagGroup]>];
     for (const tag of Object.entries(tags)) {
@@ -23,15 +23,15 @@ const fixExif = (data: ExifTags) => {
     }
   }
   return data;
-}
+};
 
-export const photos = ({ image }: SchemaContext) => {
+export function photos({ image }: SchemaContext) {
   return z
     .object({
       /** Relative path to image file. */
       file: z.string(),
       /** Alt text for screenreaders. */
-      alt: z.string().default("")
+      alt: z.string().default(""),
     })
     .transform(
       async ({ file: path, ...rest }, ctx) => {
@@ -41,7 +41,7 @@ export const photos = ({ image }: SchemaContext) => {
           ctx.addIssue({
             code: "custom",
             message: `Image ${path} does not exist.`,
-            fatal: true
+            fatal: true,
           });
           return z.NEVER;
         }
@@ -51,7 +51,8 @@ export const photos = ({ image }: SchemaContext) => {
         const imagePath = fileURLToPath(fileURL);
 
         // Lazily load sharp
-        if (!sharp) sharp = (await import("sharp")).default;
+        if (!sharp)
+          sharp = (await import("sharp")).default;
 
         // Give sharp path to image
         const { exif: buf } = await sharp(imagePath).metadata();
@@ -61,7 +62,7 @@ export const photos = ({ image }: SchemaContext) => {
           ctx.addIssue({
             code: "custom",
             message: `Image ${path} does not contain any EXIF metadata.`,
-            fatal: true
+            fatal: true,
           });
           return z.NEVER;
         };
@@ -76,7 +77,7 @@ export const photos = ({ image }: SchemaContext) => {
           ctx.addIssue({
             code: "custom",
             message: `EXIF metadata in image ${path} does not contain either "Photo" or "Image" IFDs.`,
-            fatal: true
+            fatal: true,
           });
           return z.NEVER;
         };
@@ -86,14 +87,14 @@ export const photos = ({ image }: SchemaContext) => {
           file: transformed.data,
           /** Parsed EXIF metadata information. */
           exif: { Image, Photo, ...restExif },
-          ...rest
+          ...rest,
         };
-      }
+      },
     )
     .array()
     .transform(
       arr => arr.map(
-        (photo, i) => ({ slug: i + 1, ...photo })
-      )
+        (photo, i) => ({ slug: i + 1, ...photo }),
+      ),
     );
-}
+};

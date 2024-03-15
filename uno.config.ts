@@ -1,9 +1,9 @@
 import {
   defineConfig,
+  presetIcons,
   presetUno,
   presetWebFonts,
-  presetIcons,
-  transformerDirectives
+  transformerDirectives,
 } from "unocss";
 
 export default defineConfig({

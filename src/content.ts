@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry, type z } from "astro:content";
+import { type CollectionEntry, getCollection, type z } from "astro:content";
 import type { cvSchema, infoSchema, photosSchema } from "@/content/config";
 import type { daterange } from "@/schemas/cv";
 
@@ -20,6 +20,7 @@ export type InfoEntry<T extends InfoEntryType> = CollectionEntry<"info"> & {
 export type Photo = PhotosEntryData[number];
 
 export function createCvEntryTypeGuard<T extends CvEntryType>(type: T) {
+  // eslint-disable-next-line ts/prefer-ts-expect-error
   // @ts-ignore: errors when collection is empty
   return (entry: CollectionEntry<"cv">): entry is CvEntry<T> => entry.data.type === type;
 }
@@ -47,10 +48,12 @@ let foundCvStart = false;
 export function compareCvEntries(a: SortableCvEntry, b: SortableCvEntry): number {
   // Check "order" values first
   const [orderA, orderB] = [a.data.order, b.data.order];
-  if (orderA !== undefined && orderB !== undefined) return orderA - orderB;
+  if (orderA !== undefined && orderB !== undefined)
+    return orderA - orderB;
   // If and entry doesn't have a "start" they def don't have an "end", so we'll
   // return 0 so they won't get sorted.
-  else if (!(a.data.start && b.data.start)) return 0;
+  else if (!(a.data.start && b.data.start))
+    return 0;
   const [startA, startB, endA, endB] = [
     a.data.start.valueOf(),
     b.data.start.valueOf(),
@@ -58,8 +61,10 @@ export function compareCvEntries(a: SortableCvEntry, b: SortableCvEntry): number
     b.data.end?.valueOf() ?? present.valueOf(),
   ];
   if (!foundCvStart) {
-    if (startA < cvStart.valueOf()) cvStart = a.data.start;
-    else if (startB < cvStart.valueOf()) cvStart = b.data.start;
+    if (startA < cvStart.valueOf())
+      cvStart = a.data.start;
+    else if (startB < cvStart.valueOf())
+      cvStart = b.data.start;
   }
   // JS considers 0 to be falsy
   return endA - endB || startA - startB;
@@ -83,7 +88,7 @@ const linksEntries = infoEntries.filter(createInfoEntryTypeGuard("links"));
 
 /** Keys are filenames of "links" entries in the "info" collection. */
 export const links = Object.fromEntries(
-  linksEntries.map(entry => [entry.id, entry.data.links])
+  linksEntries.map(entry => [entry.id, entry.data.links]),
 ) as { [key in InfoEntry<"links">["id"]]: InfoEntry<"links">["data"]["links"] };
 
 /**
@@ -91,10 +96,10 @@ export const links = Object.fromEntries(
  * the "text" value of each item.
  */
 export const socials = Object.fromEntries(
-  links.socials.map(link => [link.text.toLowerCase(), link])
+  links.socials.map(link => [link.text.toLowerCase(), link]),
 );
 
-/** 
+/**
  * A list of photos with alt text and transformed metadata.
  */
-export const photos = (await getCollection("photos", ({ id }) => id === "index"))[0].data
+export const photos = (await getCollection("photos", ({ id }) => id === "index"))[0].data;

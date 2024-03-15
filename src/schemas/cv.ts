@@ -1,5 +1,5 @@
 import { z } from "astro/zod";
-import { tags, org } from "./misc";
+import { org, tags } from "./misc";
 
 export const daterange = z
   .object({
@@ -17,13 +17,13 @@ export const base = z
      * priority over start and end dates when sorting.
      */
     order: z.number().optional(),
-  })
+  });
 
 export const skills = base
   .extend({
     type: z.literal("skills").default("skills"),
     /** Type of skills listed in this entry e.g., "Languages" or "Technologies". */
-    skills: z.string()
+    skills: z.string(),
   });
 
 export const experience = base
@@ -36,7 +36,7 @@ export const experience = base
       .enum([
         "work",
         "internship",
-        "volunteering"
+        "volunteering",
       ])
       .default("work"),
     /** Position title or role. */
@@ -68,7 +68,7 @@ export const open_source = base
      */
     description: z.string().optional(),
   })
-  .transform(entry => {
+  .transform((entry) => {
     // TODO: get title and description from `githubUrl`
     return entry;
   });

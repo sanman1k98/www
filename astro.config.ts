@@ -1,5 +1,5 @@
-import { defineConfig, sharpImageService } from 'astro/config';
-import sitemap from "@astrojs/sitemap"
+import { defineConfig, sharpImageService } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 import icon from "astro-icon";
 import UnoCSS from "unocss/astro";
 

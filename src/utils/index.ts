@@ -13,7 +13,7 @@ const envSchema = z.object({
 
   /**
    * Use to display personal contact information on the resume page.
-   * 
+   *
    * When set to "true" and running `astro dev` or `astro build`, Astro will
    * generate static HTML files containing personal information.
    *
@@ -42,7 +42,7 @@ declare global {
     extends Readonly<z.input<typeof envSchema>> {}
 
   interface ImportMeta {
-    readonly env: ImportMetaEnv
+    readonly env: ImportMetaEnv;
   }
 };
 
