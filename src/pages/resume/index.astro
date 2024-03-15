@@ -1,30 +1,29 @@
 ---
-import {
-  cvEntries,
-  compareCvEntries,
-  createCvEntryTypeGuard as isType,
-} from "@/content";
-import { env, unoBreakpoints } from "@/utils"
-
-import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "./_components/BaseSection.astro";
 import Entry from "./_components/BaseEntry.astro";
 import Contact from "./_components/Contact.astro";
 import SkillDetails from "./_components/SkillDetails.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { env, unoBreakpoints } from "@/utils";
+import {
+  compareCvEntries,
+  cvEntries,
+  createCvEntryTypeGuard as isType,
+} from "@/content";
 
 const objective = cvEntries.find(({ slug }) => slug === "objective")!;
-const skills = cvEntries.filter(isType("skills")).toSorted(compareCvEntries);
+const skills = cvEntries.filter(isType("skills")).sort(compareCvEntries);
 
 const experience = cvEntries.filter(isType("experience"));
-const projects = cvEntries.filter(isType("open-source")).toSorted(compareCvEntries);
+const projects = cvEntries.filter(isType("open-source")).sort(compareCvEntries);
 const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
 
 const { Content: Objective } = env.BUILD_INCLUDE_PERSONAL
-  ? await objective.render() ?? {}
+  ? await objective.render()
   : { Content: null };
 
-const sidebarBreakpoint = unoBreakpoints["lg"];
+const sidebarBreakpoint = unoBreakpoints.lg;
 ---
 
 <style is:global>
@@ -64,38 +63,28 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
   class="font-mono"
 >
 
-  <header class="
-    container max-w-5xl
-    mx-auto my-6 px-4 sm:px-10
-    flex flex-wrap justify-between items-center gap-y-8
-    print:mb-4
-  ">
+  <header class="mx-auto my-6 max-w-5xl flex flex-wrap items-center justify-between gap-y-8 px-4 container print:mb-4 sm:px-10">
     <div class="text-left">
-      <h1 class="text-3xl tracking-tighter font-600 text-slate-900">
+      <h1 class="text-3xl text-slate-900 font-600 tracking-tighter">
         <a href={import.meta.env.SITE} class="group">
           <span aria-hidden="true" class="mr-2 hidden text-slate-300 transition duration-1000 sm:inline group-hover:text-sky-700">#</span>
-          <span class:list={[
-            "underline underline-offset-3 decoration-3 decoration-sky-600",
-            "transition duration-600 group-hover:text-sky-950 group-hover:decoration-sky-400"
-          ]}>Sandeep Dilip</span>
+          <span
+            class="underline decoration-3 decoration-sky-600 underline-offset-3 transition duration-600 group-hover:text-sky-950 group-hover:decoration-sky-400"
+          >Sandeep Dilip</span>
         </a>
       </h1>
       <p class="text-slate-500 italic sm:ml-6">Software Engineer</p>
     </div>
-    <Contact class={`
-      text-2xl text-center
-      sm:text-base sm:text-right
-      print:text-right print:text-sm!
-    `}/>
+    <Contact class="text-center text-2xl print:text-right sm:text-right sm:text-base print:text-sm!" />
   </header>
 
-  <main class="lg:gap-x-10 text-sm sm:text-base text-slate-700">
+  <main class="text-sm text-slate-700 lg:gap-x-10 sm:text-base">
     {Objective && (
       <Section
         heading="Objective"
-        class="lg:col-span-2 mx-auto max-w-prose lg:max-w-4xl"
+        class="mx-auto max-w-prose lg:col-span-2 lg:max-w-4xl"
       >
-        <div class="m-3 leading-tight font-400">
+        <div class="m-3 font-400 leading-tight">
           <Objective />
         </div>
       </Section>
@@ -103,18 +92,13 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
 
     <Section
       heading="Skills"
-      class="md:px-2 sm:mx-auto sm:w-prose lg:w-auto lg:max-w-prose"
+      class="sm:mx-auto lg:max-w-prose lg:w-auto sm:w-prose md:px-2"
     >
-      <div class="
-        ml-3 lg:pr-8 print:pr-8
-        md:flex lg:block justify-between
-      ">
+      <div class="ml-3 justify-between lg:block md:flex lg:pr-8 print:pr-8">
         {
-          skills.map(
-            (skill, i) => (
-              <SkillDetails class:list={["mb-3", i === 0 ? "w-40" : "w-48"]} entry={skill}/>
-            )
-          )
+          skills.map((skill, i) => (
+              <SkillDetails class:list={["mb-3", i === 0 ? "w-40" : "w-48"]} entry={skill} />
+          ))
         }
       </div>
 
@@ -146,7 +130,7 @@ const sidebarBreakpoint = unoBreakpoints["lg"];
       </script>
     </Section>
 
-    <div class="max-w-prose mx-auto">
+    <div class="mx-auto max-w-prose">
       <Section heading="Experience">
         {
           experience
