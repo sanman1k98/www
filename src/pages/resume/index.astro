@@ -97,7 +97,7 @@ const sidebarBreakpoint = unoBreakpoints.lg;
       <div class="ml-3 justify-between lg:block md:flex lg:pr-8 print:pr-8">
         {
           skills.map((skill, i) => (
-              <SkillDetails class:list={["mb-3", i === 0 ? "w-40" : "w-48"]} entry={skill} />
+            <SkillDetails class:list={["mb-3", i === 0 ? "w-40" : "w-48"]} entry={skill} />
           ))
         }
       </div>
@@ -107,25 +107,25 @@ const sidebarBreakpoint = unoBreakpoints.lg;
 
       const mql = window.matchMedia(`(min-width: ${sidebarBreakpoint})`);
       const details = document.querySelectorAll("details");
-      const state = {}
+      const state = new Map();
 
       if (mql.matches) {
         details.forEach(d => {
-          state[d.id] = false;
+          state.set(d, false);
           d.open = true;
         });
       }
 
       const handleClick = (ev) => mql.matches && ev.preventDefault();
-      const saveState = ({ target }) => state[target.id] = mql.matches ? state[target.id] : target.open;
+      const saveState = ({ target }) => !mql.matches && state.set(target, target.open);
 
       details.forEach(d => {
         d.addEventListener("click", handleClick);
-        d.addEventListener("toggle", saveState);
+        d.addEventListener("toggle", saveState, { passive: true });
       });
 
       mql.addEventListener("change",
-        (ev) => details.forEach(d => d.open = ev.matches || state[d.id])
+        (ev) => details.forEach(d => d.open = ev.matches || state.get(d))
       );
       </script>
     </Section>
