@@ -14,7 +14,7 @@ const { Content } = await entry.render();
   id={`${entry.slug}`}
   class:list={[className, "group"]}
 >
-  <summary class="mt-4 flex cursor-pointer items-center text-lg font-650 leading-snug lg:cursor-auto">
+  <summary class="mt-4 flex cursor-pointer touch-manipulation items-center text-lg font-650 leading-snug lg:cursor-auto">
     <span class="select-none underline decoration-2 decoration-slate-400 underline-offset-2 lg:no-underline">{entry.data.skills}</span>
     <span aria-hidden="true" class="ml-1 inline-block rotate-180 opacity-0 transition duration-200 lg:hidden group-open:rotate-0 group-open:opacity-100">-</span>
     <span aria-hidden="true" class="inline-block rotate-0 opacity-100 transition duration-200 -ml-[1ch] group-open:rotate-180 group-open:opacity-0">+</span>
