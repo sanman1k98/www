@@ -4,40 +4,37 @@ import { CV_START } from "@/content";
 
 const NOW: number = Date.now();
 
-const getMixPercentage = (date?: Date): string => {
-  const diff = date ? NOW - date.valueOf() : 0
-  const decimal = 1 - (diff / (NOW - CV_START.valueOf()));
-  return `${decimal * 100}%`
+function getMixPercentage(date?: Date): string {
+  const diff = date ? NOW - date.valueOf() : 0;
+  const decimal = 1 - diff / (NOW - CV_START.valueOf());
+  return `${(decimal * 100).toFixed(2)}%`;
 }
 
 type Props = {
-  entry?: CollectionEntry<"cv">,
-  link?: string,
-  heading?: string,
-  subheading?: string,
-  "after-subheading"?: string,
-  time?: Date | [Date, Date?]
+  "entry"?: CollectionEntry<"cv">;
+  "link"?: string;
+  "heading"?: string;
+  "subheading"?: string;
+  "after-subheading"?: string;
+  "time"?: Date | [Date, Date?];
 };
 
-const {
-  entry,
-  link,
-  heading,
-  subheading,
-  time
-} = Astro.props;
+const { entry, link, heading, subheading, time } = Astro.props;
 
 let timetext: string | null = null;
 let p2: string | null = null;
 
 if (time) {
   const dateFormat = Intl.DateTimeFormat("en", {
-    year: "numeric", month: "long", timeZone: "UTC"
+    year: "numeric",
+    month: "long",
+    timeZone: "UTC",
   });
   if (time instanceof Date) {
     timetext = dateFormat.format(time);
     p2 = getMixPercentage(time);
-  } else if (time instanceof Array) {
+  }
+ else if (Array.isArray(time)) {
     const [start, end] = time;
     p2 = getMixPercentage(end);
     timetext = end
@@ -46,7 +43,7 @@ if (time) {
   }
 }
 
-const { Content } = await entry?.render() ?? {};
+const { Content } = (await entry?.render()) ?? {};
 ---
 
 <style>
@@ -61,9 +58,17 @@ const { Content } = await entry?.render() ?? {};
     /* Amount of `--now-color` to mix. */
     --p2: 100%;
     /* The start color determined by `--p1`. */
-    --start-color: color-mix(in lch longer hue, var(--cv-start-color) var(--p1), var(--now-color));
+    --start-color: color-mix(
+      in lch longer hue,
+      var(--cv-start-color) var(--p1),
+      var(--now-color)
+    );
     /* The end color determined by `--p2`. */
-    --end-color: color-mix(in lch longer hue, var(--cv-start-color), var(--now-color) var(--p2));
+    --end-color: color-mix(
+      in lch longer hue,
+      var(--cv-start-color),
+      var(--now-color) var(--p2)
+    );
 
     /* We'll just use the `--end-color` for now. */
     /* TODO: apply a gradient to the text using both start and end colors. */
@@ -73,50 +78,53 @@ const { Content } = await entry?.render() ?? {};
 
 <article class="m-3 mb-5 break-before-avoid break-inside-avoid">
   <header class="group">
-    {(Astro.slots.has("heading") || heading) && (
-      <h3 class="leading-snug font-650 text-slate-700 text-lg">
-        {link ? (
-          <a class="group/link mb-0.5 flex max-w-fit" href={link} target="_blank">
-            <span class:list={[
-              "transition duration-300 underline underline-offset-2 decoration-2",
-              "decoration-slate-300 print:decoration-sky-600 group-hover/link:text-sky-800 group-hover/link:decoration-sky-400"
-            ]}>
-              <slot name="heading">{heading}</slot>
-            </span>
-            <div class:list={[
-              "print:hidden i-ph-arrow-up-right-bold transition duration-300 text-slate-500 opacity-50 scale-85",
-              "group-hover/link:translate-x-1 group-hover/link:-translate-y-1 group-hover/link:opacity-100 group-hover/link:scale-100",
-            ]}></div>
-          </a>
-        ) : (
-          <slot name="heading">{heading}</slot>
-        )}
-      </h3>
-    )}
-    {(Astro.slots.has("subheading") || subheading || timetext) && (
-      <p class:list={["flex flex-wrap pl-3 gap-y-0.5 divide-x-2 italic leading-tight tracking-tight text-neutral-500"]}>
-        <slot name="subheading">
-          {subheading && <span class:list={[timetext && "pr-2"]}>{subheading}</span>}
+    {
+      (Astro.slots.has("heading") || heading) && (
+        <h3 class="text-lg text-slate-700 font-650 leading-snug">
           {
-            timetext && (
+            link ? (
+              <a href={link} target="_blank" class="group/link mb-0.5 max-w-fit flex">
+                <span class="underline decoration-2 decoration-slate-300 underline-offset-2 transition duration-300 group-hover/link:text-sky-800 group-hover/link:decoration-sky-400 print:decoration-sky-600">
+                  <slot name="heading">{heading}</slot>
+                </span>
+                <div class="i-ph-arrow-up-right-bold text-slate-500 opacity-50 transition duration-300 ease-in-out print:hidden group-hover/link:translate-x-0.5 group-hover/link:opacity-100 group-hover/link:duration-200 group-hover/link:ease-out group-hover/link:-translate-y-0.5"></div>
+              </a>
+            ) : (
+              <slot name="heading">{heading}</slot>
+            )
+          }
+        </h3>
+      )
+    }
+    {
+      (Astro.slots.has("subheading") || subheading || timetext) && (
+        <p class="flex flex-wrap gap-y-0.5 pl-3 text-neutral-500 leading-tight tracking-tight italic divide-x-2">
+          <slot name="subheading">
+            {subheading && (
+              <span class:list={[timetext && "pr-2"]}>{subheading}</span>
+            )}
+            {timetext && (
               <time
                 style={`--p2:${p2}`}
-                class:list={["transition duration-2000 group-has-[a:hover]:text-inherit", subheading && "pl-3 ml-1"]}
+                class:list={[
+                  "transition duration-2000 group-has-[a:hover]:text-inherit",
+                  subheading && "pl-3 ml-1",
+                ]}
               >
                 {timetext}
               </time>
-            )
-          }
-        </slot>
-      </p>
-    )}
-    <slot name="after-subheading"/>
+            )}
+          </slot>
+        </p>
+      )
+    }
+    <slot name="after-subheading" />
   </header>
-  {(Astro.slots.has("default") || Content) && (
-    <div class:list={["ml-5 mt-3 [&_ul]:list-dash [&_li]:marker:text-slate-400 [&_li]:mb-1.5 font-375 leading-tight text-slate-600"]}>
-      <slot>
-        {Content && <Content />}
-      </slot>
-    </div>
-  )}
+  {
+    (Astro.slots.has("default") || Content) && (
+      <div class="ml-5 mt-3 text-slate-600 font-375 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400">
+        <slot>{Content && <Content />}</slot>
+      </div>
+    )
+  }
 </article>
