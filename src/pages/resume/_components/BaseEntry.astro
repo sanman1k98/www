@@ -87,7 +87,7 @@ const { Content } = (await entry?.render()) ?? {};
                 <span class="underline decoration-2 decoration-slate-300 underline-offset-2 transition duration-300 group-hover/link:text-sky-800 group-hover/link:decoration-sky-400 print:decoration-sky-600">
                   <slot name="heading">{heading}</slot>
                 </span>
-                <div class="i-ph-arrow-up-right-bold text-slate-500 opacity-50 transition duration-300 ease-in-out print:hidden group-hover/link:translate-x-0.5 group-hover/link:opacity-100 group-hover/link:duration-200 group-hover/link:ease-out group-hover/link:-translate-y-0.5"></div>
+                <div class="i-ph-arrow-up-right-bold text-slate-400 opacity-50 transition duration-300 ease-in-out print:hidden group-hover/link:translate-x-0.5 group-hover/link:opacity-100 group-hover/link:duration-200 group-hover/link:ease-out group-hover/link:-translate-y-0.5"></div>
               </a>
             ) : (
               <slot name="heading">{heading}</slot>
@@ -106,10 +106,8 @@ const { Content } = (await entry?.render()) ?? {};
             {timetext && (
               <time
                 style={`--p2:${p2}`}
-                class:list={[
-                  "transition duration-2000 group-has-[a:hover]:text-inherit",
-                  subheading && "pl-3 ml-1",
-                ]}
+                class="transition duration-2000 delay-500 ease-in-out group-has-[a:hover]:text-inherit group-has-[a:hover]:duration-1500 group-has-[a:hover]:delay-0"
+                class:list={[subheading && "pl-3 ml-1"]}
               >
                 {timetext}
               </time>
