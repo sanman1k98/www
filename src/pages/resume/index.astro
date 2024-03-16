@@ -66,8 +66,8 @@ const sidebarBreakpoint = unoBreakpoints.lg;
   <header class="mx-auto my-6 max-w-5xl flex flex-wrap items-center justify-between gap-y-8 px-4 container print:mb-4 sm:px-10">
     <div class="text-left">
       <h1 class="text-3xl text-slate-900 font-600 tracking-tighter">
-        <a href={import.meta.env.SITE} class="group">
           <span aria-hidden="true" class="mr-2 hidden text-slate-300 transition duration-1000 sm:inline group-hover:text-sky-700">#</span>
+        <a href={import.meta.env.PROD ? import.meta.env.SITE : "/"} class="group">
           <span
             class="underline decoration-3 decoration-sky-600 underline-offset-3 transition duration-600 group-hover:text-sky-950 group-hover:decoration-sky-400"
           >Sandeep Dilip</span>
