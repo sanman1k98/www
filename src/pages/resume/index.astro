@@ -113,19 +113,19 @@ const sidebarBreakpoint = unoBreakpoints.lg;
         details.forEach(d => {
           state.set(d, false);
           d.open = true;
+          d.firstElementChild.toggleAttribute("inert", true);
         });
       }
 
-      const handleClick = (ev) => mql.matches && ev.preventDefault();
       const saveState = ({ target }) => !mql.matches && state.set(target, target.open);
 
-      details.forEach(d => {
-        d.addEventListener("click", handleClick);
-        d.addEventListener("toggle", saveState, { passive: true });
-      });
+      details.forEach(d => d.addEventListener("toggle", saveState));
 
       mql.addEventListener("change",
-        (ev) => details.forEach(d => d.open = ev.matches || state.get(d))
+        (ev) => details.forEach(d => {
+          d.open = ev.matches || state.get(d);
+          d.firstElementChild.toggleAttribute("inert", ev.matches);
+        })
       );
       </script>
     </Section>
@@ -146,7 +146,7 @@ const sidebarBreakpoint = unoBreakpoints.lg;
         }
       </Section>
 
-      <Section heading="Open source" class="">
+      <Section heading="Open source">
         {
           projects
             .filter(proj => !proj.data.draft)
