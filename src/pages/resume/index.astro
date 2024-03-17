@@ -11,16 +11,16 @@ import {
   createCvEntryTypeGuard as isType,
 } from "@/content";
 
-const objective = cvEntries.find(({ slug }) => slug === "objective")!;
 const skills = cvEntries.filter(isType("skills")).sort(compareCvEntries);
+const summary = cvEntries.find(({ slug }) => slug === "summary")!;
 
 const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("open-source")).sort(compareCvEntries);
 const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
 
-const { Content: Objective } = env.BUILD_INCLUDE_PERSONAL
-  ? await objective.render()
+const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
+  ? await summary.render()
   : { Content: null };
 
 const sidebarBreakpoint = unoBreakpoints.lg;
@@ -79,13 +79,10 @@ const sidebarBreakpoint = unoBreakpoints.lg;
   </header>
 
   <main class="text-sm text-slate-700 lg:gap-x-10 sm:text-base">
-    {Objective && (
-      <Section
-        heading="Objective"
-        class="mx-auto max-w-prose lg:col-span-2 lg:max-w-4xl"
-      >
-        <div class="m-3 font-400 leading-tight">
-          <Objective />
+    {Summary && (
+      <Section heading="Summary">
+        <div class="m-5 max-w-prose border-l-3 border-slate-200 pl-3 font-375 leading-tight">
+          <Summary />
         </div>
       </Section>
     )}
