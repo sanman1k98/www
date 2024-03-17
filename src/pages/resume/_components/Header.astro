@@ -1,0 +1,57 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { Icon } from "astro-icon/components";
+import { env } from "@/utils";
+import { socials } from "@/content";
+
+// Explicitly define array to specify order of dynamically-generated elements
+const links = [
+  { text: "Website", href: import.meta.env.SITE, icon: "ph:compass-duotone" },
+  socials.linkedin,
+  socials.github,
+];
+
+if (env.BUILD_INCLUDE_PERSONAL) {
+  links.unshift(
+    { text: env.PERSONAL_EMAIL, href: `mailto:${env.PERSONAL_EMAIL}` },
+    { text: env.PERSONAL_PHONE, href: `tel:${env.PERSONAL_PHONE}` },
+  );
+}
+
+type Props = HTMLAttributes<"header">;
+---
+
+<header class:list={[Astro.props.class, "flex justify-between items-center gap-4 justify-between"]}>
+  <div>
+    <h1 class="text-4xl text-slate-900 font-600 tracking-tighter">
+      <a href={import.meta.env.PROD ? import.meta.env.SITE : "/"} class="group">
+        <span aria-hidden="true" class="hidden text-slate-300 transition duration-1000 ease-out -mr-2 sm:inline group-hover:text-sky-200 hover:text-sky-300!">#</span>
+        <span
+          class="underline decoration-3 decoration-sky-600 underline-offset-3 transition duration-600 group-hover:text-sky-950 group-hover:decoration-sky-400"
+        >Sandeep Dilip</span>
+      </a>
+    </h1>
+    <p class="text-lg text-slate-500 italic sm:ml-8">Software Engineer</p>
+  </div>
+
+  <address class="hidden sm:block print:text-xs">
+    <ul class="flex justify-center gap-x-4 print:gap-x-0 print:divide-x-1">
+      {
+        links.map((link) => {
+          if (!link)
+            return null;
+          const { text, icon, ...attrs } = link;
+          return (
+            <li class:list={["print:px-3", !icon && "hidden print:list-item"]}>
+              <a class="group flex items-center justify-end text-slate-500 transition duration-300" {...attrs}>
+                <span class="text-slate-700 underline decoration-1.5 decoration-sky-600 underline-offset-2 transition duration-300 sm:inline group-hover:text-sky-900 group-hover:decoration-sky-400">{text}</span>
+                {icon && <Icon name={icon} class="ml-1 inline-block size-[1.2em] text-sky-700 transition duration-300 print:hidden group-hover:text-sky-600" />}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </address>
+</header>
+
