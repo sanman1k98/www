@@ -76,7 +76,7 @@ const { Content } = (await entry?.render()) ?? {};
   }
 </style>
 
-<article class="m-3 mb-5 break-before-avoid break-inside-avoid">
+<article class="m-3 mb-5 break-inside-avoid">
   <header class="group">
     {
       (Astro.slots.has("heading") || heading) && (
@@ -100,17 +100,17 @@ const { Content } = (await entry?.render()) ?? {};
       (Astro.slots.has("subheading") || subheading || timetext) && (
         <p class="flex flex-wrap gap-y-0.5 pl-3 text-neutral-500 leading-tight tracking-tight italic divide-x-2">
           <slot name="subheading">
-            {subheading && (
-              <span class:list={[timetext && "pr-2"]}>{subheading}</span>
-            )}
             {timetext && (
               <time
                 style={`--p2:${p2}`}
-                class="transition duration-2000 delay-500 ease-in-out group-has-[a:hover]:text-inherit group-has-[a:hover]:duration-1500 group-has-[a:hover]:delay-0"
-                class:list={[subheading && "pl-3 ml-1"]}
+                class="basis-full transition duration-2000 delay-500 ease-in-out sm:basis-auto group-has-[a:hover]:text-inherit group-has-[a:hover]:duration-1500 group-has-[a:hover]:delay-0"
+                class:list={[subheading && "pr-2"]}
               >
                 {timetext}
               </time>
+            )}
+            {subheading && (
+              <span class:list={[timetext && "pl-3 ml-1"]}>{subheading}</span>
             )}
           </slot>
         </p>
@@ -120,7 +120,7 @@ const { Content } = (await entry?.render()) ?? {};
   </header>
   {
     (Astro.slots.has("default") || Content) && (
-      <div class="ml-5 mt-3 text-slate-600 font-375 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400">
+      <div class="ml-5 mt-3 max-w-prose text-slate-600 font-375 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400">
         <slot>{Content && <Content />}</slot>
       </div>
     )
