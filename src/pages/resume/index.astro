@@ -1,17 +1,16 @@
 ---
 import Section from "./_components/BaseSection.astro";
+import Skills from "./_components/Skills.astro";
 import Entry from "./_components/BaseEntry.astro";
-import Contact from "./_components/Contact.astro";
-import SkillDetails from "./_components/SkillDetails.astro";
+import Header from "./_components/Header.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { env, unoBreakpoints } from "@/utils";
+import { env } from "@/utils";
 import {
   compareCvEntries,
   cvEntries,
   createCvEntryTypeGuard as isType,
 } from "@/content";
 
-const skills = cvEntries.filter(isType("skills")).sort(compareCvEntries);
 const summary = cvEntries.find(({ slug }) => slug === "summary")!;
 
 const experience = cvEntries.filter(isType("experience"));
@@ -22,37 +21,19 @@ const education = cvEntries.filter(isType("education"));
 const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
   ? await summary.render()
   : { Content: null };
-
-const sidebarBreakpoint = unoBreakpoints.lg;
 ---
 
 <style is:global>
-  :root {
-    background-color: white;
-  }
+  :root { background-color: white }
 
-  /* Remove default disclosure triangle icon */
-  summary::-webkit-details-marker,
-  summary::marker { display: none; content: ""; }
-
-  main {
-    display: grid;
-    margin-inline: auto;
-    grid: auto / minmax(0, 1fr);
-    justify-content: center;
-  }
-
-  @screen lg {
-    main {
-      grid: auto / max-content max-content;
-    }
-  }
+  @page { margin: 0.5in 0in }
+  @page:first { margin-top: 0in }
 
   @media print {
     :root {
-      font-size: 10.5px;
-      print-color-adjust: exact;
       background-color: inherit;
+      font-size: 12px;
+      print-color-adjust: exact;
     }
   }
 </style>
@@ -62,23 +43,10 @@ const sidebarBreakpoint = unoBreakpoints.lg;
   description="Sandeep Dilip's professional experience, open source projects, contact links, and other information."
   class="font-mono"
 >
+  <Header class="mx-auto mb-12 mt-6 max-w-5xl px-4 sm:mt-12 print:max-w-full sm:px-12" />
 
-  <header class="mx-auto my-6 max-w-5xl flex flex-wrap items-center justify-between gap-y-8 px-4 container print:mb-4 sm:px-10">
-    <div class="text-left">
-      <h1 class="text-3xl text-slate-900 font-600 tracking-tighter">
-        <a href={import.meta.env.PROD ? import.meta.env.SITE : "/"} class="group">
-          <span aria-hidden="true" class="mr-2 hidden text-slate-300 transition duration-1000 ease-out sm:inline group-hover:text-sky-200 hover:text-sky-300!">#</span>
-          <span
-            class="underline decoration-3 decoration-sky-600 underline-offset-3 transition duration-600 group-hover:text-sky-950 group-hover:decoration-sky-400"
-          >Sandeep Dilip</span>
-        </a>
-      </h1>
-      <p class="text-slate-500 italic sm:ml-6">Software Engineer</p>
-    </div>
-    <Contact class="text-center text-2xl print:text-right sm:text-right sm:text-base print:text-sm!" />
-  </header>
+  <main class="mx-auto max-w-max text-sm text-slate-700 sm:text-base">
 
-  <main class="text-sm text-slate-700 lg:gap-x-10 sm:text-base">
     {Summary && (
       <Section heading="Summary">
         <div class="m-5 max-w-prose border-l-3 border-slate-200 pl-3 font-375 leading-tight">
@@ -87,131 +55,92 @@ const sidebarBreakpoint = unoBreakpoints.lg;
       </Section>
     )}
 
-    <Section
-      heading="Skills"
-      class="sm:mx-auto lg:max-w-prose lg:w-auto sm:w-prose md:px-2"
-    >
-      <div class="ml-3 justify-between lg:block md:flex lg:pr-8 print:pr-8">
-        {
-          skills.map((skill, i) => (
-            <SkillDetails class:list={["mb-3", i === 0 ? "w-40" : "w-48"]} entry={skill} />
+    <Section heading="Experience">
+      {
+        experience
+          .filter(({ data }) => data.experience === "work")
+          .map(exp => (
+            <Entry
+              heading={exp.data.title}
+              subheading={exp.data.organization.name}
+              time={[exp.data.start, exp.data.end]}
+              entry={exp}
+            />
           ))
-        }
-      </div>
-
-      <script define:vars={{ sidebarBreakpoint }}>
-      "use strict";
-
-      const mql = window.matchMedia(`(min-width: ${sidebarBreakpoint})`);
-      const details = document.querySelectorAll("details");
-      const state = new Map();
-
-      if (mql.matches) {
-        details.forEach(d => {
-          state.set(d, false);
-          d.open = true;
-          d.firstElementChild.toggleAttribute("inert", true);
-        });
       }
-
-      const saveState = ({ target }) => !mql.matches && state.set(target, target.open);
-
-      details.forEach(d => d.addEventListener("toggle", saveState));
-
-      mql.addEventListener("change",
-        (ev) => details.forEach(d => {
-          d.open = ev.matches || state.get(d);
-          d.firstElementChild.toggleAttribute("inert", ev.matches);
-        })
-      );
-      </script>
     </Section>
 
-    <div class="mx-auto max-w-prose">
-      <Section heading="Experience">
-        {
-          experience
-            .filter(({ data }) => data.experience === "work")
-            .map(exp => (
-              <Entry
-                heading={exp.data.title}
-                subheading={exp.data.organization.name}
-                time={[exp.data.start, exp.data.end]}
-                entry={exp}
-              />
-            ))
-        }
-      </Section>
-
-      <Section heading="Open source">
-        {
-          projects
-            .filter(proj => !proj.data.draft)
-            .map(proj => (
-              <Entry
-                link={proj.data.githubUrl}
-                heading={proj.data.title}
-                subheading={proj.data.description}
-                entry={proj}
-              />
-            ))
-        }
-      </Section>
-
-      <Section heading="Volunteering">
-        {
-          experience
-            .filter(({ data }) => data.experience === "volunteering")
-            .map(exp => (
-              <Entry
-                heading={exp.data.title}
-                subheading={exp.data.organization.name}
-                time={[exp.data.start, exp.data.end]}
-                entry={exp}
-              />
-            ))
-        }
-      </Section>
-
-      <Section heading="Certification">
-        {
-          certifications.map(({ data: cert }) => (
+    <Section heading="Volunteering">
+      {
+        experience
+          .filter(({ data }) => data.experience === "volunteering")
+          .map(exp => (
             <Entry
-              link={cert.url}
-              heading={cert.name}
-              subheading={cert.organization.name}
-              time={cert.issueDate}
+              heading={exp.data.title}
+              subheading={exp.data.organization.name}
+              time={[exp.data.start, exp.data.end]}
+              entry={exp}
             />
           ))
-        }
-      </Section>
+      }
+    </Section>
 
-      <Section heading="Education">
-        {
-          education.map(({ data: edu }) => (
+    <Section heading="Certification">
+      {
+        certifications.map(({ data: cert }) => (
+          <Entry
+            link={cert.url}
+            heading={cert.name}
+            subheading={cert.organization.name}
+            time={cert.issueDate}
+          />
+        ))
+      }
+    </Section>
+
+    <Section heading="Education">
+      {
+        education.map(({ data: edu }) => (
+          <Entry
+            heading={`${edu.degree} ${edu.major}`}
+            subheading={edu.school.name}
+            time={[edu.start, edu.end]}
+          />
+        ))
+      }
+    </Section>
+
+    <Section heading="Internships">
+      {
+        experience
+          .filter(({ data }) => data.experience === "internship")
+          .map(exp => (
             <Entry
-              heading={`${edu.degree} ${edu.major}`}
-              subheading={edu.school.name}
-              time={[edu.start, edu.end]}
+              heading={exp.data.title}
+              subheading={exp.data.organization.name}
+              time={[exp.data.start, exp.data.end]}
+              entry={exp}
             />
           ))
-        }
-      </Section>
+      }
+    </Section>
 
-      <Section heading="Internships">
-        {
-          experience
-            .filter(({ data }) => data.experience === "internship")
-            .map(exp => (
-              <Entry
-                heading={exp.data.title}
-                subheading={exp.data.organization.name}
-                time={[exp.data.start, exp.data.end]}
-              />
-            ))
-        }
-      </Section>
-    </div>
+    <Section heading="Open source">
+      {
+        projects
+          .filter(proj => !proj.data.draft)
+          .map(proj => (
+            <Entry
+              link={proj.data.githubUrl}
+              heading={proj.data.title}
+              subheading={proj.data.description}
+              entry={proj}
+            />
+          ))
+      }
+    </Section>
+
+    <Skills />
   </main>
   <div class="h-[20vh] print:hidden"></div>
 </BaseLayout>
