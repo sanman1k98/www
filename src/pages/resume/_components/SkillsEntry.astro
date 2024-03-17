@@ -1,0 +1,27 @@
+---
+import type { CvEntry } from "@/content";
+
+type Props = { entry: CvEntry<"skills"> };
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<style>
+  h3 ~ :global(ul) {
+    margin-inline-start: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 65ch;
+    gap: 0.5rem;
+  }
+
+  h3 ~ :global(ul > li) {
+    padding-inline: 0.5rem;
+    background: theme(colors.slate.100);
+  }
+</style>
+
+<h3 class="mb-1.5 mt-3 text-lg text-slate-700 font-650">
+  {entry.data.skills}
+</h3>
+<Content />
