@@ -13,13 +13,18 @@ const { heading, class: className } = Astro.props;
 const id = slugger.slug(heading);
 ---
 
-<section class:list={["mt-6 mx-2", className]}>
-  <h2 id={id} class="mb-4 ml-2 break-after-avoid text-xs font-800 uppercase">
-    <a href={("#").concat(id)} class="flex whitespace-nowrap">
-      <span aria-hidden="true" class="text-slate-300">##</span>
-      <span class="mx-1 px-1 text-slate-500 tracking-[0.2em]">{heading}</span>
-      <span aria-hidden="true" class="inline-block h-0.5 w-full self-center bg-slate-200"></span>
+<section
+  {id}
+  style={{ backgroundSize: "100% 200%", transitionProperty: "background-position" }}
+  class="group/section scroll-mt-6 from-slate-50 to-transparent from-50% to-50% bg-gradient-to-b bg-bottom px-2 pb-4 pt-2 duration-100 ease-out target:bg-top target:duration-200 target:delay-200"
+  class:list={className}
+>
+  <h2 class="mx-2 mb-4 flex break-after-avoid gap-x-2 whitespace-nowrap text-xs font-800 uppercase">
+    <a href={("#").concat(id)} class="group peer">
+      <span aria-hidden="true" class="peer text-slate-200 transition duration-200 group-hover:text-slate-300 group-target/section:text-slate-500!">##</span>
+      <span class="text-slate-500 tracking-[0.2em] transition duration-300 group-hover:text-slate-800 group-hover:delay-50 group-target/section:text-sky-700!">{heading}</span>
     </a>
+    <span class="h-0.5 w-full self-center bg-slate-200 transition duration-300 ease-out peer-hover:bg-slate-400 peer-hover:delay-100 peer-hover:ease-in group-target/section:bg-slate-500!"></span>
   </h2>
   <slot />
 </section>
