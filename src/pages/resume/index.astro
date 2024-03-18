@@ -1,6 +1,6 @@
 ---
 import Section from "./_components/BaseSection.astro";
-import Skills from "./_components/Skills.astro";
+import SkillsEntry from "./_components/SkillsEntry.astro";
 import Entry from "./_components/BaseEntry.astro";
 import Header from "./_components/Header.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -17,6 +17,7 @@ const experience = cvEntries.filter(isType("experience"));
 const projects = cvEntries.filter(isType("open-source")).sort(compareCvEntries);
 const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
+const skills = cvEntries.filter(isType("skills")).sort(compareCvEntries);
 
 const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
   ? await summary.render()
@@ -139,7 +140,11 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
       }
     </Section>
 
-    <Skills />
+    <Section heading="Skills">
+      {
+        skills.map(entry => <SkillsEntry {entry} />)
+      }
+    </Section>
   </main>
   <div class="h-[20vh] print:hidden"></div>
 </BaseLayout>
