@@ -44,13 +44,13 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
   description="Sandeep Dilip's professional experience, open source projects, contact links, and other information."
   class="font-mono"
 >
-  <Header class="mx-auto mb-12 mt-6 max-w-5xl px-4 sm:mt-12 print:max-w-full sm:px-12" />
+  <Header class="mx-auto mb-12 mt-6 max-w-5xl px-4 sm:mt-12 print:max-w-full md:px-12 sm:px-8" />
 
   <main class="mx-auto max-w-max text-sm text-slate-700 sm:text-base">
 
     {Summary && (
       <Section heading="Summary">
-        <div class="m-5 max-w-prose border-l-3 border-slate-200 pl-3 font-375 leading-tight">
+        <div class="m-5 mb-0 max-w-prose border-l-3 border-slate-200 pl-3 font-375 leading-tight">
           <Summary />
         </div>
       </Section>
