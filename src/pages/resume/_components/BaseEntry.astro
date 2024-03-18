@@ -1,5 +1,7 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
 import { CV_START } from "@/content";
 
 const NOW: number = Date.now();
@@ -10,7 +12,7 @@ function getMixPercentage(date?: Date): string {
   return `${(decimal * 100).toFixed(2)}%`;
 }
 
-type Props = {
+type Props = HTMLAttributes<"address"> & {
   "entry"?: CollectionEntry<"cv">;
   "link"?: string;
   "heading"?: string;
@@ -76,18 +78,18 @@ const { Content } = (await entry?.render()) ?? {};
   }
 </style>
 
-<article class="m-3 mb-5 break-inside-avoid">
-  <header class="group">
+<article class:list={[Astro.props.class, "m-3 mb-5 last:mb-0 break-inside-avoid"]}>
+  <header class="group mb-3">
     {
       (Astro.slots.has("heading") || heading) && (
         <h3 class="text-lg text-slate-700 font-650 leading-snug">
           {
             link ? (
               <a href={link} target="_blank" class="group/link mb-0.5 max-w-fit flex">
-                <span class="underline decoration-2 decoration-slate-300 underline-offset-2 transition duration-300 group-hover/link:text-sky-800 group-hover/link:decoration-sky-400 print:decoration-sky-600">
+                <span class="underline decoration-2 decoration-slate-300 underline-offset-2 transition duration-300 group-hover/link:text-sky-950 group-hover/link:decoration-sky-400 print:decoration-sky-600">
                   <slot name="heading">{heading}</slot>
                 </span>
-                <div class="i-ph-arrow-up-right-bold text-slate-400 opacity-50 transition duration-300 ease-in-out print:hidden group-hover/link:translate-x-0.5 group-hover/link:opacity-100 group-hover/link:duration-200 group-hover/link:ease-out group-hover/link:-translate-y-0.5"></div>
+                <Icon name="ph:arrow-up-right-bold" class="text-slate-500 opacity-50 transition duration-200 ease-in-out print:hidden group-hover/link:translate-x-0.5 group-hover/link:opacity-100 group-hover/link:duration-300 group-hover/link:ease-out group-hover/link:-translate-y-0.5 group-hover/link:delay-100" />
               </a>
             ) : (
               <slot name="heading">{heading}</slot>
@@ -116,13 +118,15 @@ const { Content } = (await entry?.render()) ?? {};
         </p>
       )
     }
-    <slot name="after-subheading" />
   </header>
-  {
-    (Astro.slots.has("default") || Content) && (
-      <div class="ml-5 mt-3 max-w-prose text-slate-600 font-375 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400">
-        <slot>{Content && <Content />}</slot>
-      </div>
-    )
-  }
+  {(Astro.slots.has("default") || Content) && (
+    <div
+      class="max-w-prose lg:max-w-[80ch] md:max-w-[72ch]"
+      class:list={[Content && "ml-5 text-slate-600 font-375 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400"]}
+    >
+      <slot>
+        {Content && <Content />}
+      </slot>
+    </div>
+  )}
 </article>
