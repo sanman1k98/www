@@ -6,46 +6,46 @@ import { socials } from "@/content";
 
 // Explicitly define array to specify order of dynamically-generated elements
 const links = [
-  { text: "Website", href: import.meta.env.SITE, icon: "ph:compass-duotone" },
-  socials.linkedin,
-  socials.github,
+  { text: "Website", href: import.meta.env.SITE, icon: "ph:globe" },
+  { ...socials.linkedin, icon: "ph:linkedin-logo" },
+  { ...socials.github, icon: "ph:github-logo" },
 ];
 
 if (env.BUILD_INCLUDE_PERSONAL) {
   links.unshift(
-    { text: env.PERSONAL_EMAIL, href: `mailto:${env.PERSONAL_EMAIL}` },
-    { text: env.PERSONAL_PHONE, href: `tel:${env.PERSONAL_PHONE}` },
+    { text: env.PERSONAL_EMAIL, href: `mailto:${env.PERSONAL_EMAIL}`, icon: "ph:envelope" },
+    { text: env.PERSONAL_PHONE, href: `tel:${env.PERSONAL_PHONE}`, icon: "ph:phone-outgoing" },
   );
 }
 
 type Props = HTMLAttributes<"header">;
 ---
 
-<header class:list={[Astro.props.class, "flex justify-between items-center gap-4 justify-between"]}>
-  <div>
+<header class:list={[Astro.props.class, "flex flex-wrap sm:flex-nowrap justify-between items-start gap-4 justify-between"]}>
+  <div class="min-w-fit">
     <h1 class="text-4xl text-slate-900 font-600 tracking-tighter">
-      <a href={import.meta.env.PROD ? import.meta.env.SITE : "/"} class="group">
-        <span aria-hidden="true" class="hidden text-slate-300 transition duration-1000 ease-out -mr-2 sm:inline group-hover:text-sky-200 hover:text-sky-300!">#</span>
-        <span
-          class="underline decoration-3 decoration-sky-600 underline-offset-3 transition duration-600 group-hover:text-sky-950 group-hover:decoration-sky-400"
-        >Sandeep Dilip</span>
+      <a class="group flex gap-x-2" href={import.meta.env.DEV ? "/" : import.meta.env.SITE}>
+        <span aria-hidden="true" class="hidden text-slate-200 transition duration-300 ease-out sm:inline group-hover:text-slate-300 hover:ease-in hover:text-sky-300!">#</span>
+        <span class="underline decoration-3 decoration-sky-500 underline-offset-3 transition duration-600 ease-out group-hover:text-sky-950 group-hover:decoration-sky-400 group-hover:ease-in">
+          Sandeep Dilip
+        </span>
       </a>
     </h1>
     <p class="text-lg text-slate-500 italic sm:ml-8">Software Engineer</p>
   </div>
 
-  <address class="hidden sm:block print:text-xs">
-    <ul class="flex justify-center gap-x-4 print:gap-x-0 print:divide-x-1">
+  <address class="max-w-sm text-lg sm:text-sm print:text-xs!">
+    <ul class="flex flex-wrap justify-start gap-2 sm:justify-end">
       {
         links.map((link) => {
           if (!link)
             return null;
           const { text, icon, ...attrs } = link;
           return (
-            <li class:list={["print:px-3", !icon && "hidden print:list-item"]}>
-              <a class="group flex items-center justify-end text-slate-500 transition duration-300" {...attrs}>
-                <span class="text-slate-700 underline decoration-1.5 decoration-sky-600 underline-offset-2 transition duration-300 sm:inline group-hover:text-sky-900 group-hover:decoration-sky-400">{text}</span>
-                {icon && <Icon name={icon} class="ml-1 inline-block size-[1.2em] text-sky-700 transition duration-300 print:hidden group-hover:text-sky-600" />}
+            <li class:list={["bg-slate-100 px-2 py-1", !icon && "hidden print:list-item"]}>
+              <a class="group flex items-center justify-end gap-1 text-slate-500 transition duration-300" {...attrs}>
+                <span class="hidden text-slate-700 underline decoration-1.5 decoration-slate-300 underline-offset-2 transition duration-300 sm:inline sm:inline group-hover:text-sky-900 print:decoration-1 group-hover:decoration-sky-400 print:decoration-sky-600">{text}</span>
+                {icon && <Icon name={icon} class="inline-block size-[1.2em] text-sky-700 transition duration-300 sm:mb-0 group-hover:text-sky-600" />}
               </a>
             </li>
           );
