@@ -13,13 +13,17 @@ const { heading, class: className } = Astro.props;
 const id = slugger.slug(heading);
 ---
 
+<style>
+  section:has(div > *:last-child:only-of-type) { break-inside: avoid }
+</style>
+
 <section
   {id}
   style={{ backgroundSize: "100% 200%", transitionProperty: "background-position" }}
   class="group/section scroll-mt-6 from-slate-50 to-transparent from-50% to-50% bg-gradient-to-b bg-bottom px-2 pb-4 pt-2 duration-100 ease-out target:bg-top target:duration-200 target:delay-200"
   class:list={className}
 >
-  <h2 class="mx-2 mb-4 flex break-after-avoid gap-x-2 whitespace-nowrap text-xs font-800 uppercase">
+  <h2 class="mx-2 mb-4 flex gap-x-2 whitespace-nowrap text-xs font-800 uppercase">
     <a href={("#").concat(id)} class="group peer">
       <span aria-hidden="true" class="peer text-slate-200 transition duration-200 group-hover:text-slate-300 group-target/section:text-slate-500!">##</span>
       <span class="text-slate-500 tracking-[0.2em] transition duration-300 group-hover:text-slate-800 group-hover:delay-50 group-target/section:text-sky-700!">{heading}</span>
