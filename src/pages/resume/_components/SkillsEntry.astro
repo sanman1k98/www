@@ -1,8 +1,9 @@
 ---
+import type { ComponentProps } from "astro/types";
 import Entry from "./BaseEntry.astro";
 import type { CvEntry } from "@/content";
 
-type Props = { entry: CvEntry<"skills"> };
+type Props = ComponentProps<typeof Entry> & { entry: CvEntry<"skills"> };
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 ---
@@ -20,7 +21,7 @@ const { Content } = await entry.render();
   }
 </style>
 
-<Entry heading={entry.data.skills}>
+<Entry class={Astro.props.class} heading={entry.data.skills}>
   <div class="pl-3">
     <Content />
   </div>
