@@ -6,9 +6,11 @@ const slugger = new GithubSlugger();
 type Props = {
   heading: string;
   class?: string;
+  /** Enable a two column grid layout. */
+  grid?: boolean;
 };
 
-const { heading, class: className } = Astro.props;
+const { heading, class: className, grid = false } = Astro.props;
 
 const id = slugger.slug(heading);
 ---
@@ -30,5 +32,7 @@ const id = slugger.slug(heading);
     </a>
     <span class="h-0.5 w-full self-center bg-slate-200 transition duration-300 ease-out peer-hover:bg-slate-400 peer-hover:delay-100 peer-hover:ease-in group-target/section:bg-slate-500!"></span>
   </h2>
-  <slot />
+  <div class:list={[grid && "md:[&>*]:m-0! md:ml-3 gap-5 auto-rows-min grid-flow-row grid-cols-2 md:grid print:grid"]}>
+    <slot />
+  </div>
 </section>
