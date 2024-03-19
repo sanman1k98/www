@@ -78,8 +78,8 @@ const { Content } = (await entry?.render()) ?? {};
   }
 </style>
 
-<article class:list={[Astro.props.class, "m-3 mb-5 last:mb-0 break-inside-avoid"]}>
-  <header class="group mb-3">
+<article class:list={[Astro.props.class, "m-3 mb-5 last-of-type:mb-0 break-inside-avoid"]}>
+  <header class="group mb-3 last:mb-0">
     {
       (Astro.slots.has("heading") || heading) && (
         <h3 class="text-lg text-slate-700 font-650 leading-snug">
@@ -89,7 +89,7 @@ const { Content } = (await entry?.render()) ?? {};
                 <span class="underline decoration-2 decoration-slate-300 underline-offset-2 transition duration-300 group-hover/link:text-sky-950 group-hover/link:decoration-sky-400 print:decoration-sky-600">
                   <slot name="heading">{heading}</slot>
                 </span>
-                <Icon name="ph:arrow-up-right-bold" class="text-slate-500 opacity-50 transition duration-200 ease-in-out print:hidden group-hover/link:translate-x-0.5 group-hover/link:opacity-100 group-hover/link:duration-300 group-hover/link:ease-out group-hover/link:-translate-y-0.5 group-hover/link:delay-100" />
+                <Icon name="ph:arrow-up-right-bold" class="text-slate-500 opacity-50 transition duration-200 ease-in-out print:hidden group-hover/link:translate-x-0.5 group-hover/link:opacity-100 group-hover/link:duration-300 group-hover/link:delay-100 group-hover/link:ease-out group-hover/link:-translate-y-0.5" />
               </a>
             ) : (
               <slot name="heading">{heading}</slot>
