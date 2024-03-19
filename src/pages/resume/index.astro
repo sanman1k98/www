@@ -70,6 +70,19 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
       }
     </Section>
 
+    <Section heading="Certification">
+      {
+        certifications.map(({ data: cert }) => (
+          <Entry
+            link={cert.url}
+            heading={cert.name}
+            subheading={cert.organization.name}
+            time={[cert.issueDate, cert.expiryDate]}
+          />
+        ))
+      }
+    </Section>
+
     <Section heading="Volunteering">
       {
         experience
@@ -82,19 +95,6 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
               entry={exp}
             />
           ))
-      }
-    </Section>
-
-    <Section heading="Certification">
-      {
-        certifications.map(({ data: cert }) => (
-          <Entry
-            link={cert.url}
-            heading={cert.name}
-            subheading={cert.organization.name}
-            time={cert.issueDate}
-          />
-        ))
       }
     </Section>
 
@@ -139,11 +139,14 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
       }
     </Section>
 
-    <Section heading="Skills">
+    <Section grid heading="Skills">
       {
-        skills.map(entry => <SkillsEntry {entry} />)
+        skills.map(entry => (
+          <SkillsEntry {entry} />
+        ))
       }
     </Section>
   </main>
+
   <div class="h-[20vh] print:hidden"></div>
 </BaseLayout>
