@@ -121,7 +121,7 @@ const { Content } = (await entry?.render()) ?? {};
   </header>
   {(Astro.slots.has("default") || Content) && (
     <div
-      class:list={[Content && "ml-5 text-slate-600 font-375 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400"]}
+      class:list={[Content && "[&_strong]:text-slate-700 [&_strong]:font-600 ml-5 text-slate-600 font-375 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400"]}
     >
       <slot>
         {Content && <Content />}
