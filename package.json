@@ -2,11 +2,11 @@
   "type": "module",
   "private": "true",
   "scripts": {
-    "dev": "bun --bun run astro dev",
-    "start": "bun --bun run astro dev",
+    "dev": "bun --bun run astro dev --host",
+    "start": "bun --bun run astro dev --host",
     "check": "bun --bun run astro check && tsc --noEmit",
     "build": "bun --bun run astro build",
-    "preview": "bun --bun run astro preview",
+    "preview": "bun --bun run astro preview --host",
     "deploy": "./scripts/deploy.sh && git push origin deploy",
     "astro": "astro"
   },
