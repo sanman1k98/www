@@ -16,7 +16,8 @@ const id = slugger.slug(heading);
 ---
 
 <style>
-  section:has(div > *:last-child:only-of-type) { break-inside: avoid }
+  h2 { break-after: avoid }
+  section:has(div > article:only-child) { break-inside: avoid }
 </style>
 
 <section
