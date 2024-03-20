@@ -1,22 +1,23 @@
+import type { HTMLAttributes } from "astro/types";
 import { z } from "astro/zod";
 
-// TODO: constrain the ZodObject schema using HTMLAttributes type.
+type Link = HTMLAttributes<"a"> & {
+  text: string;
+  href: string;
+  icon?: string;
+};
 
 /** Use to create HTMLAnchorElements. */
 export const link = z
   .object({
 
-    /**
-     * **Required**: string to set the inner text of the anchor element.
-     */
+    /** **Required**: string to set the inner text of the anchor element. */
     text: z.string(),
 
-    /**
-     * **Required**: URL to set the href attribute of the anchor element.
-     */
+    /** **Required**: URL to set the href attribute of the anchor element. */
     href: z.union([
       z.string().url(),
-      z.string().refine(s => {
+      z.string().refine((s) => {
         switch (true) {
           case s.startsWith("/"): return true;
           case s.startsWith("#"): return true;
@@ -27,27 +28,19 @@ export const link = z
       }),
     ]),
 
-    /**
-     * **Optional**: string to set the title attribute of the anchor element.
-     */
-    title: z.string().optional(),
-
-    /**
-     * **Optional**: where to load the URL; defaults to "_self".
-     */
+    /** **Optional**: where to load the URL; defaults to "_self". */
     target: z
       .enum([
         "_blank",
         "_self",
         "_parent",
-        "_top"
+        "_top",
       ])
-      .default("_self"),
-    rel: z.string().optional(),
+      .optional(),
 
     /** **Optional**: An Iconify icon name. */
     icon: z.string().optional(),
-  });
+  }) satisfies z.ZodType<Link>;
 
 export const tags = z
   .object({
