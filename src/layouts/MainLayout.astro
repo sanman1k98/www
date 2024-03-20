@@ -5,12 +5,12 @@ import Banner from "@/components/Banner.astro";
 import Footer from "@/components/Footer.astro";
 
 type Props = {
-  title?: string;
-  description?: string;
+  "title"?: string;
+  "description"?: string;
   /** Classes to add to the `<main>` element. */
-  class?: string;
+  "class"?: string;
   /** Styles to add to the `<main>` element. */
-  style?: string;
+  "style"?: string;
   /** Absolutely position the banner at the top. */
   "fixed-banner"?: boolean;
   /** Set to `false` to remove the padding on the `<main>` element. */
@@ -28,9 +28,9 @@ const {
 } = Astro.props;
 
 const title = titleString
-  ? (titleString + " | nicesandeep")
+  ? (`${titleString} | nicesandeep`)
   : "nicesandeep";
-const description = descString ?? "Sandeep Dilip's personal website"
+const description = descString ?? "Sandeep Dilip's personal website";
 ---
 
 <style is:global>
@@ -44,11 +44,11 @@ const description = descString ?? "Sandeep Dilip's personal website"
   {/* A noise pattern background to fill the whole page. */}
   <Perlin class="absolute inset-0 -z-50">
     {/* A gradient on top of the noise. */}
-    <div class="absolute inset-0 bg-gradient-to-b from-50% from-sky-50/85 via-90% via-sky-100/60"></div>
+    <div class="absolute inset-0 from-sky-50/85 via-sky-100/60 from-50% via-90% bg-gradient-to-b"></div>
   </Perlin>
 
   {/* Site logo and navigation components. */}
-  <Banner fixed={fixedBanner} class="pb-1"/>
+  <Banner fixed={fixedBanner} class="pb-1" />
 
   {/* Slot for main content. */}
   <main
@@ -58,14 +58,11 @@ const description = descString ?? "Sandeep Dilip's personal website"
       "min-h-screen text-sky-950",
       safeAreaPadding && "safe-area-padding",
     ]}
-    { ...attrs }
+    {...attrs}
   >
     <slot />
   </main>
 
   {/* Other links and copyright information. */}
-  <Footer class:list={[
-    "w-full pt-48 pb-18",
-    "bg-gradient-to-b from-transparent to-50% to-white"
-  ]}/>
+  <Footer class="w-full from-transparent to-white to-50% bg-gradient-to-b pb-18 pt-48" />
 </BaseLayout>
