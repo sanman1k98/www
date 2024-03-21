@@ -32,6 +32,8 @@ export function photos({ image }: SchemaContext) {
       file: z.string(),
       /** **Required**: Alt text for screenreaders. */
       alt: z.string(),
+      /** **Required**: A caption with a story or a description of the photo. */
+      caption: z.string().optional(),
     })
     .transform(
       async ({ file: path, ...rest }, ctx) => {
