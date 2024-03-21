@@ -28,10 +28,10 @@ function fixExif(data: ExifTags) {
 export function photos({ image }: SchemaContext) {
   return z
     .object({
-      /** Relative path to image file. */
+      /** **Required**: Relative path to image file. */
       file: z.string(),
-      /** Alt text for screenreaders. */
-      alt: z.string().default(""),
+      /** **Required**: Alt text for screenreaders. */
+      alt: z.string(),
     })
     .transform(
       async ({ file: path, ...rest }, ctx) => {
