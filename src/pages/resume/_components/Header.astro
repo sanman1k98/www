@@ -18,13 +18,19 @@ if (env.BUILD_INCLUDE_PERSONAL) {
   );
 }
 
+// HACK: Vite's `import.meta.env` doesn't work in Bun at the moment but when it
+// gets fixed, change this to `import.meta.env.PROD`.
+const titleLink = env.BUILD_INCLUDE_PERSONAL
+  ? import.meta.env.SITE
+  : "/";
+
 type Props = HTMLAttributes<"header">;
 ---
 
 <header class:list={[Astro.props.class, "flex flex-wrap sm:flex-nowrap justify-between items-start gap-4 justify-between"]}>
   <div class="min-w-fit">
     <h1 class="text-4xl text-slate-900 font-600 tracking-tighter">
-      <a class="group flex gap-x-2" href={import.meta.env.DEV ? "/" : import.meta.env.SITE}>
+      <a class="group flex gap-x-2" href={titleLink}>
         <span aria-hidden="true" class="hidden text-slate-200 transition duration-300 ease-out sm:inline group-hover:text-slate-300 hover:ease-in hover:text-sky-300!">#</span>
         <span class="underline decoration-3 decoration-sky-500 underline-offset-3 transition duration-600 ease-out group-hover:text-sky-950 group-hover:decoration-sky-400 group-hover:ease-in">
           Sandeep Dilip
