@@ -1,12 +1,12 @@
 ---
 import type {
+  GetStaticPaths,
   InferGetStaticPropsType,
-  GetStaticPaths
 } from "astro";
 import { Image } from "astro:assets";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
-import { getShutterSpeed, getExposureComp } from "@/lib/exif";
+import { getExposureComp, getShutterSpeed } from "@/lib/exif";
 
 export const getStaticPaths = (() =>
   photos.map(photo => ({
@@ -34,7 +34,7 @@ const exifinfo = {
   iso: exif.Photo.ISOSpeedRatings,
   shutter: getShutterSpeed(exif.Photo.ExposureTime),
   ev: getExposureComp(exif.Photo.ExposureBiasValue),
-}
+};
 ---
 
 <Page
@@ -53,7 +53,7 @@ const exifinfo = {
       quality="max"
       format={file.format}
     />
-    <figcaption class="max-w-prose mx-auto px-4 font-mono text-xs sm:text-sm md:text-base">
+    <figcaption class="mx-auto max-w-prose px-4 text-xs font-mono md:text-base sm:text-sm">
       <ul class="my-4 flex justify-between text-slate-600">
         <li>ISO {exifinfo.iso}</li>
         <li>{exifinfo.focallen} mm</li>
@@ -67,5 +67,5 @@ const exifinfo = {
       </ul>
     </figcaption>
   </figure>
-  <div class="h-48 w-full bg-gradient-to-b from-white"/>
+  <div class="h-48 w-full from-white bg-gradient-to-b" />
 </Page>
