@@ -74,10 +74,10 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
       {
         certifications.map(({ data: cert }) => (
           <Entry
-            link={cert.url}
-            heading={cert.name}
+            link={cert.link}
+            heading={cert.certification}
             subheading={cert.organization.name}
-            time={[cert.issueDate, cert.expiryDate]}
+            time={[cert.start, cert.end]}
           />
         ))
       }
@@ -130,7 +130,7 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
           .filter(proj => !proj.data.draft)
           .map(proj => (
             <Entry
-              link={proj.data.githubUrl}
+              link={proj.data.link}
               heading={proj.data.title}
               subheading={proj.data.description}
               entry={proj}

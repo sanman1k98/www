@@ -1,10 +1,37 @@
 import { z } from "astro/zod";
-import { org, tags } from "./misc";
+import { link, tags } from "./misc";
 
 export const daterange = z
   .object({
+
+    /**
+     * **Required**: A string representing the start date for this entry.
+     *
+     * Will be used as the argument for `new Date()`.
+     */
     start: z.coerce.date(),
+
+    /**
+     * **Optional**: A string representing the end date for this entry. If
+     * omitted, it implies the entry is currently ongoing.
+     *
+     * Will be used as the argument for `new Date()`.
+     */
     end: z.coerce.date().optional(),
+  });
+
+export const org = z
+  .object({
+    name: z.string(),
+    /** **Optional**: A link to the organization's website. */
+    link: z
+      .union([
+        z.string().url(),
+        link.omit({ text: true }),
+      ])
+      .optional(),
+    /** **Optional**: A city and state for this organization. */
+    location: z.string().optional(),
   });
 
 export const base = z
@@ -12,9 +39,10 @@ export const base = z
     type: z.literal("base").default("base"),
     /** Set to `true` to exclude from building. */
     draft: z.boolean().default(false),
+
     /**
-     * Can be used to manually sort entries and will take
-     * priority over start and end dates when sorting.
+     * When specified, this number will be used to manually sort entries and
+     * will take priority over start and end dates when sorting.
      */
     order: z.number().optional(),
   });
@@ -22,7 +50,7 @@ export const base = z
 export const skills = base
   .extend({
     type: z.literal("skills").default("skills"),
-    /** Type of skills listed in this entry e.g., "Languages" or "Technologies". */
+    /** Kind of skills listed in this entry e.g., "Frontend" or "Backend". */
     skills: z.string(),
   });
 
@@ -31,7 +59,6 @@ export const experience = base
   .merge(tags.partial())
   .extend({
     type: z.literal("experience").default("experience"),
-    /** Type of experience. */
     experience: z
       .enum([
         "work",
@@ -41,7 +68,6 @@ export const experience = base
       .default("work"),
     /** Position title or role. */
     title: z.string(),
-    /** Employer or organization. */
     organization: org,
   });
 
@@ -50,56 +76,46 @@ export const open_source = base
   .merge(tags.partial())
   .extend({
     type: z.literal("open-source").default("open-source"),
+    /** Override the automatically created title for the entry. */
+    title: z.string().optional(),
+    /** Override the automatically created description for the entry. */
+    description: z.string().optional(),
 
     /**
      * **Required**: a GitHub link to a repository or a pull request.
      *
      * Will be used to create a title and description for the entry if not specified.
      */
-    githubUrl: z.string().url(),
-
-    /**
-     * Override the automatically created title for the entry.
-     */
-    title: z.string().optional(),
-
-    /**
-     * Override the automatically created description for the entry.
-     */
-    description: z.string().optional(),
+    link: z
+      .union([
+        z.string().url(),
+        link.omit({ text: true }),
+      ]),
   })
   .transform((entry) => {
-    // TODO: get title and description from `githubUrl`
+    // TODO: Get title and description from the provided link.
     return entry;
   });
 
 export const education = base
   .merge(daterange)
   .extend({
-    type: z.literal("education"),
+    type: z.literal("education").default("education"),
     school: org,
     major: z.string(),
+    /** For example, "Bachelor of Science", "BSc", or "BS" */
     degree: z.string(),
   });
 
 export const certification = base
+  .merge(daterange) // `start` and `end` represent issue and expirey dates.
   .extend({
-    type: z.literal("certification"),
-    name: z
-      .string()
-      .describe("Name of the certification"),
-    organization: org
-      .omit({ location: true })
-      .describe("Organization which gave out the certification."),
-    issueDate: z
-      .date()
-      .describe("Date the certification was issued"),
-    expiryDate: z
-      .date()
-      .optional()
-      .describe("Date the certification expires"),
-    url: z
-      .string()
-      .url()
-      .optional(),
+    type: z.literal("certification").default("certification"),
+    certification: z.string(),
+    organization: org,
+    link: z
+      .union([
+        z.string().url(),
+        link.omit({ text: true }),
+      ]),
   });
