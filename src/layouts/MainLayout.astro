@@ -40,7 +40,7 @@ const description = descString ?? "Sandeep Dilip's personal website";
   }
 </style>
 
-<BaseLayout {title} {description} themeColor="#FFFFFF" class="relative">
+<BaseLayout {title} {description} themeColor="#FFFFFF" class="relative min-h-screen flex flex-col">
   {/* A noise pattern background to fill the whole page. */}
   <Perlin class="absolute inset-0 -z-50">
     {/* A gradient on top of the noise. */}
@@ -55,7 +55,7 @@ const description = descString ?? "Sandeep Dilip's personal website";
     {style}
     class:list={[
       className,
-      "min-h-screen text-sky-950",
+      "grow text-sky-950",
       safeAreaPadding && "safe-area-padding",
     ]}
     {...attrs}
