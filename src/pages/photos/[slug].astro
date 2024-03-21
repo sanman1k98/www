@@ -43,7 +43,7 @@ const exifinfo = {
   safe-area-padding={false}
 >
   <figure
-    class="w-full bg-white"
+    class="w-full from-white to-transparent from-90% bg-gradient-to-b"
   >
     <Image
       class="mx-auto"
@@ -51,21 +51,23 @@ const exifinfo = {
       alt={photo.alt}
       loading="eager"
       quality="max"
-      format={file.format}
+      fetchpriority="high"
     />
-    <figcaption class="mx-auto max-w-prose px-4 text-xs font-mono md:text-base sm:text-sm">
-      <ul class="my-4 flex justify-between text-slate-600">
-        <li>ISO {exifinfo.iso}</li>
-        <li>{exifinfo.focallen} mm</li>
-        <li>{exifinfo.ev} ev</li>
-        <li>f/{exifinfo.f}</li>
-        <li>{exifinfo.shutter}s</li>
-      </ul>
-      <ul class="flex justify-around text-slate-400">
-        <li><time>{exifinfo.datetime}</time></li>
-        <li>{exifinfo.camera}</li>
-      </ul>
+
+    <figcaption class="mx-auto max-w-prose pb-12 text-xs sm:text-sm">
+      <div class="mx-auto max-w-prose px-4 font-mono">
+        <ul class="my-4 flex justify-between text-slate-600">
+          <li>ISO {exifinfo.iso}</li>
+          <li>{exifinfo.focallen} mm</li>
+          <li>{exifinfo.ev} ev</li>
+          <li>f/{exifinfo.f}</li>
+          <li>{exifinfo.shutter}s</li>
+        </ul>
+        <ul class="flex justify-around text-slate-400">
+          <li><time datetime={exif.Photo.DateTimeOriginal.toISOString()}>{exifinfo.datetime}</time></li>
+          <li>{exifinfo.camera}</li>
+        </ul>
+      </div>
     </figcaption>
   </figure>
-  <div class="h-48 w-full from-white bg-gradient-to-b" />
 </Page>
