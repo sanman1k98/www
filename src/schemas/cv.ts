@@ -1,5 +1,5 @@
 import { z } from "astro/zod";
-import { link, tags } from "./misc";
+import { tags } from "./misc";
 
 export const daterange = z
   .object({
@@ -24,12 +24,7 @@ export const org = z
   .object({
     name: z.string(),
     /** **Optional**: A link to the organization's website. */
-    link: z
-      .union([
-        z.string().url(),
-        link.omit({ text: true }),
-      ])
-      .optional(),
+    link: z.string().url().optional(),
     /** **Optional**: A city and state for this organization. */
     location: z.string().optional(),
   });
@@ -86,11 +81,7 @@ export const open_source = base
      *
      * Will be used to create a title and description for the entry if not specified.
      */
-    link: z
-      .union([
-        z.string().url(),
-        link.omit({ text: true }),
-      ]),
+    link: z.string().url(),
   })
   .transform((entry) => {
     // TODO: Get title and description from the provided link.
@@ -113,9 +104,5 @@ export const certification = base
     type: z.literal("certification").default("certification"),
     certification: z.string(),
     organization: org,
-    link: z
-      .union([
-        z.string().url(),
-        link.omit({ text: true }),
-      ]),
+    link: z.string().url(),
   });
