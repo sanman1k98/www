@@ -1,33 +1,21 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import Logo from "./Logo.astro";
 import Nav from "./Nav.astro";
 
-type Props = {
-  class?: string,
-  style?: string,
-  /**
-   * Set to `true` to absolutely position the `<header>` at the top and remove
-   * from normal flow.
-   */
-  fixed?: boolean,
+type Props = HTMLAttributes<"header"> & {
+  /** Set to `true` to position at the top of the layout and remove from normal flow. */
+  fixed?: boolean | undefined;
 };
 
-const {
-  class: className,
-  style,
-  fixed = false,
-} = Astro.props;
+const { fixed = false } = Astro.props;
 ---
 
 <header
-  {style}
-  class:list={[
-    className,
-    "flex justify-between items-center gap-x-2 px-[7vw] sm:px-8 z-50",
-    "bg-white/85 backdrop-blur-md border-b",
-    fixed ? "fixed inset-x-0" : "sticky", "top-0"
-  ]}
+  style={Astro.props.style}
+  class="top-0 z-50 flex items-center justify-between gap-x-2 border-b bg-white/85 px-[7vw] backdrop-blur-md sm:px-8"
+  class:list={[Astro.props.class, fixed ? "fixed inset-x-0" : "sticky"]}
 >
-  <Logo class=""/>
-  <Nav class="text-sm sm:text-base tracking-wider"/>
+  <Logo />
+  <Nav class="text-sm tracking-wider sm:text-base" />
 </header>
