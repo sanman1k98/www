@@ -6,18 +6,29 @@ import Header from "./_components/Header.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { env } from "@/utils";
 import {
-  compareCvEntries,
+  compareChronologicalEntries as compareDates,
+  compareOrderedEntries,
   cvEntries,
   createCvEntryTypeGuard as isType,
 } from "@/content";
 
 const summary = cvEntries.find(({ slug }) => slug === "summary")!;
 
-const experience = cvEntries.filter(isType("experience"));
-const projects = cvEntries.filter(isType("open-source")).sort(compareCvEntries);
+const experience = cvEntries
+  .filter(isType("experience"))
+  .sort(compareDates)
+  .reverse();
+
 const certifications = cvEntries.filter(isType("certification"));
 const education = cvEntries.filter(isType("education"));
-const skills = cvEntries.filter(isType("skills")).sort(compareCvEntries);
+
+const projects = cvEntries
+  .filter(isType("open-source"))
+  .sort(compareOrderedEntries);
+
+const skills = cvEntries
+  .filter(isType("skills"))
+  .sort(compareOrderedEntries);
 
 const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
   ? await summary.render()
@@ -123,16 +134,14 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
 
     <Section heading="Open source">
       {
-        projects
-          .filter(proj => !proj.data.draft)
-          .map(proj => (
-            <Entry
-              link={proj.data.link}
-              heading={proj.data.title}
-              subheading={proj.data.description}
-              entry={proj}
-            />
-          ))
+        projects.map(proj => (
+          <Entry
+            link={proj.data.link}
+            heading={proj.data.title!}
+            subheading={proj.data.description!}
+            entry={proj}
+          />
+        ))
       }
     </Section>
 
