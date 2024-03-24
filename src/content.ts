@@ -20,8 +20,6 @@ export type InfoEntry<T extends InfoEntryType> = CollectionEntry<"info"> & {
 export type Photo = PhotosEntryData[number];
 
 export function createCvEntryTypeGuard<T extends CvEntryType>(type: T) {
-  // eslint-disable-next-line ts/prefer-ts-expect-error
-  // @ts-ignore: errors when collection is empty
   return (entry: CollectionEntry<"cv">): entry is CvEntry<T> => entry.data.type === type;
 }
 
