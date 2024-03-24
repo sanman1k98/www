@@ -1,5 +1,5 @@
 ---
-import { unoColors } from "@/utils";
+import { unoTheme } from "@/utils";
 import "@fontsource-variable/quicksand";
 import "@fontsource-variable/red-hat-display";
 import Meta from '@/components/HeadMeta.astro';
@@ -18,7 +18,7 @@ interface Props {
 const {
   class: className,
   style,
-  themeColor = unoColors.sky[50],
+  themeColor = unoTheme.colors.sky[50],
   ...meta
 } = Astro.props;
 ---
