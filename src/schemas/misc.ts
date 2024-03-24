@@ -4,7 +4,7 @@ import { z } from "astro/zod";
 type Link = HTMLAttributes<"a"> & {
   text: string;
   href: string;
-  icon?: string;
+  icon?: string | undefined;
 };
 
 /** Use to create HTMLAnchorElements. */
