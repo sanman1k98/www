@@ -1,5 +1,4 @@
 import { z } from "astro/zod";
-import { tags } from "./misc";
 
 export const daterange = z
   .object({
@@ -51,7 +50,6 @@ export const skills = base
 
 export const experience = base
   .merge(daterange)
-  .merge(tags.partial())
   .extend({
     type: z.literal("experience").default("experience"),
     experience: z
@@ -68,7 +66,6 @@ export const experience = base
 
 export const open_source = base
   .merge(daterange.partial())
-  .merge(tags.partial())
   .extend({
     type: z.literal("open-source").default("open-source"),
     /** Override the automatically created title for the entry. */

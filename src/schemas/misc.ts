@@ -41,8 +41,3 @@ export const link = z
     /** **Optional**: An Iconify icon name. */
     icon: z.string().optional(),
   }) satisfies z.ZodType<Link>;
-
-export const tags = z
-  .object({
-    tags: z.string().array(),
-  });
