@@ -1,16 +1,16 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import GithubSlugger from "github-slugger";
 
 const slugger = new GithubSlugger();
 
-type Props = {
+type Props = HTMLAttributes<"section"> & {
   heading: string;
-  class?: string;
-  /** Enable a two column grid layout. */
+  /** Enable a two column grid on larger displays and for printing. */
   grid?: boolean;
 };
 
-const { heading, class: className, grid = false } = Astro.props;
+const { heading, grid = false } = Astro.props;
 
 const id = slugger.slug(heading);
 ---
@@ -23,8 +23,8 @@ const id = slugger.slug(heading);
 <section
   {id}
   style={{ backgroundSize: "100% 200%", transitionProperty: "background-position" }}
-  class="group/section scroll-mt-6 from-slate-50 to-transparent from-50% to-50% bg-gradient-to-b bg-bottom px-2 pb-4 pt-2 duration-100 ease-out print:bg-none target:bg-top target:duration-200 target:delay-200"
-  class:list={className}
+  class="group/section scroll-mt-6 from-slate-50 to-transparent from-50% to-50% bg-gradient-to-b bg-bottom p-2 pb-4 duration-100 ease-out print:bg-none target:bg-top target:duration-200 target:delay-200"
+  class:list={[Astro.props.class]}
 >
   <h2 class="mx-2 mb-4 flex gap-x-2 whitespace-nowrap text-xs font-800 uppercase">
     <a href={("#").concat(id)} class="group peer">
