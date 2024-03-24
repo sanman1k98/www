@@ -1,4 +1,4 @@
-import { type CollectionEntry, getCollection, type z } from "astro:content";
+import { type CollectionEntry, getCollection, getEntry, type z } from "astro:content";
 import type { cvSchema, infoSchema, photosSchema } from "@/content/config";
 import type { daterange } from "@/schemas/cv";
 
@@ -97,7 +97,5 @@ export const socials = Object.fromEntries(
   links.socials.map(link => [link.text.toLowerCase(), link]),
 );
 
-/**
- * A list of photos with alt text and transformed metadata.
- */
-export const photos = (await getCollection("photos", ({ id }) => id === "index"))[0].data;
+/** A list of photos with alt text and transformed metadata. */
+export const photos = await getEntry("photos", "index").then(({ data }) => data);
