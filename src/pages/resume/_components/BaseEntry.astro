@@ -13,12 +13,11 @@ function getMixPercentage(date?: Date): string {
 }
 
 type Props = HTMLAttributes<"article"> & {
-  "entry"?: CollectionEntry<"cv">;
-  "link"?: string;
-  "heading"?: string;
-  "subheading"?: string;
-  "after-subheading"?: string;
-  "time"?: Date | [Date, Date?];
+  entry?: CollectionEntry<"cv">;
+  link?: string;
+  heading?: string;
+  subheading?: string;
+  time?: Date | [Date, Date | undefined];
 };
 
 const { entry, link, heading, subheading, time } = Astro.props;
