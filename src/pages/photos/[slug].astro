@@ -6,7 +6,7 @@ import type {
 import { Image } from "astro:assets";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
-import { getExposureComp, getShutterSpeed } from "@/lib/exif";
+import { getExposureComp, getShutterSpeed } from "@/utils/exif";
 
 export const getStaticPaths = (() =>
   photos.map(photo => ({
