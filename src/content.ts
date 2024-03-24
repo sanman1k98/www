@@ -78,7 +78,9 @@ export const cvEntries: CollectionEntry<"cv">[] = maybeCvEntries.sort(compareCvE
 foundCvStart = true;
 
 /** The earliest date specified in an entry from the "cv" collection. */
-export const CV_START = cvStart;
+export const CV_START = cvEntries
+  .flatMap(entry => "start" in entry.data && entry.data.start ? entry.data.start : [])
+  .reduce((a, b) => a.valueOf() - b.valueOf() > 0 ? b : a);
 
 export const infoEntries = await getCollection("info");
 
