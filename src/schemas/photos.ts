@@ -84,6 +84,15 @@ export function photos({ image }: SchemaContext) {
           return z.NEVER;
         };
 
+        if (Photo.DateTimeOriginal === undefined) {
+          ctx.addIssue({
+            code: "custom",
+            message: `Image ${path} does not contain "DateTimeOriginal" in EXIF metadata.`,
+            fatal: true,
+          });
+          return z.NEVER;
+        }
+
         return {
           /** Transformed metadata which can be passed to `<Image />`, `getImage()`, or `<img>`. */
           file: transformed.data,
