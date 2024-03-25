@@ -1,11 +1,9 @@
 import { z } from "astro/zod";
 import { link } from "./misc";
 
-export const base = z
-  .object({
-    type: z.literal("base").default("base"),
-  })
-  .strict();
+export const base = z.strictObject({
+  type: z.literal("base").default("base"),
+});
 
 export const links = base
   .extend({
