@@ -112,16 +112,3 @@ export function getReadableCaptureSettings(tags: Exif["Photo"]): string[] {
     `${shutter}s`,
   ];
 }
-
-export function getCaptureTimeStrings(date: Date | undefined) {
-  if (date === undefined)
-    return null;
-  return {
-    ISOString: date.toISOString(),
-    formatted: date.toLocaleString("en", {
-      dateStyle: "medium",
-      timeStyle: "short",
-      timeZone: "UTC",
-    }),
-  };
-}

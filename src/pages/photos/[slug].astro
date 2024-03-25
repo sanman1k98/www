@@ -8,7 +8,6 @@ import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
 import {
   getCamera,
-  getCaptureTimeStrings,
   getLensInfo,
   getReadableCaptureSettings,
 } from "@/utils/exif";
@@ -29,7 +28,12 @@ const camera = getCamera(exif);
 const lens = getLensInfo(exif);
 const settings = getReadableCaptureSettings(exif.Photo);
 
-const captureTime = getCaptureTimeStrings(exif.Photo.DateTimeOriginal);
+const datetime = exif.Photo.DateTimeOriginal;
+const formattedDatetime = datetime.toLocaleString("en", {
+  dateStyle: "medium",
+  timeStyle: "short",
+  timeZone: "UTC",
+});
 ---
 
 <Page
@@ -38,7 +42,7 @@ const captureTime = getCaptureTimeStrings(exif.Photo.DateTimeOriginal);
   safe-area-padding={false}
 >
   <figure
-    class="w-full from-white to-transparent from-90% bg-gradient-to-b"
+    class="w-full from-white to-transparent from-90% bg-gradient-to-b sm:pt-4"
   >
     <Image
       class="mx-auto"
@@ -53,10 +57,18 @@ const captureTime = getCaptureTimeStrings(exif.Photo.DateTimeOriginal);
       <p class="mb-10 mt-2 flex flex-col px-2 leading-tight sm:mt-6">
         <span class="text-slate-800">{camera}</span>
         <span class="mb-2 text-slate-700">{lens}</span>
-        {captureTime && (
-          <time class="text-xs text-slate-500 sm:text-sm" datetime={captureTime.ISOString}>{captureTime.formatted}</time>
-        )}
+        {
+          (datetime && formattedDatetime) && (
+            <time
+              class="text-xs text-slate-500 sm:text-sm"
+              {datetime}
+            >
+              {formattedDatetime}
+            </time>
+          )
+        }
       </p>
+
       <div class="mx-auto px-2">
         <ul class="my-4 flex justify-center text-xs text-slate-500 divide-x-2 sm:text-sm">
           {
