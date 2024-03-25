@@ -6,7 +6,12 @@ import type {
 import { Image } from "astro:assets";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
-import { getExposureComp, getShutterSpeed } from "@/utils/exif";
+import {
+  getCamera,
+  getCaptureTimeStrings,
+  getLensInfo,
+  getReadableCaptureSettings,
+} from "@/utils/exif";
 
 export const getStaticPaths = (() =>
   photos.map(photo => ({
@@ -20,21 +25,11 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { photo } = Astro.props;
 const { file, exif } = photo;
 
-const dateFormat = Intl.DateTimeFormat("en", {
-  dateStyle: "medium",
-  timeStyle: "short",
-  timeZone: "UTC",
-});
+const camera = getCamera(exif);
+const lens = getLensInfo(exif);
+const settings = getReadableCaptureSettings(exif.Photo);
 
-const exifinfo = {
-  camera: exif.Image.Model,
-  datetime: dateFormat.format(exif.Photo.DateTimeOriginal),
-  f: exif.Photo.FNumber,
-  focallen: exif.Photo.FocalLengthIn35mmFilm ?? exif.Photo.FocalLength,
-  iso: exif.Photo.ISOSpeedRatings,
-  shutter: getShutterSpeed(exif.Photo.ExposureTime),
-  ev: getExposureComp(exif.Photo.ExposureBiasValue),
-};
+const captureTime = getCaptureTimeStrings(exif.Photo.DateTimeOriginal);
 ---
 
 <Page
@@ -54,18 +49,21 @@ const exifinfo = {
       fetchpriority="high"
     />
 
-    <figcaption class="mx-auto max-w-prose pb-12 text-xs sm:text-sm">
-      <div class="mx-auto max-w-prose px-4 font-mono">
-        <ul class="my-4 flex justify-between text-slate-600">
-          <li>ISO {exifinfo.iso}</li>
-          <li>{exifinfo.focallen} mm</li>
-          <li>{exifinfo.ev} ev</li>
-          <li>f/{exifinfo.f}</li>
-          <li>{exifinfo.shutter}s</li>
-        </ul>
-        <ul class="flex justify-around text-slate-400">
-          <li><time datetime={exif.Photo.DateTimeOriginal.toISOString()}>{exifinfo.datetime}</time></li>
-          <li>{exifinfo.camera}</li>
+    <figcaption class="mx-auto max-w-prose pb-12 text-base font-mono sm:text-lg">
+      <p class="mb-10 mt-2 flex flex-col px-2 leading-tight sm:mt-6">
+        <span class="text-slate-800">{camera}</span>
+        <span class="mb-2 text-slate-700">{lens}</span>
+        {captureTime && (
+          <time class="text-xs text-slate-500 sm:text-sm" datetime={captureTime.ISOString}>{captureTime.formatted}</time>
+        )}
+      </p>
+      <div class="mx-auto px-2">
+        <ul class="my-4 flex justify-center text-xs text-slate-500 divide-x-2 sm:text-sm">
+          {
+            settings.map(item => (
+              <li class="px-3 py-0.5 sm:px-4 sm:py-1">{item}</li>
+            ))
+          }
         </ul>
       </div>
     </figcaption>
