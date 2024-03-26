@@ -22,6 +22,7 @@
     "astro-icon": "^1.1.0",
     "exif-reader": "^2.0.1",
     "github-slugger": "^2.0.0",
+    "satori": "^0.10.13",
     "sharp": "^0.33.2",
     "unocss": "^0.58.6"
   },
