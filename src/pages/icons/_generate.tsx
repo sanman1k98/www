@@ -56,7 +56,7 @@ async function getFontBuffer() {
   return await readFile(url);
 }
 
-export async function generateIcon() {
+export async function renderToSVG() {
   return await satori(
     (
       <Favicon />
