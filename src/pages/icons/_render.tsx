@@ -7,101 +7,69 @@ import { unoTheme } from "@/utils";
 
 const SIZE = 512;
 
-const Background: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const PRIMARY_GRADIENT = `linear-gradient(to right, ${unoTheme.colors.sky[600]} 30%, ${unoTheme.colors.pink[500]} 70%)`;
+
+interface Props {
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
+};
+
+export const NS: React.FC<Props> = ({ style }) => (
   <div
     style={{
-      display: "flex",
       height: "100%",
       width: "100%",
-      backgroundColor: "white",
-    }}
-  >
-    {children}
-  </div>
-);
-
-export const OnlyChars: React.FC<{ styles?: React.CSSProperties }> = ({ styles }) => (
-  <div
-    style={{
-      textAlign: "center",
       fontFamily: "Quicksand",
       fontSize: SIZE,
-      lineHeight: 0.7,
-      letterSpacing: -25,
-      marginLeft: -12,
-      ...styles,
+      lineHeight: "75%",
+      letterSpacing: "-0.08em",
+      ...style,
     }}
   >
     ns
   </div>
 );
 
-const Chars: React.FC = () => (
-  <div
+export const NSGradient: React.FC<Props> = ({ style }) => (
+  <NS
     style={{
-      display: "flex",
-      height: "100%",
-      width: "100%",
-      marginLeft: "-9",
-      textAlign: "center",
-      justifyContent: "center",
-      alignItems: "baseline",
-      fontFamily: "Quicksand",
-      fontSize: 496,
-      lineHeight: 0.7,
-      letterSpacing: "-16",
       color: "transparent",
       backgroundClip: "text",
-      backgroundImage: `linear-gradient(to right, ${unoTheme.colors.sky[600]} 30%, ${unoTheme.colors.pink[500]} 70%)`,
+      backgroundImage: PRIMARY_GRADIENT,
+      ...style,
     }}
-  >
-    ns
-  </div>
+  />
 );
-
-const Favicon: React.FC = () => (
-  <Background>
-    <Chars />
-  </Background>
-);
-
-export default Favicon;
 
 async function getFontBuffer() {
-  const relativePath = "../../../node_modules/@fontsource/quicksand/files/quicksand-latin-600-normal.woff";
+  const relativePath = "../../../node_modules/@fontsource/quicksand/files/quicksand-latin-700-normal.woff";
   const url = new URL(relativePath, import.meta.url);
   return await readFile(url);
 }
 
-export async function renderToSVG() {
-  return await satori(
-    (
-      <Favicon />
-    ),
-    {
-      fonts: [
-        {
-          name: "Quicksand",
-          style: "normal",
-          data: await getFontBuffer(),
-        },
-      ],
-      height: SIZE,
-      width: SIZE,
-      // debug: true,
-    },
-  );
+export async function renderToSVG(Component: React.FC<Props>) {
+  const quicksand = {
+    name: "Quicksand",
+    style: "normal",
+    data: await getFontBuffer(),
+  } as const;
+
+  const opts = {
+    fonts: [quicksand],
+    height: SIZE,
+    width: SIZE,
+    debug: false,
+  };
+
+  return await satori(<Component />, opts);
 }
 
-export function renderToHTML() {
-  return renderToStaticMarkup(
-    <OnlyChars
-      styles={{
-        fontFamily: "Quicksand Variable",
-        fontWeight: 600,
-        height: SIZE,
-        width: SIZE,
-      }}
-    />,
-  );
+export function renderToHTML(Component: React.FC<Props>) {
+  const htmlStyles = {
+    fontFamily: "Quicksand Variable",
+    fontWeight: 700,
+    height: SIZE,
+    width: SIZE,
+  };
+  return renderToStaticMarkup(<Component style={htmlStyles} />);
 }

@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths, InferGetStaticParamsType } from "astro";
-import { renderToSVG } from "./_render";
+import { NSGradient, renderToSVG } from "./_render";
 
 export const getStaticPaths = (() => {
   const FILES = [
@@ -19,7 +19,7 @@ export const GET: APIRoute<any, Params> = async ({ params }) => {
 
   switch (file) {
     case "favicon.svg":
-      body = await renderToSVG();
+      body = await renderToSVG(NSGradient);
       contentType = "image/svg+xml";
       break;
   }
