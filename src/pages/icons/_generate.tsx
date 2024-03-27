@@ -2,6 +2,7 @@
 /** @jsxImportSource react */
 import { readFile } from "node:fs/promises";
 import satori from "satori";
+import { renderToStaticMarkup } from "react-dom/server";
 import { unoTheme } from "@/utils";
 
 const SIZE = 512;
@@ -89,5 +90,18 @@ export async function renderToSVG() {
       width: SIZE,
       // debug: true,
     },
+  );
+}
+
+export function renderToHTML() {
+  return renderToStaticMarkup(
+    <OnlyChars
+      styles={{
+        fontFamily: "Quicksand Variable",
+        fontWeight: 600,
+        height: SIZE,
+        width: SIZE,
+      }}
+    />,
   );
 }
