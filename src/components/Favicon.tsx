@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import satori from "satori";
 import quicksand from "@fontsource/quicksand/files/quicksand-latin-600-normal.woff";
 import { unoTheme } from "@/utils";
@@ -48,7 +50,8 @@ export default Favicon;
 
 async function getFontBuffer() {
   const url = new URL(`../..${quicksand}`, import.meta.url);
-  return await fetch(url).then(res => res.arrayBuffer());
+  const path = fileURLToPath(url);
+  return await readFile(path);
 }
 
 export async function generateIcon() {
