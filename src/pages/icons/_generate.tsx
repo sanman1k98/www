@@ -1,3 +1,5 @@
+/** @jsxRuntime automatic */
+/** @jsxImportSource react */
 import { readFile } from "node:fs/promises";
 import satori from "satori";
 import { unoTheme } from "@/utils";

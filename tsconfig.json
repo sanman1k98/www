@@ -5,7 +5,6 @@
       {"name": "@astrojs/ts-plugin"}
     ],
     "baseUrl": ".",
-    "jsx": "react-jsx",
     "paths": {
       "@/*": ["./src/*"],
     },
