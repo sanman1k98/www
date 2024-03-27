@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths, InferGetStaticParamsType } from "astro";
-import { renderToSVG } from "./_generate";
+import { renderToSVG } from "./_render";
 
 export const getStaticPaths = (() => {
   const FILES = [
