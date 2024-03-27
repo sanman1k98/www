@@ -19,6 +19,22 @@ const Background: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   </div>
 );
 
+export const OnlyChars: React.FC<{ styles?: React.CSSProperties }> = ({ styles }) => (
+  <div
+    style={{
+      textAlign: "center",
+      fontFamily: "Quicksand",
+      fontSize: SIZE,
+      lineHeight: 0.7,
+      letterSpacing: -25,
+      marginLeft: -12,
+      ...styles,
+    }}
+  >
+    ns
+  </div>
+);
+
 const Chars: React.FC = () => (
   <div
     style={{
