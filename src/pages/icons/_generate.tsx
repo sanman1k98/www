@@ -47,7 +47,7 @@ const Favicon: React.FC = () => (
 export default Favicon;
 
 async function getFontBuffer() {
-  const relativePath = "../../node_modules/@fontsource/quicksand/files/quicksand-latin-600-normal.woff";
+  const relativePath = "../../../node_modules/@fontsource/quicksand/files/quicksand-latin-600-normal.woff";
   const url = new URL(relativePath, import.meta.url);
   return await readFile(url);
 }

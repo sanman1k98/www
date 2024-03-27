@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths, InferGetStaticParamsType } from "astro";
-import { generateIcon } from "@/components/Favicon";
+import { generateIcon } from "./_generate";
 
 export const getStaticPaths = (() => {
   const FILES = [
