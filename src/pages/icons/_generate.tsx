@@ -4,6 +4,8 @@ import { readFile } from "node:fs/promises";
 import satori from "satori";
 import { unoTheme } from "@/utils";
 
+const SIZE = 512;
+
 const Background: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div
     style={{
@@ -28,8 +30,8 @@ const Chars: React.FC = () => (
       justifyContent: "center",
       alignItems: "baseline",
       fontFamily: "Quicksand",
-      fontSize: 212,
-      lineHeight: 1,
+      fontSize: 496,
+      lineHeight: 0.7,
       letterSpacing: "-16",
       color: "transparent",
       backgroundClip: "text",
@@ -67,8 +69,8 @@ export async function generateIcon() {
           data: await getFontBuffer(),
         },
       ],
-      height: 256,
-      width: 256,
+      height: SIZE,
+      width: SIZE,
       // debug: true,
     },
   );
