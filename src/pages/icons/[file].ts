@@ -17,9 +17,6 @@ type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 
 export const GET: APIRoute<never, Params> = async ({ params }) => {
   const { file } = params;
-  const headers = new Headers(
-    { "Content-Type": file.endsWith("svg") ? "image/svg+xml" : "image/png" },
-  );
   let body: BodyInit;
 
   const svg = await renderToSVG(Icon);
@@ -47,5 +44,14 @@ export const GET: APIRoute<never, Params> = async ({ params }) => {
       break;
   }
 
-  return new Response(body, { headers });
+  return new Response(
+    body,
+    {
+      headers: {
+        "Content-Type": file.endsWith("svg")
+          ? "image/svg+xml"
+          : "image/png",
+      },
+    },
+  );
 };
