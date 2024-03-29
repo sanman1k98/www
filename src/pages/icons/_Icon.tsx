@@ -5,26 +5,44 @@ import { readFile } from "node:fs/promises";
 import satori from "satori";
 import { unoTheme } from "@/utils";
 
-// Height and width of SVG viewbox.
 const SIZE = 512;
-// Satori doesn't support WOFF2 at the moment.
-const PATH_TO_FONT = "../../../node_modules/@fontsource/quicksand/files/quicksand-latin-700-normal.woff";
-const PRIMARY_GRADIENT = `linear-gradient(to right, ${unoTheme.colors.sky[600]} 30%, ${unoTheme.colors.pink[500]} 70%)`;
+const WEIGHT: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 = 700;
+const FONT_PATH = `../../../node_modules/@fontsource/quicksand/files/quicksand-latin-${WEIGHT}-normal.woff`;
+
+const PRIMARY_GRADIENT = `
+  linear-gradient(
+    to right,
+    ${unoTheme.colors.sky[600]} 30%,
+    ${unoTheme.colors.pink[500]} 70%
+  )
+`;
+
+const BG_GRADIENT = `
+  radial-gradient(
+    at top left,
+    white 60%,
+    ${unoTheme.colors.sky[100]} 90%
+  )
+`;
 
 interface Props {
   children?: React.ReactNode;
   style?: React.CSSProperties;
 };
 
-export const NS: React.FC<Props> = ({ style }) => (
+export const Chars: React.FC<Props> = ({ style }) => (
   <div
     style={{
-      height: "100%",
-      width: "100%",
-      fontFamily: "Quicksand",
+      height: SIZE,
+      width: SIZE,
       fontSize: SIZE,
-      lineHeight: "75%",
+      lineHeight: 0.75,
       letterSpacing: "-0.08em",
+      // Satori defaults
+      display: "flex",
+      position: "relative",
+      textOverflow: "clip",
+      // Overrides
       ...style,
     }}
   >
@@ -32,8 +50,20 @@ export const NS: React.FC<Props> = ({ style }) => (
   </div>
 );
 
-export const NSGradient: React.FC<Props> = ({ style }) => (
-  <NS
+export const BgGradient: React.FC<Props> = ({ children }) => (
+  <div
+    style={{
+      backgroundImage: BG_GRADIENT,
+      // Satori defaults
+      display: "flex",
+    }}
+  >
+    {children}
+  </div>
+);
+
+export const Icon: React.FC<Props> = ({ style }) => (
+  <Chars
     style={{
       color: "transparent",
       backgroundClip: "text",
@@ -43,7 +73,15 @@ export const NSGradient: React.FC<Props> = ({ style }) => (
   />
 );
 
-const fontBuffer = await readFile(new URL(PATH_TO_FONT, import.meta.url));
+export default Icon;
+
+export const IconWithBG: React.FC<Props> = () => (
+  <BgGradient>
+    <Icon />
+  </BgGradient>
+);
+
+const fontBuffer = await readFile(new URL(FONT_PATH, import.meta.url));
 
 export async function renderToSVG(Component: React.FC<Props>) {
   const quicksand = {
@@ -65,15 +103,19 @@ export async function renderToSVG(Component: React.FC<Props>) {
 // Used for debugging purposes.
 export async function renderToHTML(Component: React.FC<Props>) {
   const html = {
-    // Imported in `BaseLayout.astro`
-    fontFamily: "Quicksand Variable",
-    fontWeight: 700,
+    // Satori SVG output styles
     height: SIZE,
     width: SIZE,
+    overflow: "clip",
+    // Font imported in `BaseLayout.astro`
+    fontFamily: "Quicksand Variable",
+    fontWeight: WEIGHT,
   };
 
   return await import("react-dom/server")
     .then(mod => mod.renderToStaticMarkup(
-      <Component style={html} />,
+      <div style={html}>
+        <Component />
+      </div>,
     ));
 }
