@@ -5,9 +5,9 @@ import satori from "satori";
 import { Resvg, type ResvgRenderOptions } from "@resvg/resvg-js";
 import { FONT_PATH, type IconComponent, SIZE, WEIGHT } from "./_components";
 
-const cache = new WeakMap<IconComponent, string>();
+const fontBuffer = await readFile(FONT_PATH);
 
-const fontBuffer = await readFile(new URL(FONT_PATH, import.meta.url));
+const cache = new WeakMap<IconComponent, string>();
 
 export async function toSVG(Component: IconComponent): Promise<string> {
   if (cache.has(Component))

@@ -16,8 +16,6 @@ export default defineConfig({
   ],
   image: { service: sharpImageService() },
   vite: {
-    optimizeDeps: {
-      exclude: ["@resvg/resvg-js"],
-    },
+    optimizeDeps: { exclude: ["@resvg/resvg-js"] },
   },
 });

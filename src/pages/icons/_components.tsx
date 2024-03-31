@@ -1,11 +1,12 @@
 // Use pragma directives to enable JSX transpilation within this file.
 /** @jsxRuntime automatic */
 /** @jsxImportSource react */
+import { join } from "node:path";
 import { unoTheme } from "@/utils";
 
 export const SIZE = 512;
 export const WEIGHT: 200 | 300 | 400 | 500 | 600 | 700 = 700;
-export const FONT_PATH = `../../../node_modules/@fontsource/quicksand/files/quicksand-latin-${WEIGHT}-normal.woff`;
+export const FONT_PATH = join(process.cwd(), `/node_modules/@fontsource/quicksand/files/quicksand-latin-${WEIGHT}-normal.woff`);
 
 const PRIMARY_GRADIENT = `
   linear-gradient(
