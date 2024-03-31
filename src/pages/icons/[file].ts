@@ -1,6 +1,6 @@
 import type { APIRoute, GetStaticPaths, InferGetStaticParamsType } from "astro";
-import sharp from "sharp";
-import { Icon, IconWithBG, renderToSVG } from "./_Icon";
+import { Icon, TouchIcon } from "./_components";
+import * as render from "./_render";
 
 export const getStaticPaths = (() => {
   // Icons to generate at build time.
@@ -19,28 +19,21 @@ export const GET: APIRoute<never, Params> = async ({ params }) => {
   const { file } = params;
   let body: BodyInit;
 
-  const svg = await renderToSVG(Icon);
-  const { encode } = new TextEncoder();
-
   switch (file) {
     case "favicon.svg":
-      body = svg;
+      body = await render.toSVG(Icon);
       break;
 
     case "favicon.png":
-      body = await sharp(encode(svg))
-        .png()
-        .resize(48)
-        .toBuffer();
+      body = await render.toPNG(Icon, {
+        fitTo: { mode: "width", value: 48 },
+      });
       break;
 
     case "apple-touch-icon.png":
-      body = await renderToSVG(IconWithBG)
-        .then(str => sharp(encode(str))
-          .png()
-          .resize(180)
-          .toBuffer(),
-        );
+      body = await render.toPNG(TouchIcon, {
+        fitTo: { mode: "width", value: 180 },
+      });
       break;
   }
 
