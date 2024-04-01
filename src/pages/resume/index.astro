@@ -41,7 +41,7 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
   @media print {
     :root {
       background-color: inherit;
-      font-size: 12px;
+      font-size: 10.5px;
       print-color-adjust: exact;
     }
   }
@@ -54,7 +54,7 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
 >
   <Header class="mx-auto mb-12 mt-6 max-w-5xl px-4 sm:mt-12 print:max-w-full md:px-12 sm:px-8" />
 
-  <main class="mx-auto max-w-prose text-sm text-slate-700 lg:max-w-3xl md:max-w-2xl print:max-w-3xl sm:text-base">
+  <main class="mx-auto max-w-prose text-sm text-slate-700 lg:max-w-3xl md:max-w-2xl sm:text-base !print:max-w-5xl">
     {Summary && (
       <Section heading="Summary">
         <div class="m-5 mb-0 border-l-3 border-slate-200 pl-3 font-375 leading-tight">
