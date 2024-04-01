@@ -91,7 +91,7 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
       }
     </Section>
 
-    <Section heading="Volunteering">
+    <Section grid heading="Volunteering">
       {
         experience
           .filter(({ data }) => data.experience === "volunteering")
@@ -100,7 +100,6 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
               heading={exp.data.title}
               subheading={exp.data.organization.name}
               time={[exp.data.start, exp.data.end]}
-              entry={exp}
             />
           ))
       }
@@ -132,14 +131,13 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
       }
     </Section>
 
-    <Section heading="Open source">
+    <Section grid heading="Open source">
       {
         projects.map(proj => (
           <Entry
             link={proj.data.link}
             heading={proj.data.title!}
             subheading={proj.data.description!}
-            entry={proj}
           />
         ))
       }
