@@ -76,7 +76,13 @@ export const Icon: IconComponent = ({ style }) => (
 
 export const TouchIcon: IconComponent = () => (
   <Background>
-    <Icon />
+    <Icon
+      style={{
+        paddingLeft: SIZE * 0.1,
+        fontSize: SIZE * 0.8,
+        lineHeight: 1,
+      }}
+    />
   </Background>
 );
 
