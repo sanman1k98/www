@@ -1,123 +1,51 @@
 ---
-import type { HTMLAttributes } from "astro/types";
+import type { ComponentProps, HTMLAttributes } from "astro/types";
 import type { CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
-import { CV_START } from "@/content";
+import Time from "./Time.astro";
 
-const NOW: number = Date.now();
-
-function getMixPercentage(date?: Date): string {
-  const diff = date ? NOW - date.valueOf() : 0;
-  const decimal = 1 - diff / (NOW - CV_START.valueOf());
-  return `${(decimal * 100).toFixed(2)}%`;
-}
-
-type Props = HTMLAttributes<"article"> & {
+type Props = HTMLAttributes<"article"> & Partial<ComponentProps<typeof Time>> & {
   entry?: CollectionEntry<"cv">;
   link?: string;
   heading?: string;
   subheading?: string;
-  time?: Date | [Date, Date | undefined];
 };
 
 const { entry, link, heading, subheading, time } = Astro.props;
 
-let timetext: string | null = null;
-let p2: string | null = null;
-
-if (time) {
-  const dateFormat = Intl.DateTimeFormat("en", {
-    year: "numeric",
-    month: "long",
-    timeZone: "UTC",
-  });
-  if (time instanceof Date) {
-    timetext = dateFormat.format(time);
-    p2 = getMixPercentage(time);
-  }
- else if (Array.isArray(time)) {
-    const [start, end] = time;
-    p2 = getMixPercentage(end);
-    timetext = end
-      ? dateFormat.formatRange(start, end)
-      : `${dateFormat.format(start)} - Present`;
-  }
-}
-
 const { Content } = (await entry?.render()) ?? {};
 ---
 
-<style>
-  /* We can visualize how old or new an entry is using color. */
-  time {
-    /* A color representing the date from earliest entry in the "cv" collection. */
-    --cv-start-color: theme(colors.sky.500);
-    /* A color representing the present date. */
-    --now-color: theme(colors.sky.700);
-    /* Amount of `--cv-start-color` to mix. */
-    --p1: 0%;
-    /* Amount of `--now-color` to mix. */
-    --p2: 100%;
-    /* The start color determined by `--p1`. */
-    --start-color: color-mix(
-      in lch longer hue,
-      var(--cv-start-color) var(--p1),
-      var(--now-color)
-    );
-    /* The end color determined by `--p2`. */
-    --end-color: color-mix(
-      in lch longer hue,
-      var(--cv-start-color),
-      var(--now-color) var(--p2)
-    );
-
-    /* We'll just use the `--end-color` for now. */
-    /* TODO: apply a gradient to the text using both start and end colors. */
-    color: var(--end-color);
-  }
-</style>
-
 <article class:list={[Astro.props.class, "m-3 mb-5 last-of-type:mb-0 break-inside-avoid"]}>
   <header class="group mb-3 last:mb-0">
-    {
-      (Astro.slots.has("heading") || heading) && (
-        <h3 class="text-lg text-slate-700 font-650 leading-snug">
-          {
-            link ? (
-              <a href={link} target="_blank" class="group/link mb-0.5 max-w-fit flex">
-                <span class="underline decoration-2 decoration-slate-300 underline-offset-2 transition duration-300 group-hover/link:text-sky-950 print:decoration-1 group-hover/link:decoration-sky-400 print:decoration-sky-600">
-                  <slot name="heading">{heading}</slot>
-                </span>
-                <Icon name="ph:arrow-up-right-bold" class="text-slate-500 opacity-50 transition duration-200 ease-in-out group-hover/link:translate-x-0.5 group-hover/link:opacity-100 group-hover/link:duration-300 group-hover/link:delay-100 group-hover/link:ease-out group-hover/link:-translate-y-0.5" />
-              </a>
-            ) : (
-              <slot name="heading">{heading}</slot>
-            )
-          }
-        </h3>
-      )
-    }
-    {
-      (Astro.slots.has("subheading") || subheading || timetext) && (
+    {(Astro.slots.has("heading") || heading) && (
+      <h3 class="text-lg text-slate-700 font-650 leading-snug">
+        {
+          // eslint-disable-next-line style/multiline-ternary
+          link ? (
+            <a href={link} target="_blank" class="group/link mb-0.5 max-w-fit flex">
+              <span class="underline decoration-2 decoration-slate-300 underline-offset-2 transition duration-300 group-hover/link:text-sky-950 print:decoration-1 group-hover/link:decoration-sky-400 print:decoration-sky-600">
+                <slot name="heading">{heading}</slot>
+              </span>
+              <Icon name="ph:arrow-up-right-bold" class="text-slate-500 opacity-50 transition duration-200 ease-in-out group-hover/link:translate-x-0.5 group-hover/link:opacity-100 group-hover/link:duration-300 group-hover/link:delay-100 group-hover/link:ease-out group-hover/link:-translate-y-0.5" />
+            </a>
+          ) : (
+            <slot name="heading">{heading}</slot>
+          )
+        }
+      </h3>
+    )}
+
+    <slot name="subheading">
+      {(subheading || time) && (
         <p class="flex flex-wrap gap-y-0.5 pl-3 text-neutral-500 leading-tight tracking-tight italic divide-x-2">
-          <slot name="subheading">
-            {timetext && (
-              <time
-                style={`--p2:${p2}`}
-                class="basis-full transition duration-2000 delay-500 ease-in-out sm:basis-auto group-has-[a:hover]:text-inherit group-has-[a:hover]:duration-1500 group-has-[a:hover]:delay-0"
-                class:list={[subheading && "pr-2"]}
-              >
-                {timetext}
-              </time>
-            )}
-            {subheading && (
-              <span class:list={[timetext && "pl-3 ml-1"]}>{subheading}</span>
-            )}
-          </slot>
+          {time && <Time class="pe-2" {time} />}
+          {subheading && <span class:list={[time && "ms-2 ps-3"]}>{subheading}</span>}
         </p>
-      )
-    }
+      )}
+    </slot>
   </header>
+
   {(Astro.slots.has("default") || Content) && (
     <div
       class:list={[Content && "[&_strong]:text-slate-700 [&_strong]:font-600 ml-5 text-slate-600 font-375 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400"]}

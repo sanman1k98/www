@@ -1,0 +1,73 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { CV_START } from "@/content";
+
+const PRESENT = new Date();
+
+/**
+ * @returns A percentage representing how far along the given `date` is on the
+ * "CV timeline", where "0%" represents the start of the timeline.
+ */
+function getTimelinePercentage(date: Date): string {
+  const diff = PRESENT.valueOf() - date.valueOf();
+  const decimal = 1 - (diff / (PRESENT.valueOf() - CV_START.valueOf()));
+  return `${(decimal * 100).toFixed(2)}%`;
+}
+
+const defaultFormat = Intl.DateTimeFormat("en", {
+  year: "numeric",
+  month: "long",
+  timeZone: "UTC",
+});
+
+/**
+ * An `undefined` end date implies that the date range represents something
+ * that is currently ongoing.
+ */
+type DateRange = [
+  start: Date,
+  /** An `undefined` end date implies the present. */
+  end?: Date | null | undefined,
+];
+
+type Props = HTMLAttributes<"time"> & {
+  time: Date | DateRange;
+  format?: Intl.DateTimeFormat;
+};
+
+const { time, format = defaultFormat } = Astro.props;
+
+let text: string, mixPercentage: string;
+
+if (Array.isArray(time)) {
+  const [start, end] = time;
+  text = end
+    ? format.formatRange(start, end)
+    : `${format.format(start)} - Present`;
+  // Use the `end` date to determine the color.
+  mixPercentage = getTimelinePercentage(end ?? PRESENT);
+}
+ else {
+  text = format.format(time);
+  mixPercentage = getTimelinePercentage(time);
+}
+---
+
+<style define:vars={{ p1: mixPercentage }}>
+  time {
+    /*
+     * Colors representing the start and end of "CV timeline".
+     * Recent entries will get mixed more with `color1`.
+     * Earlier entries will get mixed more with `color2`.
+     */
+    --color1: theme(colors.sky.700);
+    --color2: theme(colors.sky.500);
+    color: color-mix(
+      in lch longer hue,
+      var(--color1) var(--p1),
+      var(--color2)
+    );
+  }
+</style>
+
+<time class:list={[Astro.props.class]}>{text}</time>
