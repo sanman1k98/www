@@ -1,6 +1,5 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { Icon } from "astro-icon/components";
 import { env } from "@/utils";
 import { socials } from "@/content";
 
@@ -12,7 +11,7 @@ const links = [
 ];
 
 if (env.BUILD_INCLUDE_PERSONAL) {
-  links.unshift(
+  links.push(
     { text: env.PERSONAL_EMAIL, href: `mailto:${env.PERSONAL_EMAIL}`, icon: "ph:envelope" },
     { text: env.PERSONAL_PHONE, href: `tel:${env.PERSONAL_PHONE}`, icon: "ph:phone-outgoing" },
   );
@@ -27,37 +26,37 @@ const titleLink = env.BUILD_INCLUDE_PERSONAL
 type Props = HTMLAttributes<"header">;
 ---
 
-<header class:list={[Astro.props.class, "flex flex-wrap sm:flex-nowrap justify-between items-start gap-4 justify-between"]}>
-  <div class="min-w-fit">
-    <h1 class="text-4xl text-slate-900 font-600 tracking-tighter">
-      <a class="group flex gap-x-2" href={titleLink}>
-        <span aria-hidden="true" class="hidden text-slate-200 transition duration-300 ease-out sm:inline group-hover:text-slate-300 hover:ease-in hover:text-sky-300!">#</span>
-        <span class="underline decoration-3 decoration-sky-500 underline-offset-3 transition duration-600 ease-out group-hover:text-sky-950 group-hover:decoration-sky-400 group-hover:ease-in">
-          Sandeep Dilip
-        </span>
-      </a>
-    </h1>
-    <p class="text-lg text-slate-500 italic sm:ml-8">Software Engineer</p>
-  </div>
+<header class:list={[Astro.props.class]}>
+  <h1 class="mb-4 min-w-fit text-4xl text-slate-900 font-600 tracking-tighter">
+    <a class="group flex gap-x-2" href={titleLink}>
+      <span aria-hidden="true" class="hidden text-slate-200 transition duration-300 ease-out -ml-7 sm:inline group-hover:text-slate-300 hover:ease-in hover:text-sky-300!">#</span>
+      <span class="underline decoration-3 decoration-sky-500 underline-offset-3 transition duration-600 ease-out group-hover:text-sky-950 group-hover:decoration-sky-400 group-hover:ease-in">
+        Sandeep Dilip
+      </span>
+    </a>
+  </h1>
 
-  <address class="max-w-sm text-lg sm:text-sm print:text-xs!">
-    <ul class="flex flex-wrap justify-start gap-2 sm:justify-end">
-      {
-        links.map((link) => {
-          if (!link)
-            return null;
-          const { text, icon, ...attrs } = link;
-          return (
-            <li class:list={["bg-slate-100 px-2 py-1", !icon && "hidden print:list-item"]}>
-              <a class="group flex items-center justify-end gap-1 text-slate-500 transition duration-300" {...attrs}>
-                <span class="hidden text-slate-700 underline decoration-1.5 decoration-slate-300 underline-offset-2 transition duration-300 sm:inline sm:inline group-hover:text-sky-900 print:decoration-1 group-hover:decoration-sky-400 print:decoration-sky-600">{text}</span>
-                {icon && <Icon name={icon} class="inline-block size-[1.2em] text-sky-700 transition duration-300 sm:mb-0 group-hover:text-sky-600" />}
-              </a>
-            </li>
-          );
-        })
-      }
-    </ul>
-  </address>
+  <div class="text-sm tracking-tight sm:text-base">
+    <p class="mb-1 text-slate-700 font-normal">Software Engineer</p>
+
+    <address class="font-375 tracking-tight not-italic -ml-3">
+      <ul class="flex flex-wrap justify-start">
+        {
+          links.map((link) => {
+            if (!link)
+              return null;
+            const { text, icon: _, ...attrs } = link;
+            return (
+              <li class="border-r-1.5 px-3 text-slate-500 last:border-r-0">
+                <a class="underline decoration-1.5 decoration-transparent underline-offset-2 transition duration-300 hover:text-sky-900 print:decoration-1.5 hover:decoration-sky-400 print:decoration-slate-200" {...attrs}>
+                  {text}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </address>
+  </div>
 </header>
 
