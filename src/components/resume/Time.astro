@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import { env } from "@/utils/env";
 import { CV_START } from "@/content";
 
 const PRESENT = new Date();
@@ -33,11 +34,18 @@ type DateRange = [
 type Props = HTMLAttributes<"time"> & {
   time: Date | DateRange;
   format?: Intl.DateTimeFormat;
+  /** Don't use dates to determine text colors. */
+  nocolormix?: boolean;
 };
 
-const { time, format = defaultFormat } = Astro.props;
+const {
+  time,
+  format = defaultFormat,
+  nocolormix = env.BUILD_INCLUDE_PERSONAL,
+} = Astro.props;
 
-let text: string, mixPercentage: string;
+let text: string;
+let mixPercentage = nocolormix ? "100%" : undefined;
 
 if (Array.isArray(time)) {
   const [start, end] = time;
@@ -45,11 +53,11 @@ if (Array.isArray(time)) {
     ? format.formatRange(start, end)
     : `${format.format(start)} - Present`;
   // Use the `end` date to determine the color.
-  mixPercentage = getTimelinePercentage(end ?? PRESENT);
+  mixPercentage ??= getTimelinePercentage(end ?? PRESENT);
 }
  else {
   text = format.format(time);
-  mixPercentage = getTimelinePercentage(time);
+  mixPercentage ??= getTimelinePercentage(time);
 }
 ---
 
