@@ -1,52 +1,42 @@
 import { z } from "astro/zod";
 
-export const daterange = z
-  .object({
+export const daterange = z.object({
+  /**
+   * A `dateString` in the form `YYYY-MM` representing the start date for
+   * this entry.
+   */
+  start: z.coerce.date(),
+  /**
+   * A `dateString` in the form `YYYY-MM` representing the start date for
+   * this entry. If not specified, it implies the entry is still ongoing.
+   */
+  end: z.coerce.date().optional(),
+});
 
-    /**
-     * **Required**: A string representing the start date for this entry.
-     *
-     * Will be used as the argument for `new Date()`.
-     */
-    start: z.coerce.date(),
+export const org = z.object({
+  name: z.string(),
+  /** A URL pointing to the organization's website. */
+  link: z.string().url().optional(),
+  /** A city and state for this organization. */
+  location: z.string().optional(),
+});
 
-    /**
-     * **Optional**: A string representing the end date for this entry. If
-     * omitted, it implies the entry is currently ongoing.
-     *
-     * Will be used as the argument for `new Date()`.
-     */
-    end: z.coerce.date().optional(),
-  });
+export const base = z.strictObject({
+  type: z.literal("base").default("base"),
+  /** Set to `true` to exclude from building. */
+  draft: z.boolean().default(false),
+  /**
+   * When specified, this number will be used to manually sort entries and
+   * will take priority over start and end dates when sorting.
+   */
+  order: z.number().optional(),
+});
 
-export const org = z
-  .object({
-    name: z.string(),
-    /** **Optional**: A link to the organization's website. */
-    link: z.string().url().optional(),
-    /** **Optional**: A city and state for this organization. */
-    location: z.string().optional(),
-  });
-
-export const base = z
-  .strictObject({
-    type: z.literal("base").default("base"),
-    /** Set to `true` to exclude from building. */
-    draft: z.boolean().default(false),
-
-    /**
-     * When specified, this number will be used to manually sort entries and
-     * will take priority over start and end dates when sorting.
-     */
-    order: z.number().optional(),
-  });
-
-export const skills = base
-  .extend({
-    type: z.literal("skills").default("skills"),
-    /** Kind of skills listed in this entry e.g., "Frontend" or "Backend". */
-    skills: z.string(),
-  });
+export const skills = base.extend({
+  type: z.literal("skills").default("skills"),
+  /** Kind of skills listed in this entry e.g., "Frontend" or "Backend". */
+  skills: z.string(),
+});
 
 export const experience = base
   .merge(daterange)
@@ -72,7 +62,6 @@ export const open_source = base
     title: z.string().optional(),
     /** Override the automatically created description for the entry. */
     description: z.string().optional(),
-
     /**
      * **Required**: a GitHub link to a repository or a pull request.
      *
