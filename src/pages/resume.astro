@@ -52,11 +52,11 @@ const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
 <BaseLayout
   title="Sandeep Dilip's Resume"
   description="Sandeep Dilip's professional experience, open source projects, contact links, and other information."
-  class="font-mono"
+  class="mx-auto max-w-prose px-2 font-mono lg:max-w-3xl md:max-w-2xl sm:px-0 print:max-w-5xl! print:px-0!"
 >
-  <Header class="mx-auto mb-12 mt-6 max-w-4xl px-4 sm:mt-12 print:max-w-full sm:px-12 print:my-8!" />
+  <Header class="mb-12 mt-6 px-2 sm:mt-8 sm:px-3.5 print:my-8!" />
 
-  <main class="mx-auto max-w-prose text-sm text-slate-700 lg:max-w-3xl md:max-w-2xl sm:text-base print:max-w-5xl!">
+  <main class="text-sm text-slate-700 sm:text-base">
     {Summary && (
       <Section heading="Summary">
         <div class="m-5 mb-0 border-l-3 border-slate-200 pl-3 font-375 leading-tight">
