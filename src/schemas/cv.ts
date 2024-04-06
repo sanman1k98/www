@@ -1,6 +1,6 @@
 import { z } from "astro/zod";
 
-export const daterange = z.object({
+export const daterange = z.strictObject({
   /**
    * A `dateString` in the form `YYYY-MM` representing the start date for
    * this entry.
@@ -13,7 +13,7 @@ export const daterange = z.object({
   end: z.coerce.date().optional(),
 });
 
-export const org = z.object({
+export const organization = z.strictObject({
   name: z.string(),
   /** A URL pointing to the organization's website. */
   link: z.string().url().optional(),
