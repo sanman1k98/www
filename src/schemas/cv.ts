@@ -38,21 +38,20 @@ export const skills = base.extend({
   skills: z.string(),
 });
 
-export const experience = base
-  .merge(daterange)
-  .extend({
-    type: z.literal("experience").default("experience"),
-    experience: z
-      .enum([
-        "work",
-        "internship",
-        "volunteering",
-      ])
-      .default("work"),
-    /** Position title or role. */
-    title: z.string(),
-    organization: org,
-  });
+export const experience = base.extend({
+  ...daterange.shape,
+  type: z.literal("experience").default("experience"),
+  experience: z
+    .enum([
+      "work",
+      "internship",
+      "volunteering",
+    ])
+    .default("work"),
+  /** Position title or role. */
+  title: z.string(),
+  organization,
+});
 
 export const open_source = base
   .merge(daterange.partial())
@@ -74,21 +73,19 @@ export const open_source = base
     return entry;
   });
 
-export const education = base
-  .merge(daterange)
-  .extend({
-    type: z.literal("education").default("education"),
-    school: org,
-    major: z.string(),
-    /** For example, "Bachelor of Science", "BSc", or "BS" */
-    degree: z.string(),
-  });
+export const education = base.extend({
+  ...daterange.shape,
+  type: z.literal("education").default("education"),
+  school: organization,
+  major: z.string(),
+  /** For example, "Bachelor of Science", "BSc", or "BS". */
+  degree: z.string(),
+});
 
-export const certification = base
-  .merge(daterange) // `start` and `end` represent issue and expirey dates.
-  .extend({
-    type: z.literal("certification").default("certification"),
-    certification: z.string(),
-    organization: org,
-    link: z.string().url(),
-  });
+export const certification = base.extend({
+  ...daterange.shape,
+  type: z.literal("certification").default("certification"),
+  certification: z.string(),
+  link: z.string().url(),
+  organization,
+});
