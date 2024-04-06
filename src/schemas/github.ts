@@ -28,18 +28,12 @@ const input = z.strictObject({
   url: apiUrl,
 });
 
-export const getData = input.transform(async (input, ctx) => {
+export const getData = input.transform(async (input) => {
   const { url } = input;
   const res = await fetch(url, REQUEST_OPTS);
 
-  if (!res.ok) {
-    ctx.addIssue({
-      code: "custom",
-      message: `Request to ${url.toString()} is not OK: ${res.status} ${res.statusText}`,
-      fatal: true,
-    });
-    return z.NEVER;
-  }
+  if (!res.ok)
+    throw new Error(`Request to${url.toString()}is not OK:\n${res}`);
 
   const data = await res.json();
 
