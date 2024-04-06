@@ -43,5 +43,8 @@ export const getData = input.transform(async (input, ctx) => {
 
   const data = await res.json();
 
-  return data;
+  return {
+    __date: res.headers.get("Date"),
+    ...data,
+  };
 });
