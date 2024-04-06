@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import { Buffer } from "node:buffer";
 import { type SchemaContext, z } from "astro:content";
 import exifReader, { type Exif, type GenericTag } from "exif-reader";
 
