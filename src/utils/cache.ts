@@ -14,7 +14,7 @@ export function createCache(dir: PathLike = "default") {
     stats: new WeakMap<CacheKey, Stats>(),
   };
 
-  const toPath = (key: CacheKey) => {
+  const getCachedFilePath = (key: CacheKey) => {
     let path = ctx.paths.get(key);
     if (path)
       return path;
@@ -27,10 +27,10 @@ export function createCache(dir: PathLike = "default") {
     return path;
   };
 
-  const statCache = async (key: CacheKey): Promise<Stats | undefined> => {
+  const getCachedStats = async (key: CacheKey): Promise<Stats | undefined> => {
     if (ctx.stats.has(key))
       return ctx.stats.get(key)!;
-    return fs.stat(toPath(key))
+    return fs.stat(getCachedFilePath(key))
       .then(val => ctx.stats.set(key, val) && val)
       .catch((err) => {
         if (err.code === "ENOENT")
@@ -39,17 +39,17 @@ export function createCache(dir: PathLike = "default") {
       });
   };
 
-  const hasCache = (key: CacheKey): Promise<boolean> => {
-    return statCache(key).then(Boolean);
+  const isCached = (key: CacheKey): Promise<boolean> => {
+    return getCachedStats(key).then(Boolean);
   };
 
-  const getCache = async (key: CacheKey) => {
-    return hasCache(key)
-      .then(cached => cached ? fs.readFile(toPath(key)) : undefined);
+  const getCached = async (key: CacheKey) => {
+    return isCached(key)
+      .then(cached => cached ? fs.readFile(getCachedFilePath(key)) : undefined);
   };
 
-  const writeCache = async (key: CacheKey, data: string | Uint8Array, opts: BufferEncoding = "utf-8") => {
-    const path = toPath(key);
+  const writeCachedFile = async (key: CacheKey, data: string | Uint8Array, opts: BufferEncoding = "utf-8") => {
+    const path = getCachedFilePath(key);
     return fs.mkdir(dirname(String(path)), { recursive: true })
       .then(() => fs.open(path, "w"))
       .then(fd => fd.writeFile(data, opts).then(fd.close))
@@ -66,13 +66,13 @@ export function createCache(dir: PathLike = "default") {
       ? new Request(resource, opts)
       : resource;
 
-    const cached = await hasCache(url);
+    const cached = await isCached(url);
 
     if (!cached) {
       return fetch(req, opts).then(async (res) => {
         if (res.ok && res.body) {
           const buffer = res.clone().arrayBuffer().then(Buffer.from);
-          return writeCache(url, await buffer).then(() => res);
+          return writeCachedFile(url, await buffer).then(() => res);
         }
         console.error(res);
         return res;
@@ -80,18 +80,18 @@ export function createCache(dir: PathLike = "default") {
     }
     else {
       console.log(`[utils/cache] fetching ${req.url} from cache`);
-      return getCache(url).then(data => new Response(data));
+      return getCached(url).then(data => new Response(data));
     }
   };
 
   const cache = {
     context: ctx,
     dir: ctx.dir,
-    path: toPath,
-    stat: statCache,
-    has: hasCache,
-    get: getCache,
-    write: writeCache,
+    path: getCachedFilePath,
+    stat: getCachedStats,
+    has: isCached,
+    get: getCached,
+    write: writeCachedFile,
     fetch: cachedFetch,
   };
 
