@@ -85,7 +85,6 @@ export function createCache(dir: PathLike = "default") {
   };
 
   const cache = {
-    context: ctx,
     dir: ctx.dir,
     path: getCachedFilePath,
     stat: getCachedStats,
