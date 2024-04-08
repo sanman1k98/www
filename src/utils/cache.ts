@@ -50,11 +50,24 @@ export function createCache(dir: PathLike = "default") {
 
   const writeCachedFile = async (key: CacheKey, data: string | Uint8Array, opts: BufferEncoding = "utf-8") => {
     const path = getCachedFilePath(key);
-    return fs.mkdir(dirname(String(path)), { recursive: true })
+    let handle: fs.FileHandle | undefined;
+    return fs
+      // Ensure parent directory
+      .mkdir(dirname(String(path)), { recursive: true })
+      // Create a file handle at `path` and truncate it if it already exists.
       .then(() => fs.open(path, "w"))
-      .then(fd => fd.writeFile(data, opts).then(fd.close))
-      .then(() => fs.stat(path))
-      .then(stat => ctx.stats.set(key, stat) && undefined);
+      .then((file) => {
+        // Save reference to handle
+        handle = file;
+        return file.writeFile(data, opts).then(() => {
+          // Update info after writing
+          file.stat().then(st => ctx.stats.set(key, st));
+        });
+      })
+      .catch((reason) => {
+        throw new Error("Unexpected error when writing cached file", { cause: reason });
+      })
+      .finally(handle?.close);
   };
 
   const cachedFetch: typeof fetch = async (resource, opts) => {
