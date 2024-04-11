@@ -1,29 +1,25 @@
+import fs from "node:fs";
 import { describe, expect, it } from "bun:test";
-import { cache } from "./cache";
+import { CACHES_DIR, cache } from "./cache";
 
 describe("cache", async () => {
-  const REPO_URL = "https://api.github.com/repos/sanman1k98/www";
-  const CACHE_FILE = "api.github.com/repos-sanman1k98-www.json";
+  const REQ_URL = "https://api.github.com/repos/sanman1k98/www";
+  const CACHED_RES_SUBDIR = "./v0/api.github.com/repos-sanman1k98-www/";
 
-  it("has a path to a directory containing cache files", () => {
-    const dir = cache.dir;
-    expect(dir).toContain("/.cache/default");
+  it("creates a directory containing cache files", () => {
+    expect(fs.existsSync(CACHES_DIR)).toBeTrue();
   });
 
-  it("can return a path to a cache file", () => {
-    const path = cache.path(new URL(REPO_URL));
-    expect(path).toStartWith(cache.dir);
-    expect(path).toEndWith(CACHE_FILE);
+  it.skip("can save request/response pairs", async () => {
+    const res = await fetch(REQ_URL);
+    const promise = cache.put(REQ_URL, res);
+    expect(promise).resolves.toBeUndefined();
+    const dir = new URL(CACHED_RES_SUBDIR, CACHES_DIR);
+    expect(fs.existsSync(dir));
   });
 
-  it.only("can fetch without failing", async () => {
-    const res = cache.fetch(REPO_URL, {
-      headers: {
-        "Accept": "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    });
-
-    expect(res).resolves.toHaveProperty("ok", true);
+  it.todo("can return a response for the associated request", () => {
+    const promise = cache.match(REQ_URL);
+    expect(promise).resolves.toBeInstanceOf(Response);
   });
 });

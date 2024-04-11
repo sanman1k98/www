@@ -1,113 +1,130 @@
-import { Buffer } from "node:buffer";
-import type { PathLike, Stats } from "node:fs";
-import fs from "node:fs/promises";
-import { dirname, extname, join } from "node:path";
+import fs from "node:fs";
 
-export const CACHE_DIR = join(process.cwd(), "./.cache/");
+const fsp = fs.promises;
 
-type CacheKey = URL;
+const logger: typeof console.log = (...data) => {
+  const [fmt, ...args] = data;
+  // eslint-disable-next-line no-console
+  console.log(`[utils/cache] ${fmt}`, ...args);
+};
 
-export function createCache(dir: PathLike = "default") {
-  const ctx = {
-    dir: join(CACHE_DIR, String(dir)),
-    paths: new WeakMap<CacheKey, PathLike>(),
-    stats: new WeakMap<CacheKey, Stats>(),
-  };
+export const CACHES_DIR = new URL("./../../node_modules/.cache/cache-storage/", import.meta.url);
+const CACHE_NAME = "v0";
 
-  const getCachedFilePath = (key: CacheKey) => {
-    let path = ctx.paths.get(key);
-    if (path)
-      return path;
-    const subdir = key.hostname;
-    const { pathname } = key;
-    const ext = extname(pathname) || ".json";
-    const filename = pathname.slice(1).replace(/\//g, "-").concat(ext);
-    path = join(ctx.dir, subdir, filename);
-    ctx.paths.set(key, path);
-    return path;
-  };
+class FileSystemCache implements Cache {
+  private static internal = false;
+  private static classInitPromise: Promise<any>;
+  private initPromise: Promise<any>;
+  private dirname: URL;
+  private memoryCache: Map<RequestInfo | URL, Response>;
 
-  const getCachedStats = async (key: CacheKey): Promise<Stats | undefined> => {
-    if (ctx.stats.has(key))
-      return ctx.stats.get(key)!;
-    return fs.stat(getCachedFilePath(key))
-      .then(val => ctx.stats.set(key, val) && val)
+  static {
+    logger("Running static initialization block");
+    this.classInitPromise = fsp.mkdir(CACHES_DIR, { recursive: true })
+      .then(str => logger("Resolved with value %s", str));
+  }
+
+  private constructor(name: string) {
+    if (!FileSystemCache.internal) {
+      const funcName = FileSystemCache.create.name;
+      throw new TypeError(`Use static method ${funcName}() instead to create an instance.`);
+    }
+    this.dirname = new URL(`${name}/`, CACHES_DIR);
+    this.memoryCache = new Map();
+    this.initPromise = fsp.mkdir(this.dirname, { recursive: true });
+    FileSystemCache.internal = false;
+  }
+
+  public static async create(name: string) {
+    this.internal = true;
+    const instance = new this(name);
+
+    const promises = Promise.all([
+      this.classInitPromise,
+      instance.initPromise,
+    ]);
+
+    return promises.then(() => instance);
+  }
+
+  private static hashResponse(response: Response) {
+    const str = response.headers.get("Date");
+    const date = str ? new Date(str) : new Date();
+    return date.toISOString().slice(0, 10);
+  }
+
+  async put(info: RequestInfo | URL, response: Response): Promise<void> {
+    this.memoryCache.set(info, response);
+    const isRequest = info instanceof Request;
+
+    const url = isRequest
+      ? new URL(info.url)
+      : new URL(info);
+
+    const request = !isRequest
+      ? new Request(url)
+      : info.clone();
+
+    const subdirname = new URL(`${url.hostname}/${url.pathname.slice(1)}/`, this.dirname);
+    const metadataPath = new URL("./metadata.json", subdirname);
+    const responsePath = new URL(`./body-${FileSystemCache.hashResponse(response)}.blob`, subdirname);
+
+    const metadata = {
+      meta: {
+        url,
+        method: request.method,
+      },
+      request: {
+        headers: request.headers.toJSON(),
+        body: request.body && await request.text(),
+      },
+      response: {
+        headers: response.headers.toJSON(),
+        body: response.body && responsePath,
+      },
+    };
+
+    const promise = fsp.mkdir(subdirname, { recursive: true }).then(() =>
+      Promise.all([
+        fsp.writeFile(metadataPath, JSON.stringify(metadata, null, 2)),
+        response.body && response.arrayBuffer()
+          .then(buf => new Uint8Array(buf))
+          .then(view => fsp.writeFile(responsePath, view)),
+      ]),
+    );
+
+    return promise
+      .then(() => logger("Saved response to cache!"))
       .catch((err) => {
-        if (err.code === "ENOENT")
-          return undefined;
-        throw new Error("Unknown error", { cause: err });
+        throw new Error("Unexpected error occurred when saving files", { cause: err });
       });
-  };
+  }
 
-  const isCached = (key: CacheKey): Promise<boolean> => {
-    return getCachedStats(key).then(Boolean);
-  };
+  add(request: RequestInfo | URL): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 
-  const getCached = async (key: CacheKey) => {
-    return isCached(key)
-      .then(cached => cached ? fs.readFile(getCachedFilePath(key)) : undefined);
-  };
+  addAll(requests: RequestInfo[]): Promise<void>;
+  addAll(requests: Iterable<RequestInfo>): Promise<void>;
+  addAll(requests: unknown): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 
-  const writeCachedFile = async (key: CacheKey, data: string | Uint8Array, opts: BufferEncoding = "utf-8") => {
-    const path = getCachedFilePath(key);
-    let handle: fs.FileHandle | undefined;
-    return fs
-      // Ensure parent directory
-      .mkdir(dirname(String(path)), { recursive: true })
-      // Create a file handle at `path` and truncate it if it already exists.
-      .then(() => fs.open(path, "w"))
-      .then((file) => {
-        // Save reference to handle
-        handle = file;
-        return file.writeFile(data, opts).then(() => {
-          // Update info after writing
-          file.stat().then(st => ctx.stats.set(key, st));
-        });
-      })
-      .catch((reason) => {
-        throw new Error("Unexpected error when writing cached file", { cause: reason });
-      })
-      .finally(handle?.close);
-  };
+  delete(request: RequestInfo | URL, options?: CacheQueryOptions | undefined): Promise<boolean> {
+    throw new Error("Method not implemented.");
+  }
 
-  const cachedFetch: typeof fetch = async (resource, opts) => {
-    const url = resource instanceof Request
-      ? new URL(resource.url)
-      : new URL(resource);
+  keys(request?: RequestInfo | URL | undefined, options?: CacheQueryOptions | undefined): Promise<readonly Request[]> {
+    throw new Error("Method not implemented.");
+  }
 
-    const req = !(resource instanceof Request)
-      ? new Request(resource, opts)
-      : resource;
+  match(request: RequestInfo | URL, options?: CacheQueryOptions | undefined): Promise<Response | undefined> {
+    throw new Error("Method not implemented.");
+  }
 
-    const cached = await isCached(url);
-
-    if (!cached) {
-      return fetch(req, opts).then(async (res) => {
-        if (res.ok && res.body) {
-          const buffer = res.clone().arrayBuffer().then(Buffer.from);
-          return writeCachedFile(url, await buffer).then(() => res);
-        }
-        console.error(res);
-        return res;
-      });
-    }
-    else {
-      console.log(`[utils/cache] fetching ${req.url} from cache`);
-      return getCached(url).then(data => new Response(data));
-    }
-  };
-
-  const cache = {
-    dir: ctx.dir,
-    path: getCachedFilePath,
-    stat: getCachedStats,
-    has: isCached,
-    get: getCached,
-    write: writeCachedFile,
-    fetch: cachedFetch,
-  };
-
-  return cache;
+  matchAll(request?: RequestInfo | URL | undefined, options?: CacheQueryOptions | undefined): Promise<readonly Response[]> {
+    throw new Error("Method not implemented.");
+  }
 }
 
-export const cache = createCache();
+export const cache = await FileSystemCache.create(CACHE_NAME);
