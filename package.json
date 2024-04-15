@@ -20,7 +20,7 @@
     "@iconify-json/carbon": "^1.1.31",
     "@iconify-json/ph": "^1.1.11",
     "@resvg/resvg-js": "^2.6.2",
-    "astro": "^4.5.4",
+    "astro": "^4.6.1",
     "astro-icon": "^1.1.0",
     "exif-reader": "^2.0.1",
     "github-slugger": "^2.0.0",
