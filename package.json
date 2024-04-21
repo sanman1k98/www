@@ -33,6 +33,7 @@
     "@antfu/eslint-config": "^2.8.2",
     "@astrojs/check": "^0.5.9",
     "@astrojs/ts-plugin": "^1.6.0",
+    "@octokit/openapi-types": "^22.1.0",
     "@types/bun": "^1.0.8",
     "@types/node": "^20.11.27",
     "@types/react": "^18.2.72",
