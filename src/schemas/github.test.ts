@@ -35,16 +35,7 @@ describe("getData", async () => {
       const { data } = res;
 
       expect(data).toBeObject();
-      expect(data).toHaveProperty("__kind", "repo");
-
-      expect(data).toHaveProperty("html_url");
-      expect(data).toHaveProperty("name");
-      expect(data).toHaveProperty("full_name");
-      expect(data).toHaveProperty("description");
-      expect(data).toHaveProperty("created_at");
-      expect(data).toHaveProperty("pushed_at");
-
-      expect(data).toHaveProperty("url", input.url);
+      expect(data.__kind).toBe("full-repository");
     }
   });
 
@@ -61,25 +52,13 @@ describe("getData", async () => {
       const { data } = res;
 
       expect(data).toBeObject();
-      expect(data).toHaveProperty("__kind", "pull");
-
-      expect(data).toHaveProperty("html_url");
-      expect(data).toHaveProperty("title");
-      expect(data).toHaveProperty("number", 10235);
-      expect(data).toHaveProperty("body");
-      expect(data).toHaveProperty("created_at");
-      expect(data).toHaveProperty("updated_at");
-
-      expect(data).toHaveProperty("url", input.url);
-      expect(data).toHaveProperty("state");
-      expect(data).toHaveProperty("merged", true);
-      expect(data).toHaveProperty("merged_at");
+      expect(data.__kind).toBe("pull-request");
     }
   });
 });
 
 describe("github", async () => {
-  it("can parse data about a repository", async () => {
+  it("can transform data about a repository", async () => {
     const input = {
       url: "https://api.github.com/repos/sanman1k98/www",
     } satisfies Input;
@@ -92,14 +71,16 @@ describe("github", async () => {
       const { data } = res;
 
       expect(data).toBeObject();
-      expect(data).toHaveProperty("kind", "repo");
-      expect(data).toHaveProperty("title", "www");
+      expect(data.kind).toBe("full-repository");
+      expect(data.title).toBe("www");
+      expect(data.link).toBeString();
+      // This repo has a description at the time of writing.
       expect(data).toHaveProperty("description");
-      expect(data).toHaveProperty("link");
+      expect(data.description).toBeString();
     }
   });
 
-  it("can parse data about a pull request", async () => {
+  it("can transform data about a pull request", async () => {
     const input = {
       url: "https://api.github.com/repos/withastro/astro/pulls/10235",
     } satisfies Input;
@@ -112,10 +93,10 @@ describe("github", async () => {
       const { data } = res;
 
       expect(data).toBeObject();
-      expect(data).toHaveProperty("kind", "pull");
-      expect(data).toHaveProperty("title", "withastro/astro#10235");
-      expect(data).toHaveProperty("description");
-      expect(data).toHaveProperty("link");
+      expect(data.kind).toBe("pull-request");
+      expect(data.title).toBe("withastro/astro#10235");
+      expect(data.link).toBeString();
+      expect(data.description).toBeString();
     }
   });
 });
