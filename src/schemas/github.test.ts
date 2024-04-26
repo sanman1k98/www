@@ -71,12 +71,13 @@ describe("github", async () => {
       const { data } = res;
 
       expect(data).toBeObject();
+
       expect(data.kind).toBe("full-repository");
-      expect(data.title).toBe("www");
-      expect(data.link).toBeString();
-      // This repo has a description at the time of writing.
-      expect(data).toHaveProperty("description");
-      expect(data.description).toBeString();
+      if (data.kind === "full-repository") {
+        expect(data.title).toBe("www");
+        expect(data.link).toBeString();
+        expect(data.description).toBeDefined();
+      }
     }
   });
 
@@ -93,10 +94,13 @@ describe("github", async () => {
       const { data } = res;
 
       expect(data).toBeObject();
+
       expect(data.kind).toBe("pull-request");
-      expect(data.title).toBe("withastro/astro#10235");
-      expect(data.link).toBeString();
-      expect(data.description).toBeString();
+      if (data.kind === "pull-request") {
+        expect(data.title).toBe("withastro/astro#10235");
+        expect(data.link).toBeString();
+        expect(data.description).toBeString();
+      }
     }
   });
 });

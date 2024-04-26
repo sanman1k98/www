@@ -2,11 +2,15 @@ import { z } from "astro/zod";
 import type { components } from "@octokit/openapi-types";
 import { cache } from "@/utils/cache";
 
-const apiUrl = z.string().transform((arg, ctx) => {
-  const base = "https://api.github.com/";
-  const url = new URL(arg, base);
+const API_BASE_URL = "https://api.github.com/";
 
-  if (url.hostname !== "api.github.com") {
+const apiUrl = z.string().transform((arg, ctx) => {
+  // The given `arg` can be a relative or absolute URL.
+  const url = new URL(arg, API_BASE_URL);
+
+  // If `arg` is an absolute URL `base` will be ignored, so we have to check
+  // that the merged URL still points to an GitHub API endpoint.
+  if (!url.toString().startsWith(API_BASE_URL)) {
     ctx.addIssue({
       code: "custom",
       message: `URL ${url.toString()} is not a GitHub REST API endpoint`,
@@ -35,8 +39,6 @@ const REQUEST_OPTS = {
   },
 };
 
-const ONE_DAY = 24 * 60 * 60 * 1000; // milliseconds
-
 export const getData = input.transform(async (input, ctx) => {
   const req = new Request(input.url, REQUEST_OPTS);
   const cachedRes = await cache.match(req);
@@ -47,8 +49,9 @@ export const getData = input.transform(async (input, ctx) => {
     const dateHeader = cachedRes.headers.get("date");
     const date = !!dateHeader && new Date(dateHeader);
 
-    // Use cached response if it less than a day old
+    const ONE_DAY = 24 * 60 * 60 * 1000; // milliseconds
     if (date && Date.now() - date.valueOf() < ONE_DAY)
+      // Cached response is relatively "fresh", so we'll use it.
       res = cachedRes;
   }
 
@@ -62,7 +65,7 @@ export const getData = input.transform(async (input, ctx) => {
         fatal: true,
       });
       throw new Error(
-        "Unexpected error when getting data from GitHub",
+        "Unexpected status code when fetching data from GitHub",
         { cause: res },
       );
     }
@@ -81,23 +84,25 @@ export const getData = input.transform(async (input, ctx) => {
   else if (segments.length === 3 && segments[0] === "repos")
     // Example: "https://api.github.com/repos/sanman1k98/www".
     kind = "full-repository";
-  else // Unsupported or unimplemented endpoints.
+  else
     kind = null;
 
   return {
     __kind: kind,
     ...await res.json(),
-    // Type of `kind` is significantly narrowed at this point.
+    // Use narrowed type of `kind` to cast return value.
   } as Promise<ResponseData<typeof kind>>;
 });
 
-type InferredData = z.infer<typeof getData>;
+type ApiData = z.infer<typeof getData>;
 
-interface TransformedData {
-  kind: Exclude<InferredData["__kind"], null>;
+type TransformedKind = Exclude<ApiData["__kind"], null>;
+
+interface TransformedData<K extends TransformedKind = TransformedKind> {
+  kind: K;
   title: string;
   description: string | null;
-  /** A link to a GitHub webpage. */
+  /** A link to a GitHub webpage; an HTML URL. */
   link: string;
 }
 
@@ -106,30 +111,38 @@ interface TransformedData {
  *
  * Intended for use in the "cv" content collection.
  */
-export const github = getData.transform((data: InferredData, ctx) => {
-  switch (data.__kind) {
-    case "full-repository": return {
-      kind: data.__kind,
-      title: data.name,
-      description: data.description,
-      link: data.html_url,
-    } satisfies TransformedData;
+export const github = getData.transform((data: ApiData, ctx) => {
+  let transformed;
 
-    case "pull-request": return {
-      kind: data.__kind,
-      // Formatted to look like an autolinked reference within GitHub.
-      title: `${data.base.repo.full_name}#${data.number}`,
-      description: data.title,
-      link: data.html_url,
-    } satisfies TransformedData;
+  switch (data.__kind) {
+    case "full-repository":
+      transformed = {
+        kind: data.__kind,
+        title: data.name,
+        description: data.description,
+        link: data.html_url,
+      };
+      break;
+
+    case "pull-request":
+      transformed = {
+        kind: data.__kind,
+        // Formatted to look like an autolinked reference within GitHub.
+        title: `${data.base.repo.full_name}#${data.number}`,
+        description: data.title,
+        link: data.html_url,
+      };
+      break;
 
     default: {
       ctx.addIssue({
         code: "custom",
-        message: `Unable to transform data from endpoint ${data.url}`,
+        message: `Unable to transform data from endpoint ${data.url}; transformation logic not implemented.`,
         fatal: true,
       });
       return z.NEVER;
     }
   }
+
+  return transformed satisfies TransformedData;
 });
