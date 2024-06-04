@@ -38,7 +38,7 @@ type ChronologicalEntry = CollectionEntry<"cv"> & {
   data: Extract<CvEntryData, z.infer<typeof daterange>>;
 };
 
-const PRESENT = new Date();
+export const PRESENT = new Date();
 /**
  * A callback to sort entries in the "cv" collection by comparing which one
  * happened most recently.
