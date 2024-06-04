@@ -1,33 +1,21 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import {
+  fixupHueLonger,
+  formatHex,
+  interpolate,
+  modeOklch,
+  parseHex,
+  useMode,
+  type Color,
+} from "culori/fn";
 import { env } from "@/utils/env";
-import { CV_START } from "@/content";
+import { unoTheme } from "@/utils";
+import { CV_START, PRESENT } from "@/content";
 
-const PRESENT = new Date();
-
-/**
- * @returns A percentage representing how far along the given `date` is on the
- * "CV timeline", where "0%" represents the start of the timeline.
- */
-function getTimelinePercentage(date: Date): string {
-  const diff = PRESENT.valueOf() - date.valueOf();
-  const decimal = 1 - (diff / (PRESENT.valueOf() - CV_START.valueOf()));
-  return `${(decimal * 100).toFixed(2)}%`;
-}
-
-const defaultFormat = Intl.DateTimeFormat("en", {
-  year: "numeric",
-  month: "long",
-  timeZone: "UTC",
-});
-
-/**
- * An `undefined` end date implies that the date range represents something
- * that is currently ongoing.
- */
 type DateRange = [
   start: Date,
-  /** An `undefined` end date implies the present. */
+  /** A nullish end date means it is currently ongoing. */
   end?: Date | null | undefined,
 ];
 
@@ -38,14 +26,49 @@ type Props = HTMLAttributes<"time"> & {
   nocolormix?: boolean;
 };
 
+const defaultFormat = Intl.DateTimeFormat("en", {
+  year: "numeric",
+  month: "long",
+  timeZone: "UTC",
+});
+
 const {
   time,
   format = defaultFormat,
   nocolormix = env.BUILD_INCLUDE_PERSONAL,
 } = Astro.props;
 
+const timelineColors: Color[] = [
+  parseHex(unoTheme.colors.sky[700]),
+  parseHex(unoTheme.colors.sky[500]),
+];
+
+// Register `oklch` color space used by the interpolator.
+useMode(modeOklch);
+
+/** @param t - Number between `[0, 1]` for interpolation. */
+const mixTimelineColors: (t: number) => Color = interpolate(
+  timelineColors,
+  "oklch",
+  // Longer path around hue circle is more colorful.
+  // @ts-expect-error broken types
+  { h: { fixup: fixupHueLonger } },
+);
+
+/** @returns Normalized value (between `[0, 1]`) for `date`. */
+const unlerpDate = (date: Date): number =>
+  (PRESENT.valueOf() - date.valueOf()) / (PRESENT.valueOf() - CV_START.valueOf());
+
+function getTextColor(date: Date | null | undefined): string {
+  if (nocolormix || !date)
+    return unoTheme.colors.sky[700];
+  const t = unlerpDate(date);
+  const color = mixTimelineColors(t);
+  return formatHex(color);
+}
+
 let text: string;
-let mixPercentage = nocolormix ? "100%" : undefined;
+let textColor: string;
 
 if (Array.isArray(time)) {
   const [start, end] = time;
@@ -53,29 +76,12 @@ if (Array.isArray(time)) {
     ? format.formatRange(start, end)
     : `${format.format(start)} - Present`;
   // Use the `end` date to determine the color.
-  mixPercentage ??= getTimelinePercentage(end ?? PRESENT);
+  textColor = getTextColor(end);
 }
  else {
   text = format.format(time);
-  mixPercentage ??= getTimelinePercentage(time);
+  textColor = getTextColor(time);
 }
 ---
 
-<style define:vars={{ p1: mixPercentage }}>
-  time {
-    /*
-     * Colors representing the start and end of "CV timeline".
-     * Recent entries will get mixed more with `color1`.
-     * Earlier entries will get mixed more with `color2`.
-     */
-    --color1: theme(colors.sky.700);
-    --color2: theme(colors.sky.500);
-    color: color-mix(
-      in lch longer hue,
-      var(--color1) var(--p1),
-      var(--color2)
-    );
-  }
-</style>
-
-<time class:list={[Astro.props.class]}>{text}</time>
+<time style={{ color: textColor }} class:list={[Astro.props.class]}>{text}</time>
