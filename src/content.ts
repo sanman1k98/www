@@ -17,6 +17,10 @@ export type InfoEntry<T extends InfoEntryType> = CollectionEntry<"info"> & {
   data: Extract<InfoEntryData, { type: T }>;
 };
 
+export type ChronologicalEntry = CollectionEntry<"cv"> & {
+  data: Extract<CvEntryData, z.infer<typeof daterange>>;
+};
+
 export type Photo = PhotosEntryData[number];
 
 export function createCvEntryTypeGuard<T extends CvEntryType>(type: T) {
@@ -33,10 +37,6 @@ export function compareOrderedEntries(a: CollectionEntry<"cv">, b: CollectionEnt
     return orderA - orderB;
   else return 0;
 }
-
-type ChronologicalEntry = CollectionEntry<"cv"> & {
-  data: Extract<CvEntryData, z.infer<typeof daterange>>;
-};
 
 export const PRESENT = new Date();
 /**

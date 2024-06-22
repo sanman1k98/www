@@ -1,4 +1,4 @@
-import { defineCollection, z, type SchemaContext } from "astro:content";
+import { type SchemaContext, defineCollection, z } from "astro:content";
 import { cv, info, photos } from "@/schemas";
 
 export const cvSchema = z.union([
@@ -29,5 +29,5 @@ export const collections = {
   photos: defineCollection({
     type: "data",
     schema: photosSchema,
-  })
+  }),
 };
