@@ -11,7 +11,7 @@ import {
 } from "culori/fn";
 import { env } from "@/utils/env";
 import { unoTheme } from "@/utils";
-import { CV_START, PRESENT } from "@/content";
+import { normalizeCvDate } from "@/content";
 
 type DateRange = [
   start: Date,
@@ -55,14 +55,10 @@ const mixTimelineColors: (t: number) => Color = interpolate(
   { h: { fixup: fixupHueLonger } },
 );
 
-/** @returns Normalized value (between `[0, 1]`) for `date`. */
-const unlerpDate = (date: Date): number =>
-  (PRESENT.valueOf() - date.valueOf()) / (PRESENT.valueOf() - CV_START.valueOf());
-
 function getTextColor(date: Date | null | undefined): string {
   if (nocolormix || !date)
     return unoTheme.colors.sky[700];
-  const t = unlerpDate(date);
+  const t = normalizeCvDate(date);
   const color = mixTimelineColors(t);
   return formatHex(color);
 }

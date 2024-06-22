@@ -38,7 +38,20 @@ export function compareOrderedEntries(a: CollectionEntry<"cv">, b: CollectionEnt
   else return 0;
 }
 
-export const PRESENT = new Date();
+export const cvEntries = await getCollection("cv")
+  .then(entries => entries.filter(({ data }) => !data.draft));
+
+// The earliest date specified in an entry from the "cv" collection.
+const _cvStart = cvEntries
+  .flatMap(entry => "start" in entry.data && entry.data.start ? entry.data.start : [])
+  .reduce((a, b) => a.valueOf() - b.valueOf() > 0 ? b : a);
+const _present = new Date();
+
+/** @returns Normalized value (between `[0, 1]`) for `date`. */
+export function normalizeCvDate(date: Date): number {
+  return (_present.valueOf() - date.valueOf()) / (_present.valueOf() - _cvStart.valueOf());
+}
+
 /**
  * A callback to sort entries in the "cv" collection by comparing which one
  * happened most recently.
@@ -51,20 +64,12 @@ export function compareChronologicalEntries(a: ChronologicalEntry, b: Chronologi
   const [startA, startB, endA, endB] = [
     a.data.start.valueOf(),
     b.data.start.valueOf(),
-    a.data.end?.valueOf() ?? PRESENT.valueOf(),
-    b.data.end?.valueOf() ?? PRESENT.valueOf(),
+    a.data.end?.valueOf() ?? _present.valueOf(),
+    b.data.end?.valueOf() ?? _present.valueOf(),
   ];
   // JS considers 0 to be falsy
   return endA - endB || startA - startB;
 }
-
-export const cvEntries = await getCollection("cv")
-  .then(entries => entries.filter(({ data }) => !data.draft));
-
-/** The earliest date specified in an entry from the "cv" collection. */
-export const CV_START = cvEntries
-  .flatMap(entry => "start" in entry.data && entry.data.start ? entry.data.start : [])
-  .reduce((a, b) => a.valueOf() - b.valueOf() > 0 ? b : a);
 
 export const infoEntries = await getCollection("info");
 
