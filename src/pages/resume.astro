@@ -1,4 +1,5 @@
 ---
+import { BUILD } from "astro:env/server";
 import {
   BaseEntry as Entry,
   Header,
@@ -6,7 +7,6 @@ import {
   SkillsEntry,
 } from "@/components/resume";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { env } from "@/utils";
 import {
   compareChronologicalEntries as compareDates,
   compareOrderedEntries,
@@ -32,7 +32,7 @@ const skills = cvEntries
   .filter(isType("skills"))
   .sort(compareOrderedEntries);
 
-const { Content: Summary } = env.BUILD_INCLUDE_PERSONAL
+const { Content: Summary } = BUILD === "personal"
   ? await summary.render()
   : { Content: null };
 ---
