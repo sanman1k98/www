@@ -5,6 +5,13 @@ export default antfu(
     stylistic: {
       quotes: "double",
       semi: true,
+      overrides: {
+        "style/multiline-ternary": [
+          "error",
+          "always-multiline",
+          { ignoreJSX: true },
+        ],
+      },
     },
     astro: true,
     unocss: true,

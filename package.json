@@ -54,5 +54,19 @@
   },
   "trustedDependencies": [
     "sharp"
-  ]
+  ],
+  "prettier": {
+    "plugins": ["prettier-plugin-astro"],
+    "editorconfig": true,
+    "overrides": [
+      {
+        "files": "*.astro",
+        "options": {
+          "parser": "astro",
+          "astroAllowShorthand": true,
+          "astroSkipFrontmatter": true
+        }
+      }
+    ]
+  }
 }
