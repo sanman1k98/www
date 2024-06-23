@@ -1,16 +1,9 @@
 ---
-import type {
-  GetStaticPaths,
-  InferGetStaticPropsType,
-} from "astro";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { Image } from "astro:assets";
 import Page from "@/layouts/MainLayout.astro";
 import { photos } from "@/content";
-import {
-  getCamera,
-  getLensInfo,
-  getReadableCaptureSettings,
-} from "@/utils/exif";
+import { getCamera, getLensInfo, getReadableCaptureSettings } from "@/utils/exif";
 
 export const getStaticPaths = (() =>
   photos.map(photo => ({
@@ -28,7 +21,7 @@ const camera = getCamera(exif);
 const lens = getLensInfo(exif);
 const settings = getReadableCaptureSettings(exif.Photo);
 
-const datetime = exif.Photo.DateTimeOriginal;
+const datetime = exif.Photo.DateTimeOriginal!;
 const formattedDatetime = datetime.toLocaleString("en", {
   dateStyle: "medium",
   timeStyle: "short",
@@ -36,14 +29,8 @@ const formattedDatetime = datetime.toLocaleString("en", {
 });
 ---
 
-<Page
-  title="Photos"
-  class="flex flex-col items-center"
-  safe-area-padding={false}
->
-  <figure
-    class="w-full from-white to-transparent from-90% bg-gradient-to-b sm:pt-4"
-  >
+<Page title="Photos" class="flex flex-col items-center" safe-area-padding={false}>
+  <figure class="w-full from-white to-transparent from-90% bg-gradient-to-b sm:pt-4">
     <Image
       class="mx-auto"
       src={file}
@@ -58,11 +45,8 @@ const formattedDatetime = datetime.toLocaleString("en", {
         <span class="text-slate-800">{camera}</span>
         <span class="mb-2 text-slate-700">{lens}</span>
         {
-          (datetime && formattedDatetime) && (
-            <time
-              class="text-xs text-slate-500 sm:text-sm"
-              {datetime}
-            >
+          datetime && formattedDatetime && (
+            <time class="text-xs text-slate-500 sm:text-sm" {datetime}>
               {formattedDatetime}
             </time>
           )
@@ -71,11 +55,7 @@ const formattedDatetime = datetime.toLocaleString("en", {
 
       <div class="mx-auto px-2">
         <ul class="my-4 flex justify-center text-xs text-slate-500 divide-x-2 sm:text-sm">
-          {
-            settings.map(item => (
-              <li class="px-3 py-0.5 sm:px-4 sm:py-1">{item}</li>
-            ))
-          }
+          {settings.map(item => <li class="px-3 py-0.5 sm:px-4 sm:py-1">{item}</li>)}
         </ul>
       </div>
     </figcaption>

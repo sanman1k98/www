@@ -15,71 +15,89 @@ import { photos } from "@/content";
 ---
 
 <style is:global>
-/* Adapted from https://antfu.me/posts/sliding-enter-animation */
-@keyframes slide-enter {
-  0% { opacity: 0; transform: translateY(10px) }
-  to { opacity: 1; transform: translateY(0) }
-}
+  /* Adapted from https://antfu.me/posts/sliding-enter-animation */
+  @keyframes slide-enter {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-[data-slide-enter] {
-  --enter-step: 0;
-  --enter-delay: 90ms;
-  --enter-start: 0ms;
-}
-
-[data-slide-controller=false] [data-slide-enter] { animation: none }
-
-@media (prefers-reduced-motion:no-preference) {
   [data-slide-enter] {
-    animation: slide-enter .6s both 1;
-    animation-delay: calc(var(--enter-step) * var(--enter-delay) + var(--enter-start));
+    --enter-step: 0;
+    --enter-delay: 90ms;
+    --enter-start: 0ms;
   }
-}
 
-/* Begin masonry layout styles */
-main {
-  display: grid;
-  grid-template-columns: 85vw;
-  justify-content: center;
-  gap: 6vw
-}
+  [data-slide-controller="false"] [data-slide-enter] {
+    animation: none;
+  }
 
-/* Two column masonry layout */
-@screen sm {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-slide-enter] {
+      animation: slide-enter 0.6s both 1;
+      animation-delay: calc(var(--enter-step) * var(--enter-delay) + var(--enter-start));
+    }
+  }
+
+  /* Begin masonry layout styles */
   main {
-    /* Store <number> values because some calculations require a <number>/<integer> result */
-    --masonry-track: 1; --masonry-col: calc(var(--masonry-track) * 42);
-    /* Define max sizes */
-    --masonry-max-col-w: 548px;
-    --masonry-max-track-size: calc(var(--masonry-max-col-w) / var(--masonry-col));
-    /* Multiply by `1vw` to convert <number> to a <length> */
-    grid-auto-rows: calc(1vw * var(--masonry-track));
-    grid-template-columns: repeat(2, min(calc(1vw * var(--masonry-col)), var(--masonry-max-col-w)));
-    /* Have column gaps that are twice the size of the row tracks */
-    gap: 0 calc(1vw * calc(2 * var(--masonry-track)));
+    display: grid;
+    grid-template-columns: 85vw;
+    justify-content: center;
+    gap: 6vw;
   }
 
-  /* Style wrapper div for each item in the layout */
-  main > div {
-    /* Calculate how many rows to span given the aspect ratio, plus two rows for padding */
-    /* `calc()` will round to nearest integer */
-    grid-row: span calc(calc(calc(var(--masonry-col) * var(--ratio)) / var(--masonry-track)) + 2);
-    /* Add top and bottom padding to match the column gap */
-    padding-block: min(calc(1vw * var(--masonry-track)), var(--masonry-max-track-size));
+  /* Two column masonry layout */
+  @screen sm {
+    main {
+      /* Store <number> values because some calculations require a <number>/<integer> result */
+      --masonry-track: 1;
+      --masonry-col: calc(var(--masonry-track) * 42);
+      /* Define max sizes */
+      --masonry-max-col-w: 548px;
+      --masonry-max-track-size: calc(var(--masonry-max-col-w) / var(--masonry-col));
+      /* Multiply by `1vw` to convert <number> to a <length> */
+      grid-auto-rows: calc(1vw * var(--masonry-track));
+      grid-template-columns: repeat(
+        2,
+        min(calc(1vw * var(--masonry-col)), var(--masonry-max-col-w))
+      );
+      /* Have column gaps that are twice the size of the row tracks */
+      gap: 0 calc(1vw * calc(2 * var(--masonry-track)));
+    }
+
+    /* Style wrapper div for each item in the layout */
+    main > div {
+      /* Calculate how many rows to span given the aspect ratio, plus two rows for padding */
+      /* `calc()` will round to nearest integer */
+      grid-row: span calc(calc(calc(var(--masonry-col) * var(--ratio)) / var(--masonry-track)) + 2);
+      /* Add top and bottom padding to match the column gap */
+      padding-block: min(calc(1vw * var(--masonry-track)), var(--masonry-max-track-size));
+    }
+
+    /* Set each item to span the height within their parents  */
+    main > div > *:only-child {
+      height: 100%;
+    }
   }
 
-  /* Set each item to span the height within their parents  */
-  main > div > *:only-child { height: 100%; }
-}
-
-/* Three column masonry layout */
-@screen xl {
-  main {
-    --masonry-track: 1; --masonry-col: calc(var(--masonry-track) * 28);
-    grid-auto-rows: min(calc(1vw * var(--masonry-track)), var(--masonry-max-track-size));
-    grid-template-columns: repeat(3, min(calc(1vw * var(--masonry-col)), var(--masonry-max-col-w)));
+  /* Three column masonry layout */
+  @screen xl {
+    main {
+      --masonry-track: 1;
+      --masonry-col: calc(var(--masonry-track) * 28);
+      grid-auto-rows: min(calc(1vw * var(--masonry-track)), var(--masonry-max-track-size));
+      grid-template-columns: repeat(
+        3,
+        min(calc(1vw * var(--masonry-col)), var(--masonry-max-col-w))
+      );
+    }
   }
-}
 </style>
 
 <Page
@@ -87,9 +105,11 @@ main {
   description="Some of my favorite photos that I've taken"
   class="pt-30 md:pt-36"
 >
-  <script is:inline>
+  <script>
     addEventListener("pageshow", (ev) => {
-      if (ev.persisted) document.querySelector("main").dataset.slideController = false; 
+      // @ts-expect-error "persisted" does not esist on `Event`
+      if (ev.persisted)
+        document.querySelector("main")!.dataset.slideController = "false";
     });
   </script>
 
@@ -98,24 +118,14 @@ main {
       const { slug, file, alt } = photo;
       const { height: h, width: w } = file;
       return (
-        <div
-          data-slide-enter
-          style={{ "--enter-step": i + 1, "--ratio": h / w }}
-        >
-          <figure
-            class="
-              overflow-clip
-              bg-white border-white border-12 shadow-lg
-              transition duration-350
-              hover:shadow-xl media-[(hover:hover)_and_(pointer:fine)]:hover:scale-102
-            "
-          >
+        <div data-slide-enter style={{ "--enter-step": i + 1, "--ratio": h / w }}>
+          <figure class="overflow-clip border-12 border-white bg-white shadow-lg transition duration-350 hover:shadow-xl media-[(hover:hover)_and_(pointer:fine)]:hover:scale-102">
             <a href={`/photos/${slug}`}>
-              <Image src={file} {alt} loading="eager" class="object-cover h-full w-full"/>
+              <Image src={file} {alt} loading="eager" class="h-full w-full object-cover" />
             </a>
           </figure>
         </div>
-      )
+      );
     })
   }
 </Page>

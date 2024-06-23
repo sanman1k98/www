@@ -25,8 +25,13 @@ type Props = HTMLAttributes<"header">;
 <header class:list={[Astro.props.class]}>
   <h1 class="mb-4 min-w-fit text-4xl text-slate-900 font-600 tracking-tighter">
     <a class="group flex gap-x-2" href={titleLink}>
-      <span aria-hidden="true" class="hidden text-slate-200 transition duration-300 ease-out -ml-7 sm:inline group-hover:text-slate-300 hover:ease-in hover:text-sky-300!">#</span>
-      <span class="underline decoration-3 decoration-sky-500 underline-offset-3 transition duration-600 ease-out group-hover:text-sky-950 group-hover:decoration-sky-400 group-hover:ease-in">
+      <span
+        aria-hidden="true"
+        class="hidden text-slate-200 transition duration-300 ease-out -ml-7 sm:inline group-hover:text-slate-300 hover:ease-in hover:text-sky-300!"
+      >#</span>
+      <span
+        class="underline decoration-3 decoration-sky-500 underline-offset-3 transition duration-600 ease-out group-hover:text-sky-950 group-hover:decoration-sky-400 group-hover:ease-in"
+      >
         Sandeep Dilip
       </span>
     </a>
@@ -44,9 +49,10 @@ type Props = HTMLAttributes<"header">;
             const { text, icon: _, ...attrs } = link;
             return (
               <li class="border-r-1.5 px-3 text-slate-500 last:border-r-0">
-                <a class="underline decoration-1.5 decoration-slate-200 underline-offset-2 transition duration-300 hover:text-sky-900 print:decoration-1.5 hover:decoration-sky-400 print:decoration-slate-200" {...attrs}>
-                  {text}
-                </a>
+                <a
+                  class="underline decoration-1.5 decoration-slate-200 underline-offset-2 transition duration-300 hover:text-sky-900 print:decoration-1.5 hover:decoration-sky-400 print:decoration-slate-200"
+                  {...attrs}
+                >{text}</a>
               </li>
             );
           })
@@ -55,4 +61,3 @@ type Props = HTMLAttributes<"header">;
     </address>
   </div>
 </header>
-
