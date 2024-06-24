@@ -1,48 +1,42 @@
 ---
-type Props = { class?: string };
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"a">;
 ---
 
 <style>
-a {
-  font-size: clamp(2.25rem, 6vmin, 3rem);
-  line-height: inherit;
-  letter-spacing: -0.06em;
-}
-
-span {
-  transition-duration: 200ms;
-  display: inline-block;
-  color: transparent;
-  background-clip: text;
-}
-
-@media (min-width: 492px) {
-  span { display: inline-block !important }
-}
-
-@media (hover: hover), (any-hover: hover) {
-  a:hover { filter: brightness(1.25) }
-  span:hover { color: rgb(255 255 255 / 0.45) }
-  span:hover+*, span:has(+:hover) {
-    color: rgb(255 255 255 / 0.25);
+  span {
+    transition-duration: 200ms;
+    display: inline-block;
+    color: transparent;
+    background-clip: text;
   }
-}
+
+  @media (hover: hover), (any-hover: hover) {
+    a:hover { filter: brightness(1.25) }
+    span:hover { color: rgb(255 255 255 / 0.45) }
+    span:hover+*, span:has(+:hover) {
+      color: rgb(255 255 255 / 0.25);
+    }
+  }
 </style>
 
-<div class:list={[Astro.props.class]}>
-  <a href="/" class="
-    inline-block pr-1 transition duration-600 font-quicksand font-500
-    bg-clip-text bg-gradient-to-r from-30% from-sky-600 to-70% to-pink-500
-  ">
-    {
-      [
-        Array.from("nice", (char, i) => (
-          <span class:list={[i && "hidden!"]}>{char}</span>
-        )),
-        Array.from("sandeep", (char, i) => (
-          <span class:list={[i && "hidden!"]}>{char}</span>
-        ))
-      ]
-    }
-  </a>
-</div>
+<a
+  href="/"
+  id={Astro.props.id}
+  style={Astro.props.style}
+  class:list={[Astro.props.class]}
+  class="inline-block from-sky-600 to-pink-500 from-30% to-70% bg-gradient-to-r bg-clip-text pr-1 text-nowrap font-600 font-quicksand transition duration-600"
+>
+  {
+    [
+      // Only show the first letters of each word
+      Array.from("nice", (char, i) => (
+        <span class:list={[i && "hidden!"]}>{char}</span>
+      )),
+      Array.from("sandeep", (char, i) => (
+        <span class:list={[i && "hidden!"]}>{char}</span>
+      )),
+    ]
+  }
+</a>

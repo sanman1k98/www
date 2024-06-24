@@ -3,14 +3,14 @@ import { links } from "@/content";
 
 type Props = { class?: string };
 
-const pages = links.pages.map(page => {
+const pages = links.pages.map((page) => {
   // Filter out pages that I don't want in the component
   switch (page.text.toLowerCase()) {
-    case "resume": return;
+    case "resume": return null;
   }
   // Find out which page is the current one
   const current = Astro.url.pathname === page.href
-    || (page.href !== '/' && Astro.url.pathname.startsWith(page.href));
+    || (page.href !== "/" && Astro.url.pathname.startsWith(page.href));
   return { "aria-current": current, ...page };
 });
 ---
@@ -22,7 +22,7 @@ li:last-child > a { padding-right: 0 }
   .group:hover li:not(:hover) { opacity: 0.65 }
   .group:hover a:not(:hover) { opacity: 0.65 }
   li:hover { opacity: 1 !important }
-  a:hover { 
+  a:hover {
     text-decoration-color: theme(colors.sky.400);
     text-decoration-thickness: 3px;
     opacity: 1 !important;
@@ -34,25 +34,21 @@ li:last-child > a { padding-right: 0 }
 <nav class:list={[Astro.props.class, "font-redhat font-500 text-sky-950"]}>
   <ul class="group w-max flex divide-x-1">
     {
-      pages.map(link => {
-        if (!link) return;
+      pages.map((link) => {
+        if (!link)
+          return null;
         const { text, ...attrs } = link;
         return (
           <li class="transition duration-900">
             <a
-              class:list={[
-                "py-3 px-3 sm:px-5 md:px-7 transition duration-200 underline underline-offset-5",
-                {
-                  "underline-3 decoration-sky-600": link["aria-current"],
-                  "decoration-transparent": !link["aria-current"],
-                }
-              ]}
-              { ...attrs }
+              {...attrs}
+              class="px-3 py-3 underline underline-offset-5 transition duration-200"
+              class:list={link["aria-current"] ? "underline-3 decoration-sky-600" : "decoration-transparent"}
             >
               {text}
             </a>
           </li>
-        )
+        );
       })
     }
   </ul>

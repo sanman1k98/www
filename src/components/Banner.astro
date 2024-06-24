@@ -4,18 +4,36 @@ import Logo from "./Logo.astro";
 import Nav from "./Nav.astro";
 
 type Props = HTMLAttributes<"header"> & {
-  /** Set to `true` to position at the top of the layout and remove from normal flow. */
+  /** Defaults to `false`. */
   fixed?: boolean | undefined;
 };
 
 const { fixed = false } = Astro.props;
 ---
+<style>
+  :global(#banner-logo) {
+    font-size: clamp(2.25rem, 4vmin, 3rem);
+    letter-spacing: -0.06em;
+    line-height: 1.2;
+  }
+
+  /* Show all the letters on larger displays. */
+  @media (min-width: 512px) {
+    :global(#banner-logo) { line-height: inherit; }
+
+    :global(#banner-logo > span) {
+      display: inline-block !important
+    }
+  }
+</style>
 
 <header
   style={Astro.props.style}
-  class="top-0 z-50 flex items-center justify-between gap-x-2 border-b bg-white/85 px-[7vw] backdrop-blur-md sm:px-8"
+  class="top-0 z-50 flex justify-center pt-[7vmin] sm:pt-6"
   class:list={[Astro.props.class, fixed ? "fixed inset-x-0" : "sticky"]}
 >
-  <Logo />
-  <Nav class="text-sm tracking-wider sm:text-base" />
+  <div class="w-min flex place-items-center gap-x-12 rounded-full bg-white/85 px-6 shadow-lg shadow-sky-900/40 backdrop-blur-md">
+    <Logo id="banner-logo" class="mb-1" />
+    <Nav class="text-sm tracking-wider sm:text-base" />
+  </div>
 </header>
