@@ -35,6 +35,8 @@ export default defineConfig({
     }),
   ],
   experimental: {
+    // This will be the default in Astro 5.0
+    directRenderScript: true,
     env: { schema: envSchema },
   },
   vite: {
