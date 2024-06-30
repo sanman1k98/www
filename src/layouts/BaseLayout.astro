@@ -1,24 +1,20 @@
 ---
-import { unoTheme } from "@/utils";
 import "@fontsource-variable/quicksand";
 import "@fontsource-variable/red-hat-display";
+import type { HTMLAttributes } from "astro/types";
 import Meta from "@/components/HeadMeta.astro";
 
-type Props = {
-  title: string;
-  description?: string;
-  /** Classes to add to the `<body>` element. */
-  class?: string;
-  /** Styles to add to the `<body>` element. */
-  style?: string;
+type Props = HTMLAttributes<"body"> & {
+  "title": string;
+  "description"?: string;
   /** Content for the `theme-color` meta tag. */
-  themeColor?: string;
+  "theme-color"?: string;
 };
 
 const {
   class: className,
   style,
-  themeColor = unoTheme.colors.sky[50],
+  "theme-color": themeColor = "#FFF",
   ...meta
 } = Astro.props;
 ---
