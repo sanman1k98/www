@@ -11,7 +11,7 @@ const links = [
 ];
 
 if (BUILD === "personal") {
-  links.push(
+  links.unshift(
     { text: PERSONAL_EMAIL, href: `mailto:${PERSONAL_EMAIL}`, icon: "ph:envelope" },
     { text: PERSONAL_PHONE, href: `tel:${PERSONAL_PHONE}`, icon: "ph:phone-outgoing" },
   );
