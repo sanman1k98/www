@@ -7,7 +7,7 @@ export const daterange = z.strictObject({
    */
   start: z.coerce.date(),
   /**
-   * A `dateString` in the form `YYYY-MM` representing the start date for
+   * A `dateString` in the form `YYYY-MM` representing the end date for
    * this entry. If not specified, it implies the entry is still ongoing.
    */
   end: z.coerce.date().optional(),
@@ -32,60 +32,58 @@ export const base = z.strictObject({
   order: z.number().optional(),
 });
 
-export const skills = base.extend({
-  type: z.literal("skills").default("skills"),
-  /** Kind of skills listed in this entry e.g., "Frontend" or "Backend". */
-  skills: z.string(),
-});
+/**
+ * Create schemas for entries in the "cv" collection with the given {@link type}.
+ *
+ * @param type
+ * @param schema
+ * @returns A Zod object schema with additional fields.
+ */
+function createEntrySchema<
+  const TType extends string,
+  TSchema extends z.ZodTypeAny = z.ZodDefault<z.ZodLiteral<true>>,
+>(type: TType, schema?: TSchema) {
+  type Shape = { [type in TType]: TSchema } & {
+    type: z.ZodDefault<z.ZodLiteral<TType>>;
+  };
+  return base.extend({
+    [type]: schema ?? z.literal(true).default(true),
+    type: z.literal(type).default(type),
+  } as Shape);
+}
 
-export const experience = base.extend({
+export const skills = createEntrySchema("skills", z.string());
+
+export const experience = createEntrySchema(
+  "experience",
+  z.enum(["volunteering", "internship", "work"]).default("work"),
+).extend({
   ...daterange.shape,
-  type: z.literal("experience").default("experience"),
-  experience: z
-    .enum([
-      "work",
-      "internship",
-      "volunteering",
-    ])
-    .default("work"),
   /** Position title or role. */
   title: z.string(),
   organization,
 });
 
-export const open_source = base
-  .merge(daterange.partial())
-  .extend({
-    type: z.literal("open-source").default("open-source"),
-    /** Override the automatically created title for the entry. */
-    title: z.string().optional(),
-    /** Override the automatically created description for the entry. */
-    description: z.string().optional(),
-    /**
-     * **Required**: a GitHub link to a repository or a pull request.
-     *
-     * Will be used to create a title and description for the entry if not specified.
-     */
-    link: z.string().url(),
-  })
-  .transform((entry) => {
-    // TODO: Get title and description from the provided link.
-    return entry;
-  });
+// TODO: Use schemas in `./github.ts`.
+export const opensource = createEntrySchema("open-source").extend({
+  ...daterange.partial().shape,
+  type: z.literal("open-source").default("open-source"),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  /** A GitHub link to a repository or a pull request. */
+  link: z.string().url(),
+});
 
-export const education = base.extend({
+export const education = createEntrySchema("education").extend({
   ...daterange.shape,
-  type: z.literal("education").default("education"),
   school: organization,
   major: z.string(),
   /** For example, "Bachelor of Science", "BSc", or "BS". */
   degree: z.string(),
 });
 
-export const certification = base.extend({
+export const certification = createEntrySchema("certification", z.string()).extend({
   ...daterange.shape,
-  type: z.literal("certification").default("certification"),
-  certification: z.string(),
   link: z.string().url(),
   organization,
 });

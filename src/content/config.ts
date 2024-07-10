@@ -3,7 +3,7 @@ import { cv, info, photos } from "@/schemas";
 
 export const cvSchema = z.union([
   cv.certification,
-  cv.open_source,
+  cv.opensource,
   cv.experience,
   cv.education,
   cv.skills,
