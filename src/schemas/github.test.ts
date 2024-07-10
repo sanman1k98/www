@@ -23,9 +23,7 @@ describe("GitHub REST API", () => {
 
 describe("getData", async () => {
   it("can get data about a repository", async () => {
-    const input = {
-      url: "https://api.github.com/repos/sanman1k98/www",
-    } satisfies Input;
+    const input = "https://api.github.com/repos/sanman1k98/www" satisfies Input;
 
     const res = await getData.safeParseAsync(input);
 
@@ -40,9 +38,7 @@ describe("getData", async () => {
   });
 
   it("can get data about a pull request", async () => {
-    const input = {
-      url: "https://api.github.com/repos/withastro/astro/pulls/10235",
-    } satisfies Input;
+    const input = "https://api.github.com/repos/withastro/astro/pulls/10235" satisfies Input;
 
     const res = await getData.safeParseAsync(input);
 
@@ -59,9 +55,7 @@ describe("getData", async () => {
 
 describe("github", async () => {
   it("can transform data about a repository", async () => {
-    const input = {
-      url: "https://api.github.com/repos/sanman1k98/www",
-    } satisfies Input;
+    const input = "https://api.github.com/repos/sanman1k98/www" satisfies Input;
 
     const res = await github.safeParseAsync(input);
 
@@ -82,9 +76,7 @@ describe("github", async () => {
   });
 
   it("can transform data about a pull request", async () => {
-    const input = {
-      url: "https://api.github.com/repos/withastro/astro/pulls/10235",
-    } satisfies Input;
+    const input = "https://api.github.com/repos/withastro/astro/pulls/10235" satisfies Input;
 
     const res = await github.safeParseAsync(input);
 

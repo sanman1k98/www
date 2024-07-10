@@ -1,10 +1,23 @@
-import { z } from "astro/zod";
+import { type RefinementCtx, z } from "astro/zod";
 import type { components } from "@octokit/openapi-types";
 import { cache } from "@/utils/cache";
 
+type OpenApiSchemas = components["schemas"];
+
+type ResponseData<T = keyof OpenApiSchemas | null> = T extends keyof OpenApiSchemas
+  ? OpenApiSchemas[T] & { __kind: T }
+  : { url: string; __kind: null };
+
 const API_BASE_URL = "https://api.github.com/";
 
-const apiUrl = z.string().transform((arg, ctx) => {
+const REQUEST_OPTS = {
+  headers: {
+    "Accept": "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  },
+};
+
+export const apiUrl = z.string().transform((arg, ctx) => {
   // The given `arg` can be a relative or absolute URL.
   const url = new URL(arg, API_BASE_URL);
 
@@ -22,25 +35,9 @@ const apiUrl = z.string().transform((arg, ctx) => {
   return url;
 });
 
-const input = z.strictObject({
-  url: apiUrl,
-});
-
-type OpenApiSchemas = components["schemas"];
-
-type ResponseData<T = keyof OpenApiSchemas | null> = T extends keyof OpenApiSchemas
-  ? OpenApiSchemas[T] & { __kind: T }
-  : { url: string; __kind: null };
-
-const REQUEST_OPTS = {
-  headers: {
-    "Accept": "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-  },
-};
-
-export const getData = input.transform(async (input, ctx) => {
-  const req = new Request(input.url, REQUEST_OPTS);
+async function getDataFn(url: string | URL, ctx: RefinementCtx) {
+  url = new URL(url);
+  const req = new Request(url, REQUEST_OPTS);
   const cachedRes = await cache.match(req);
 
   let res: Response | undefined;
@@ -77,7 +74,7 @@ export const getData = input.transform(async (input, ctx) => {
   let kind: keyof OpenApiSchemas | null;
 
   // Determine the `kind` using the endpoint's path.
-  const segments = input.url.pathname.slice(1).split("/");
+  const segments = url.pathname.slice(1).split("/");
   if (segments.length === 5 && segments[0] === "repos" && segments[3] === "pulls")
     // Example: "https://api.github.com/repos/withastro/astro/pulls/10235".
     kind = "pull-request";
@@ -92,7 +89,9 @@ export const getData = input.transform(async (input, ctx) => {
     ...await res.json(),
     // Use narrowed type of `kind` to cast return value.
   } as Promise<ResponseData<typeof kind>>;
-});
+}
+
+export const getData = apiUrl.transform(getDataFn);
 
 type ApiData = z.infer<typeof getData>;
 
