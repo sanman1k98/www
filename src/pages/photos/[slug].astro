@@ -39,23 +39,34 @@ const datetime = exif.Photo.DateTimeOriginal!;
       fetchpriority="high"
     />
 
-    <figcaption class="max-h-min max-w-prose px-2 text-base font-mono sm:text-lg">
-      <p class="leading-tight">
-        <time class="flex justify-between gap-x-8 text-xs text-slate-400 sm:text-sm" datetime={datetime.toString()}>
-          <span>{datetime.toLocaleDateString("en-US", { timeZone: "UTC", dateStyle: "long" })}</span>
-          <span>{datetime.toLocaleTimeString("en-US", { timeZone: "UTC", timeStyle: "medium" })}</span>
+<figcaption
+  class="max-h-min max-w-prose px-2 text-xs font-bold font-recursive sm:text-sm"
+>
+      <p
+        class="leading-tight"
+        style={{ "font-variation-settings": "'CASL' 1, 'slnt' -15" }}
+      >
+        <time class="flex justify-between gap-x-8 text-slate-300" datetime={datetime.toString()}>
+          <span>{datetime.toLocaleDateString("en-US", { timeZone: "UTC", dateStyle: "medium" })}</span>
+          <span>{datetime.toLocaleTimeString("en-US", { timeZone: "UTC", timeStyle: "short" })}</span>
         </time>
       </p>
-      <ul class="my-6 flex justify-between gap-x-8 text-xs text-slate-400 tracking-tight sm:text-sm">
+      <ul
+        class="my-6 flex justify-between gap-x-8 text-slate-400 tracking-tight"
+        style={{ "font-variation-settings": "'CASL' 0, 'MONO' 0.69" }}
+      >
         {
           settings.map(item => (
-            <li class="">{item}</li>
+            <li>{item}</li>
           ))
         }
       </ul>
-      <p class="flex justify-between gap-x-8 text-xs text-slate-400 sm:text-sm">
-        <span class="">{camera}</span>
-        <span class="">{lens}</span>
+      <p
+        class="flex justify-center gap-x-8 text-slate-400 font-medium"
+        style={{ "font-variation-settings": "'CASL' 0.5" }}
+      >
+        <span>{camera}</span>
+        <span>{lens}</span>
       </p>
     </figcaption>
   </figure>
