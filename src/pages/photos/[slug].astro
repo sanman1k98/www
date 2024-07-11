@@ -1,7 +1,7 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { Image } from "astro:assets";
-import Page from "@/layouts/MainLayout.astro";
+import Page from "@/layouts/BaseLayout.astro";
 import { photos } from "@/content";
 import { getCamera, getLensInfo, getReadableCaptureSettings } from "@/utils/exif";
 
@@ -14,50 +14,49 @@ export const getStaticPaths = (() =>
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { photo } = Astro.props;
-const { file, exif } = photo;
+const { file, exif, alt } = Astro.props.photo;
 
 const camera = getCamera(exif);
 const lens = getLensInfo(exif);
 const settings = getReadableCaptureSettings(exif.Photo);
 
 const datetime = exif.Photo.DateTimeOriginal!;
-const formattedDatetime = datetime.toLocaleString("en", {
-  dateStyle: "medium",
-  timeStyle: "short",
-  timeZone: "UTC",
-});
 ---
 
-<Page title="Photos" class="flex flex-col items-center" safe-area-padding={false}>
-  <figure class="w-full from-white to-transparent from-90% bg-gradient-to-b sm:pt-4">
+<Page
+  title="Photos"
+  theme-color="#000"
+  class="mx-auto bg-black"
+  safe-area-padding={false}
+>
+  <figure class="flex flex-row flex-wrap place-content-center content-start gap-8 gap-x-[5vw] bg-black min-h-svh sm:content-center sm:items-center sm:px-8 sm:pb-[10vh]">
     <Image
-      class="mx-auto"
+      class="max-h-screen object-cover"
       src={file}
-      alt={photo.alt}
+      alt={alt}
       loading="eager"
       quality="max"
       fetchpriority="high"
     />
 
-    <figcaption class="mx-auto max-w-prose pb-12 text-base font-mono sm:text-lg">
-      <p class="mb-10 mt-2 flex flex-col px-2 leading-tight sm:mt-6">
-        <span class="text-slate-800">{camera}</span>
-        <span class="mb-2 text-slate-700">{lens}</span>
-        {
-          datetime && formattedDatetime && (
-            <time class="text-xs text-slate-500 sm:text-sm" {datetime}>
-              {formattedDatetime}
-            </time>
-          )
-        }
+    <figcaption class="max-h-min max-w-prose px-2 text-base font-mono sm:text-lg">
+      <p class="leading-tight">
+        <time class="flex justify-between gap-x-8 text-xs text-slate-400 sm:text-sm" datetime={datetime.toString()}>
+          <span>{datetime.toLocaleDateString("en-US", { timeZone: "UTC", dateStyle: "long" })}</span>
+          <span>{datetime.toLocaleTimeString("en-US", { timeZone: "UTC", timeStyle: "medium" })}</span>
+        </time>
       </p>
-
-      <div class="mx-auto px-2">
-        <ul class="my-4 flex justify-center text-xs text-slate-500 divide-x-2 sm:text-sm">
-          {settings.map(item => <li class="px-3 py-0.5 sm:px-4 sm:py-1">{item}</li>)}
-        </ul>
-      </div>
+      <ul class="my-6 flex justify-between gap-x-8 text-xs text-slate-400 tracking-tight sm:text-sm">
+        {
+          settings.map(item => (
+            <li class="">{item}</li>
+          ))
+        }
+      </ul>
+      <p class="flex justify-between gap-x-8 text-xs text-slate-400 sm:text-sm">
+        <span class="">{camera}</span>
+        <span class="">{lens}</span>
+      </p>
     </figcaption>
   </figure>
 </Page>
