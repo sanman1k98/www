@@ -36,6 +36,7 @@ export default defineConfig({
         mono: ["Cascadia Code PL", "monospace"],
         quicksand: ["Quicksand Variable", "sans-serif"],
         redhat: ["Red Hat Display Variable", "sans-serif"],
+        recursive: ["Recursive Variable", "sans-serif"],
       },
     }),
   ],
