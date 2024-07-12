@@ -1,0 +1,82 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { Image } from "astro:assets";
+import Layout from "@/layouts/BaseLayout.astro";
+import { photos } from "@/content";
+import { getCamera, getLensInfo, getReadableCaptureSettings } from "@/utils/exif";
+
+export const getStaticPaths = (
+  ({ paginate }) => paginate(photos, { pageSize: 1 })
+) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { file, exif, alt } = Astro.props.page.data[0]!;
+
+const camera = getCamera(exif);
+const lens = getLensInfo(exif);
+const settings = getReadableCaptureSettings(exif.Photo);
+
+const datetime = exif.Photo.DateTimeOriginal!;
+---
+
+<Layout
+  title="Photos"
+  theme-color="#000"
+  class="mx-auto bg-black"
+  safe-area-padding={false}
+>
+  <main class="text-xs sm:text-sm">
+    <figure class="min-h-[80svh] flex flex-row flex-wrap place-content-center content-start gap-x-[5vw] bg-black sm:content-center sm:items-center sm:px-8">
+      <Image
+        class="object-scale-down max-h-svh"
+        src={file}
+        alt={alt}
+        loading="eager"
+        quality="max"
+        fetchpriority="high"
+      />
+
+    <figcaption
+      class="my-8 max-h-min max-w-prose px-2 font-recursive"
+    >
+        <p
+          class="text-slate-300 font-semibold leading-tight"
+          style={{ "font-variation-settings": "'CASL' 1, 'CRSV' 1" }}
+        >
+          <time class="flex justify-between gap-x-8" datetime={datetime.toString()}>
+            <span>{datetime.toLocaleDateString("en-US", { timeZone: "UTC", dateStyle: "medium" })}</span>
+            <span>{datetime.toLocaleTimeString("en-US", { timeZone: "UTC", timeStyle: "short" })}</span>
+          </time>
+        </p>
+        <ul
+          class="my-6 flex justify-between gap-x-8 text-slate-400 font-semibold tracking-tight"
+          style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
+        >
+          {
+            settings.map(item => (
+              <li>{item}</li>
+            ))
+          }
+        </ul>
+        <p
+          class="flex justify-center gap-x-8 text-slate-400 font-medium"
+          style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
+        >
+          <span>{camera}</span>
+          <span>{lens}</span>
+        </p>
+      </figcaption>
+    </figure>
+    <nav
+      class="py-8 text-slate-400 font-recursive sm:py-12"
+      style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
+    >
+      <ul class="mx-auto max-w-prose flex items-center justify-center gap-x-8">
+        <li><a href="/photos">All</a></li>
+        <li>Prev</li>
+        <li>Next</li>
+      </ul>
+    </nav>
+  </main>
+</Layout>
