@@ -8,8 +8,8 @@
     "build": "bun --bun run astro build",
     "preview": "bun --bun run astro preview --host",
     "deploy": "./scripts/deploy.sh && git push origin deploy",
-    "resume:dev": "BUILD='personal' bun run dev",
-    "resume:build-preview": "BUILD='personal' bun run build && bun run preview --open '/resume'",
+    "dev:personal": "BUILD='personal' bun --bun run astro dev --host",
+    "build:personal": "BUILD='personal' bun --bun run astro build",
     "astro": "astro"
   },
   "dependencies": {
