@@ -2,23 +2,12 @@
 type Props = { class?: string };
 ---
 
-<footer class:list={[
-  Astro.props.class,
-  "font-redhat font-450 text-sky-950"
-]}>
-  <ul class="
-    flex mx-auto justify-center
-    [&_li]:px-3 divide-x-2
-    sm:[&_li]:px-4
-  ">
+<footer class="text-sky-950 font-450 font-redhat" class:list={[Astro.props.class]}>
+  <ul class="mx-auto flex justify-center divide-x-2 [&_li]:px-3 sm:[&_li]:px-4">
     <li>
       <a
         href="/resume"
-        class="
-          transition duration-200 hover:text-sky-500
-          underline underline-offset-2 decoration-0 decoration-transparent
-          hover:decoration-current hover:decoration-1
-        "
+        class="underline decoration-0 decoration-transparent underline-offset-2 transition duration-200 hover:text-sky-500 hover:decoration-1 hover:decoration-current"
       >
         Resume
       </a>
@@ -28,11 +17,7 @@ type Props = { class?: string };
         href="https://github.com/sanman1k98/www"
         rel="noreferrer noopener"
         target="_blank"
-        class="
-          transition duration-200 hover:text-sky-500
-          underline underline-offset-2 decoration-0 decoration-transparent
-          hover:decoration-current hover:decoration-1
-        "
+        class="underline decoration-0 decoration-transparent underline-offset-2 transition duration-200 hover:text-sky-500 hover:decoration-1 hover:decoration-current"
       >
         Site source
       </a>
