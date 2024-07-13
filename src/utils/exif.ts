@@ -112,3 +112,10 @@ export function getReadableCaptureSettings(tags: Exif["Photo"]): string[] {
     `${shutter}s`,
   ];
 }
+
+export function isLandscape(exif: Exif): boolean | null {
+  const { PixelXDimension: x, PixelYDimension: y } = exif.Photo;
+  return (x && y)
+    ? x / y > 1
+    : null;
+}
