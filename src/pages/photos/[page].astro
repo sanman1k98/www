@@ -1,9 +1,10 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+// import { Debug } from "astro/components";
 import { Image } from "astro:assets";
 import Layout from "@/layouts/BaseLayout.astro";
 import { photos } from "@/content";
-import { getCamera, getLensInfo, getReadableCaptureSettings } from "@/utils/exif";
+import { getCamera, getLensInfo, getReadableCaptureSettings, isLandscape } from "@/utils/exif";
 
 export const getStaticPaths = (
   ({ paginate }) => paginate(photos, { pageSize: 1 })
@@ -11,7 +12,8 @@ export const getStaticPaths = (
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { file, exif, alt } = Astro.props.page.data[0]!;
+const { page } = Astro.props;
+const { file, exif, alt } = page.data[0]!;
 
 const camera = getCamera(exif);
 const lens = getLensInfo(exif);
@@ -23,13 +25,19 @@ const datetime = exif.Photo.DateTimeOriginal!;
 <Layout
   title="Photos"
   theme-color="#000"
-  class="mx-auto bg-black"
+  class="pb-18 md:pb-0 md:min-h-[90svh] flex flex-col md:flex-row md:flex-wrap gap-x-[2vw] content-center justify-center items-center mx-auto bg-black text-xs font-recursive sm:text-sm"
   safe-area-padding={false}
 >
-  <main class="text-xs sm:text-sm">
-    <figure class="min-h-[80svh] flex flex-row flex-wrap place-content-center content-start gap-x-[5vw] bg-black sm:content-center sm:items-center sm:px-8">
+  <main class="contents">
+    <figure class="contents">
       <Image
-        class="object-scale-down max-h-svh"
+        id="photo"
+        class="object-contain max-h-svh"
+        class:list={[
+          isLandscape(exif)
+            ? ""
+            : "",
+        ]}
         src={file}
         alt={alt}
         loading="eager"
@@ -38,7 +46,7 @@ const datetime = exif.Photo.DateTimeOriginal!;
       />
 
     <figcaption
-      class="my-8 max-h-min max-w-prose px-2 font-recursive"
+      class="my-8 max-h-min max-w-prose px-2"
     >
         <p
           class="text-slate-300 font-semibold leading-tight"
@@ -68,15 +76,18 @@ const datetime = exif.Photo.DateTimeOriginal!;
         </p>
       </figcaption>
     </figure>
+  </main>
+  <footer class="">
     <nav
-      class="py-8 text-slate-400 font-recursive sm:py-12"
+      class="bg-gradient-to-t from-black from-50% md:from-0% w-full to-transparent p-8 text-slate-400 fixed bottom-0 inset-x-0"
       style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
     >
-      <ul class="mx-auto max-w-prose flex items-center justify-center gap-x-8">
+      <ul class="flex items-center justify-center gap-x-8 md:justify-end">
         <li><a href="/photos">All</a></li>
-        <li>Prev</li>
-        <li>Next</li>
+        <li><a class:list={{ "text-slate-600": !page.url.prev }} href={page.url.prev}>Prev</a></li>
+        <li><a class:list={{ "text-slate-600": !page.url.next }} href={page.url.next}>Next</a></li>
+        <li>{page.currentPage}/{page.lastPage}</li>
       </ul>
     </nav>
-  </main>
+  </footer>
 </Layout>
