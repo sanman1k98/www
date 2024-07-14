@@ -14,13 +14,10 @@ const { fixed = false } = Astro.props;
   :global(#banner-logo) {
     font-size: clamp(2.25rem, 4vmin, 3rem);
     letter-spacing: -0.06em;
-    line-height: 1.2;
   }
 
   /* Show all the letters on larger displays. */
   @media (min-width: 512px) {
-    :global(#banner-logo) { line-height: inherit; }
-
     :global(#banner-logo > span) {
       display: inline-block !important
     }
