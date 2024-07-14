@@ -26,10 +26,11 @@ const { fixed = false } = Astro.props;
 
 <header
   style={Astro.props.style}
-  class="top-0 z-50 pt-[7vmin] sm:pt-6"
+  class="relative top-0 z-50 pt-4"
   class:list={[Astro.props.class, fixed ? "fixed inset-x-0" : "sticky"]}
 >
-  <div class="mx-auto w-min flex place-items-center gap-x-12 rounded-full bg-white/85 px-6 shadow-lg shadow-sky-900/10 backdrop-blur-md">
+  <div class="absolute inset-0 bg-white/25 backdrop-blur-sm lg:hidden md:opacity-75" style={{ mask: "linear-gradient(black, black, transparent)" }}></div>
+  <div class="mx-auto w-min flex place-items-center gap-x-12 rounded-full bg-white/85 px-6 shadow-sky-900/10 shadow-xl backdrop-blur-md">
     <Logo id="banner-logo" class="mb-1" />
     <Nav class="text-sm tracking-wider sm:text-base" />
   </div>
