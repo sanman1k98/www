@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { Image } from "astro:assets";
+import recursiveFont from "@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2?url";
 import Layout from "@/layouts/BaseLayout.astro";
 import { photos } from "@/content";
 import { getCamera, getLensInfo, getReadableCaptureSettings } from "@/utils/exif";
@@ -28,6 +29,10 @@ const datetime = exif.Photo.DateTimeOriginal!;
   style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
   safe-area-padding={false}
 >
+  <Fragment slot="head">
+    <link rel="preload" as="font" type="font/woff2" href={recursiveFont} crossorigin />
+  </Fragment>
+
   <main class="contents">
     <figure class="contents">
       <Image
