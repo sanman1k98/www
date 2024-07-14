@@ -24,14 +24,18 @@ li:last-child > a { padding-right: 0 }
   li:hover { opacity: 1 !important }
   a:hover {
     text-decoration-color: theme(colors.sky.400);
-    text-decoration-thickness: 3px;
+    font-weight: 500;
     opacity: 1 !important;
     color: black;
   }
 }
 </style>
 
-<nav class:list={[Astro.props.class, "font-redhat font-500 text-sky-950"]}>
+<nav
+  class="text-sky-950 font-normal font-recursive"
+  class:list={[Astro.props.class]}
+  style={{ "font-variation-settings": "'CASL' 0" }}
+>
   <ul class="group w-max flex divide-x-1">
     {
       pages.map((link) => {
@@ -42,8 +46,8 @@ li:last-child > a { padding-right: 0 }
           <li class="transition duration-900">
             <a
               {...attrs}
-              class="px-3 py-3 underline underline-offset-5 transition duration-200"
-              class:list={link["aria-current"] ? "underline-3 decoration-sky-600" : "decoration-transparent"}
+              class="px-3 py-3 underline underline-2.5 underline-offset-5 transition duration-200"
+              class:list={link["aria-current"] ? "font-medium decoration-sky-600" : "decoration-transparent"}
             >
               {text}
             </a>
