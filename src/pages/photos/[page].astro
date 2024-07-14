@@ -1,10 +1,9 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-// import { Debug } from "astro/components";
 import { Image } from "astro:assets";
 import Layout from "@/layouts/BaseLayout.astro";
 import { photos } from "@/content";
-import { getCamera, getLensInfo, getReadableCaptureSettings, isLandscape } from "@/utils/exif";
+import { getCamera, getLensInfo, getReadableCaptureSettings } from "@/utils/exif";
 
 export const getStaticPaths = (
   ({ paginate }) => paginate(photos, { pageSize: 1 })
@@ -25,7 +24,8 @@ const datetime = exif.Photo.DateTimeOriginal!;
 <Layout
   title="Photos"
   theme-color="#000"
-  class="pb-18 md:pb-0 md:min-h-[90svh] flex flex-col md:flex-row md:flex-wrap gap-x-[2vw] content-center justify-center items-center mx-auto bg-black text-xs font-recursive sm:text-sm"
+  class="mx-auto flex flex-col content-center items-center justify-center gap-x-[2vw] bg-black pb-18 text-xs font-recursive md:min-h-[90svh] md:flex-row md:flex-wrap md:pb-0 sm:text-sm"
+  style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
   safe-area-padding={false}
 >
   <main class="contents">
@@ -33,11 +33,6 @@ const datetime = exif.Photo.DateTimeOriginal!;
       <Image
         id="photo"
         class="object-contain max-h-svh"
-        class:list={[
-          isLandscape(exif)
-            ? ""
-            : "",
-        ]}
         src={file}
         alt={alt}
         loading="eager"
@@ -49,7 +44,7 @@ const datetime = exif.Photo.DateTimeOriginal!;
       class="my-8 max-h-min max-w-prose px-2"
     >
         <p
-          class="text-slate-300 font-semibold leading-tight"
+          class="text-slate-300 font-medium leading-tight"
           style={{ "font-variation-settings": "'CASL' 1, 'CRSV' 1" }}
         >
           <time class="flex justify-between gap-x-8" datetime={datetime.toString()}>
@@ -57,36 +52,45 @@ const datetime = exif.Photo.DateTimeOriginal!;
             <span>{datetime.toLocaleTimeString("en-US", { timeZone: "UTC", timeStyle: "short" })}</span>
           </time>
         </p>
-        <ul
-          class="my-6 flex justify-between gap-x-8 text-slate-400 font-semibold tracking-tight"
-          style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
-        >
+        <ul class="my-6 flex justify-between gap-x-8 text-slate-400 font-medium tracking-tight">
           {
             settings.map(item => (
               <li>{item}</li>
             ))
           }
         </ul>
-        <p
-          class="flex justify-center gap-x-8 text-slate-400 font-medium"
-          style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
-        >
+        <p class="flex justify-center gap-x-8 text-slate-400 font-normal">
           <span>{camera}</span>
           <span>{lens}</span>
         </p>
       </figcaption>
     </figure>
   </main>
-  <footer class="">
+  <footer>
     <nav
-      class="bg-gradient-to-t from-black from-50% md:from-0% w-full to-transparent p-8 text-slate-400 fixed bottom-0 inset-x-0"
-      style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
+      class="fixed inset-x-0 bottom-0 w-full flex justify-center bg-black/50 text-slate-200 font-semibold backdrop-blur-sm md:justify-end md:bg-transparent md:backdrop-blur-none"
+      style={{ mask: "linear-gradient(to top, black, black, transparent)" }}
     >
-      <ul class="flex items-center justify-center gap-x-8 md:justify-end">
-        <li><a href="/photos">All</a></li>
-        <li><a class:list={{ "text-slate-600": !page.url.prev }} href={page.url.prev}>Prev</a></li>
-        <li><a class:list={{ "text-slate-600": !page.url.next }} href={page.url.next}>Next</a></li>
-        <li>{page.currentPage}/{page.lastPage}</li>
+      <ul
+        class="max-w-min flex items-center gap-x-8 px-24 py-12 md:bg-black/50 md:backdrop-blur-sm"
+        style={{ mask: "radial-gradient(ellipse, black 40%, transparent 70%)" }}
+      >
+        <li class="link"><a href="/photos">All</a></li>
+        {
+          page.url.prev ? (
+            <li class="link"><a href={page.url.prev}>Prev</a></li>
+          ) : (
+            <li aria-hidden="true" class="text-slate-600">Prev</li>
+          )
+        }
+        {
+          page.url.next ? (
+            <li class="link"><a href={page.url.next}>Next</a></li>
+          ) : (
+            <li aria-hidden="true" class="text-slate-600">Next</li>
+          )
+        }
+        <li class="text-slate-400 no-underline">{page.currentPage}/{page.lastPage}</li>
       </ul>
     </nav>
   </footer>
