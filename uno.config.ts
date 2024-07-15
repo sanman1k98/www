@@ -34,9 +34,19 @@ export default defineConfig({
       provider: "none",
       fonts: {
         mono: ["Cascadia Code PL", "monospace"],
-        quicksand: ["Quicksand Variable", "sans-serif"],
-        redhat: ["Red Hat Display Variable", "sans-serif"],
+        quicksand: [
+          "Quicksand Variable",
+          "ui-rounded",
+          "Quicksand",
+          "Manjari",
+          "sans-serif",
+        ],
         recursive: ["Recursive Variable", "sans-serif"],
+        handwritten: [
+          "Shantell Sans Variable",
+          "casual",
+          "cursive",
+        ],
       },
     }),
   ],
