@@ -33,7 +33,6 @@ export default defineConfig({
     presetWebFonts({
       provider: "none",
       fonts: {
-        mono: ["Cascadia Code PL", "monospace"],
         quicksand: [
           "Quicksand Variable",
           "ui-rounded",
