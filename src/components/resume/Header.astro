@@ -23,14 +23,17 @@ type Props = HTMLAttributes<"header">;
 ---
 
 <header class:list={[Astro.props.class]}>
-  <h1 class="mb-4 min-w-fit text-4xl text-slate-900 font-600 tracking-tighter">
+  <h1
+    class="mb-4 min-w-fit text-4xl text-slate-900 font-bold tracking-tighter"
+  >
     <a class="group flex gap-x-2" href={titleLink}>
       <span
         aria-hidden="true"
-        class="hidden text-slate-200 transition duration-300 ease-out -ml-7 sm:inline group-hover:text-slate-300 hover:ease-in hover:text-sky-300!"
+        class="hidden text-slate-200 transition-all duration-700 ease-out -ml-7 sm:inline group-hover:text-slate-300 group-hover:font-extrabold group-hover:duration-500 hover:text-sky-300!"
       >#</span>
       <span
-        class="underline decoration-3 decoration-sky-500 underline-offset-3 transition duration-600 ease-out group-hover:text-sky-950 group-hover:decoration-sky-400 group-hover:ease-in"
+        class="underline decoration-3 decoration-sky-500 underline-offset-3 transition-all duration-300 ease-out group-hover:text-black group-hover:font-extrabold group-hover:decoration-sky-400"
+        style={{ "font-variation-settings": "'CASL' 0.0, 'CRSV' 1, 'MONO' 0.5" }}
       >
         Sandeep Dilip
       </span>

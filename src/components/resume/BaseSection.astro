@@ -31,11 +31,14 @@ const id = slugger.slug(heading);
   class="group/section scroll-mt-6 from-slate-50 to-transparent from-50% to-50% bg-gradient-to-b bg-bottom px-2 pb-4 pt-2 duration-100 ease-out print:bg-none target:bg-top sm:ps-7 target:duration-200 target:delay-200 sm:-me-3 sm:-ms-4"
   class:list={[Astro.props.class]}
 >
-  <h2 class="mb-4 flex gap-x-2 whitespace-nowrap text-xs font-800 uppercase">
+  <h2
+    class="mb-4 flex gap-x-2 whitespace-nowrap text-xs font-bold uppercase"
+    style={{ "font-variation-settings": "'MONO' 1" }}
+  >
     <a href={"#".concat(id)} class="group peer">
       <span
         aria-hidden="true"
-        class="peer hidden text-slate-200 transition duration-200 -ms-5 sm:inline group-hover:text-slate-300 group-target/section:text-slate-500!"
+        class="peer hidden select-none text-slate-200 transition duration-200 -ms-5 sm:inline group-hover:text-slate-300 group-target/section:text-slate-500!"
       >##</span>
       <span
         class="text-slate-500 tracking-[0.2em] transition duration-300 group-hover:text-slate-800 group-hover:delay-50 group-target/section:text-sky-700!"

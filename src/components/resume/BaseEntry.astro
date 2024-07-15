@@ -20,7 +20,7 @@ const { Content } = (await entry?.render()) ?? {};
   <header class="group mb-3 last:mb-0">
     {
       (Astro.slots.has("heading") || heading) && (
-        <h3 class="text-lg text-slate-700 font-650 leading-snug">
+        <h3 class="text-lg text-slate-700 font-semibold leading-snug">
           {link ? (
             <a href={link} target="_blank" class="group/link mb-0.5 max-w-fit flex">
               <span class="underline decoration-2 decoration-slate-300 underline-offset-2 transition duration-300 group-hover/link:text-sky-950 print:decoration-1 group-hover/link:decoration-sky-400 print:decoration-sky-600">
@@ -41,7 +41,10 @@ const { Content } = (await entry?.render()) ?? {};
     <slot name="subheading">
       {
         (subheading || time) && (
-          <p class="flex flex-wrap gap-y-0.5 pl-3 text-neutral-500 leading-tight tracking-tight italic divide-x-2">
+          <p
+            class="flex flex-wrap gap-y-0.5 pl-3 text-neutral-500 leading-tight italic divide-x-2"
+            style={{ "font-variation-settings": "'CASL' 1, 'slnt' -15" }}
+          >
             {time && <Time class="pe-2" {time} />}
             {subheading && <span class:list={[time && "ms-2 ps-3"]}>{subheading}</span>}
           </p>
@@ -54,8 +57,9 @@ const { Content } = (await entry?.render()) ?? {};
     (Astro.slots.has("default") || Content) && (
       <div
         class:list={[
-          Content && "[&_strong]:text-slate-700 [&_strong]:font-600 ml-5 text-slate-600 font-375 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400",
+          Content && "[&_strong]:text-slate-700 [&_strong]:font-600 ml-5 text-slate-600 font-normal leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400",
         ]}
+        style={{ "font-variation-settings": "'CASL' 0.5" }}
       >
         <slot>{Content && <Content />}</slot>
       </div>
