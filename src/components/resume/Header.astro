@@ -33,7 +33,7 @@ type Props = HTMLAttributes<"header">;
       >#</span>
       <span
         class="underline decoration-3 decoration-sky-500 underline-offset-3 transition-all duration-300 ease-out group-hover:text-black group-hover:font-extrabold group-hover:decoration-sky-400"
-        style={{ "font-variation-settings": "'CASL' 0.0, 'CRSV' 1, 'MONO' 0.5" }}
+        style={{ "font-variation-settings": "'CASL' 0, 'MONO' 0.3" }}
       >
         Sandeep Dilip
       </span>
@@ -41,9 +41,12 @@ type Props = HTMLAttributes<"header">;
   </h1>
 
   <div class="text-sm tracking-tight sm:text-base">
-    <p class="mb-1 text-slate-700 font-normal">Full-Stack Engineer</p>
+    <p
+      class="mb-1 text-slate-600 font-semibold"
+      style={{ "font-variation-settings": "'MONO' 0.5" }}
+    >Full-Stack Engineer</p>
 
-    <address class="font-375 tracking-tight not-italic -ml-3">
+    <address class="tracking-tight not-italic -ml-3">
       <ul class="flex flex-wrap justify-start">
         {
           links.map((link) => {
@@ -54,6 +57,7 @@ type Props = HTMLAttributes<"header">;
               <li class="border-r-1.5 px-3 text-slate-500 last:border-r-0">
                 <a
                   class="underline decoration-1.5 decoration-slate-200 underline-offset-2 transition duration-300 hover:text-sky-900 print:decoration-1.5 hover:decoration-sky-400 print:decoration-slate-200"
+                  style={{ "font-variation-settings": "'MONO' 0.5" }}
                   {...attrs}
                 >{text}</a>
               </li>

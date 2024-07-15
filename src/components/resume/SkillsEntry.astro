@@ -22,7 +22,7 @@ const { Content } = await entry.render();
 </style>
 
 <Entry class={Astro.props.class} heading={entry.data.skills}>
-  <div class="pl-3">
+  <div class="pl-3 font-medium" style={{ "font-variation-settings": "'CASL' 1, 'MONO' 0.5, 'CRSV' 1" }}>
     <Content />
   </div>
 </Entry>
