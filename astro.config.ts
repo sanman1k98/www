@@ -5,7 +5,7 @@ import UnoCSS from "unocss/astro";
 
 const envSchema = {
   BUILD: envField.enum({
-    values: ["personal"],
+    values: ["resume"],
     context: "server",
     access: "public",
     optional: true,
