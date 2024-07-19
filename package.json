@@ -10,6 +10,7 @@
     "deploy": "./scripts/deploy.sh && git push origin deploy",
     "dev:resume": "BUILD='resume' bun --bun run astro dev --host",
     "build:resume": "BUILD='resume' bun --bun run astro build",
+    "preview:resume": "BUILD='resume' bun --bun run astro preview --host",
     "astro": "astro"
   },
   "dependencies": {

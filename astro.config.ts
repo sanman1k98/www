@@ -1,4 +1,4 @@
-import { defineConfig, envField, sharpImageService } from "astro/config";
+import { type AstroUserConfig, defineConfig, envField, sharpImageService } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import icon from "astro-icon";
 import UnoCSS from "unocss/astro";
@@ -22,7 +22,19 @@ const envSchema = {
   }),
 };
 
+function getResumeBuildOptions(): AstroUserConfig {
+  if (process.env.BUILD === "resume") {
+    return {
+      outDir: "./dist-resume",
+    };
+  }
+  return {
+    // Use defaults
+  };
+}
+
 export default defineConfig({
+  ...getResumeBuildOptions(),
   site: "https://nicesandeep.com",
   prefetch: { prefetchAll: true },
   image: { service: sharpImageService() },
@@ -37,6 +49,7 @@ export default defineConfig({
   experimental: {
     // This will be the default in Astro 5.0
     directRenderScript: true,
+    rewriting: true,
     env: { schema: envSchema },
   },
   vite: {
