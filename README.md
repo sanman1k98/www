@@ -16,7 +16,6 @@
 git clone --recurse-submodules https://github.com/sanman1k98/www.git
 ```
 
-<!-- TODO: suggest using a dummy "cv" collection to build the project for those without access to the private submodule -->
 > [!NOTE]
 > This project uses a private git submodule for the "cv" content collection which is used to generate the `/resume` page.
 
@@ -24,36 +23,34 @@ git clone --recurse-submodules https://github.com/sanman1k98/www.git
 
 ```
 /
-├── .github/                    # workflows that deploy the site
+├── .github/                    # Workflows that deploy the site
 │   └── ...
 ├── scripts/                    # CI/CD related
 │   └── ...
 ├── public/
-│   ├── fonts/
 │   └── ...
 ├── src/                        # Has a `tsconfig.json` path alias "@/*"
 │   ├── components/
-│   │   ├── HeadMeta.astro      # Tags for SEO and stuff
-│   │   ├── Perlin.astro        # Website background pattern
 │   │   └── ...
 │   ├── content/
-│   │   ├── cv/ -> https://github.com/sanman1k98/cv.git
-│   │   ├── info/
+│   │   ├── cv/                 # -> https://github.com/sanman1k98/cv.git
+│   │   ├── info/               # Site links and socials
 │   │   ├── photos/             # Contains an `index.yaml` and image files
 │   │   └── config.ts           # Defines collections using "src/schemas"
 │   ├── layouts/
 │   │   ├── BaseLayout.astro    # HTML and slot for `<body>`
 │   │   └── MainLayout.astro    # Components and slot for `<main>`
 │   ├── pages/
-│   │   ├── resume/             # Uses "cv" collection entries
 │   │   ├── photos/
+│   │   ├── icons/[file].astro  # Static file endpoint to generate favicons
+│   │   ├── resume.astro        # Uses "cv" collection entries
 │   │   ├── index.astro         # Landing page
 │   │   └── ...
 │   ├── schemas/                # Zod schemas for Astro Content Collections
-│   │   ├── cv.ts
-│   │   ├── info.ts
-│   │   ├── misc.ts
-│   │   └── photos.ts           # Parses EXIF metadata
+│   │   ├── cv.ts               # Exports multiple schemas for different types of CV entries
+│   │   ├── info.ts             # Site links and socials
+│   │   ├── photos.ts           # Parses, transforms, and validates EXIF metadata for each photo
+│   │   └── ...
 │   ├── utils/
 │   │   └── ...
 │   └── content.ts              # Content Collection Entries and types
