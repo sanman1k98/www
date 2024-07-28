@@ -1,5 +1,15 @@
 # [`nicesandeep.com`](https://nicesandeep.com)
 
+## ✨ Tech
+
+- [Bun](https://bun.sh): Package manager and runtime
+- [Astro](https://astro.build): JavaScript web framework
+- [UnoCSS](https://unocss.dev): CSS utility framework
+- [Content Collections](https://docs.astro.build/en/guides/content-collections/): Manages Markdown and image content
+  - Used to create resume and photo pages
+- [Satori](https://github.com/vercel/satori): Converts HTML and CSS to SVG
+  - Used to create favicon images
+
 ## 💻 Developing
 
 ```sh
