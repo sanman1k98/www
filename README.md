@@ -75,7 +75,18 @@ All commands are run from the root of the project, from a terminal:
 
 ## 🚀 Deploying
 
-The site is hosted on GitHub Pages using static files in the [`deploy` branch](https://github.com/sanman1k98/www/tree/deploy). Deployments are triggered when the repository owner (me) pushes to the `deploy` branch. See the [`.github/workflows`](https://github.com/sanman1k98/www/tree/main/.github/workflows) and [`scripts`](https://github.com/sanman1k98/www/tree/main/scripts) directories for more information.
+The site is hosted on GitHub Pages using static files in the [`deploy` branch](https://github.com/sanman1k98/www/tree/deploy). Deployments are triggered when the repository owner (me) pushes to the `deploy` branch.
+
+<details>
+  <summary>
+    <em>"Why deploy from a branch?"</em>
+  </summary>
+  <ul>
+    <li>All deployments can be accessed simply via <code>git</code>: for example, <code>git log deploy</code></li>
+    <li>GitHub Pages Classic used to to work in a similar way: it would deploy your site using files from a branch named <code>gh_pages</code></li>
+    <li>Because why not 🤷🏽‍♂</li>️
+  </ul>
+</details>
 
 ## 📜 License
 
