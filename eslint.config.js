@@ -22,6 +22,12 @@ export default antfu(
     unocss: true,
   },
   {
+    name: "user/overrides",
+    rules: {
+      "node/prefer-global/process": ["off"],
+    },
+  },
+  {
     // https://sindresorhus.com/blog/goodbye-nodejs-buffer
     name: "user/node/buffer/rules",
     rules: {
