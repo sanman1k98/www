@@ -22,8 +22,39 @@ export default antfu(
     unocss: true,
   },
   {
+    // https://sindresorhus.com/blog/goodbye-nodejs-buffer
+    name: "user/node/buffer/rules",
     rules: {
-      "node/prefer-global/process": ["error", "always"],
+      "node/prefer-global/buffer": ["off"],
+      "no-restricted-globals": [
+        "error",
+        {
+          name: "Buffer",
+          message: "Use Uint8Array instead.",
+        },
+      ],
+      "no-restricted-imports": [
+        "error",
+        {
+          name: "buffer",
+          message: "Use Uint8Array instead.",
+        },
+        {
+          name: "node:buffer",
+          message: "Use Uint8Array instead.",
+        },
+      ],
+      "ts/no-restricted-types": [
+        "error",
+        {
+          types: {
+            Buffer: {
+              message: "Use Uint8Array instead.",
+              suggest: ["Uint8Array"],
+            },
+          },
+        },
+      ],
     },
   },
 );
