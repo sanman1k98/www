@@ -6,6 +6,11 @@ export default antfu(
       quotes: "double",
       semi: true,
       overrides: {
+        "style/brace-style": [
+          "error",
+          "1tbs",
+          { allowSingleLine: true },
+        ],
         "style/multiline-ternary": [
           "error",
           "always-multiline",
