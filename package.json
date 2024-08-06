@@ -2,6 +2,8 @@
   "type": "module",
   "private": "true",
   "scripts": {
+    "lint": "eslint .",
+    "eslint": "eslint",
     "dev": "bun --bun run astro dev --host",
     "start": "bun --bun run astro dev --host",
     "check": "bun --bun run astro check && tsc --noEmit",
