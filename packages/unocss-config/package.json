@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "private": true,
+  "name": "@www/unocss-config",
+  "scripts": {},
+  "devDependencies": {
+    "unocss": "^0.61.6"
+  }
+}

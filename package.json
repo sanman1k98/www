@@ -1,6 +1,9 @@
 {
   "type": "module",
   "private": "true",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "lint": "eslint .",
     "eslint": "eslint",
