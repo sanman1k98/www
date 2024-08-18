@@ -1,5 +1,6 @@
 import { type SchemaContext, defineCollection, z } from "astro:content";
 import { cv, info, photos } from "@/schemas";
+import { githubReposLoader } from "@/loaders/github/repos";
 
 export const cvSchema = z.union([
   cv.certification,
@@ -29,5 +30,8 @@ export const collections = {
   photos: defineCollection({
     type: "data",
     schema: photosSchema,
+  }),
+  repos: defineCollection({
+    loader: githubReposLoader({ user: "sanman1k98" }),
   }),
 };
