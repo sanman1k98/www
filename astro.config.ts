@@ -50,6 +50,8 @@ export default defineConfig({
     // This will be the default in Astro 5.0
     directRenderScript: true,
     env: { schema: envSchema },
+    contentIntellisense: true,
+    contentLayer: true,
   },
   vite: {
     optimizeDeps: { exclude: ["@resvg/resvg-js"] },
