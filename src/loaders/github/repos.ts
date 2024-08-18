@@ -46,13 +46,19 @@ export function githubReposLoader({
     name: "github-repos-loader",
     schema: z.object({}).passthrough(),
     load: async ({ logger, meta, store }) => {
+      if (meta.has("date") && Date.now() - new Date(meta.get("date")!).valueOf() < maxAge * 1000)
+        return logger.info("Skipping fetch, using cached data");
+
       logger.info(`Fetching from GitHub`);
       const res = await fetchRepos(meta.get("etag"));
 
+      logger.debug(inspect(res));
+
       if (res.status === 304)
-        return logger.info("Using cached response");
+        return logger.info("Unmodified resposnse, Using cached data");
 
       if (!res.ok || !res.body) {
+        logger.error(inspect(res));
         throw new Error(`Failed to load GitHub repos for user: ${user}`);
       }
 
@@ -68,9 +74,9 @@ export function githubReposLoader({
       }
 
       const repos = await res.json() as GitHubRepos;
+      logger.info(`Loading info for ${repos.length} repos`);
 
       for (const repo of repos) {
-        logger.info(`Loading ${style("bold", repo.full_name)} repo info.`);
         store.set({ id: repo.full_name, data: repo });
       }
     },
