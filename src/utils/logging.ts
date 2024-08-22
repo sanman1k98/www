@@ -63,8 +63,25 @@ export function format(arg: string | unknown | TemplateStringsArray, ...exprs: a
   return inspect(arg, ...exprs);
 }
 
-type StyleTextParam = Parameters<typeof styleText>[0];
-type Format = Extract<StyleTextParam, string>;
+/**
+ * An SGR attribute or list of attributes.
+ * The `format` parameter for `util.styleText()`.
+ * @see {@link styleText}
+ * @see {@link SGRAttribute}
+ * @see https://nodejs.org/docs/latest/api/util.html#modifiers
+ */
+type TextFormat = Parameters<typeof styleText>[0];
+
+/**
+ * A key in `inspect.colors`, where each key is an SGR attribute name which corresponds to a pair of
+ * predefined control codes. The pairs are tuples where the first and second elements are control
+ * codes to enable and disable the attribute respectively.
+ * @summary An ANSI SGR attribute name.
+ *
+ * @see https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
+ * @see https://github.com/RafaelGSS/node/blob/cc26951180e629d131a4dd2211b96781c1af18cf/lib/internal/util/inspect.js#L385
+ */
+type SGRAttribute = Extract<TextFormat, string>;
 
 /**
  * A callback which wraps Node's `util.styleText()` with a specified text format.
@@ -72,13 +89,11 @@ type Format = Extract<StyleTextParam, string>;
  * @template T - The the text format passed to `util.styleText()`. Unused in type declaration but is
  * displayed in an IDE when showing hover information.
  *
- * @see https://nodejs.org/docs/latest/api/util.html#utilstyletextformat-text
- * @see https://nodejs.org/docs/latest/api/util.html#modifiers
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
  */
 // @ts-expect-error unused type param is used for LSP hover information.
 // eslint-disable-next-line unused-imports/no-unused-vars
-type Style<T extends StyleTextParam = StyleTextParam>
+type Style<T extends TextFormat = TextFormat>
   = (text: string | TemplateStringsArray, ...exprs: string[]) => string;
 
 /**
@@ -95,12 +110,9 @@ type Style<T extends StyleTextParam = StyleTextParam>
  * console.log(ital`Hello, ${bold("World")}!`);
  * ```
  *
- * @see {@link Style}
- * @see https://nodejs.org/docs/latest/api/util.html#utilstyletextformat-text
- * @see https://nodejs.org/docs/latest/api/util.html#modifiers
  * @see https://www.totaltypescript.com/const-type-parameters
  */
-export function createStyle<const T extends StyleTextParam>(format: T): Style<T> {
+export function createStyle<const T extends TextFormat>(format: T): Style<T> {
   return (text, ...exprs) => {
     if (typeof text === "string")
       return styleText(format, text);
@@ -112,15 +124,15 @@ export function createStyle<const T extends StyleTextParam>(format: T): Style<T>
 }
 
 function createStyles<
-  const T extends Format[],
->(styles: T) {
+  const T extends SGRAttribute[],
+>(attrs: T) {
   return Object.fromEntries(
-    styles.map(name => [name, createStyle(name)]),
+    attrs.map(fmt => [fmt, createStyle(fmt)]),
   ) as { [k in T[number]]: Style<k & T[number]> };
 }
 
 function createStyleShortcuts<
-  const TObj extends { [k: string]: StyleTextParam },
+  const TObj extends { [k: string]: TextFormat },
 >(styles: TObj) {
   return Object.fromEntries(
     Object.entries(styles).map(([name, fmt]) => [name, createStyle(fmt)]),
