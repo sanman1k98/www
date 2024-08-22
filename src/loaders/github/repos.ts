@@ -29,9 +29,13 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
   const { user, results, maxAge, sort, direction } = { ...DEFAULT_OPTS, ...opts };
 
   /**
-   * Make a request to get a list of repositories for the {@link user}.
+   * Make a request to get a list of repositories for the `user`. If the response has not changed,
+   * you will receive a 304 Not Modified response. Making a conditional request does not count
+   * against your primary rate limit if 304 is returned.
    * @param etag - An `Etag` header value from a previous response from this endpoint.
+   *
    * @see https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
+   * @see https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api?apiVersion=2022-11-28#use-conditional-requests-if-appropriate
    * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Conditional_requests
    * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#validation
    */
@@ -76,44 +80,55 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
       logger.info(`Loading public repositories for ${c.blue(user)}`);
       let fresh: boolean | undefined;
 
-      // Determine the state of the store and return early if it is fresh.
+      // 1. Validating.
       if (meta.has("last-modified")) {
+        // 1a. Determine state.
         const lastModDate = new Date(meta.get("last-modified")!);
         const storeAgeMs = Date.now() - lastModDate.valueOf();
         fresh = storeAgeMs < maxAge * 1000;
 
+        // 1b. Log last update.
         const format: Intl.DateTimeFormatOptions = { dateStyle: "short", timeStyle: "medium" };
         const datestring = lastModDate.toLocaleString(undefined, format);
         logger.info(fmt(`Last updated: ${c.U`%s`} ${c.muted`(%s)`}`, datestring, fresh ? "fresh" : "stale"));
 
         if (fresh)
+          // 1c. Return early; skipping fetch.
           return done("used cache");
       }
 
+      // 2. Fetching.
       logger.info(`Fetching list of repositories for ${c.blue(user)}`);
       const res = await fetchRepos(meta.get("etag"));
-      const date = Date();
+      const now = Date();
 
-      // If the response has not changed, you will receive a 304 Not Modified response. Making a
-      // conditional request does not count against your primary rate limit if 304 is returned.
-      // https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api?apiVersion=2022-11-28#use-conditional-requests-if-appropriate
+      // 3. Error handling.
+      // TODO: Handle any fetch errors.
+
+      // 4. Revalidating.
       if (fresh === false && res.status === 304) {
-        meta.set("last-modified", date);
+        // 4a. Update meta store with current date.
+        meta.set("last-modified", now);
+        // 4b. Return early.
         return done("revalidated cache");
       }
 
+      // 5. Updating.
       if (res.status === 200 && res.body && res.headers.has("etag")) {
+        // 5a. Empty the store.
         store.clear();
-        const repos = await res.json() as GitHubRepo[];
-
-        // Use the repository's full name as keys e.g., "sanman1k98/www".
-        for (const repo of repos) {
+        // 5b. Iterate through response data.
+        for (const repo of await res.json() as GitHubRepo[]) {
+          // 5c. Parse data.
           // TODO: use the parseData() function from the LoaderContext.
+          // 5c. Set data using the repository's full name as id e.g., "sanman1k98/www".
           store.set({ id: repo.full_name, data: repo });
         }
-
+        // 5d. Update meta store with Etag value.
         meta.set("etag", res.headers.get("etag")!);
-        meta.set("last-modified", date);
+        // 5e. Update meta store with current date.
+        meta.set("last-modified", now);
+        // 5f. Return.
         return done("cached response");
       }
 
