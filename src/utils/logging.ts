@@ -1,9 +1,28 @@
+/**
+ * @file Custom wrappers around "node:util" functions for logging.
+ */
 import { format as _format, inspect, styleText } from "node:util";
 
 inspect.defaultOptions = {
   colors: process.stdout.hasColors(),
 };
 
+/**
+ * Wrapper around Node's `util.format()` with support for tagged templates.
+ * @param arg - A "printf"-like format string or a list of strings when called as a tag function.
+ * @param exprs - Values to pass to `util.format()`.
+ *
+ * @example
+ * ```ts
+ * import { format as fmt } from "@/utils/logging";
+ * const name = "World";
+ * console.log(fmt("Hello %s!", name));
+ * console.log(fmt`Hello ${name}!`);
+ * ```
+ *
+ * @see https://nodejs.org/docs/latest/api/util.html#utilformatformat-args
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
+ */
 export function format(arg: string | unknown | TemplateStringsArray, ...exprs: any[]): string {
   if (typeof arg === "string") {
     return _format(arg, ...exprs);
@@ -44,15 +63,44 @@ export function format(arg: string | unknown | TemplateStringsArray, ...exprs: a
   return inspect(arg, ...exprs);
 }
 
-type Formats = Parameters<typeof styleText>[0];
-type Format = Extract<Formats, string>;
-// type Format = Exclude<Parameters<typeof styleText>[0], string[]>;
-// @ts-expect-error unused type param is shown for hover info
+type StyleTextParam = Parameters<typeof styleText>[0];
+type Format = Extract<StyleTextParam, string>;
+
+/**
+ * A callback which wraps Node's `util.styleText()` with a specified text format.
+ * Can be called with a single string argument or as a tagged template.
+ * @template T - The the text format passed to `util.styleText()`. Unused in type declaration but is
+ * displayed in an IDE when showing hover information.
+ *
+ * @see https://nodejs.org/docs/latest/api/util.html#utilstyletextformat-text
+ * @see https://nodejs.org/docs/latest/api/util.html#modifiers
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
+ */
+// @ts-expect-error unused type param is used for LSP hover information.
 // eslint-disable-next-line unused-imports/no-unused-vars
-type Style<T extends Formats = Formats>
+type Style<T extends StyleTextParam = StyleTextParam>
   = (text: string | TemplateStringsArray, ...exprs: string[]) => string;
 
-export function createStyle<const TFormat extends Formats>(format: TFormat): Style<TFormat> {
+/**
+ * Creates helper functions to style text for standard output.
+ * @param format - The text format passed to `util.styleText()`.
+ * @template const T - Preserves the literal type of `format` to use as type argument for `Style<T>`
+ * @returns A callback to format text using Node's `util.styleText()` with the specified `format`.
+ * Can be called with a single string argument, or as a tagged template.
+ *
+ * @example
+ * ```ts
+ * const bold = createStyle("bold");
+ * const ital = createStyle("italic");
+ * console.log(ital`Hello, ${bold("World")}!`);
+ * ```
+ *
+ * @see {@link Style}
+ * @see https://nodejs.org/docs/latest/api/util.html#utilstyletextformat-text
+ * @see https://nodejs.org/docs/latest/api/util.html#modifiers
+ * @see https://www.totaltypescript.com/const-type-parameters
+ */
+export function createStyle<const T extends StyleTextParam>(format: T): Style<T> {
   return (text, ...exprs) => {
     if (typeof text === "string")
       return styleText(format, text);
@@ -72,7 +120,7 @@ function createStyles<
 }
 
 function createStyleShortcuts<
-  const TObj extends { [k: string]: Formats },
+  const TObj extends { [k: string]: StyleTextParam },
 >(styles: TObj) {
   return Object.fromEntries(
     Object.entries(styles).map(([name, fmt]) => [name, createStyle(fmt)]),
@@ -92,6 +140,20 @@ const modifiers = createStyleShortcuts({
   muted: ["dim", "gray"],
 });
 
+/**
+ * Use to style log messages.
+ *
+ * @example
+ * ```ts
+ * import { styles as c } from "@/utils/logging";
+ *
+ * console.log(c.B`Bolded text`);
+ * console.log(c.I`Italic text`);
+ * console.log(c.U`Underlined text`);
+ * console.log(c.blue`Blue text`);
+ * console.log(c.green`Green text`);
+ * ```
+ */
 export const styles = {
   ...modifiers,
   ...colors,
