@@ -64,7 +64,7 @@ export const experience = createEntrySchema(
   organization,
 });
 
-// TODO: Use schemas in `./github.ts`.
+// TODO: Reference entries in `repos` and `pulls`.
 export const opensource = createEntrySchema("open-source").extend({
   ...daterange.partial().shape,
   type: z.literal("open-source").default("open-source"),
