@@ -4,12 +4,11 @@
  */
 import { z } from "astro/zod";
 import type { Loader } from "astro/loaders";
-import type { operations, paths } from "@octokit/openapi-types";
+import type { paths } from "@octokit/openapi-types";
 import { styles as c, format as fmt } from "@/utils/logging";
 
 export type GitHubRepo = paths["/users/{username}/repos"]["get"]["responses"]["200"]["content"]["application/json"][number];
-
-type QueryParams = NonNullable<operations["repos/list-for-org"]["parameters"]["query"]>;
+type QueryParams = NonNullable<paths["/users/{username}/repos"]["get"]["parameters"]["query"]>;
 
 export interface GitHubReposLoaderOptions extends Omit<QueryParams, "page" | "per_page"> {
   /** Number of seconds to store response data. */
@@ -64,10 +63,6 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
     name: "github-repos-loader",
     schema: z.object({}).passthrough(),
 
-    // In order to avoid making network requests and API rate-limiting, we assume the list of
-    // GitHub repos for any given user does not change frequently and therefore entries within a
-    // fresh store will almost always be up-to-date and accurate.
-    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#fresh_and_stale_based_on_age
     load: async ({ logger, meta, store, collection }) => {
       const done = (reason: string) =>
         logger.info(fmt(
@@ -77,58 +72,63 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
           reason,
         ));
 
+      // In order to avoid making network requests and API rate-limiting, we assume the list of
+      // GitHub repos for any given user does not change frequently and therefore entries within a
+      // fresh store will almost always be up-to-date and accurate.
+      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching
       logger.info(`Loading public repositories for ${c.blue(user)}`);
       let fresh: boolean | undefined;
 
-      // 1. Validating.
+      // 1. Get age.
       if (meta.has("last-modified")) {
-        // 1a. Determine state.
+        // - Determine state.
         const lastModDate = new Date(meta.get("last-modified")!);
         const storeAgeMs = Date.now() - lastModDate.valueOf();
         fresh = storeAgeMs < maxAge * 1000;
 
-        // 1b. Log last update.
+        // - Log last update.
         const format: Intl.DateTimeFormatOptions = { dateStyle: "short", timeStyle: "medium" };
         const datestring = lastModDate.toLocaleString(undefined, format);
         logger.info(fmt(`Last updated: ${c.U`%s`} ${c.muted`(%s)`}`, datestring, fresh ? "fresh" : "stale"));
 
+        // - Check validity.
         if (fresh)
-          // 1c. Return early; skipping fetch.
+          // - Skip fetch and return early.
           return done("used cache");
       }
 
-      // 2. Fetching.
+      // 2. Fetch.
       logger.info(`Fetching list of repositories for ${c.blue(user)}`);
       const res = await fetchRepos(meta.get("etag"));
       const now = Date();
 
-      // 3. Error handling.
+      // 3. Handle errors.
       // TODO: Handle any fetch errors.
 
-      // 4. Revalidating.
-      if (fresh === false && res.status === 304) {
-        // 4a. Update meta store with current date.
+      // 4. Revalidate store.
+      if (res.status === 304) {
+        // - Update meta store with current date.
         meta.set("last-modified", now);
-        // 4b. Return early.
+        // - Return early.
         return done("revalidated cache");
       }
 
-      // 5. Updating.
+      // 5. Update store.
       if (res.status === 200 && res.body && res.headers.has("etag")) {
-        // 5a. Empty the store.
+        // - Empty the store.
         store.clear();
-        // 5b. Iterate through response data.
+        // - Iterate through response data.
         for (const repo of await res.json() as GitHubRepo[]) {
-          // 5c. Parse data.
+          // - Parse data.
           // TODO: use the parseData() function from the LoaderContext.
-          // 5c. Set data using the repository's full name as id e.g., "sanman1k98/www".
+          // - Set data using the repository's full name as id e.g., "sanman1k98/www".
           store.set({ id: repo.full_name, data: repo });
         }
-        // 5d. Update meta store with Etag value.
+        // - Update meta store with Etag value.
         meta.set("etag", res.headers.get("etag")!);
-        // 5e. Update meta store with current date.
+        // - Update meta store with current date.
         meta.set("last-modified", now);
-        // 5f. Return.
+        // - Return.
         return done("cached response");
       }
 
