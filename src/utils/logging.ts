@@ -143,6 +143,7 @@ const colors = createStyles([
   "green",
   "blue",
   "cyan",
+  "dim",
 ]);
 
 const modifiers = createStyleShortcuts({
