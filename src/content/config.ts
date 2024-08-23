@@ -35,6 +35,6 @@ export const collections = {
     loader: githubReposLoader({ username: "sanman1k98" }),
   }),
   pulls: defineCollection({
-    loader: githubPullsLoader({ user: "sanman1k98" }),
+    loader: githubPullsLoader({ username: "sanman1k98" }),
   }),
 };
