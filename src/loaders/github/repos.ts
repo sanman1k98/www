@@ -2,19 +2,21 @@
  * @file A content loader to get data about a user's repositories. Intended to be referenced by
  * entries in the "cv" collection.
  */
-import { z } from "astro/zod";
 import type { Loader } from "astro/loaders";
-import type { paths } from "@octokit/openapi-types";
+import type { Endpoints } from "@octokit/types";
+import { endpoint } from "@octokit/endpoint";
+import { z } from "astro/zod";
 import { styles as c, format as fmt } from "@/utils/logging";
 
-export type GitHubRepo = paths["/users/{username}/repos"]["get"]["responses"]["200"]["content"]["application/json"][number];
-type QueryParams = NonNullable<paths["/users/{username}/repos"]["get"]["parameters"]["query"]>;
+const endpointPath = "GET /users/{username}/repos" satisfies keyof Endpoints;
+type Endpoint = Endpoints[typeof endpointPath];
+type QueryParams = Endpoint["parameters"];
+type GitHubRepo = Endpoint["response"]["data"][number];
 
 export interface GitHubReposLoaderOptions extends Omit<QueryParams, "page" | "per_page"> {
   /** Number of seconds to store response data. */
   maxAge?: number;
   results?: number;
-  user: string;
 };
 
 const DEFAULT_OPTS = {
@@ -22,47 +24,14 @@ const DEFAULT_OPTS = {
   maxAge: 3600,
   sort: "pushed",
   direction: "desc",
-} satisfies Omit<GitHubReposLoaderOptions, "user">;
+} satisfies Omit<GitHubReposLoaderOptions, "username">;
 
 export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
-  const { user, results, maxAge, sort, direction } = { ...DEFAULT_OPTS, ...opts };
-
-  /**
-   * Make a request to get a list of repositories for the `user`. If the response has not changed,
-   * you will receive a 304 Not Modified response. Making a conditional request does not count
-   * against your primary rate limit if 304 is returned.
-   * @param etag - An `Etag` header value from a previous response from this endpoint.
-   *
-   * @see https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
-   * @see https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api?apiVersion=2022-11-28#use-conditional-requests-if-appropriate
-   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Conditional_requests
-   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#validation
-   */
-  const fetchRepos = async (etag?: string) => {
-    const params = new URLSearchParams({
-      per_page: results.toString(),
-      direction,
-      sort,
-    });
-
-    const headers: HeadersInit = [
-      ["Accept", "application/vnd.github+json"],
-      ["X-GitHub-Api-Version", "2022-11-28"],
-    ];
-
-    if (etag)
-      headers.push(["If-None-Match", etag]);
-
-    return fetch(
-      `https://api.github.com/users/${user}/repos?${params}`,
-      { headers },
-    );
-  };
-
+  const config = { ...DEFAULT_OPTS, ...opts };
+  const { results, maxAge, ...query } = config;
   return {
     name: "github-repos-loader",
     schema: z.object({}).passthrough(),
-
     load: async ({ logger, meta, store, collection }) => {
       const done = (reason: string) =>
         logger.info(fmt(
@@ -76,7 +45,7 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
       // GitHub repos for any given user does not change frequently and therefore entries within a
       // fresh store will almost always be up-to-date and accurate.
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching
-      logger.info(`Loading public repositories for ${c.blue(user)}`);
+      logger.info(`Loading public repositories for ${c.blue(config.username)}`);
       let fresh: boolean | undefined;
 
       // 1. Get age.
@@ -89,7 +58,7 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
         // - Log last update.
         const format: Intl.DateTimeFormatOptions = { dateStyle: "short", timeStyle: "medium" };
         const datestring = lastModDate.toLocaleString(undefined, format);
-        logger.info(fmt(`Last updated: ${c.U`%s`} ${c.muted`(%s)`}`, datestring, fresh ? "fresh" : "stale"));
+        logger.info(fmt(`Last updated: ${c.dim`%s`} ${c.muted`(%s)`}`, datestring, fresh ? "fresh" : "stale"));
 
         // - Check validity.
         if (fresh)
@@ -98,9 +67,23 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
       }
 
       // 2. Fetch.
-      logger.info(`Fetching list of repositories for ${c.blue(user)}`);
-      const res = await fetchRepos(meta.get("etag"));
+      logger.info(`Fetching list of repositories for ${c.blue(config.username)}`);
       const now = Date();
+      const { url, headers } = endpoint(endpointPath, {
+        headers: { "if-none-match": meta.get("etag") },
+        ...query,
+      });
+
+      /**
+       * Make a request to get a list of repositories for the `user`. If the response has not
+       * changed, you will receive a 304 Not Modified response. Making a conditional request does
+       * not count against your primary rate limit if 304 is returned.
+       *
+       * @see https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api?apiVersion=2022-11-28#use-conditional-requests-if-appropriate
+       * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Conditional_requests
+       * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#validation
+       */
+      const res = await fetch(url, { headers: headers as HeadersInit });
 
       // 3. Handle errors.
       // TODO: Handle any fetch errors.

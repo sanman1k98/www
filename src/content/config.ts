@@ -32,7 +32,7 @@ export const collections = {
     schema: photosSchema,
   }),
   repos: defineCollection({
-    loader: githubReposLoader({ user: "sanman1k98" }),
+    loader: githubReposLoader({ username: "sanman1k98" }),
   }),
   pulls: defineCollection({
     loader: githubPullsLoader({ user: "sanman1k98" }),
