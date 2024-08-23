@@ -16,19 +16,15 @@ type GitHubRepo = Endpoint["response"]["data"][number];
 export interface GitHubReposLoaderOptions extends Omit<QueryParams, "page" | "per_page"> {
   /** Number of seconds to store response data. */
   maxAge?: number;
-  results?: number;
 };
 
 const DEFAULT_OPTS = {
-  results: 30,
   maxAge: 3600,
-  sort: "pushed",
-  direction: "desc",
 } satisfies Omit<GitHubReposLoaderOptions, "username">;
 
 export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
   const config = { ...DEFAULT_OPTS, ...opts };
-  const { results, maxAge, ...query } = config;
+  const { username, maxAge, ...query } = config;
   return {
     name: "github-repos-loader",
     schema: z.object({}).passthrough(),
@@ -45,7 +41,7 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
       // GitHub repos for any given user does not change frequently and therefore entries within a
       // fresh store will almost always be up-to-date and accurate.
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching
-      logger.info(`Loading public repositories for ${c.blue(config.username)}`);
+      logger.info(`Loading public repositories for ${c.blue(username)}`);
       let fresh: boolean | undefined;
 
       // 1. Get age.
@@ -67,7 +63,7 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
       }
 
       // 2. Fetch.
-      logger.info(`Fetching list of repositories for ${c.blue(config.username)}`);
+      logger.info(`Fetching list of repositories for ${c.blue(username)}`);
       const now = Date();
       const { url, headers } = endpoint(endpointPath, {
         headers: { "if-none-match": meta.get("etag") },
