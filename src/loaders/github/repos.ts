@@ -65,7 +65,7 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
       // 2. Fetch.
       logger.info(`Fetching list of repositories for ${c.blue(username)}`);
       const now = Date();
-      const { url, headers } = endpoint(endpointPath, {
+      const { url, ...init } = endpoint(endpointPath, {
         headers: { "if-none-match": meta.get("etag") },
         ...query,
       });
@@ -79,7 +79,7 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
        * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Conditional_requests
        * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#validation
        */
-      const res = await fetch(url, { headers: headers as HeadersInit });
+      const res = await fetch(url, init as FetchRequestInit);
 
       // 3. Handle errors.
       // TODO: Handle any fetch errors.
