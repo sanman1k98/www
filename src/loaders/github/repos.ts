@@ -67,6 +67,7 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
       const now = Date();
       const { url, ...init } = endpoint(endpointPath, {
         headers: { "if-none-match": meta.get("etag") },
+        username,
         ...query,
       });
 
