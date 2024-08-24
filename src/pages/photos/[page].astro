@@ -25,8 +25,7 @@ const datetime = exif.Photo.DateTimeOriginal!;
 <Layout
   title="Photos"
   theme-color="#000"
-  class="mx-auto flex flex-col content-center items-center justify-center gap-x-[2vw] bg-black pb-18 text-xs font-recursive md:min-h-[90svh] md:flex-row md:flex-wrap md:pb-0 sm:text-sm"
-  style={{ "font-variation-settings": "'CASL' 0.3, 'CRSV' 1, 'MONO' 0.69" }}
+  class="mx-auto flex flex-col content-center items-center justify-center gap-x-[2vw] bg-black pb-18 text-xs axis-casl-0.3 axis-crsv-1 axis-mono-0.69 font-rec md:min-h-[90svh] md:flex-row md:flex-wrap md:pb-0 sm:text-sm"
   safe-area-padding={false}
 >
   <Fragment slot="head">
@@ -49,8 +48,7 @@ const datetime = exif.Photo.DateTimeOriginal!;
       class="my-8 max-h-min max-w-prose px-2"
     >
         <p
-          class="text-slate-300 font-medium leading-tight"
-          style={{ "font-variation-settings": "'CASL' 1, 'CRSV' 1" }}
+          class="text-slate-300 font-medium leading-tight font-rec-casual"
         >
           <time class="flex justify-between gap-x-8" datetime={datetime.toString()}>
             <span>{datetime.toLocaleDateString("en-US", { timeZone: "UTC", dateStyle: "medium" })}</span>
