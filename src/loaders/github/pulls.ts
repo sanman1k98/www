@@ -28,9 +28,9 @@ export function githubPullsLoader(opts: GitHubPullsLoaderOptions): Loader {
     load: async ({ logger, meta, store, collection }) => {
       const done = (reason: string) =>
         logger.info(fmt(
-          `Loaded ${c.I`%d`} entries in ${c.green`%s`} ${c.muted`(%s)`}`,
-          store.keys().length,
-          collection,
+          `Loaded %s entries into %s collection ${c.muted`(%s)`}`,
+          c.B(store.keys().length),
+          c.green(collection),
           reason,
         ));
 

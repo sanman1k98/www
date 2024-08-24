@@ -79,7 +79,7 @@ export function exifLoader(opts: ExifLoaderOptions): Loader {
 
       return ExifTagsSchema;
     },
-    load: async ({ logger, settings, parseData, store, generateDigest }) => {
+    load: async ({ logger, settings, parseData, store, generateDigest, collection }) => {
       const baseDir = opts.base
         ? new URL(opts.base, settings.config.root)
         : settings.config.root;
@@ -89,6 +89,7 @@ export function exifLoader(opts: ExifLoaderOptions): Loader {
       if (!baseDir.pathname.endsWith("/"))
         baseDir.pathname += "/";
 
+      logger.info(`Loading EXIF metadata from files matching ${c.blue(opts.pattern)}`);
       const files = await Array.fromAsync(glob(opts.pattern, { cwd: fileURLToPath(baseDir) }));
 
       const results = await Promise.all(
@@ -122,7 +123,7 @@ export function exifLoader(opts: ExifLoaderOptions): Loader {
         }
       }
 
-      logger.info(`Loaded ${c.B(loaded)} entries`);
+      logger.info(`Loaded ${c.B(loaded)} entries into ${c.green(collection)} collection`);
     },
   };
 }
