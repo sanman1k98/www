@@ -128,14 +128,6 @@ export function createStyle<const T extends TextFormat>(format: T): Style<T> {
 }
 
 function createStyles<
-  const T extends SGRAttribute[],
->(attrs: T) {
-  return Object.fromEntries(
-    attrs.map(fmt => [fmt, createStyle(fmt)]),
-  ) as { [k in T[number]]: Style<k & T[number]> };
-}
-
-function createStyleShortcuts<
   const TObj extends { [k: string]: TextFormat },
 >(styles: TObj) {
   return Object.fromEntries(
@@ -143,14 +135,11 @@ function createStyleShortcuts<
   ) as { [k in keyof TObj]: Style<TObj[k]> };
 }
 
-const colors = createStyles([
-  "green",
-  "blue",
-  "cyan",
-  "dim",
-]);
+const colors = Object.fromEntries(
+  Object.keys(inspect.colors).map(attr => [attr, createStyle(attr as SGRAttribute)]),
+) as { [k in SGRAttribute]: Style<k & SGRAttribute> };
 
-const modifiers = createStyleShortcuts({
+const modifiers = createStyles({
   B: "bold",
   U: "underline",
   I: "italic",
