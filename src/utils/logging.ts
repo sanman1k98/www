@@ -94,7 +94,7 @@ type SGRAttribute = Extract<TextFormat, string>;
 // @ts-expect-error unused type param is used for LSP hover information.
 // eslint-disable-next-line unused-imports/no-unused-vars
 type Style<T extends TextFormat = TextFormat>
-  = (text: string | TemplateStringsArray, ...exprs: string[]) => string;
+  = (text: any | string | TemplateStringsArray, ...exprs: any[]) => string;
 
 /**
  * Creates helper functions to style text for standard output.
@@ -114,12 +114,16 @@ type Style<T extends TextFormat = TextFormat>
  */
 export function createStyle<const T extends TextFormat>(format: T): Style<T> {
   return (text, ...exprs) => {
-    if (typeof text === "string")
+    if (Array.isArray(text) && "raw" in text) {
+      if (text.length === 1 && text[0])
+        return styleText(format, text[0]);
+      else
+        return styleText(format, text.map((s, i) => s.concat(inspect(exprs[i]) ?? "")).join(""));
+    } else if (typeof text === "string") {
       return styleText(format, text);
-    else if (text.length === 1 && text[0])
-      return styleText(format, text[0]);
-    else
-      return styleText(format, text.map((s, i) => s.concat(exprs[i] ?? "")).join(""));
+    } else {
+      return styleText(format, inspect(text));
+    }
   };
 }
 
