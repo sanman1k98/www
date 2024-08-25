@@ -128,7 +128,7 @@ export function createStyle<const T extends TextFormat>(format: T): Style<T> {
   };
 }
 
-function createStyles<
+export function createStyles<
   const TObj extends { [k: string]: TextFormat },
 >(styles: TObj) {
   return Object.fromEntries(
