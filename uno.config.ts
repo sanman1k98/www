@@ -64,7 +64,10 @@ const fontRecursiveRules: Rule[] = [
     ([, axis, value]) => {
       if (axis && value !== undefined) {
         const prop = `--un-font-axis-${axis.toLowerCase()}`;
-        return { [prop]: value };
+        return {
+          [prop]: value,
+          "font-variation-settings": fontRecursiveSettings,
+        };
       }
       return undefined;
     },
