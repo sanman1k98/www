@@ -45,8 +45,7 @@ const { Content } = (await entry?.render()) ?? {};
       {
         (subheading || time) && (
           <p
-            class="flex flex-wrap gap-y-0.5 pl-3 text-slate-500 font-medium leading-tight italic divide-x-2"
-            style={{ "font-variation-settings": "'CASL' 1, 'MONO' 0.5, 'slnt' -15" }}
+            class="flex flex-wrap gap-y-0.5 pl-3 text-slate-500 font-medium leading-tight axis-casl-1 axis-mono-0.5 axis-slnt--15 divide-x-2"
           >
             {time && <Time class="pe-2" {time} />}
             {subheading && <span class:list={[time && "ms-2 ps-3"]}>{subheading}</span>}

@@ -32,8 +32,7 @@ const id = slugger.slug(heading);
   class:list={[Astro.props.class]}
 >
   <h2
-    class="mb-4 flex gap-x-2 whitespace-nowrap text-xs font-bold uppercase"
-    style={{ "font-variation-settings": "'MONO' 1" }}
+    class="mb-4 flex gap-x-2 whitespace-nowrap text-xs font-bold uppercase axis-mono-1"
   >
     <a href={"#".concat(id)} class="group peer">
       <span
@@ -50,7 +49,7 @@ const id = slugger.slug(heading);
   </h2>
   <div
     class:list={[
-      grid && "md:[&>*]:m-0! gap-5 auto-rows-min grid-flow-row grid-cols-2 md:grid print:grid",
+      grid && "md:all:m-0! gap-5 auto-rows-min grid-flow-row grid-cols-2 md:grid print:grid",
     ]}
   >
     <slot />
