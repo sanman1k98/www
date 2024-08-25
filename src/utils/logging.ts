@@ -2,6 +2,7 @@
  * @file Custom wrappers around "node:util" functions for logging.
  */
 import { format as _format, inspect, styleText } from "node:util";
+import type { Primitive } from "astro/zod";
 
 inspect.defaultOptions = {
   colors: process.stdout.hasColors(),
@@ -94,7 +95,7 @@ type SGRAttribute = Extract<TextFormat, string>;
 // @ts-expect-error unused type param is used for LSP hover information.
 // eslint-disable-next-line unused-imports/no-unused-vars
 type Style<T extends TextFormat = TextFormat>
-  = (text: any | string | TemplateStringsArray, ...exprs: any[]) => string;
+  = (text: Primitive | TemplateStringsArray, ...exprs: Primitive[]) => string;
 
 /**
  * Creates helper functions to style text for standard output.
@@ -116,9 +117,9 @@ export function createStyle<const T extends TextFormat>(format: T): Style<T> {
   return (text, ...exprs) => {
     if (Array.isArray(text) && "raw" in text) {
       if (text.length === 1 && text[0])
-        return styleText(format, text[0]);
+        return styleText(format, text[0] as string);
       else
-        return styleText(format, text.map((s, i) => s.concat(inspect(exprs[i]) ?? "")).join(""));
+        return styleText(format, (text as TemplateStringsArray).map((s, i) => s.concat(inspect(exprs[i]) ?? "")).join(""));
     } else if (typeof text === "string") {
       return styleText(format, text);
     } else {
