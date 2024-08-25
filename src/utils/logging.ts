@@ -136,16 +136,9 @@ function createStyles<
   ) as { [k in keyof TObj]: Style<TObj[k]> };
 }
 
-const colors = Object.fromEntries(
+const attrs = Object.fromEntries(
   Object.keys(inspect.colors).map(attr => [attr, createStyle(attr as SGRAttribute)]),
 ) as { [k in SGRAttribute]: Style<k & SGRAttribute> };
-
-const modifiers = createStyles({
-  B: "bold",
-  U: "underline",
-  I: "italic",
-  muted: ["dim", "gray"],
-});
 
 /**
  * Use to style log messages.
@@ -162,6 +155,9 @@ const modifiers = createStyles({
  * ```
  */
 export const styles = {
-  ...modifiers,
-  ...colors,
+  ...attrs,
+  B: attrs.bold,
+  I: attrs.italic,
+  U: attrs.underline,
+  muted: createStyle(["dim", "gray"]),
 } satisfies Record<string, Style>;
