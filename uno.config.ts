@@ -1,82 +1,52 @@
-import type { Rule } from "unocss";
 import {
   defineConfig,
   presetIcons,
   presetUno,
-  presetWebFonts,
   transformerDirectives,
 } from "unocss";
+import type { CustomTheme } from "configs/unocss/types";
+import { fontAxisRules } from "configs/unocss/rules/font-axis";
+import { preflightWithFontAxesProps } from "configs/unocss/theme/extenders";
 
-const fontRecursiveSettings = [
-  "\"MONO\" var(--un-font-axis-mono, 0)",
-  "\"CASL\" var(--un-font-axis-casl, 0)",
-  "\"CRSV\" var(--un-font-axis-crsv, 0.5)",
-  "\"slnt\" var(--un-font-axis-slnt, 0)",
-].join();
+const fontFamily = {
+  quicksand: [
+    "Quicksand Variable",
+    "ui-rounded",
+    "Quicksand",
+    "Manjari",
+    "sans-serif",
+  ].join(),
+  rec: [
+    "Recursive Variable",
+    "sans-serif",
+  ].join(),
+  handwritten: [
+    "Shantell Sans Variable",
+    "casual",
+    "cursive",
+  ].join(),
+} satisfies CustomTheme["fontFamily"];
 
-const fontRecursiveRules: Rule[] = [
-  [
-    /^font-rec(?:-(\w+))?$/,
-    ([, variation]) => {
-      const families = ["Recursive Variable", "sans-serif"];
-      const vars: Record<string, number | undefined> = {
-        "--un-font-axis-casl": undefined,
-        "--un-font-axis-mono": undefined,
-        "--un-font-axis-crsv": undefined,
-        "--un-font-axis-slnt": undefined,
-      };
-      if (variation) {
-        switch (variation) {
-          case "linear":
-            vars["--un-font-axis-casl"] = 0;
-            break;
-          case "casl":
-          case "casual":
-            vars["--un-font-axis-casl"] = 1;
-            break;
-          case "mono":
-            vars["--un-font-axis-mono"] = 1;
-            families.splice(1, 0, "monospace");
-            break;
-          case "brush":
-            vars["--un-font-axis-casl"] = 1;
-            vars["--un-font-axis-slnt"] = -15;
-            break;
-          case "semicasl":
-          case "semicasual":
-            vars["--un-font-axis-casl"] = 0.5;
-            break;
-          case "quasi": // Quasi-proportional
-            vars["--un-font-axis-mono"] = 0.5;
-            break;
-          default: return;
-        }
-      }
-      return {
-        ...vars,
-        "font-family": families.join(),
-        "font-variation-settings": fontRecursiveSettings,
-      };
-    },
-  ],
-  [
-    /^(?:font-)?axis-(\w{4})-(.+)$/,
-    ([, axis, value]) => {
-      if (axis && value !== undefined) {
-        const prop = `--un-font-axis-${axis.toLowerCase()}`;
-        return {
-          [prop]: value,
-          "font-variation-settings": fontRecursiveSettings,
-        };
-      }
-      return undefined;
-    },
-  ],
-];
+const fontAxes = {
+  // https://www.recursive.design
+  "Recursive Variable": {
+    MONO: 0,
+    CASL: 0,
+    CRSV: 0.5,
+    slnt: 0,
+  },
+  // https://shantellsans.com
+  "Shantell Sans Variable": {
+    INFM: 0,
+    BNCE: 0,
+    SPAC: 0,
+    ital: 0,
+  },
+} satisfies CustomTheme["fontAxes"];
 
 export default defineConfig({
   rules: [
-    ...fontRecursiveRules,
+    ...fontAxisRules,
     ["list-dash", { "list-style-type": "'- '" }],
   ],
   shortcuts: {
@@ -88,6 +58,13 @@ export default defineConfig({
       print:text-sky-700 print:decoration-current print:decoration-[0.07em]
     `,
   },
+  theme: {
+    fontFamily,
+    fontAxes,
+  },
+  extendTheme: [
+    preflightWithFontAxesProps,
+  ],
   transformers: [transformerDirectives()],
   presets: [
     presetUno(),
@@ -97,27 +74,6 @@ export default defineConfig({
         "height": "1.2em",
         "width": "1.2em",
         "vertical-align": "text-bottom",
-      },
-    }),
-    presetWebFonts({
-      provider: "none",
-      fonts: {
-        quicksand: [
-          "Quicksand Variable",
-          "ui-rounded",
-          "Quicksand",
-          "Manjari",
-          "sans-serif",
-        ],
-        recursive: [
-          "Recursive Variable",
-          "sans-serif",
-        ],
-        handwritten: [
-          "Shantell Sans Variable",
-          "casual",
-          "cursive",
-        ],
       },
     }),
   ],
