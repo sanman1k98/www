@@ -33,7 +33,7 @@ export const collections = {
     schema: photosSchema,
   }),
   exif: defineCollection({
-    loader: exifLoader({ pattern: "src/content/photos/*.png" }),
+    loader: exifLoader({ directory: "src/content/photos" }),
   }),
   repos: defineCollection({
     loader: githubReposLoader({ username: "sanman1k98" }),
