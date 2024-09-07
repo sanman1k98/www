@@ -1,18 +1,21 @@
 ---
-import { links } from "@/content";
-
 type Props = { class?: string };
 
-const pages = links.pages.map((page) => {
-  // Filter out pages that I don't want in the component
-  switch (page.text.toLowerCase()) {
-    case "resume": return null;
-  }
-  // Find out which page is the current one
-  const current = Astro.url.pathname === page.href
-    || (page.href !== "/" && Astro.url.pathname.startsWith(page.href));
-  return { "aria-current": current, ...page };
-});
+function isCurrent(href: string): "page" | false {
+  const { pathname } = Astro.url;
+  const current = (pathname === href)
+    || (href !== "/" && pathname.startsWith(href));
+  return current && "page";
+}
+
+const pages = Array.from(
+  [
+    { text: "Home", href: "/" },
+    { text: "Photos", href: "/photos" },
+    { text: "Contact", href: "/contact" },
+  ],
+  page => ({ ...page, "aria-current": isCurrent(page.href) }),
+);
 ---
 
 <style>
