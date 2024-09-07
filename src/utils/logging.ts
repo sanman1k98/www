@@ -24,7 +24,7 @@ inspect.defaultOptions = {
  * @see https://nodejs.org/docs/latest/api/util.html#utilformatformat-args
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
  */
-export function format(arg: string | unknown | TemplateStringsArray, ...exprs: any[]): string {
+export function format(arg: string | TemplateStringsArray, ...exprs: any[]): string {
   if (typeof arg === "string") {
     return _format(arg, ...exprs);
   } else if (
