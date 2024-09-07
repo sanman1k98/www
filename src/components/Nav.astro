@@ -19,37 +19,58 @@ const pages = Array.from(
 ---
 
 <style>
-li:last-child > a { padding-right: 0 }
-
-@media (hover: hover), (any-hover: hover) {
-  .group:hover li:not(:hover) { opacity: 0.65 }
-  .group:hover a:not(:hover) { opacity: 0.65 }
-  li:hover { opacity: 1 !important }
-  a:hover {
-    text-decoration-color: theme(colors.sky.400);
-    font-weight: 500;
-    opacity: 1 !important;
-    color: black;
+  a::after {
+    @apply absolute content-[''] bottom-2 inset-x-0 h-[2.5px] bg-transparent;
+    margin-inline-start: var(--line-ms);
+    width: var(--line-w);
   }
-}
+  a[aria-current=page]::after {
+    @apply bg-sky-600;
+    margin-inline-start: var(--line-ms-current);
+    width: var(--line-w-current);
+  }
+
+  @media (hover: hover), (any-hover: hover) {
+    li {
+      @apply transition-opacity duration-500 ease-out hover:duration-300 group-hover:opacity-75 group-hover:hover:opacity-100;
+    }
+    a {
+      @apply transition duration-500 ease-out hover:duration-200 hover:font-semibold group-hover:opacity-75 group-hover:hover:opacity-100;
+    }
+    a::after {
+      @apply transition-all ease-in duration-100 w-1/5;
+    }
+    a[aria-current=page]::after {
+      @apply bg-sky-600;
+      margin-inline-start: var(--line-ms-current);
+      width: var(--line-w-current);
+    }
+    a:hover::after {
+      @apply bg-sky-400 ease-out;
+      margin-inline-start: var(--line-ms);
+      width: var(--line-w);
+    }
+  }
 </style>
 
-<nav
-  class="text-sky-950 font-normal font-rec"
-  class:list={[Astro.props.class]}
->
+<nav class="text-sky-950 font-rec" class:list={[Astro.props.class]}>
   <ul class="group w-max flex divide-x-1">
     {
       pages.map((link) => {
-        if (!link)
-          return null;
         const { text, ...attrs } = link;
         return (
-          <li class="transition duration-900">
+          <li class="">
             <a
               {...attrs}
-              class="px-3 py-3 underline underline-2.5 underline-offset-5 transition duration-200"
-              class:list={link["aria-current"] ? "font-medium decoration-sky-600" : "decoration-transparent"}
+              style={{
+                "--p": "0.75rem",
+                "--line-ms": "0.5rem",
+                "--line-w": "calc(100% - calc(2 * var(--line-ms)))",
+                "--line-ms-current": "var(--p)",
+                "--line-w-current": "calc(100% - calc(2 * var(--line-ms-current)))",
+                "padding": "var(--p)",
+              }}
+              class="relative aria-[current=page]:font-medium"
             >
               {text}
             </a>
