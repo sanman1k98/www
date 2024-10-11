@@ -3,17 +3,17 @@
 /**
  * @file A content loader to get get EXIF metadata from local images.
  */
+import type { ImageInputFormat } from "astro";
+import type { Loader } from "astro/loaders";
+import type { Exif, GenericTag } from "exif-reader";
 import type { Buffer } from "node:buffer";
 import { glob } from "node:fs/promises";
 import { relative, resolve } from "node:path/posix";
 import { fileURLToPath } from "node:url";
-import type { Loader } from "astro/loaders";
-import type { ImageInputFormat } from "astro";
-import type { Exif, GenericTag } from "exif-reader";
+import { styles as c } from "@/utils/logging";
+import { z } from "astro/zod";
 import exifReader from "exif-reader";
 import sharp from "sharp";
-import { z } from "astro/zod";
-import { styles as c } from "@/utils/logging";
 
 const SUPPORTED_EXTENSIONS = ["jpg", "png", "gif", "jpeg", "tiff", "webp", "avif"] as const satisfies ImageInputFormat[];
 const DEFAULT_PATTERN = `**/*.{${SUPPORTED_EXTENSIONS.join()}}`;

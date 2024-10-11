@@ -2,11 +2,11 @@
  * @file A content loader to get data about a user's repositories. Intended to be referenced by
  * entries in the "cv" collection.
  */
-import type { Loader } from "astro/loaders";
 import type { Endpoints } from "@octokit/types";
+import type { Loader } from "astro/loaders";
+import { styles as c, format as fmt } from "@/utils/logging";
 import { endpoint } from "@octokit/endpoint";
 import { z } from "astro/zod";
-import { styles as c, format as fmt } from "@/utils/logging";
 
 const endpointPath = "GET /users/{username}/repos" satisfies keyof Endpoints;
 type Endpoint = Endpoints[typeof endpointPath];

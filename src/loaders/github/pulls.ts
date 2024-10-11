@@ -1,8 +1,8 @@
-import type { Loader } from "astro/loaders";
 import type { Endpoints } from "@octokit/types";
+import type { Loader } from "astro/loaders";
+import { styles as c, format as fmt } from "@/utils/logging";
 import { endpoint } from "@octokit/endpoint";
 import { z } from "astro/zod";
-import { styles as c, format as fmt } from "@/utils/logging";
 
 const endpointPath = "GET /search/issues" satisfies keyof Endpoints;
 type Endpoint = Endpoints[typeof endpointPath];

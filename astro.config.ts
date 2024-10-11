@@ -1,5 +1,5 @@
-import { type AstroUserConfig, defineConfig, envField, sharpImageService } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import { type AstroUserConfig, defineConfig, envField, sharpImageService } from "astro/config";
 import icon from "astro-icon";
 import UnoCSS from "unocss/astro";
 
