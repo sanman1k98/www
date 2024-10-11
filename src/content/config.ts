@@ -28,7 +28,10 @@ export const collections = {
     schema: cvSchema,
   }),
   info: defineCollection({
-    type: "data",
+    loader: glob({
+      base: "src/data",
+      pattern: "[^_]*.yaml",
+    }),
     schema: infoSchema,
   }),
   photos: defineCollection({

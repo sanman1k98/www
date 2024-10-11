@@ -86,7 +86,7 @@ export const links = Object.fromEntries(
  * the "text" value of each item.
  */
 export const socials = Object.fromEntries(
-  links.socials.map(link => [link.text.toLowerCase(), link]),
+  links.socials!.map(link => [link.text.toLowerCase(), link]),
 );
 
 /** A list of photos with alt text and transformed metadata. */
