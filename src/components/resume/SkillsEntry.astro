@@ -1,11 +1,12 @@
 ---
-import type { ComponentProps } from "astro/types";
-import Entry from "./BaseEntry.astro";
 import type { CvEntry } from "@/content";
+import type { ComponentProps } from "astro/types";
+import { render } from "astro:content";
+import Entry from "./BaseEntry.astro";
 
 type Props = ComponentProps<typeof Entry> & { entry: CvEntry<"skills"> };
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 ---
 
 <style>

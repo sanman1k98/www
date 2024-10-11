@@ -1,19 +1,20 @@
 ---
-import recursiveFont from "@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2?url";
-import { BUILD } from "astro:env/server";
 import {
   BaseEntry as Entry,
   Header,
   BaseSection as Section,
   SkillsEntry,
 } from "@/components/resume";
-import BaseLayout from "@/layouts/BaseLayout.astro";
 import {
   compareChronologicalEntries as compareDates,
   compareOrderedEntries,
   cvEntries,
   createCvEntryTypeGuard as isType,
 } from "@/content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import recursiveFont from "@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2?url";
+import { render } from "astro:content";
+import { BUILD } from "astro:env/server";
 
 const summary = cvEntries.find(({ slug }) => slug === "summary")!;
 
@@ -34,7 +35,7 @@ const skills = cvEntries
   .sort(compareOrderedEntries);
 
 const { Content: Summary } = BUILD === "resume"
-  ? await summary.render()
+  ? await render(summary)
   : { Content: null };
 ---
 
