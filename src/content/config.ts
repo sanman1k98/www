@@ -35,11 +35,14 @@ export const collections = {
     schema: infoSchema,
   }),
   photos: defineCollection({
-    type: "data",
+    loader: glob({
+      base: "src/photos",
+      pattern: "[^_]*.yaml",
+    }),
     schema: photosSchema,
   }),
   exif: defineCollection({
-    loader: exifLoader({ directory: "src/content/photos" }),
+    loader: exifLoader({ directory: "src/photos" }),
   }),
   repos: defineCollection({
     loader: githubReposLoader({ username: "sanman1k98" }),

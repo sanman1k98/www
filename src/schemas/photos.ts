@@ -4,7 +4,7 @@ import { type SchemaContext, z } from "astro:content";
 import sharp from "sharp";
 import exifReader, { type Exif, type GenericTag } from "exif-reader";
 
-const PHOTOS_COLLECTION_DIR = new URL("../content/photos/", import.meta.url);
+const PHOTOS_COLLECTION_DIR = new URL("../photos/", import.meta.url);
 
 // I think these "groups" are actually called *Image File Directories*
 // see: https://stackoverflow.com/questions/1821515/how-is-exif-info-encoded#14115795
