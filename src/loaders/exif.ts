@@ -86,15 +86,15 @@ export function exifLoader(opts: ExifLoaderOptions): Loader {
 
       return ExifTagsSchema;
     },
-    load: async ({ logger, settings, parseData, store, generateDigest, collection }) => {
-      const baseUrl = new URL(opts.directory, settings.config.root);
+    load: async ({ logger, config, parseData, store, generateDigest, collection }) => {
+      const baseUrl = new URL(opts.directory, config.root);
       const { pattern = DEFAULT_PATTERN } = opts;
 
       if (!baseUrl.pathname.endsWith("/"))
         baseUrl.pathname += "/";
 
       const base = fileURLToPath(baseUrl);
-      const siteRoot = fileURLToPath(settings.config.root);
+      const siteRoot = fileURLToPath(config.root);
       const relFromBase = (path: string): string => relative(base, path);
       const relFromSiteRoot = (path: string) => relative(siteRoot, path);
 
