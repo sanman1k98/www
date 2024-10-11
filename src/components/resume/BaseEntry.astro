@@ -59,11 +59,7 @@ const { Content } = entry
 
   {
     (Astro.slots.has("default") || Content) && (
-      <div
-        class:list={[
-          Content && "[&_strong]:text-slate-700 [&_strong]:font-600 ml-5 text-slate-600 leading-tight [&_li]:mb-1.5 [&_ul]:list-dash [&_li]:marker:text-slate-400",
-        ]}
-      >
+      <div class="ml-5 text-slate-600 leading-tight [&_li]:mb-1.5 [&_strong]:text-slate-700 [&_strong]:font-600 [&_ul]:list-dash [&_li]:marker:text-slate-400">
         <slot>{Content && <Content />}</slot>
       </div>
     )
