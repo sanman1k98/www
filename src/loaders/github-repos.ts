@@ -64,6 +64,7 @@ export function githubReposLoader(opts: GitHubReposLoaderOptions): Loader {
 
       // 2. Fetch.
       logger.info(`Fetching list of repositories for ${c.blue(username)}`);
+      // eslint-disable-next-line unicorn/new-for-builtins
       const now = Date();
       const { url, ...init } = endpoint(endpointPath, {
         headers: { "if-none-match": meta.get("etag") },

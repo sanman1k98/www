@@ -57,6 +57,7 @@ export function githubPullsLoader(opts: GitHubPullsLoaderOptions): Loader {
 
       // 2. Fetch.
       logger.info(`Fetching pull requests for ${c.blue(username)}`);
+      // eslint-disable-next-line unicorn/new-for-builtins
       const now = Date();
       const { url, ...init } = endpoint(endpointPath, {
         q: `is:pull-request+author:${username}`,

@@ -1,7 +1,6 @@
-import { type SchemaContext, defineCollection, z } from "astro:content";
+import { exifLoader, githubPullsLoader, githubReposLoader } from "@/loaders";
 import { cv, info, photos } from "@/schemas";
-import { githubPullsLoader, githubReposLoader } from "@/loaders/github";
-import { exifLoader } from "@/loaders/exif";
+import { defineCollection, type SchemaContext, z } from "astro:content";
 
 export const cvSchema = z.union([
   cv.certification,
