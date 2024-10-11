@@ -1,13 +1,13 @@
+import type { CustomTheme } from "configs/unocss/types";
+import { fontAxisRules } from "configs/unocss/rules/font-axis";
+import { preflightWithFontAxesProps } from "configs/unocss/theme/extenders";
+import { variantMouse } from "configs/unocss/variants/misc";
 import {
   defineConfig,
   presetIcons,
   presetUno,
   transformerDirectives,
 } from "unocss";
-import type { CustomTheme } from "configs/unocss/types";
-import { fontAxisRules } from "configs/unocss/rules/font-axis";
-import { variantMouse } from "configs/unocss/variants/misc";
-import { preflightWithFontAxesProps } from "configs/unocss/theme/extenders";
 
 const fontFamily = {
   quicksand: [
