@@ -20,14 +20,14 @@ const {
 } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <Meta {...meta} />
-    <meta name="theme-color" content={themeColor} />
-    <slot name="head" />
-  </head>
-  <body class={className} {style}>
-    <slot />
-  </body>
+	<head>
+		<Meta {...meta} />
+		<meta name="theme-color" content={themeColor} />
+		<slot name="head" />
+	</head>
+	<body class={className} {style}>
+		<slot />
+	</body>
 </html>

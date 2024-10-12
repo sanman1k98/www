@@ -32,10 +32,12 @@ const description = descString ?? 'Sandeep Dilip\'s personal website';
 ---
 
 <style is:global>
-  body { background-color: white }
-  .safe-area-padding {
-    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
-  }
+	body {
+		background-color: white;
+	}
+	.safe-area-padding {
+		padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+	}
 </style>
 
 <BaseLayout
@@ -44,24 +46,25 @@ const description = descString ?? 'Sandeep Dilip\'s personal website';
 	theme-color={themeColor}
 	class="relative min-h-screen flex flex-col"
 >
-  {/* A noise pattern background to fill the whole page. */}
-  <Perlin class="absolute inset-0 -z-50">
-    {/* A gradient on top of the noise. */}
-    <div class="absolute inset-0 from-sky-50/85 via-sky-100/60 from-50% via-90% bg-gradient-to-b"></div>
-  </Perlin>
+	{/* A noise pattern background to fill the whole page. */}
+	<Perlin class="absolute inset-0 -z-50">
+		{/* A gradient on top of the noise. */}
+		<div class="absolute inset-0 from-sky-50/85 via-sky-100/60 from-50% via-90% bg-gradient-to-b">
+		</div>
+	</Perlin>
 
-  {/* Site logo and navigation components. */}
-  <Banner fixed={fixedBanner} class="pb-1" />
+	{/* Site logo and navigation components. */}
+	<Banner fixed={fixedBanner} class="pb-1" />
 
-  {/* Slot for main content. */}
-  <main
-	style={Astro.props.style}
-	class="grow text-sky-950"
-	class:list={[Astro.props.class, safeAreaPadding && 'safe-area-padding']}
-  >
-    <slot />
-  </main>
+	{/* Slot for main content. */}
+	<main
+		style={Astro.props.style}
+		class="grow text-sky-950"
+		class:list={[Astro.props.class, safeAreaPadding && "safe-area-padding"]}
+	>
+		<slot />
+	</main>
 
-  {/* Other links and copyright information. */}
-  <Footer class="w-full from-transparent to-white to-50% bg-gradient-to-b pb-18 pt-48" />
+	{/* Other links and copyright information. */}
+	<Footer class="w-full from-transparent to-white to-50% bg-gradient-to-b pb-18 pt-48" />
 </BaseLayout>

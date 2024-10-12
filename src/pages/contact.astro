@@ -9,26 +9,26 @@ import { Icon } from 'astro-icon/components';
 	description="Sandeep Dilip's links to social media and contact information"
 	class="flex flex-col place-items-center"
 >
-  <address
-	style={{
-      paddingTop: 'min(20svh, 256px)',
-      paddingBottom: 'min(40vmin, 256px)',
-    }}
-  >
-    <ul>
-      {
-        links.socials.map(({ text, icon, ...attrs }) => (
-          <li class="mb-4">
-            <a
-	{...attrs}
-	class="flex items-center text-7xl text-sky-950 font-450 tracking-tighter font-quicksand not-italic transition duration-200 md:text-8xl hover:text-sky-500"
-            >
-              {icon && <Icon name={icon} class="size-[1.2em]" />}
-              <span class="lt-sm:hidden">{text}</span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </address>
+	<address
+		style={{
+			paddingTop: "min(20svh, 256px)",
+			paddingBottom: "min(40vmin, 256px)",
+		}}
+	>
+		<ul>
+			{
+				links.socials.map(({ text, icon, ...attrs }) => (
+					<li class="mb-4">
+						<a
+							{...attrs}
+							class="flex items-center text-7xl text-sky-950 font-450 tracking-tighter font-quicksand not-italic transition duration-200 md:text-8xl hover:text-sky-500"
+						>
+							{icon && <Icon name={icon} class="size-[1.2em]" />}
+							<span class="lt-sm:hidden">{text}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</address>
 </Page>

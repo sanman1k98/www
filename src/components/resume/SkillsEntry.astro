@@ -10,20 +10,20 @@ const { Content } = await render(entry);
 ---
 
 <style>
-  div > :global(ul) {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+	div > :global(ul) {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
 
-  div > :global(ul > li) {
-    padding-inline: 0.5rem;
-    background: theme("colors.slate.100");
-  }
+	div > :global(ul > li) {
+		padding-inline: 0.5rem;
+		background: theme("colors.slate.100");
+	}
 </style>
 
 <Entry class={Astro.props.class} heading={entry.data.skills}>
-  <div class="pl-3 font-medium axis-casl-1 axis-crsv-1 axis-mono-0.5">
-    <Content />
-  </div>
+	<div class="pl-3 font-medium axis-casl-1 axis-crsv-1 axis-mono-0.5">
+		<Content />
+	</div>
 </Entry>

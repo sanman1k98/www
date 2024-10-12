@@ -16,42 +16,42 @@ const id = slugger.slug(heading);
 ---
 
 <style>
-  h2 {
-    break-after: avoid;
-  }
+	h2 {
+		break-after: avoid;
+	}
 
-  section:has(div > article:only-child) {
-    break-inside: avoid;
-  }
+	section:has(div > article:only-child) {
+		break-inside: avoid;
+	}
 </style>
 
 <section
 	{id}
-	style={{ backgroundSize: '100% 200%', transitionProperty: 'background-position' }}
+	style={{ backgroundSize: "100% 200%", transitionProperty: "background-position" }}
 	class="group/section scroll-mt-6 from-slate-50 to-transparent from-50% to-50% bg-gradient-to-b bg-bottom px-2 pb-4 pt-2 duration-100 ease-out print:bg-none target:bg-top sm:ps-7 target:duration-200 target:delay-200 sm:-me-3 sm:-ms-4"
 	class:list={[Astro.props.class]}
 >
-  <h2
-	class="mb-4 flex gap-x-2 whitespace-nowrap text-xs font-bold uppercase axis-mono-1"
-  >
-    <a href={'#'.concat(id)} class="group peer">
-      <span
-	aria-hidden="true"
-	class="peer hidden select-none text-slate-200 transition duration-200 -ms-5 sm:inline group-hover:text-slate-300 group-target/section:text-slate-500!"
-      >##</span>
-      <span
-	class="text-slate-500 tracking-[0.2em] transition duration-300 group-hover:text-slate-800 group-hover:delay-50 group-target/section:text-sky-700!"
-      >{heading}</span>
-    </a>
-    <span
-	class="h-0.5 w-full self-center bg-slate-200 transition duration-300 ease-out peer-hover:bg-slate-400 peer-hover:delay-100 peer-hover:ease-in group-target/section:bg-slate-500!"
-    ></span>
-  </h2>
-  <div
-	class:list={[
-      grid && 'md:all:m-0! gap-5 auto-rows-min grid-flow-row grid-cols-2 md:grid print:grid',
-    ]}
-  >
-    <slot />
-  </div>
+	<h2 class="mb-4 flex gap-x-2 whitespace-nowrap text-xs font-bold uppercase axis-mono-1">
+		<a href={"#".concat(id)} class="group peer">
+			<span
+				aria-hidden="true"
+				class="peer hidden select-none text-slate-200 transition duration-200 -ms-5 sm:inline group-hover:text-slate-300 group-target/section:text-slate-500!"
+				>##</span
+			>
+			<span
+				class="text-slate-500 tracking-[0.2em] transition duration-300 group-hover:text-slate-800 group-hover:delay-50 group-target/section:text-sky-700!"
+				>{heading}</span
+			>
+		</a>
+		<span
+			class="h-0.5 w-full self-center bg-slate-200 transition duration-300 ease-out peer-hover:bg-slate-400 peer-hover:delay-100 peer-hover:ease-in group-target/section:bg-slate-500!"
+		></span>
+	</h2>
+	<div
+		class:list={[
+			grid && "md:all:m-0! gap-5 auto-rows-min grid-flow-row grid-cols-2 md:grid print:grid",
+		]}
+	>
+		<slot />
+	</div>
 </section>

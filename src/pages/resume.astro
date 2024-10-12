@@ -40,15 +40,18 @@ const { Content: Summary } = BUILD === 'resume'
 ---
 
 <style is:global>
-  :root { background-color: white; scroll-behavior: smooth }
+	:root {
+		background-color: white;
+		scroll-behavior: smooth;
+	}
 
-  @media print {
-    :root {
-      background-color: inherit;
-      font-size: 10.5px;
-      print-color-adjust: exact;
-    }
-  }
+	@media print {
+		:root {
+			background-color: inherit;
+			font-size: 10.5px;
+			print-color-adjust: exact;
+		}
+	}
 </style>
 
 <BaseLayout
@@ -56,109 +59,107 @@ const { Content: Summary } = BUILD === 'resume'
 	description="Sandeep Dilip's professional experience, open source projects, contact links, and other information."
 	class="mx-auto max-w-prose px-2 font-rec lg:max-w-3xl md:max-w-2xl sm:px-0 print:max-w-5xl! print:px-0!"
 >
-  <Fragment slot="head">
-    <link rel="preload" as="font" type="font/woff2" href={recursiveFont} crossorigin />
-  </Fragment>
+	<Fragment slot="head">
+		<link rel="preload" as="font" type="font/woff2" href={recursiveFont} crossorigin />
+	</Fragment>
 
-  <Header class="mb-12 mt-6 px-2 sm:mt-8 sm:px-3.5 print:my-8!" />
+	<Header class="mb-12 mt-6 px-2 sm:mt-8 sm:px-3.5 print:my-8!" />
 
-  <main class="text-sm text-slate-700 sm:text-base">
-    {Summary && (
-      <Section heading="Summary">
-        <div class="m-5 mb-0 border-l-3 border-slate-200 pl-3 text-balance font-375 leading-tight">
-          <Summary />
-        </div>
-      </Section>
-    )}
+	<main class="text-sm text-slate-700 sm:text-base">
+		{
+			Summary && (
+				<Section heading="Summary">
+					<div class="m-5 mb-0 border-l-3 border-slate-200 pl-3 text-balance font-375 leading-tight">
+						<Summary />
+					</div>
+				</Section>
+			)
+		}
 
-    <Section heading="Experience">
-      {
-        experience
-          .filter(({ data }) => data.experience === 'work')
-          .map((exp) => (
-            <Entry
-	heading={exp.data.title}
-	subheading={exp.data.organization.name}
-	time={[exp.data.start, exp.data.end]}
-	entry={exp}
-            />
-          ))
-      }
-    </Section>
+		<Section heading="Experience">
+			{
+				experience
+					.filter(({ data }) => data.experience === "work")
+					.map((exp) => (
+						<Entry
+							heading={exp.data.title}
+							subheading={exp.data.organization.name}
+							time={[exp.data.start, exp.data.end]}
+							entry={exp}
+						/>
+					))
+			}
+		</Section>
 
-    <Section heading="Certification">
-      {
-        certifications.map(({ data: cert }) => (
-          <Entry
-	link={cert.link}
-	heading={cert.certification}
-	subheading={cert.organization.name}
-	time={cert.start}
-          />
-        ))
-      }
-    </Section>
+		<Section heading="Certification">
+			{
+				certifications.map(({ data: cert }) => (
+					<Entry
+						link={cert.link}
+						heading={cert.certification}
+						subheading={cert.organization.name}
+						time={cert.start}
+					/>
+				))
+			}
+		</Section>
 
-    <Section grid heading="Volunteering">
-      {
-        experience
-          .filter(({ data }) => data.experience === 'volunteering')
-          .map((exp) => (
-            <Entry
-	heading={exp.data.title}
-	subheading={exp.data.organization.name}
-	time={[exp.data.start, exp.data.end]}
-            />
-          ))
-      }
-    </Section>
+		<Section grid heading="Volunteering">
+			{
+				experience
+					.filter(({ data }) => data.experience === "volunteering")
+					.map((exp) => (
+						<Entry
+							heading={exp.data.title}
+							subheading={exp.data.organization.name}
+							time={[exp.data.start, exp.data.end]}
+						/>
+					))
+			}
+		</Section>
 
-    <Section heading="Education">
-      {
-        education.map(({ data: edu }) => (
-          <Entry
-	heading={`${edu.degree} ${edu.major}`}
-	subheading={edu.school.name}
-	time={[edu.start, edu.end]}
-          />
-        ))
-      }
-    </Section>
+		<Section heading="Education">
+			{
+				education.map(({ data: edu }) => (
+					<Entry
+						heading={`${edu.degree} ${edu.major}`}
+						subheading={edu.school.name}
+						time={[edu.start, edu.end]}
+					/>
+				))
+			}
+		</Section>
 
-    <Section heading="Internships">
-      {
-        experience
-          .filter(({ data }) => data.experience === 'internship')
-          .map((exp) => (
-            <Entry
-	heading={exp.data.title}
-	subheading={exp.data.organization.name}
-	time={[exp.data.start, exp.data.end]}
-            />
-          ))
-      }
-    </Section>
+		<Section heading="Internships">
+			{
+				experience
+					.filter(({ data }) => data.experience === "internship")
+					.map((exp) => (
+						<Entry
+							heading={exp.data.title}
+							subheading={exp.data.organization.name}
+							time={[exp.data.start, exp.data.end]}
+						/>
+					))
+			}
+		</Section>
 
-    <Section grid heading="Open source">
-      {
-        projects.map((proj) => (
-          <Entry
-	link={proj.data.link}
-	heading={proj.data.title!}
-	subheading={proj.data.description!}
-          />
-        ))
-      }
-    </Section>
+		<Section grid heading="Open source">
+			{
+				projects.map((proj) => (
+					<Entry
+						link={proj.data.link}
+						heading={proj.data.title!}
+						subheading={proj.data.description!}
+					/>
+				))
+			}
+		</Section>
 
-    <Section grid heading="Skills">
-      {
-        skills.map((entry) => (
-          <SkillsEntry {entry} />
-        ))
-      }
-    </Section>
-  </main>
+		<Section grid heading="Skills">
+			{skills.map((entry) => <SkillsEntry {entry} />)}
+		</Section>
+	</main>
 
-  <div class="h-[20vh] print:hidden"></div>
+	<div class="h-[20vh] print:hidden"></div>
 </BaseLayout>

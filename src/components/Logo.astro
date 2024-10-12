@@ -5,20 +5,25 @@ type Props = HTMLAttributes<'a'>;
 ---
 
 <style>
-  span {
-    transition-duration: 200ms;
-    display: inline-block;
-    color: transparent;
-    background-clip: text;
-  }
+	span {
+		transition-duration: 200ms;
+		display: inline-block;
+		color: transparent;
+		background-clip: text;
+	}
 
-  @media (hover: hover), (any-hover: hover) {
-    a:hover { filter: brightness(1.25) }
-    span:hover { color: rgb(255 255 255 / 0.45) }
-    span:hover+*, span:has(+:hover) {
-      color: rgb(255 255 255 / 0.25);
-    }
-  }
+	@media (hover: hover), (any-hover: hover) {
+		a:hover {
+			filter: brightness(1.25);
+		}
+		span:hover {
+			color: rgb(255 255 255 / 0.45);
+		}
+		span:hover + *,
+		span:has(+ :hover) {
+			color: rgb(255 255 255 / 0.25);
+		}
+	}
 </style>
 
 <a
@@ -28,15 +33,11 @@ type Props = HTMLAttributes<'a'>;
 	class:list={[Astro.props.class]}
 	class="inline-block from-sky-600 to-pink-500 from-30% to-70% bg-gradient-to-r bg-clip-text pr-1 text-nowrap font-600 font-quicksand transition duration-600"
 >
-  {
-    [
-      // Only show the first letters of each word
-      Array.from('nice', (char, i) => (
-        <span class:list={[i && 'hidden!']}>{char}</span>
-      )),
-      Array.from('sandeep', (char, i) => (
-        <span class:list={[i && 'hidden!']}>{char}</span>
-      )),
-    ]
-  }
+	{
+		[
+			// Only show the first letters of each word
+			Array.from("nice", (char, i) => <span class:list={[i && "hidden!"]}>{char}</span>),
+			Array.from("sandeep", (char, i) => <span class:list={[i && "hidden!"]}>{char}</span>),
+		]
+	}
 </a>

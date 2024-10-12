@@ -10,28 +10,35 @@ type Props = HTMLAttributes<'header'> & {
 
 const { fixed = false } = Astro.props;
 ---
-<style>
-  :global(#banner-logo) {
-    font-size: clamp(2.25rem, 4vmin, 3rem);
-    letter-spacing: -0.06em;
-  }
 
-  /* Show all the letters on larger displays. */
-  @media (min-width: 512px) {
-    :global(#banner-logo > span) {
-      display: inline-block !important
-    }
-  }
+<style>
+	:global(#banner-logo) {
+		font-size: clamp(2.25rem, 4vmin, 3rem);
+		letter-spacing: -0.06em;
+	}
+
+	/* Show all the letters on larger displays. */
+	@media (min-width: 512px) {
+		:global(#banner-logo > span) {
+			display: inline-block !important;
+		}
+	}
 </style>
 
 <header
 	style={Astro.props.style}
 	class="relative top-0 z-50 pt-4"
-	class:list={[Astro.props.class, fixed ? 'fixed inset-x-0' : 'sticky']}
+	class:list={[Astro.props.class, fixed ? "fixed inset-x-0" : "sticky"]}
 >
-  <div class="absolute inset-0 bg-white/25 backdrop-blur-sm lg:hidden md:opacity-75" style={{ mask: 'linear-gradient(black, black, transparent)' }}></div>
-  <div class="mx-auto w-min flex place-items-center gap-x-12 rounded-full bg-white/85 px-6 shadow-sky-900/10 shadow-xl backdrop-blur-md">
-    <Logo id="banner-logo" class="mb-1" />
-    <Nav class="text-sm sm:text-base" />
-  </div>
+	<div
+		class="absolute inset-0 bg-white/25 backdrop-blur-sm lg:hidden md:opacity-75"
+		style={{ mask: "linear-gradient(black, black, transparent)" }}
+	>
+	</div>
+	<div
+		class="mx-auto w-min flex place-items-center gap-x-12 rounded-full bg-white/85 px-6 shadow-sky-900/10 shadow-xl backdrop-blur-md"
+	>
+		<Logo id="banner-logo" class="mb-1" />
+		<Nav class="text-sm sm:text-base" />
+	</div>
 </header>

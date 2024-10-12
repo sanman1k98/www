@@ -4,20 +4,18 @@ type Props = { class?: string };
 
 {/* Adds a background to a parent element with `position:relative;`. */}
 <div aria-hidden="true" class:list={[Astro.props.class]}>
+	{/* NOTE: Firefox cannot apply CSS filters using `<svg>` elements with `display: none;` */}
+	<svg class="invisible h-0 w-0">
+		<defs>
+			<filter id="noise">
+				<feTurbulence baseFrequency="0.001 0.01"></feTurbulence>
+			</filter>
+		</defs>
+	</svg>
 
-  {/* NOTE: Firefox cannot apply CSS filters using `<svg>` elements with `display: none;` */}
-  <svg class="invisible h-0 w-0">
-    <defs>
-      <filter id="noise">
-        <feTurbulence baseFrequency="0.001 0.01" />
-      </filter>
-    </defs>
-  </svg>
+	{/* A simple Perlin noise pattern using the SVG filter above. */}
+	<div class="absolute inset-0" style="filter:url(#noise)"></div>
 
-  {/* A simple Perlin noise pattern using the SVG filter above. */}
-  <div class="absolute inset-0" style="filter:url(#noise)"></div>
-
-  {/* Add additional patterns here. */}
-  <slot />
-
+	{/* Add additional patterns here. */}
+	<slot />
 </div>

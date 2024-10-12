@@ -28,73 +28,79 @@ const datetime = exif.Photo.DateTimeOriginal!;
 	class="mx-auto flex flex-col content-center items-center justify-center gap-x-[2vw] bg-black pb-18 text-xs font-rec axis-casl-0.3 axis-crsv-1 axis-mono-0.69 md:min-h-[90svh] md:flex-row md:flex-wrap md:pb-0 sm:text-sm"
 	safe-area-padding={false}
 >
-  <Fragment slot="head">
-    <link rel="preload" as="font" type="font/woff2" href={recursiveFont} crossorigin />
-  </Fragment>
+	<Fragment slot="head">
+		<link rel="preload" as="font" type="font/woff2" href={recursiveFont} crossorigin />
+	</Fragment>
 
-  <main class="contents">
-    <figure class="contents">
-      <Image
-	id="photo"
-	class="object-contain max-h-svh"
-	src={file}
-	alt={alt}
-	loading="eager"
-	quality="max"
-	fetchpriority="high"
-      />
+	<main class="contents">
+		<figure class="contents">
+			<Image
+				id="photo"
+				class="object-contain max-h-svh"
+				src={file}
+				{alt}
+				loading="eager"
+				quality="max"
+				fetchpriority="high"
+			/>
 
-    <figcaption
-	class="my-8 max-h-min max-w-prose px-2"
-    >
-        <p
-	class="font-rec-casual text-slate-300 font-medium leading-tight"
-        >
-          <time class="flex justify-between gap-x-8" datetime={datetime.toString()}>
-            <span>{datetime.toLocaleDateString('en-US', { timeZone: 'UTC', dateStyle: 'medium' })}</span>
-            <span>{datetime.toLocaleTimeString('en-US', { timeZone: 'UTC', timeStyle: 'short' })}</span>
-          </time>
-        </p>
-        <ul class="my-6 flex justify-between gap-x-8 text-slate-400 font-medium tracking-tight">
-          {
-            settings.map((item) => (
-              <li>{item}</li>
-            ))
-          }
-        </ul>
-        <p class="flex justify-center gap-x-8 text-slate-400 font-normal">
-          <span>{camera}</span>
-          <span>{lens}</span>
-        </p>
-      </figcaption>
-    </figure>
-  </main>
-  <footer>
-    <nav
-	class="fixed inset-x-0 bottom-0 w-full flex justify-center bg-black/50 text-slate-200 font-semibold backdrop-blur-sm md:justify-end md:bg-transparent md:backdrop-blur-none"
-	style={{ mask: 'linear-gradient(to top, black, black, transparent)' }}
-    >
-      <ul
-	class="max-w-min flex items-center gap-x-8 px-24 py-12 md:bg-black/50 md:backdrop-blur-sm"
-	style={{ mask: 'radial-gradient(ellipse, black 40%, transparent 70%)' }}
-      >
-        <li class="link"><a href="/photos">All</a></li>
-        {
-          page.url.prev ? (
-            <li class="link"><a href={page.url.prev}>Prev</a></li>
-          ) : (
-            <li aria-hidden="true" class="text-slate-600">Prev</li>
-          )
-        }
-        {
-          page.url.next ? (
-            <li class="link"><a href={page.url.next}>Next</a></li>
-          ) : (
-            <li aria-hidden="true" class="text-slate-600">Next</li>
-          )
-        }
-        <li class="text-slate-400 no-underline">{page.currentPage}/{page.lastPage}</li>
-      </ul>
-    </nav>
-  </footer>
+			<figcaption class="my-8 max-h-min max-w-prose px-2">
+				<p class="font-rec-casual text-slate-300 font-medium leading-tight">
+					<time class="flex justify-between gap-x-8" datetime={datetime.toString()}>
+						<span
+							>{
+								datetime.toLocaleDateString("en-US", { timeZone: "UTC", dateStyle: "medium" })
+							}</span
+						>
+						<span
+							>{datetime.toLocaleTimeString("en-US", { timeZone: "UTC", timeStyle: "short" })}</span
+						>
+					</time>
+				</p>
+				<ul class="my-6 flex justify-between gap-x-8 text-slate-400 font-medium tracking-tight">
+					{settings.map((item) => <li>{item}</li>)}
+				</ul>
+				<p class="flex justify-center gap-x-8 text-slate-400 font-normal">
+					<span>{camera}</span>
+					<span>{lens}</span>
+				</p>
+			</figcaption>
+		</figure>
+	</main>
+	<footer>
+		<nav
+			class="fixed inset-x-0 bottom-0 w-full flex justify-center bg-black/50 text-slate-200 font-semibold backdrop-blur-sm md:justify-end md:bg-transparent md:backdrop-blur-none"
+			style={{ mask: "linear-gradient(to top, black, black, transparent)" }}
+		>
+			<ul
+				class="max-w-min flex items-center gap-x-8 px-24 py-12 md:bg-black/50 md:backdrop-blur-sm"
+				style={{ mask: "radial-gradient(ellipse, black 40%, transparent 70%)" }}
+			>
+				<li class="link"><a href="/photos">All</a></li>
+				{
+					page.url.prev ? (
+						<li class="link">
+							<a href={page.url.prev}>Prev</a>
+						</li>
+					) : (
+						<li aria-hidden="true" class="text-slate-600">
+							Prev
+						</li>
+					)
+				}
+				{
+					page.url.next ? (
+						<li class="link">
+							<a href={page.url.next}>Next</a>
+						</li>
+					) : (
+						<li aria-hidden="true" class="text-slate-600">
+							Next
+						</li>
+					)
+				}
+				<li class="text-slate-400 no-underline">{page.currentPage}/{page.lastPage}</li>
+			</ul>
+		</nav>
+	</footer>
 </Layout>

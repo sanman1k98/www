@@ -1,13 +1,12 @@
 links:
-
   - text: GitHub
-    icon: 'ph:github-logo-duotone'
+    icon: "ph:github-logo-duotone"
     href: https://github.com/sanman1k98
     target: _blank
     rel: noreferrer noopener
 
   - text: LinkedIn
-    icon: 'ph:linkedin-logo-duotone'
+    icon: "ph:linkedin-logo-duotone"
     href: https://www.linkedin.com/in/sandeepdilip/
     target: _blank
     rel: noreferrer noopener
