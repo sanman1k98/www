@@ -1,25 +1,25 @@
 ---
-import Page from "@/layouts/MainLayout.astro";
+import Page from '@/layouts/MainLayout.astro';
 ---
 
 <Page
-  title="Page not found"
-  class="flex flex-col place-items-center"
+	title="Page not found"
+	class="flex flex-col place-items-center"
 >
   <section
-    class="flex flex-col place-content-center font-recursive"
-    style={{
-      paddingTop: "min(20svh, 256px)",
-      paddingBottom: "min(40vmin, 256px)",
+	class="font-recursive flex flex-col place-content-center"
+	style={{
+      paddingTop: 'min(20svh, 256px)',
+      paddingBottom: 'min(40vmin, 256px)',
     }}
   >
     <h1
-      class="text-9xl font-extrabold tracking-tighter slashed-zero sm:text-[20vw]"
-      style={{ "font-variation-settings": "'CASL' 0" }}
+	class="text-9xl font-extrabold tracking-tighter slashed-zero sm:text-[20vw]"
+	style={{ 'font-variation-settings': '\'CASL\' 0' }}
     >404</h1>
     <p
-      class="text-center text-3xl"
-      style={{ "font-variation-settings": "'CASL' 1" }}
+	class="text-center text-3xl"
+	style={{ 'font-variation-settings': '\'CASL\' 1' }}
     >Page not found</p>
   </section>
 </Page>

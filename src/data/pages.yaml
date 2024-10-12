@@ -1,13 +1,13 @@
 links:
 
-- text: Home
-  href: /
+  - text: Home
+    href: /
 
-- text: Photos
-  href: /photos
+  - text: Photos
+    href: /photos
 
-- text: Contact
-  href: /contact
+  - text: Contact
+    href: /contact
 
-- text: Resume
-  href: /resume
+  - text: Resume
+    href: /resume

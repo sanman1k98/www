@@ -1,21 +1,21 @@
 ---
-import "@fontsource-variable/quicksand";
-import "@fontsource-variable/recursive/full.css";
-import "@fontsource-variable/shantell-sans/full.css";
-import type { HTMLAttributes } from "astro/types";
-import Meta from "@/components/HeadMeta.astro";
+import type { HTMLAttributes } from 'astro/types';
+import Meta from '@/components/HeadMeta.astro';
+import '@fontsource-variable/quicksand';
+import '@fontsource-variable/recursive/full.css';
+import '@fontsource-variable/shantell-sans/full.css';
 
-type Props = HTMLAttributes<"body"> & {
-  "title": string;
-  "description"?: string;
+type Props = HTMLAttributes<'body'> & {
+  'title': string;
+  'description'?: string;
   /** Content for the `theme-color` meta tag. */
-  "theme-color"?: string;
+  'theme-color'?: string;
 };
 
 const {
   class: className,
   style,
-  "theme-color": themeColor = "#FFF",
+  'theme-color': themeColor = '#FFF',
   ...meta
 } = Astro.props;
 ---

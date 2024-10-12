@@ -1,34 +1,34 @@
 ---
-import type { HTMLAttributes } from "astro/types";
-import BaseLayout from "./BaseLayout.astro";
-import Perlin from "@/components/Perlin.astro";
-import Banner from "@/components/Banner.astro";
-import Footer from "@/components/Footer.astro";
-import { unoTheme } from "@/utils";
+import type { HTMLAttributes } from 'astro/types';
+import Banner from '@/components/Banner.astro';
+import Footer from '@/components/Footer.astro';
+import Perlin from '@/components/Perlin.astro';
+import { unoTheme } from '@/utils';
+import BaseLayout from './BaseLayout.astro';
 
-type Props = HTMLAttributes<"main"> & {
-  "title"?: string;
-  "description"?: string;
+type Props = HTMLAttributes<'main'> & {
+  'title'?: string;
+  'description'?: string;
   /** Optionally override the main theme color. */
-  "theme-color"?: string;
+  'theme-color'?: string;
   /** Absolutely position the banner at the top. Defaults to `false`. */
-  "fixed-banner"?: boolean;
+  'fixed-banner'?: boolean;
   /** Set to `false` to remove the padding on the `<main>` element. */
-  "safe-area-padding"?: boolean;
+  'safe-area-padding'?: boolean;
 };
 
 const {
   title: titleString,
   description: descString,
-  "theme-color": themeColor = unoTheme.colors.sky[200],
-  "fixed-banner": fixedBanner = false,
-  "safe-area-padding": safeAreaPadding = true,
+  'theme-color': themeColor = unoTheme.colors.sky[200],
+  'fixed-banner': fixedBanner = false,
+  'safe-area-padding': safeAreaPadding = true,
 } = Astro.props;
 
 const title = titleString
   ? (`${titleString} | nicesandeep`)
-  : "nicesandeep";
-const description = descString ?? "Sandeep Dilip's personal website";
+  : 'nicesandeep';
+const description = descString ?? 'Sandeep Dilip\'s personal website';
 ---
 
 <style is:global>
@@ -39,10 +39,10 @@ const description = descString ?? "Sandeep Dilip's personal website";
 </style>
 
 <BaseLayout
-  {title}
-  {description}
-  theme-color={themeColor}
-  class="relative min-h-screen flex flex-col"
+	{title}
+	{description}
+	theme-color={themeColor}
+	class="relative min-h-screen flex flex-col"
 >
   {/* A noise pattern background to fill the whole page. */}
   <Perlin class="absolute inset-0 -z-50">
@@ -55,9 +55,9 @@ const description = descString ?? "Sandeep Dilip's personal website";
 
   {/* Slot for main content. */}
   <main
-    style={Astro.props.style}
-    class="grow text-sky-950"
-    class:list={[Astro.props.class, safeAreaPadding && "safe-area-padding"]}
+	style={Astro.props.style}
+	class="grow text-sky-950"
+	class:list={[Astro.props.class, safeAreaPadding && 'safe-area-padding']}
   >
     <slot />
   </main>

@@ -1,10 +1,10 @@
 ---
-import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { Image } from "astro:assets";
-import recursiveFont from "@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2?url";
-import Layout from "@/layouts/BaseLayout.astro";
-import { photos } from "@/content";
-import { getCamera, getLensInfo, getReadableCaptureSettings } from "@/utils/exif";
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { photos } from '@/content';
+import Layout from '@/layouts/BaseLayout.astro';
+import { getCamera, getLensInfo, getReadableCaptureSettings } from '@/utils/exif';
+import recursiveFont from '@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2?url';
+import { Image } from 'astro:assets';
 
 export const getStaticPaths = (
   ({ paginate }) => paginate(photos, { pageSize: 1 })
@@ -23,10 +23,10 @@ const datetime = exif.Photo.DateTimeOriginal!;
 ---
 
 <Layout
-  title="Photos"
-  theme-color="#000"
-  class="mx-auto flex flex-col content-center items-center justify-center gap-x-[2vw] bg-black pb-18 text-xs axis-casl-0.3 axis-crsv-1 axis-mono-0.69 font-rec md:min-h-[90svh] md:flex-row md:flex-wrap md:pb-0 sm:text-sm"
-  safe-area-padding={false}
+	title="Photos"
+	theme-color="#000"
+	class="mx-auto flex flex-col content-center items-center justify-center gap-x-[2vw] bg-black pb-18 text-xs font-rec axis-casl-0.3 axis-crsv-1 axis-mono-0.69 md:min-h-[90svh] md:flex-row md:flex-wrap md:pb-0 sm:text-sm"
+	safe-area-padding={false}
 >
   <Fragment slot="head">
     <link rel="preload" as="font" type="font/woff2" href={recursiveFont} crossorigin />
@@ -35,29 +35,29 @@ const datetime = exif.Photo.DateTimeOriginal!;
   <main class="contents">
     <figure class="contents">
       <Image
-        id="photo"
-        class="object-contain max-h-svh"
-        src={file}
-        alt={alt}
-        loading="eager"
-        quality="max"
-        fetchpriority="high"
+	id="photo"
+	class="object-contain max-h-svh"
+	src={file}
+	alt={alt}
+	loading="eager"
+	quality="max"
+	fetchpriority="high"
       />
 
     <figcaption
-      class="my-8 max-h-min max-w-prose px-2"
+	class="my-8 max-h-min max-w-prose px-2"
     >
         <p
-          class="text-slate-300 font-medium leading-tight font-rec-casual"
+	class="font-rec-casual text-slate-300 font-medium leading-tight"
         >
           <time class="flex justify-between gap-x-8" datetime={datetime.toString()}>
-            <span>{datetime.toLocaleDateString("en-US", { timeZone: "UTC", dateStyle: "medium" })}</span>
-            <span>{datetime.toLocaleTimeString("en-US", { timeZone: "UTC", timeStyle: "short" })}</span>
+            <span>{datetime.toLocaleDateString('en-US', { timeZone: 'UTC', dateStyle: 'medium' })}</span>
+            <span>{datetime.toLocaleTimeString('en-US', { timeZone: 'UTC', timeStyle: 'short' })}</span>
           </time>
         </p>
         <ul class="my-6 flex justify-between gap-x-8 text-slate-400 font-medium tracking-tight">
           {
-            settings.map(item => (
+            settings.map((item) => (
               <li>{item}</li>
             ))
           }
@@ -71,12 +71,12 @@ const datetime = exif.Photo.DateTimeOriginal!;
   </main>
   <footer>
     <nav
-      class="fixed inset-x-0 bottom-0 w-full flex justify-center bg-black/50 text-slate-200 font-semibold backdrop-blur-sm md:justify-end md:bg-transparent md:backdrop-blur-none"
-      style={{ mask: "linear-gradient(to top, black, black, transparent)" }}
+	class="fixed inset-x-0 bottom-0 w-full flex justify-center bg-black/50 text-slate-200 font-semibold backdrop-blur-sm md:justify-end md:bg-transparent md:backdrop-blur-none"
+	style={{ mask: 'linear-gradient(to top, black, black, transparent)' }}
     >
       <ul
-        class="max-w-min flex items-center gap-x-8 px-24 py-12 md:bg-black/50 md:backdrop-blur-sm"
-        style={{ mask: "radial-gradient(ellipse, black 40%, transparent 70%)" }}
+	class="max-w-min flex items-center gap-x-8 px-24 py-12 md:bg-black/50 md:backdrop-blur-sm"
+	style={{ mask: 'radial-gradient(ellipse, black 40%, transparent 70%)' }}
       >
         <li class="link"><a href="/photos">All</a></li>
         {

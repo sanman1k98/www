@@ -1,79 +1,79 @@
 {
-  "type": "module",
-  "private": "true",
-  "scripts": {
-    "lint": "eslint .",
-    "eslint": "eslint",
-    "dev": "bun --bun run astro dev --host",
-    "start": "bun --bun run astro dev --host",
-    "check": "bun --bun run astro check && tsc --noEmit",
-    "build": "bun --bun run astro build",
-    "preview": "bun --bun run astro preview --host",
-    "deploy": "./scripts/deploy.sh && git push origin deploy",
-    "dev:resume": "BUILD='resume' bun --bun run astro dev --host",
-    "build:resume": "BUILD='resume' bun --bun run astro build",
-    "preview:resume": "BUILD='resume' bun --bun run astro preview --host",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/sitemap": "3.2.0",
-    "@fontsource-variable/quicksand": "^5.1.0",
-    "@fontsource-variable/recursive": "^5.1.0",
-    "@fontsource-variable/shantell-sans": "^5.1.0",
-    "@fontsource/quicksand": "^5.1.0",
-    "@iconify-json/carbon": "^1.2.2",
-    "@iconify-json/ph": "^1.2.1",
-    "@resvg/resvg-js": "^2.6.2",
-    "astro": "4.16.0",
-    "astro-icon": "^1.1.1",
-    "culori": "^4.0.1",
-    "exif-reader": "^2.0.1",
-    "github-slugger": "^2.0.0",
-    "react": "^18.3.1",
-    "satori": "^0.11.2",
-    "sharp": "^0.33.5",
-    "unocss": "^0.63.4"
-  },
-  "devDependencies": {
-    "@antfu/eslint-config": "^3.7.3",
-    "@astrojs/check": "0.9.4",
-    "@astrojs/ts-plugin": "^1.10.2",
-    "@octokit/endpoint": "^10.1.1",
-    "@octokit/openapi-types": "^22.2.0",
-    "@octokit/types": "^13.6.1",
-    "@types/bun": "^1.1.11",
-    "@types/culori": "^2.1.1",
-    "@types/node": "^22.7.5",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/parser": "^8.8.1",
-    "@unocss/eslint-plugin": "^0.63.4",
-    "@unocss/preset-mini": "^0.63.4",
-    "@unocss/reset": "^0.63.4",
-    "eslint": "^9.12.0",
-    "eslint-plugin-astro": "^1.2.4",
-    "prettier": "^3.3.3",
-    "prettier-plugin-astro": "^0.14.1",
-    "react-dom": "^18.3.1",
-    "typescript": "^5.6.3"
-  },
-  "trustedDependencies": [
-    "sharp"
-  ],
-  "prettier": {
-    "plugins": [
-      "prettier-plugin-astro"
-    ],
-    "editorconfig": true,
-    "overrides": [
-      {
-        "files": "*.astro",
-        "options": {
-          "parser": "astro",
-          "astroAllowShorthand": true,
-          "astroSkipFrontmatter": true
-        }
-      }
-    ]
-  }
+	"type": "module",
+	"private": "true",
+	"scripts": {
+		"lint": "eslint .",
+		"eslint": "eslint",
+		"dev": "bun --bun run astro dev --host",
+		"start": "bun --bun run astro dev --host",
+		"check": "bun --bun run astro check && tsc --noEmit",
+		"build": "bun --bun run astro build",
+		"preview": "bun --bun run astro preview --host",
+		"deploy": "./scripts/deploy.sh && git push origin deploy",
+		"dev:resume": "BUILD='resume' bun --bun run astro dev --host",
+		"build:resume": "BUILD='resume' bun --bun run astro build",
+		"preview:resume": "BUILD='resume' bun --bun run astro preview --host",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/sitemap": "3.2.0",
+		"@fontsource-variable/quicksand": "^5.1.0",
+		"@fontsource-variable/recursive": "^5.1.0",
+		"@fontsource-variable/shantell-sans": "^5.1.0",
+		"@fontsource/quicksand": "^5.1.0",
+		"@iconify-json/carbon": "^1.2.2",
+		"@iconify-json/ph": "^1.2.1",
+		"@resvg/resvg-js": "^2.6.2",
+		"astro": "4.16.0",
+		"astro-icon": "^1.1.1",
+		"culori": "^4.0.1",
+		"exif-reader": "^2.0.1",
+		"github-slugger": "^2.0.0",
+		"react": "^18.3.1",
+		"satori": "^0.11.2",
+		"sharp": "^0.33.5",
+		"unocss": "^0.63.4"
+	},
+	"devDependencies": {
+		"@antfu/eslint-config": "^3.7.3",
+		"@astrojs/check": "0.9.4",
+		"@astrojs/ts-plugin": "^1.10.2",
+		"@octokit/endpoint": "^10.1.1",
+		"@octokit/openapi-types": "^22.2.0",
+		"@octokit/types": "^13.6.1",
+		"@types/bun": "^1.1.11",
+		"@types/culori": "^2.1.1",
+		"@types/node": "^22.7.5",
+		"@types/react": "^18.3.11",
+		"@types/react-dom": "^18.3.0",
+		"@typescript-eslint/parser": "^8.8.1",
+		"@unocss/eslint-plugin": "^0.63.4",
+		"@unocss/preset-mini": "^0.63.4",
+		"@unocss/reset": "^0.63.4",
+		"eslint": "^9.12.0",
+		"eslint-plugin-astro": "^1.2.4",
+		"prettier": "^3.3.3",
+		"prettier-plugin-astro": "^0.14.1",
+		"react-dom": "^18.3.1",
+		"typescript": "^5.6.3"
+	},
+	"trustedDependencies": [
+		"sharp"
+	],
+	"prettier": {
+		"plugins": [
+			"prettier-plugin-astro"
+		],
+		"editorconfig": true,
+		"overrides": [
+			{
+				"files": "*.astro",
+				"options": {
+					"parser": "astro",
+					"astroAllowShorthand": true,
+					"astroSkipFrontmatter": true
+				}
+			}
+		]
+	}
 }

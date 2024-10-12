@@ -1,11 +1,11 @@
+import type { Primitive } from 'astro/zod';
 /**
  * @file Custom wrappers around "node:util" functions for logging.
  */
-import { format as _format, inspect, styleText } from "node:util";
-import type { Primitive } from "astro/zod";
+import { format as _format, inspect, styleText } from 'node:util';
 
 inspect.defaultOptions = {
-  colors: process.stdout.hasColors(),
+	colors: process.stdout.hasColors(),
 };
 
 /**
@@ -25,43 +25,43 @@ inspect.defaultOptions = {
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
  */
 export function format(arg: string | TemplateStringsArray, ...exprs: any[]): string {
-  if (typeof arg === "string") {
-    return _format(arg, ...exprs);
-  } else if (
-    Array.isArray(arg)
-    && Object.hasOwn(arg, "raw")
-    && exprs.length === arg.length - 1
-  ) {
-    const strings: string[] | null = arg.reduce(
-      (arr, el, i) => {
-        if (!arr || typeof el !== "string") {
-          return null;
-        } else if (i === exprs.length) {
-          arr[i] = arg[i];
-          return arr;
-        }
-        let str: string;
-        const exprType = typeof exprs[i];
-        switch (exprType) {
-          case "string":
-            str = el.concat("%s");
-            break;
-          case "number":
-            str = el.concat("%d");
-            break;
-          default:
-            str = el.concat("%O");
-            break;
-        }
-        arr[i] = str;
-        return arr;
-      },
-      Array(arg.length),
-    );
-    if (strings)
-      return _format(strings.join(""), ...exprs);
-  }
-  return inspect(arg, ...exprs);
+	if (typeof arg === 'string') {
+		return _format(arg, ...exprs);
+	} else if (
+		Array.isArray(arg)
+		&& Object.hasOwn(arg, 'raw')
+		&& exprs.length === arg.length - 1
+	) {
+		const strings: string[] | null = arg.reduce(
+			(arr, el, i) => {
+				if (!arr || typeof el !== 'string') {
+					return null;
+				} else if (i === exprs.length) {
+					arr[i] = arg[i];
+					return arr;
+				}
+				let str: string;
+				const exprType = typeof exprs[i];
+				switch (exprType) {
+					case 'string':
+						str = el.concat('%s');
+						break;
+					case 'number':
+						str = el.concat('%d');
+						break;
+					default:
+						str = el.concat('%O');
+						break;
+				}
+				arr[i] = str;
+				return arr;
+			},
+			Array.from({ length: arg.length }),
+		);
+		if (strings)
+			return _format(strings.join(''), ...exprs);
+	}
+	return inspect(arg, ...exprs);
 }
 
 /**
@@ -114,30 +114,30 @@ type Style<T extends TextFormat = TextFormat>
  * @see https://www.totaltypescript.com/const-type-parameters
  */
 export function createStyle<const T extends TextFormat>(format: T): Style<T> {
-  return (text, ...exprs) => {
-    if (Array.isArray(text) && "raw" in text) {
-      if (text.length === 1 && text[0])
-        return styleText(format, text[0] as string);
-      else
-        return styleText(format, (text as TemplateStringsArray).map((s, i) => s.concat(inspect(exprs[i]) ?? "")).join(""));
-    } else if (typeof text === "string") {
-      return styleText(format, text);
-    } else {
-      return styleText(format, inspect(text));
-    }
-  };
+	return (text, ...exprs) => {
+		if (Array.isArray(text) && 'raw' in text) {
+			if (text.length === 1 && text[0])
+				return styleText(format, text[0] as string);
+			else
+				return styleText(format, (text as TemplateStringsArray).map((s, i) => s.concat(inspect(exprs[i]) ?? '')).join(''));
+		} else if (typeof text === 'string') {
+			return styleText(format, text);
+		} else {
+			return styleText(format, inspect(text));
+		}
+	};
 }
 
 export function createStyles<
-  const TObj extends { [k: string]: TextFormat },
+	const TObj extends { [k: string]: TextFormat },
 >(styles: TObj) {
-  return Object.fromEntries(
-    Object.entries(styles).map(([name, fmt]) => [name, createStyle(fmt)]),
-  ) as { [k in keyof TObj]: Style<TObj[k]> };
+	return Object.fromEntries(
+		Object.entries(styles).map(([name, fmt]) => [name, createStyle(fmt)]),
+	) as { [k in keyof TObj]: Style<TObj[k]> };
 }
 
 const attrs = Object.fromEntries(
-  Object.keys(inspect.colors).map(attr => [attr, createStyle(attr as SGRAttribute)]),
+	Object.keys(inspect.colors).map((attr) => [attr, createStyle(attr as SGRAttribute)]),
 ) as { [k in SGRAttribute]: Style<k & SGRAttribute> };
 
 /**
@@ -155,9 +155,9 @@ const attrs = Object.fromEntries(
  * ```
  */
 export const styles = {
-  ...attrs,
-  B: attrs.bold,
-  I: attrs.italic,
-  U: attrs.underline,
-  muted: createStyle(["dim", "gray"]),
+	...attrs,
+	B: attrs.bold,
+	I: attrs.italic,
+	U: attrs.underline,
+	muted: createStyle(['dim', 'gray']),
 } satisfies Record<string, Style>;

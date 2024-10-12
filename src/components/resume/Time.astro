@@ -1,6 +1,8 @@
 ---
-import type { HTMLAttributes } from "astro/types";
-import { BUILD } from "astro:env/server";
+import type { HTMLAttributes } from 'astro/types';
+import { normalizeCvDate } from '@/content';
+import { unoTheme } from '@/utils';
+import { BUILD } from 'astro:env/server';
 import {
   type Color,
   fixupHueLonger,
@@ -9,9 +11,7 @@ import {
   modeOklch,
   parseHex,
   useMode,
-} from "culori/fn";
-import { unoTheme } from "@/utils";
-import { normalizeCvDate } from "@/content";
+} from 'culori/fn';
 
 type DateRange = [
   start: Date,
@@ -19,23 +19,23 @@ type DateRange = [
   end?: Date | null | undefined,
 ];
 
-type Props = HTMLAttributes<"time"> & {
+type Props = HTMLAttributes<'time'> & {
   time: Date | DateRange;
   format?: Intl.DateTimeFormat;
   /** Don't use dates to determine text colors. */
   nocolormix?: boolean;
 };
 
-const defaultFormat = Intl.DateTimeFormat("en", {
-  year: "numeric",
-  month: "long",
-  timeZone: "UTC",
+const defaultFormat = Intl.DateTimeFormat('en', {
+  year: 'numeric',
+  month: 'long',
+  timeZone: 'UTC',
 });
 
 const {
   time,
   format = defaultFormat,
-  nocolormix = BUILD === "resume",
+  nocolormix = BUILD === 'resume',
 } = Astro.props;
 
 const timelineColors: Color[] = [
@@ -49,7 +49,7 @@ useMode(modeOklch);
 /** @param t - Number between `[0, 1]` for interpolation. */
 const mixTimelineColors: (t: number) => Color = interpolate(
   timelineColors,
-  "oklch",
+  'oklch',
   // Longer path around hue circle is more colorful.
   // @ts-expect-error broken types
   { h: { fixup: fixupHueLonger } },
@@ -73,8 +73,7 @@ if (Array.isArray(time)) {
     : `${format.format(start)} - Present`;
   // Use the `end` date to determine the color.
   textColor = getTextColor(end);
-}
- else {
+} else {
   text = format.format(time);
   textColor = getTextColor(time);
 }

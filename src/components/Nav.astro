@@ -1,20 +1,20 @@
 ---
 type Props = { class?: string };
 
-function isCurrent(href: string): "page" | false {
+function isCurrent(href: string): 'page' | false {
   const { pathname } = Astro.url;
   const current = (pathname === href)
-    || (href !== "/" && pathname.startsWith(href));
-  return current && "page";
+  	|| (href !== '/' && pathname.startsWith(href));
+  return current && 'page';
 }
 
 const pages = Array.from(
   [
-    { text: "Home", href: "/" },
-    { text: "Photos", href: "/photos" },
-    { text: "Contact", href: "/contact" },
+    { text: 'Home', href: '/' },
+    { text: 'Photos', href: '/photos' },
+    { text: 'Contact', href: '/contact' },
   ],
-  page => ({ ...page, "aria-current": isCurrent(page.href) }),
+  (page) => ({ ...page, 'aria-current': isCurrent(page.href) }),
 );
 ---
 
@@ -61,16 +61,16 @@ const pages = Array.from(
         return (
           <li class="">
             <a
-              {...attrs}
-              style={{
-                "--p": "0.75rem",
-                "--line-ms": "0.5rem",
-                "--line-w": "calc(100% - calc(2 * var(--line-ms)))",
-                "--line-ms-current": "var(--p)",
-                "--line-w-current": "calc(100% - calc(2 * var(--line-ms-current)))",
-                "padding": "var(--p)",
+	{...attrs}
+	style={{
+                '--p': '0.75rem',
+                '--line-ms': '0.5rem',
+                '--line-w': 'calc(100% - calc(2 * var(--line-ms)))',
+                '--line-ms-current': 'var(--p)',
+                '--line-w-current': 'calc(100% - calc(2 * var(--line-ms-current)))',
+                'padding': 'var(--p)',
               }}
-              class="relative aria-[current=page]:font-medium"
+	class="relative aria-[current=page]:font-medium"
             >
               {text}
             </a>

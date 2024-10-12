@@ -1,38 +1,38 @@
 ---
-import type { HTMLAttributes } from "astro/types";
-import { BUILD, PERSONAL_EMAIL, PERSONAL_PHONE } from "astro:env/server";
-import { socials } from "@/content";
+import type { HTMLAttributes } from 'astro/types';
+import { socials } from '@/content';
+import { BUILD, PERSONAL_EMAIL, PERSONAL_PHONE } from 'astro:env/server';
 
 // Explicitly define array to specify order of dynamically-generated elements
 const links = [
-  { text: "Website", href: import.meta.env.SITE, icon: "ph:globe" },
-  { ...socials.linkedin, icon: "ph:linkedin-logo" },
-  { ...socials.github, icon: "ph:github-logo" },
+  { text: 'Website', href: import.meta.env.SITE, icon: 'ph:globe' },
+  { ...socials.linkedin, icon: 'ph:linkedin-logo' },
+  { ...socials.github, icon: 'ph:github-logo' },
 ];
 
-if (BUILD === "resume") {
+if (BUILD === 'resume') {
   links.unshift(
-    { text: PERSONAL_EMAIL, href: `mailto:${PERSONAL_EMAIL}`, icon: "ph:envelope" },
-    { text: PERSONAL_PHONE, href: `tel:${PERSONAL_PHONE}`, icon: "ph:phone-outgoing" },
+    { text: PERSONAL_EMAIL, href: `mailto:${PERSONAL_EMAIL}`, icon: 'ph:envelope' },
+    { text: PERSONAL_PHONE, href: `tel:${PERSONAL_PHONE}`, icon: 'ph:phone-outgoing' },
   );
 }
 
-const titleLink = import.meta.env.PROD ? import.meta.env.SITE : "/";
+const titleLink = import.meta.env.PROD ? import.meta.env.SITE : '/';
 
-type Props = HTMLAttributes<"header">;
+type Props = HTMLAttributes<'header'>;
 ---
 
 <header class:list={[Astro.props.class]}>
   <h1
-    class="mb-4 min-w-fit text-4xl text-slate-900 font-bold tracking-tighter"
+	class="mb-4 min-w-fit text-4xl text-slate-900 font-bold tracking-tighter"
   >
     <a class="group flex gap-x-2" href={titleLink}>
       <span
-        aria-hidden="true"
-        class="hidden text-slate-200 transition-all duration-700 ease-out -ml-7 sm:inline group-hover:text-slate-300 group-hover:font-extrabold group-hover:duration-500 hover:text-sky-300!"
+	aria-hidden="true"
+	class="hidden text-slate-200 transition-all duration-700 ease-out -ml-7 sm:inline group-hover:text-slate-300 group-hover:font-extrabold group-hover:duration-500 hover:text-sky-300!"
       >#</span>
       <span
-        class="underline decoration-3 decoration-sky-500 underline-offset-3 transition-all duration-300 ease-out axis-mono-0.3 group-hover:text-black group-hover:font-extrabold group-hover:decoration-sky-400"
+	class="underline decoration-3 decoration-sky-500 underline-offset-3 transition-all duration-300 ease-out axis-mono-0.3 group-hover:text-black group-hover:font-extrabold group-hover:decoration-sky-400"
       >
         Sandeep Dilip
       </span>
@@ -41,7 +41,7 @@ type Props = HTMLAttributes<"header">;
 
   <div class="text-sm tracking-tight axis-mono-0.5 sm:text-base">
     <p
-      class="mb-1 text-slate-600 font-semibold"
+	class="mb-1 text-slate-600 font-semibold"
     >Full-Stack Engineer</p>
 
     <address class="tracking-tight not-italic -ml-3">
@@ -54,8 +54,8 @@ type Props = HTMLAttributes<"header">;
             return (
               <li class="border-r-1.5 px-3 text-slate-500 last:border-r-0">
                 <a
-                  class="underline decoration-1.5 decoration-slate-200 underline-offset-2 transition duration-300 hover:text-sky-900 print:decoration-1.5 hover:decoration-sky-400 print:decoration-slate-200"
-                  {...attrs}
+	class="underline decoration-1.5 decoration-slate-200 underline-offset-2 transition duration-300 hover:text-sky-900 print:decoration-1.5 hover:decoration-sky-400 print:decoration-slate-200"
+	{...attrs}
                 >{text}</a>
               </li>
             );

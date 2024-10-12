@@ -1,7 +1,7 @@
 ---
-import type { HTMLAttributes } from "astro/types";
+import type { HTMLAttributes } from 'astro/types';
 
-type Props = HTMLAttributes<"a">;
+type Props = HTMLAttributes<'a'>;
 ---
 
 <style>
@@ -22,20 +22,20 @@ type Props = HTMLAttributes<"a">;
 </style>
 
 <a
-  href="/"
-  id={Astro.props.id}
-  style={Astro.props.style}
-  class:list={[Astro.props.class]}
-  class="inline-block from-sky-600 to-pink-500 from-30% to-70% bg-gradient-to-r bg-clip-text pr-1 text-nowrap font-600 font-quicksand transition duration-600"
+	href="/"
+	id={Astro.props.id}
+	style={Astro.props.style}
+	class:list={[Astro.props.class]}
+	class="inline-block from-sky-600 to-pink-500 from-30% to-70% bg-gradient-to-r bg-clip-text pr-1 text-nowrap font-600 font-quicksand transition duration-600"
 >
   {
     [
       // Only show the first letters of each word
-      Array.from("nice", (char, i) => (
-        <span class:list={[i && "hidden!"]}>{char}</span>
+      Array.from('nice', (char, i) => (
+        <span class:list={[i && 'hidden!']}>{char}</span>
       )),
-      Array.from("sandeep", (char, i) => (
-        <span class:list={[i && "hidden!"]}>{char}</span>
+      Array.from('sandeep', (char, i) => (
+        <span class:list={[i && 'hidden!']}>{char}</span>
       )),
     ]
   }

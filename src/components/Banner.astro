@@ -1,9 +1,9 @@
 ---
-import type { HTMLAttributes } from "astro/types";
-import Logo from "./Logo.astro";
-import Nav from "./Nav.astro";
+import type { HTMLAttributes } from 'astro/types';
+import Logo from './Logo.astro';
+import Nav from './Nav.astro';
 
-type Props = HTMLAttributes<"header"> & {
+type Props = HTMLAttributes<'header'> & {
   /** Defaults to `false`. */
   fixed?: boolean | undefined;
 };
@@ -25,11 +25,11 @@ const { fixed = false } = Astro.props;
 </style>
 
 <header
-  style={Astro.props.style}
-  class="relative top-0 z-50 pt-4"
-  class:list={[Astro.props.class, fixed ? "fixed inset-x-0" : "sticky"]}
+	style={Astro.props.style}
+	class="relative top-0 z-50 pt-4"
+	class:list={[Astro.props.class, fixed ? 'fixed inset-x-0' : 'sticky']}
 >
-  <div class="absolute inset-0 bg-white/25 backdrop-blur-sm lg:hidden md:opacity-75" style={{ mask: "linear-gradient(black, black, transparent)" }}></div>
+  <div class="absolute inset-0 bg-white/25 backdrop-blur-sm lg:hidden md:opacity-75" style={{ mask: 'linear-gradient(black, black, transparent)' }}></div>
   <div class="mx-auto w-min flex place-items-center gap-x-12 rounded-full bg-white/85 px-6 shadow-sky-900/10 shadow-xl backdrop-blur-md">
     <Logo id="banner-logo" class="mb-1" />
     <Nav class="text-sm sm:text-base" />

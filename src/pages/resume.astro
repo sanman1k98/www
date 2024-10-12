@@ -4,37 +4,37 @@ import {
   Header,
   BaseSection as Section,
   SkillsEntry,
-} from "@/components/resume";
+} from '@/components/resume';
 import {
   compareChronologicalEntries as compareDates,
   compareOrderedEntries,
   cvEntries,
   createCvEntryTypeGuard as isType,
-} from "@/content";
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import recursiveFont from "@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2?url";
-import { render } from "astro:content";
-import { BUILD } from "astro:env/server";
+} from '@/content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import recursiveFont from '@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2?url';
+import { render } from 'astro:content';
+import { BUILD } from 'astro:env/server';
 
-const summary = cvEntries.find(({ slug }) => slug === "summary")!;
+const summary = cvEntries.find(({ slug }) => slug === 'summary')!;
 
 const experience = cvEntries
-  .filter(isType("experience"))
+  .filter(isType('experience'))
   .sort(compareDates)
   .reverse();
 
-const certifications = cvEntries.filter(isType("certification"));
-const education = cvEntries.filter(isType("education"));
+const certifications = cvEntries.filter(isType('certification'));
+const education = cvEntries.filter(isType('education'));
 
 const projects = cvEntries
-  .filter(isType("open-source"))
+  .filter(isType('open-source'))
   .sort(compareOrderedEntries);
 
 const skills = cvEntries
-  .filter(isType("skills"))
+  .filter(isType('skills'))
   .sort(compareOrderedEntries);
 
-const { Content: Summary } = BUILD === "resume"
+const { Content: Summary } = BUILD === 'resume'
   ? await render(summary)
   : { Content: null };
 ---
@@ -52,9 +52,9 @@ const { Content: Summary } = BUILD === "resume"
 </style>
 
 <BaseLayout
-  title="Sandeep Dilip's Resume"
-  description="Sandeep Dilip's professional experience, open source projects, contact links, and other information."
-  class="mx-auto max-w-prose px-2 font-rec lg:max-w-3xl md:max-w-2xl sm:px-0 print:max-w-5xl! print:px-0!"
+	title="Sandeep Dilip's Resume"
+	description="Sandeep Dilip's professional experience, open source projects, contact links, and other information."
+	class="mx-auto max-w-prose px-2 font-rec lg:max-w-3xl md:max-w-2xl sm:px-0 print:max-w-5xl! print:px-0!"
 >
   <Fragment slot="head">
     <link rel="preload" as="font" type="font/woff2" href={recursiveFont} crossorigin />
@@ -74,13 +74,13 @@ const { Content: Summary } = BUILD === "resume"
     <Section heading="Experience">
       {
         experience
-          .filter(({ data }) => data.experience === "work")
-          .map(exp => (
+          .filter(({ data }) => data.experience === 'work')
+          .map((exp) => (
             <Entry
-              heading={exp.data.title}
-              subheading={exp.data.organization.name}
-              time={[exp.data.start, exp.data.end]}
-              entry={exp}
+	heading={exp.data.title}
+	subheading={exp.data.organization.name}
+	time={[exp.data.start, exp.data.end]}
+	entry={exp}
             />
           ))
       }
@@ -90,10 +90,10 @@ const { Content: Summary } = BUILD === "resume"
       {
         certifications.map(({ data: cert }) => (
           <Entry
-            link={cert.link}
-            heading={cert.certification}
-            subheading={cert.organization.name}
-            time={cert.start}
+	link={cert.link}
+	heading={cert.certification}
+	subheading={cert.organization.name}
+	time={cert.start}
           />
         ))
       }
@@ -102,12 +102,12 @@ const { Content: Summary } = BUILD === "resume"
     <Section grid heading="Volunteering">
       {
         experience
-          .filter(({ data }) => data.experience === "volunteering")
-          .map(exp => (
+          .filter(({ data }) => data.experience === 'volunteering')
+          .map((exp) => (
             <Entry
-              heading={exp.data.title}
-              subheading={exp.data.organization.name}
-              time={[exp.data.start, exp.data.end]}
+	heading={exp.data.title}
+	subheading={exp.data.organization.name}
+	time={[exp.data.start, exp.data.end]}
             />
           ))
       }
@@ -117,9 +117,9 @@ const { Content: Summary } = BUILD === "resume"
       {
         education.map(({ data: edu }) => (
           <Entry
-            heading={`${edu.degree} ${edu.major}`}
-            subheading={edu.school.name}
-            time={[edu.start, edu.end]}
+	heading={`${edu.degree} ${edu.major}`}
+	subheading={edu.school.name}
+	time={[edu.start, edu.end]}
           />
         ))
       }
@@ -128,12 +128,12 @@ const { Content: Summary } = BUILD === "resume"
     <Section heading="Internships">
       {
         experience
-          .filter(({ data }) => data.experience === "internship")
-          .map(exp => (
+          .filter(({ data }) => data.experience === 'internship')
+          .map((exp) => (
             <Entry
-              heading={exp.data.title}
-              subheading={exp.data.organization.name}
-              time={[exp.data.start, exp.data.end]}
+	heading={exp.data.title}
+	subheading={exp.data.organization.name}
+	time={[exp.data.start, exp.data.end]}
             />
           ))
       }
@@ -141,11 +141,11 @@ const { Content: Summary } = BUILD === "resume"
 
     <Section grid heading="Open source">
       {
-        projects.map(proj => (
+        projects.map((proj) => (
           <Entry
-            link={proj.data.link}
-            heading={proj.data.title!}
-            subheading={proj.data.description!}
+	link={proj.data.link}
+	heading={proj.data.title!}
+	subheading={proj.data.description!}
           />
         ))
       }
@@ -153,7 +153,7 @@ const { Content: Summary } = BUILD === "resume"
 
     <Section grid heading="Skills">
       {
-        skills.map(entry => (
+        skills.map((entry) => (
           <SkillsEntry {entry} />
         ))
       }

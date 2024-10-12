@@ -1,7 +1,7 @@
 ---
-import { Image } from "astro:assets";
-import Page from "@/layouts/MainLayout.astro";
-import { photos } from "@/content";
+import { photos } from '@/content';
+import Page from '@/layouts/MainLayout.astro';
+import { Image } from 'astro:assets';
 
 /**
  * Horizontally flowing masonry layout using (mostly) CSS.
@@ -101,15 +101,15 @@ import { photos } from "@/content";
 </style>
 
 <Page
-  title="Photos"
-  description="Some of my favorite photos that I've taken"
-  class="pt-30 md:pt-36"
+	title="Photos"
+	description="Some of my favorite photos that I've taken"
+	class="pt-30 md:pt-36"
 >
   <script>
-    addEventListener("pageshow", (ev) => {
-      // @ts-expect-error "persisted" does not esist on `Event`
-      if (ev.persisted)
-        document.querySelector("main")!.dataset.slideController = "false";
+    addEventListener('pageshow', (ev) => {
+    	// @ts-expect-error "persisted" does not esist on `Event`
+    	if (ev.persisted)
+    		document.querySelector('main')!.dataset.slideController = 'false';
     });
   </script>
 
@@ -118,7 +118,7 @@ import { photos } from "@/content";
       const { slug, file, alt } = photo;
       const { height: h, width: w } = file;
       return (
-        <div data-slide-enter style={{ "--enter-step": i + 1, "--ratio": h / w }}>
+        <div data-slide-enter style={{ '--enter-step': i + 1, '--ratio': h / w }}>
           <figure class="overflow-clip border-12 border-white bg-white shadow-lg transition duration-350 hover:shadow-xl media-[(hover:hover)_and_(pointer:fine)]:hover:scale-102">
             <a href={`/photos/${slug}`}>
               <Image src={file} {alt} loading="eager" class="h-full w-full object-cover" />

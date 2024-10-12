@@ -1,28 +1,19 @@
 ---
-import { Image } from "astro:assets";
-import memoji from "@/assets/memoji.png";
+import memoji from '@/assets/memoji.png';
+import { Image } from 'astro:assets';
 
 type Props = { class?: string };
 
 const { class: className } = Astro.props;
 ---
 
-<div class:list={[className, "relative"]}>
-  <div class="
-    rounded-full
-    outline outline-white outline-8 md:outline-10 lg:outline-12
-    bg-gradient-to-tr from-sky-300
-    shadow-xl
-    transform-gpu transition-all duration-500
-    hover:shadow-2xl
-    hover:brightness-105
-    hover:scale-105 hover:-translate-y-1
-  ">
+<div class:list={[className, 'relative']}>
+  <div class="transform-gpu rounded-full from-sky-300 bg-gradient-to-tr shadow-xl outline-8 outline-white outline transition-all duration-500 hover:scale-105 hover:shadow-2xl lg:outline-12 md:outline-10 hover:brightness-105 hover:-translate-y-1">
     <Image
-      src={memoji}
-      alt="Sandeep Dilip's Memoji"
-      loading="eager"
-      class={`
+	src={memoji}
+	alt="Sandeep Dilip's Memoji"
+	loading="eager"
+	class={`
         object-scale-down rounded-full
         shadow-inner shadow-sky-50
         transform-gpu transition-all duration-350
