@@ -1,0 +1,9 @@
+# Leave lockfiles alone.
+pnpm-lock.yaml
+
+# Use eslint to format.
+**/*.[jt]s
+**/*.[cm][jt]s
+**/*.[jt]sx
+**/*.[cm][jt]sx
+**/*.json

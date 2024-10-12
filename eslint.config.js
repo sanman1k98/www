@@ -3,7 +3,8 @@ import antfu from "@antfu/eslint-config";
 export default antfu(
   {
     stylistic: {
-      quotes: "double",
+      quotes: "single",
+      indent: "tab",
       semi: true,
       overrides: {
         "style/brace-style": [
@@ -16,9 +17,17 @@ export default antfu(
           "always-multiline",
           { ignoreJSX: true },
         ],
+        "style/arrow-parens": [
+          "error",
+          "always",
+        ],
       },
     },
-    astro: true,
+    astro: {
+      overrides: {
+        "antfu/no-top-level-await": "off",
+      },
+    },
     unocss: true,
   },
   {
