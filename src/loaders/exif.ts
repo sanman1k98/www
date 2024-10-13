@@ -7,12 +7,12 @@ import type { ImageInputFormat } from 'astro';
 import type { Loader } from 'astro/loaders';
 import type { Exif, GenericTag } from 'exif-reader';
 import type { Buffer } from 'node:buffer';
-import { glob } from 'node:fs/promises';
 import { relative, resolve } from 'node:path/posix';
 import { fileURLToPath } from 'node:url';
 import { styles as c } from '@/utils/logging';
 import { z } from 'astro/zod';
 import exifReader from 'exif-reader';
+import fg from 'fast-glob';
 import sharp from 'sharp';
 
 const SUPPORTED_EXTENSIONS = ['jpg', 'png', 'gif', 'jpeg', 'tiff', 'webp', 'avif'] as const satisfies ImageInputFormat[];
@@ -99,7 +99,7 @@ export function exifLoader(opts: ExifLoaderOptions): Loader {
 			const relFromSiteRoot = (path: string) => relative(siteRoot, path);
 
 			logger.info(`Searching for images in ${c.green(relFromSiteRoot(base))}`);
-			const files = await Array.fromAsync(glob(pattern, { cwd: base }));
+			const files = await fg.glob(pattern, { cwd: base });
 
 			const results = await Promise.all(
 				files.map(
