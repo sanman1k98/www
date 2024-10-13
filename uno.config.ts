@@ -11,18 +11,19 @@ import {
 
 const fontFamily = {
 	quicksand: [
-		'Quicksand Variable',
-		'ui-rounded',
 		'Quicksand',
-		'Manjari',
-		'sans-serif',
+		'quicksand-fallback',
+		'ui-rounded',
 	].join(),
 	rec: [
-		'Recursive Variable',
+		'Recursive',
+		'recursive-fallback',
+		'system-ui',
 		'sans-serif',
 	].join(),
 	handwritten: [
-		'Shantell Sans Variable',
+		'Shantell',
+		'shantell-fallback',
 		'casual',
 		'cursive',
 	].join(),
