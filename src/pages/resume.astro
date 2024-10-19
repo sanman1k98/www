@@ -16,7 +16,7 @@ import recursiveFont from '@fontsource-variable/recursive/files/recursive-latin-
 import { render } from 'astro:content';
 import { BUILD } from 'astro:env/server';
 
-const summary = cvEntries.find(({ slug }) => slug === 'summary')!;
+const summary = cvEntries.find(({ id }) => id === 'summary')!;
 
 const experience = cvEntries
   .filter(isType('experience'))
@@ -34,7 +34,7 @@ const skills = cvEntries
   .filter(isType('skills'))
   .sort(compareOrderedEntries);
 
-const { Content: Summary } = BUILD === 'resume'
+const { Content: Summary } = BUILD === 'resume' && summary
   ? await render(summary)
   : { Content: null };
 ---
