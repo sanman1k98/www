@@ -23,7 +23,7 @@ export const collections = {
 	cv: defineCollection({
 		loader: glob({
 			base: 'src/cv',
-			pattern: '[^_]**\/*.md',
+			pattern: '[^_]**/[^_]*.md',
 		}),
 		schema: cvSchema,
 	}),
