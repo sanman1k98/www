@@ -11,7 +11,10 @@ const DEFAULTS = {
 		url: '/og-image.jpg',
 		alt: 'Sandeep\'s face depicted in an animation style to the right, and the words "Hello World!" to the left.',
 	},
-	TWITTER: { site: undefined },
+	TWITTER: {
+		site: '@sanman1k98',
+		creator: '@sanman1k98',
+	},
 };
 
 const basic = z.object({
@@ -104,7 +107,7 @@ if (!parsedMeta.success) {
 	}
 }
 
-const { title, description, locale, og } = parsedMeta.data! ?? { og: {} };
+const { title, description, locale, og, twitter } = parsedMeta.data! ?? { og: {}, twitter: {} };
 og.image ??= DEFAULTS.OG_IMAGE;
 ---
 
@@ -130,6 +133,10 @@ og.image ??= DEFAULTS.OG_IMAGE;
 		<meta property="og:type" content={og.type} />
 		<meta property="og:image" content={og.image.url} />
 		<meta property="og:image:alt" content={og.image.alt} />
+		<meta name="twitter:card" content={twitter.card} />
+
+		<meta name="twitter:site" content={twitter.site} />
+		<meta name="twitter:creator" content={twitter.creator} />
 
 		{/* Sitemap generated using the '@astrojs/sitemap' integration. */}
 		<link rel="sitemap" href="/sitemap-index.xml" />
