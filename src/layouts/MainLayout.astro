@@ -1,34 +1,16 @@
 ---
-import type { HTMLAttributes } from 'astro/types';
 import Banner from '@/components/Banner.astro';
 import Footer from '@/components/Footer.astro';
 import Perlin from '@/components/Perlin.astro';
 import { unoTheme } from '@/utils';
-import BaseLayout from './BaseLayout.astro';
+import BaseLayout, { type HeadMetaProps } from './BaseLayout.astro';
 
-type Props = HTMLAttributes<'main'> & {
-  'title'?: string;
-  'description'?: string;
-  /** Optionally override the main theme color. */
-  'theme-color'?: string;
-  /** Absolutely position the banner at the top. Defaults to `false`. */
-  'fixed-banner'?: boolean;
-  /** Set to `false` to remove the padding on the `<main>` element. */
-  'safe-area-padding'?: boolean;
+type Props = HeadMetaProps & {
+	/** Will be added to the `<main>` element. */
+	class?: string;
 };
 
-const {
-  title: titleString,
-  description: descString,
-  'theme-color': themeColor = unoTheme.colors.sky[200],
-  'fixed-banner': fixedBanner = false,
-  'safe-area-padding': safeAreaPadding = true,
-} = Astro.props;
-
-const title = titleString
-  ? (`${titleString} | nicesandeep`)
-  : 'nicesandeep';
-const description = descString ?? 'Sandeep Dilip\'s personal website';
+const { class: className, ...meta } = Astro.props;
 ---
 
 <style is:global>
@@ -41,11 +23,14 @@ const description = descString ?? 'Sandeep Dilip\'s personal website';
 </style>
 
 <BaseLayout
-	{title}
-	{description}
-	theme-color={themeColor}
+	{...meta}
 	class="relative min-h-screen flex flex-col"
 >
+	<Fragment slot="head">
+		<meta name="theme-color" content={unoTheme.colors.sky[200]} />
+		<slot name="head" />
+	</Fragment>
+
 	{/* A noise pattern background to fill the whole page. */}
 	<Perlin class="absolute inset-0 -z-50">
 		{/* A gradient on top of the noise. */}
@@ -54,13 +39,12 @@ const description = descString ?? 'Sandeep Dilip\'s personal website';
 	</Perlin>
 
 	{/* Site logo and navigation components. */}
-	<Banner fixed={fixedBanner} class="pb-1" />
+	<Banner class="pb-1" />
 
 	{/* Slot for main content. */}
 	<main
-		style={Astro.props.style}
 		class="grow text-sky-950"
-		class:list={[Astro.props.class, safeAreaPadding && "safe-area-padding"]}
+		class:list={[className]}
 	>
 		<slot />
 	</main>

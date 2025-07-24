@@ -1,31 +1,132 @@
 ---
-import type { HTMLAttributes } from 'astro/types';
-import Meta from '@/components/HeadMeta.astro';
+import { z } from 'astro/zod';
 import '@/styles/fonts.css';
 
-type Props = HTMLAttributes<'body'> & {
-  'title': string;
-  'description'?: string;
-  /** Content for the `theme-color` meta tag. */
-  'theme-color'?: string;
+// Used to generate the `<title>` which will be shown in the browser tab.
+const SITE_NAME = 'nicesandeep';
+
+const DEFAULTS = {
+	LANG: 'en-US',
+	OG_IMAGE: {
+		url: '/og-image.jpg',
+		alt: 'Sandeep\'s face depicted in an animation style to the right, and the words "Hello World!" to the left.',
+	},
+	TWITTER: { site: undefined },
 };
 
-const {
-  class: className,
-  style,
-  'theme-color': themeColor = '#FFF',
-  ...meta
-} = Astro.props;
+const basic = z.object({
+	/** Language tag (BCP 47). */
+	locale: z.string().default(DEFAULTS.LANG),
+	/** Will joined with `SITE_NAME` and shown in browser tabs. */
+	title: z.string().optional(),
+	/** Use to set the `<title>` text manually. */
+	rawTitle: z.string().optional(),
+	/** A description for creating a bookmark for the page. */
+	description: z.string().optional(),
+});
+
+const articleSchema = z.object({
+	published_time: z.coerce.date(),
+	modified_time: z.coerce.date(),
+});
+
+/** @see https://ogp.me */
+const ogSchema = z.object({
+	/** A more descriptive title used by the OpenGraph protocol. */
+	title: z.string().optional(),
+	/** A description of the page used by the OpenGraph protocol. */
+	description: z.string().optional(),
+	article: articleSchema.optional(),
+	image: z.object({
+		/** Path to an image file. */
+		url: z.string(),
+		/** Alt text for image. */
+		alt: z.string().optional(),
+	}).optional(),
+});
+
+// Twitter Cards will use OpenGraph images.
+const twitterSchema = z.object({
+	card: z.enum(['summary', 'summary_large_image']).default('summary_large_image'),
+	/** Username for the website used in the card footer. */
+	site: z.string().startsWith('@').optional(),
+	/** Username for the content creator or author. */
+	creator: z.string().startsWith('@').optional(),
+});
+
+const HeadMetaSchema = basic
+	.extend({
+		og: ogSchema.optional(),
+		twitter: twitterSchema.default(DEFAULTS.TWITTER),
+	})
+	.transform((data) => {
+		const { og = {}, twitter, ...basic } = data;
+		return {
+			...basic,
+			title: basic.rawTitle ?? [basic.title, SITE_NAME].filter(Boolean).join(' | '),
+			twitter,
+			og: {
+				...og,
+				type: og.article ? 'article' : 'website',
+				title: og.title ?? basic.title,
+				description: og.description ?? basic.description,
+			},
+		};
+	});
+
+export type HeadMetaProps = z.input<typeof HeadMetaSchema>;
+
+export type Props = HeadMetaProps & {
+	/** Will be added to the `<body>` element. */
+	class?: string;
+};
+
+const { class: className, ...meta } = Astro.props;
+const parsedMeta = HeadMetaSchema.safeParse(meta);
+
+if (!parsedMeta.success) {
+	if (import.meta.env.PROD) {
+		throw parsedMeta.error;
+	} else {
+		console.error(
+			'Invalid head meta props for %s: %o',
+			Astro.url.pathname,
+			parsedMeta.error.issues,
+		);
+	}
+}
+
+const { title, description, locale, og } = parsedMeta.data!;
+og.image ??= DEFAULTS.OG_IMAGE;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
 	<head>
-		<Meta {...meta} />
-		<meta name="theme-color" content={themeColor} />
+		<meta charset="utf-8" />
+		{/* https://webkit.org/blog/7929/designing-websites-for-iphone-x/ */}
+		<meta name="viewport" content="initial-scale=1, viewport-fit=cover" />
+		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
+		<meta name="generator" content={Astro.generator} />
+
 		<slot name="head" />
+
+		{/* Favicons are generated at the static file endpoint `src/pages/icons/[file].ts`. */}
+		<link rel="icon" href="/icons/favicon.png" sizes="48x48" type="image/png" />
+		<link rel="icon" href="/icons/favicon.svg" sizes="any" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+
+		<meta property="og:title" content={og.title} />
+		<meta property="og:description" content={og.description} />
+		<meta property="og:type" content={og.type} />
+		<meta property="og:image" content={og.image.url} />
+		<meta property="og:image:alt" content={og.image.alt} />
+
+		{/* Sitemap generated using the '@astrojs/sitemap' integration. */}
+		<link rel="sitemap" href="/sitemap-index.xml" />
 	</head>
-	<body class={className} {style}>
+	<body class={className}>
 		<slot />
 	</body>
 </html>
