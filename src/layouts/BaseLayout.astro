@@ -109,6 +109,8 @@ if (!parsedMeta.success) {
 
 const { title, description, locale, og, twitter } = parsedMeta.data! ?? { og: {}, twitter: {} };
 og.image ??= DEFAULTS.OG_IMAGE;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -120,6 +122,7 @@ og.image ??= DEFAULTS.OG_IMAGE;
 		<title>{title}</title>
 		{description && <meta name="description" content={description} />}
 		<meta name="generator" content={Astro.generator} />
+		<link rel="canonical" href={canonicalURL} />
 
 		<slot name="head" />
 
@@ -128,6 +131,7 @@ og.image ??= DEFAULTS.OG_IMAGE;
 		<link rel="icon" href="/icons/favicon.svg" sizes="any" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
+		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:title" content={og.title} />
 		<meta property="og:description" content={og.description} />
 		<meta property="og:type" content={og.type} />
