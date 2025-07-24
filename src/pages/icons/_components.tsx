@@ -8,21 +8,9 @@ export const SIZE = 512;
 export const WEIGHT: 200 | 300 | 400 | 500 | 600 | 700 = 700;
 export const FONT_PATH = join(process.cwd(), `/node_modules/@fontsource/quicksand/files/quicksand-latin-${WEIGHT}-normal.woff`);
 
-const PRIMARY_GRADIENT = `
-  linear-gradient(
-    to right,
-    ${unoTheme.colors.sky[600]} 30%,
-    ${unoTheme.colors.pink[500]} 70%
-  )
-`;
+const PRIMARY_GRADIENT = `linear-gradient(to right, ${unoTheme.colors.sky[600]} 30%, ${unoTheme.colors.pink[500]} 70%)`;
 
-const BG_GRADIENT = `
-  radial-gradient(
-    at top left,
-    white 60%,
-    ${unoTheme.colors.sky[100]} 90%
-  )
-`;
+const BG_GRADIENT = `radial-gradient(at top left, white 60%, ${unoTheme.colors.sky[100]} 90%)`;
 
 interface Props {
 	children?: React.ReactNode;
