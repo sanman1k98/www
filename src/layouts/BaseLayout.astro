@@ -59,8 +59,16 @@ const HeadMetaSchema = basic
 		og: ogSchema.optional(),
 		twitter: twitterSchema.default(DEFAULTS.TWITTER),
 	})
-	.transform((data) => {
+	.transform((data, ctx) => {
 		const { og = {}, twitter, ...basic } = data;
+
+		if (!basic.title && !basic.rawTitle) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Must provide either `title` or `rawTitle`.',
+			});
+		}
+
 		return {
 			...basic,
 			title: basic.rawTitle ?? [basic.title, SITE_NAME].filter(Boolean).join(' | '),
@@ -68,7 +76,7 @@ const HeadMetaSchema = basic
 			og: {
 				...og,
 				type: og.article ? 'article' : 'website',
-				title: og.title ?? basic.title,
+				title: og.title ?? basic.title ?? basic.rawTitle,
 				description: og.description ?? basic.description,
 			},
 		};
@@ -89,14 +97,14 @@ if (!parsedMeta.success) {
 		throw parsedMeta.error;
 	} else {
 		console.error(
-			'Invalid head meta props for %s: %o',
+			'Invalid head meta props for Layout at route "%s": %o',
 			Astro.url.pathname,
 			parsedMeta.error.issues,
 		);
 	}
 }
 
-const { title, description, locale, og } = parsedMeta.data!;
+const { title, description, locale, og } = parsedMeta.data! ?? { og: {} };
 og.image ??= DEFAULTS.OG_IMAGE;
 ---
 
