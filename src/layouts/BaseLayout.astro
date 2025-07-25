@@ -2,7 +2,6 @@
 import { z } from 'astro/zod';
 import '@/styles/fonts.css';
 
-// Used to generate the `<title>` which will be shown in the browser tab.
 const SITE_NAME = 'nicesandeep';
 
 const DEFAULTS = {
@@ -11,10 +10,7 @@ const DEFAULTS = {
 		url: '/og-image.jpg',
 		alt: 'Sandeep\'s face depicted in an animation style to the right, and the words "Hello World!" to the left.',
 	},
-	TWITTER: {
-		site: '@sanman1k98',
-		creator: '@sanman1k98',
-	},
+	TWITTER_USERNAME: '@sanman1k98',
 };
 
 const basic = z.object({
@@ -28,9 +24,14 @@ const basic = z.object({
 	description: z.string().optional(),
 });
 
-const articleSchema = z.object({
+const ogArticleSchema = z.object({
 	published_time: z.coerce.date(),
 	modified_time: z.coerce.date(),
+});
+
+const ogImageSchema = z.object({
+	url: z.string().startsWith('/'),
+	alt: z.string().optional(),
 });
 
 /** @see https://ogp.me */
@@ -39,31 +40,29 @@ const ogSchema = z.object({
 	title: z.string().optional(),
 	/** A description of the page used by the OpenGraph protocol. */
 	description: z.string().optional(),
-	article: articleSchema.optional(),
-	image: z.object({
-		/** Path to an image file. */
-		url: z.string(),
-		/** Alt text for image. */
-		alt: z.string().optional(),
-	}).optional(),
+	article: ogArticleSchema.optional(),
+	image: ogImageSchema.default(DEFAULTS.OG_IMAGE),
 });
 
-// Twitter Cards will use OpenGraph images.
+/** @see https://developer.x.com/en/docs/x-for-websites/cards/overview/abouts-cards */
 const twitterSchema = z.object({
 	card: z.enum(['summary', 'summary_large_image']).default('summary_large_image'),
 	/** Username for the website used in the card footer. */
-	site: z.string().startsWith('@').optional(),
+	site: z.string().startsWith('@').default(DEFAULTS.TWITTER_USERNAME),
 	/** Username for the content creator or author. */
-	creator: z.string().startsWith('@').optional(),
+	creator: z.string().startsWith('@').default(DEFAULTS.TWITTER_USERNAME),
 });
 
+/**
+ * @see https://css-tricks.com/essential-meta-tags-social-media/
+ */
 const HeadMetaSchema = basic
 	.extend({
-		og: ogSchema.optional(),
-		twitter: twitterSchema.default(DEFAULTS.TWITTER),
+		og: ogSchema.default({}),
+		twitter: twitterSchema.default({}),
 	})
 	.transform((data, ctx) => {
-		const { og = {}, twitter, ...basic } = data;
+		const { og, twitter, ...basic } = data;
 
 		if (!basic.title && !basic.rawTitle) {
 			ctx.addIssue({
@@ -108,7 +107,6 @@ if (!parsedMeta.success) {
 }
 
 const { title, description, locale, og, twitter } = parsedMeta.data! ?? { og: {}, twitter: {} };
-og.image ??= DEFAULTS.OG_IMAGE;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -132,12 +130,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
 		<meta property="og:site_name" content={SITE_NAME} />
+		<meta property="og:type" content={og.type} />
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:title" content={og.title} />
-		<meta property="og:description" content={og.description} />
-		<meta property="og:type" content={og.type} />
-		<meta property="og:image" content={og.image.url} />
-		<meta property="og:image:alt" content={og.image.alt} />
+		{description && <meta property="og:description" content={og.description} />}
+		{og.image?.url && <meta property="og:image" content={og.image.url} />}
+		{og.image?.alt && <meta property="og:image:alt" content={og.image.alt} />}
 		<meta name="twitter:card" content={twitter.card} />
 
 		<meta name="twitter:site" content={twitter.site} />
