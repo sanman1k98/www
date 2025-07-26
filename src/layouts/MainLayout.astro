@@ -5,6 +5,8 @@ import Perlin from '@/components/Perlin.astro';
 import { unoTheme } from '@/utils';
 import BaseLayout, { type HeadMetaProps } from './BaseLayout.astro';
 
+const META_THEME_COLOR = unoTheme.colors.sky[200];
+
 type Props = HeadMetaProps & {
 	/** Will be added to the `<main>` element. */
 	class?: string;
@@ -14,41 +16,22 @@ const { class: className, ...meta } = Astro.props;
 ---
 
 <style is:global>
-	body {
-		background-color: white;
-	}
 	.safe-area-padding {
 		padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
 	}
 </style>
 
-<BaseLayout
-	{...meta}
-	class="relative min-h-screen flex flex-col"
->
+<BaseLayout class="relative min-h-screen flex flex-col bg-white" {...meta}>
 	<Fragment slot="head">
-		<meta name="theme-color" content={unoTheme.colors.sky[200]} />
+		<meta name="theme-color" content={META_THEME_COLOR} />
 		<slot name="head" />
 	</Fragment>
-
 	{/* A noise pattern background to fill the whole page. */}
-	<Perlin class="absolute inset-0 -z-50">
-		{/* A gradient on top of the noise. */}
-		<div class="absolute inset-0 from-sky-50/85 via-sky-100/60 from-50% via-90% bg-gradient-to-b">
-		</div>
-	</Perlin>
-
-	{/* Site logo and navigation components. */}
+	<Perlin class="absolute inset-0 -z-50" />
+	<div class="absolute inset-0 from-sky-50/85 via-sky-100/60 from-50% via-90% bg-gradient-to-b -z-50" />
 	<Banner class="pb-1" />
-
-	{/* Slot for main content. */}
-	<main
-		class="grow text-sky-950"
-		class:list={[className]}
-	>
+	<main class="grow text-sky-950" class:list={[className]}>
 		<slot />
 	</main>
-
-	{/* Other links and copyright information. */}
 	<Footer class="w-full from-transparent to-white to-50% bg-gradient-to-b pb-18 pt-48" />
 </BaseLayout>
