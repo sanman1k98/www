@@ -29,7 +29,7 @@ const { class: className, ...meta } = Astro.props;
 	{/* A noise pattern background to fill the whole page. */}
 	<Perlin class="absolute inset-0 -z-50" />
 	<div class="absolute inset-0 from-sky-50/85 via-sky-100/60 from-50% via-90% bg-gradient-to-b -z-50" />
-	<Banner class="pb-1" />
+	<Banner class="pb-1" fixed={true} />
 	<main class="grow text-sky-950" class:list={[className]}>
 		<slot />
 	</main>
