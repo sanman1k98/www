@@ -2,7 +2,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
 import { photos } from '@/content';
 import Layout from '@/layouts/BaseLayout.astro';
-import { getCamera, getLensInfo, getReadableCaptureSettings } from '@/utils/exif';
+import { getCamera, getLensInfo, getReadableCaptureSettings } from '@/lib/exif';
 import recursiveFont from '@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2?url';
 import { Image } from 'astro:assets';
 

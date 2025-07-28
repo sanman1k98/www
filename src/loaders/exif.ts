@@ -9,7 +9,7 @@ import type { Exif, GenericTag } from 'exif-reader';
 import type { Buffer } from 'node:buffer';
 import { relative, resolve } from 'node:path/posix';
 import { fileURLToPath } from 'node:url';
-import { styles as c } from '@/utils/logging';
+import { styles as c } from '@/lib/logging';
 import { z } from 'astro/zod';
 import exifReader from 'exif-reader';
 import fg from 'fast-glob';

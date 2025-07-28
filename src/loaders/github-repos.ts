@@ -4,7 +4,7 @@
  */
 import type { Endpoints } from '@octokit/types';
 import type { Loader } from 'astro/loaders';
-import { styles as c, format as fmt } from '@/utils/logging';
+import { styles as c, format as fmt } from '@/lib/logging';
 import { endpoint } from '@octokit/endpoint';
 import { z } from 'astro/zod';
 

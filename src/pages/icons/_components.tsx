@@ -3,7 +3,7 @@
 import type { SatoriRenderOptions } from '@/lib/render';
 import type React from 'react';
 import { join } from 'node:path';
-import { unoTheme } from '@/utils';
+import { unoTheme } from '@/lib/theme';
 
 const SIZE = 512;
 const FONT_FAMILY = 'Quicksand';
