@@ -32,7 +32,8 @@ interface Props {
 
 export type IconComponent = React.FC<Props>;
 
-export const Base: React.FC<Props> = ({ style }) => (
+/** The text "ns" with a color gradient across. */
+export const Favicon: React.FC<Props> = ({ style }) => (
 	<div
 		style={{
 			height: SIZE,
@@ -42,6 +43,9 @@ export const Base: React.FC<Props> = ({ style }) => (
 			fontWeight: FONT_WEIGHT,
 			lineHeight: 0.75,
 			letterSpacing: '-0.08em',
+			color: 'transparent',
+			backgroundClip: 'text',
+			backgroundImage: PRIMARY_GRADIENT,
 			// Satori defaults
 			display: 'flex',
 			position: 'relative',
@@ -66,21 +70,10 @@ export const Background: React.FC<Props> = ({ children }) => (
 	</div>
 );
 
-/** `Base` with a color gradient across the text. */
-export const Icon: React.FC<Props> = () => (
-	<Base
-		style={{
-			color: 'transparent',
-			backgroundClip: 'text',
-			backgroundImage: PRIMARY_GRADIENT,
-		}}
-	/>
-);
-
-/** `Icon` with a subtle background gradient. */
+/** `Favicon` with a subtle background gradient. */
 export const TouchIcon: React.FC<Props> = () => (
 	<Background>
-		<Icon
+		<Favicon
 			style={{
 				paddingLeft: SIZE * 0.1,
 				fontSize: SIZE * 0.8,
@@ -89,5 +82,3 @@ export const TouchIcon: React.FC<Props> = () => (
 		/>
 	</Background>
 );
-
-export default Icon;

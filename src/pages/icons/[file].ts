@@ -1,7 +1,7 @@
 /* eslint-disable antfu/no-top-level-await */
 import type { APIRoute, GetStaticPaths, InferGetStaticParamsType } from 'astro';
 import { toPNG, toSVG } from '@/lib/render';
-import { Icon, renderOpts, TouchIcon } from './_components';
+import { Favicon, renderOpts, TouchIcon } from './_components';
 
 export const getStaticPaths = (() => {
 	const FILES = [
@@ -14,7 +14,7 @@ export const getStaticPaths = (() => {
 
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 
-const faviconSvg = await toSVG(Icon, renderOpts);
+const faviconSvg = await toSVG(Favicon, renderOpts);
 const touchIconSvg = await toSVG(TouchIcon, renderOpts);
 
 export const GET: APIRoute<never, Params> = async ({ params }) => {
