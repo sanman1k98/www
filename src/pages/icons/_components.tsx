@@ -5,10 +5,10 @@ import type React from 'react';
 import { join } from 'node:path';
 import { unoTheme } from '@/utils';
 
-export const SIZE = 512;
-export const FONT_FAMILY = 'Quicksand';
-export const FONT_WEIGHT: 200 | 300 | 400 | 500 | 600 | 700 = 700;
-export const FONT_PATH = join(process.cwd(), `/node_modules/@fontsource/quicksand/files/quicksand-latin-${FONT_WEIGHT}-normal.woff`);
+const SIZE = 512;
+const FONT_FAMILY = 'Quicksand';
+const FONT_WEIGHT: 200 | 300 | 400 | 500 | 600 | 700 = 700;
+const FONT_PATH = join(process.cwd(), `/node_modules/@fontsource/quicksand/files/quicksand-latin-${FONT_WEIGHT}-normal.woff`);
 
 const PRIMARY_GRADIENT = `linear-gradient(to right, ${unoTheme.colors.sky[600]} 30%, ${unoTheme.colors.pink[500]} 70%)`;
 
@@ -29,8 +29,6 @@ interface Props {
 	children?: React.ReactNode;
 	style?: React.CSSProperties;
 };
-
-export type IconComponent = React.FC<Props>;
 
 /** The text "ns" with a color gradient across. */
 export const Favicon: React.FC<Props> = ({ style }) => (
@@ -58,7 +56,7 @@ export const Favicon: React.FC<Props> = ({ style }) => (
 	</div>
 );
 
-export const Background: React.FC<Props> = ({ children }) => (
+const Background: React.FC<Props> = ({ children }) => (
 	<div
 		style={{
 			backgroundImage: BG_GRADIENT,
