@@ -1,19 +1,21 @@
+/* eslint-disable antfu/no-top-level-await */
 import type { APIRoute, GetStaticPaths, InferGetStaticParamsType } from 'astro';
-import { Icon, TouchIcon } from './_components';
-import * as render from './_render';
+import { toPNG, toSVG } from '@/lib/render';
+import { Icon, renderOpts, TouchIcon } from './_components';
 
 export const getStaticPaths = (() => {
-	// Icons to generate at build time.
 	const FILES = [
 		'favicon.png',
 		'favicon.svg',
 		'apple-touch-icon.png',
 	] as const;
-	// Creates files at `/icons/apple-touch-icon.png`, `/icons/favicon.svg`, etc.
 	return FILES.map((file) => ({ params: { file } }));
 }) satisfies GetStaticPaths;
 
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+
+const faviconSvg = await toSVG(Icon, renderOpts);
+const touchIconSvg = await toSVG(TouchIcon, renderOpts);
 
 export const GET: APIRoute<never, Params> = async ({ params }) => {
 	const { file } = params;
@@ -21,17 +23,17 @@ export const GET: APIRoute<never, Params> = async ({ params }) => {
 
 	switch (file) {
 		case 'favicon.svg':
-			body = await render.toSVG(Icon);
+			body = faviconSvg;
 			break;
 
 		case 'favicon.png':
-			body = await render.toPNG(Icon, {
+			body = await toPNG(faviconSvg, {
 				fitTo: { mode: 'width', value: 48 },
 			});
 			break;
 
 		case 'apple-touch-icon.png':
-			body = await render.toPNG(TouchIcon, {
+			body = await toPNG(touchIconSvg, {
 				fitTo: { mode: 'width', value: 180 },
 			});
 			break;
