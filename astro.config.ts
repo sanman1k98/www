@@ -1,5 +1,5 @@
 import sitemap from '@astrojs/sitemap';
-import { type AstroUserConfig, defineConfig, envField, sharpImageService } from 'astro/config';
+import { defineConfig, envField, sharpImageService } from 'astro/config';
 import icon from 'astro-icon';
 import UnoCSS from 'unocss/astro';
 
@@ -22,7 +22,7 @@ const envSchema = {
 	}),
 };
 
-function getResumeBuildOptions(): AstroUserConfig {
+function getResumeBuildOptions() {
 	if (process.env.BUILD === 'resume') {
 		return {
 			outDir: './dist-resume',
@@ -46,12 +46,9 @@ export default defineConfig({
 			injectReset: true,
 		}),
 	],
+	env: { schema: envSchema },
 	experimental: {
-		// This will be the default in Astro 5.0
-		directRenderScript: true,
-		env: { schema: envSchema },
 		contentIntellisense: true,
-		contentLayer: true,
 	},
 	vite: {
 		optimizeDeps: { exclude: ['@resvg/resvg-js'] },

@@ -1,5 +1,5 @@
 /* eslint-disable antfu/no-top-level-await */
-import type { cvSchema, infoSchema, photosSchema } from '@/content/config';
+import type { cvSchema, infoSchema, photosSchema } from '@/content.config';
 import type { daterange } from '@/schemas/cv';
 import { type CollectionEntry, getCollection, getEntry, type z } from 'astro:content';
 
