@@ -18,45 +18,6 @@ git clone --recurse-submodules https://github.com/sanman1k98/www.git
 > [!NOTE]
 > This project uses a private git submodule for the "cv" content collection which is used to generate the `/resume` page.
 
-## 🗄 Project Structure
-
-```
-/
-├── .github/                    # Workflows that deploy the site
-│   └── ...
-├── scripts/                    # CI/CD related
-│   └── ...
-├── public/
-│   └── ...
-├── src/                        # Has a `tsconfig.json` path alias "@/*"
-│   ├── components/
-│   │   └── ...
-│   ├── content/
-│   │   ├── cv/                 # -> https://github.com/sanman1k98/cv.git
-│   │   ├── info/               # Site links and socials
-│   │   ├── photos/             # Contains an `index.yaml` and image files
-│   │   └── config.ts           # Defines collections using "src/schemas"
-│   ├── layouts/
-│   │   ├── BaseLayout.astro    # HTML and slot for `<body>`
-│   │   └── MainLayout.astro    # Components and slot for `<main>`
-│   ├── pages/
-│   │   ├── photos/
-│   │   ├── icons/[file].astro  # Static file endpoint to generate favicons
-│   │   ├── resume.astro        # Uses "cv" collection entries
-│   │   ├── index.astro         # Landing page
-│   │   └── ...
-│   ├── schemas/                # Zod schemas for Astro Content Collections
-│   │   ├── cv.ts               # Exports multiple schemas for different types of CV entries
-│   │   ├── info.ts             # Site links and socials
-│   │   ├── photos.ts           # Parses, transforms, and validates EXIF metadata for each photo
-│   │   └── ...
-│   ├── utils/
-│   │   └── ...
-│   └── content.ts              # Content Collection Entries and types
-├── package.json
-└── ...
-```
-
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:
