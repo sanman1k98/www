@@ -2,7 +2,6 @@
 
 ## ✨ Tech
 
-- [Bun](https://bun.sh): Package manager and runtime
 - [Astro](https://astro.build): JavaScript web framework
 - [UnoCSS](https://unocss.dev): CSS utility framework
 - [Content Collections](https://docs.astro.build/en/guides/content-collections/): Manages Markdown and image content
@@ -62,16 +61,16 @@ git clone --recurse-submodules https://github.com/sanman1k98/www.git
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `bun install`          | Installs dependencies                            |
-| `bun run dev`          | Starts local dev server at `localhost:4321`      |
-| `bun run check`        | Check project for type errors                    |
-| `bun run build`        | Build your production site to `./dist/`          |
-| `bun run preview`      | Preview your build locally, before deploying     |
-| `bun run deploy`       | Build and push to trigger deployment workflow    |
-| `bun run astro ...`    | Run CLI commands like `astro add`, `astro check` |
-| `bun run astro --help` | Get help using the Astro CLI                     |
+| Command                 | Action                                           |
+| :---------------------- | :----------------------------------------------- |
+| `pnpm install`          | Installs dependencies                            |
+| `pnpm run dev`          | Starts local dev server at `localhost:4321`      |
+| `pnpm run check`        | Check project for type errors                    |
+| `pnpm run build`        | Build your production site to `./dist/`          |
+| `pnpm run preview`      | Preview your build locally, before deploying     |
+| `pnpm run deploy`       | Build and push to trigger deployment workflow    |
+| `pnpm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
+| `pnpm run astro --help` | Get help using the Astro CLI                     |
 
 ## 🚀 Deploying
 
