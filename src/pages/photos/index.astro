@@ -39,7 +39,8 @@ import { Image } from 'astro:assets';
 
 	@media (prefers-reduced-motion: no-preference) {
 		[data-slide-enter] {
-			animation: slide-enter 0.6s both 1;
+			animation: slide-enter ease both 1;
+			animation-duration: calc(var(--enter-step) * var(--enter-delay) + 700ms);
 			animation-delay: calc(var(--enter-step) * var(--enter-delay) + var(--enter-start));
 		}
 	}
