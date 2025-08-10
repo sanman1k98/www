@@ -27,6 +27,7 @@ import { Image } from 'astro:assets';
 		}
 	}
 
+	.slide-entering-item,
 	.slide-entering-content > * {
 		/* Set on child element's style attribute. */
 		--entrance-position: 0;
@@ -35,11 +36,13 @@ import { Image } from 'astro:assets';
 		--entrance-extend: 90ms;
 	}
 
+	[data-slide-controller="false"] .slide-entering-item,
 	[data-slide-controller="false"] .slide-entering-content > * {
 		animation: none;
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
+		.slide-entering-item,
 		.slide-entering-content > * {
 			animation: slide-enter ease both 1;
 			animation-duration: calc(
@@ -108,7 +111,7 @@ import { Image } from 'astro:assets';
 <Page
 	title="Photos"
 	description="Some of my favorite photos that I've taken"
-	class="slide-entering-content pt-30 md:pt-36"
+	class="pt-30 md:pt-36"
 >
 	<script>
 		addEventListener("pageshow", (ev) => {
@@ -122,7 +125,7 @@ import { Image } from 'astro:assets';
 			const { slug, file, alt } = photo;
 			const { height: h, width: w } = file;
 			return (
-				<div style={{ "--entrance-position": i, "--ratio": h / w }}>
+				<div class="slide-entering-item" style={{ "--entrance-position": i, "--ratio": h / w }}>
 					<figure class="overflow-clip border-12 border-white bg-white shadow-lg transition duration-350 hover:shadow-xl media-[(hover:hover)_and_(pointer:fine)]:hover:scale-102">
 						<a href={`/photos/${slug}`}>
 							<Image src={file} {alt} loading="eager" class="h-full w-full object-cover" />
