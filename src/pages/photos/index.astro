@@ -27,6 +27,15 @@ import { Image } from 'astro:assets';
 		}
 	}
 
+	@keyframes fade-in {
+		0% {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
 	.slide-entering-item,
 	.slide-entering-content > * {
 		/* Set on child element's style attribute. */
@@ -45,6 +54,17 @@ import { Image } from 'astro:assets';
 		.slide-entering-item,
 		.slide-entering-content > * {
 			animation: slide-enter ease both 1;
+			animation-duration: calc(
+				var(--entrance-duration) + var(--entrance-extend) * var(--entrance-position)
+			);
+			animation-delay: calc(var(--entrance-interval) * var(--entrance-position));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.slide-entering-item,
+		.slide-entering-content > * {
+			animation: fade-in ease both 1;
 			animation-duration: calc(
 				var(--entrance-duration) + var(--entrance-extend) * var(--entrance-position)
 			);
