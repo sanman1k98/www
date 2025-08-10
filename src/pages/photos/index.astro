@@ -30,7 +30,7 @@ import { Image } from 'astro:assets';
 	[data-slide-enter] {
 		--enter-step: 0;
 		--enter-delay: 90ms;
-		--enter-start: 0ms;
+		--enter-duration: 700ms;
 	}
 
 	[data-slide-controller="false"] [data-slide-enter] {
@@ -40,8 +40,8 @@ import { Image } from 'astro:assets';
 	@media (prefers-reduced-motion: no-preference) {
 		[data-slide-enter] {
 			animation: slide-enter ease both 1;
-			animation-duration: calc(var(--enter-step) * var(--enter-delay) + 700ms);
-			animation-delay: calc(var(--enter-step) * var(--enter-delay) + var(--enter-start));
+			animation-duration: calc(var(--enter-step) * var(--enter-delay) + var(--enter-duration));
+			animation-delay: calc(var(--enter-step) * var(--enter-delay));
 		}
 	}
 
