@@ -38,27 +38,21 @@ import { Image } from 'astro:assets';
 
 	.slide-entering-item,
 	.slide-entering-content > * {
-		/* Set on child element's style attribute. */
+		/* Set `--entrance-position` on "sliding-entering-item" or children of "slide-entering-content". */
 		--entrance-position: 0;
 		--entrance-duration: 700ms;
 		--entrance-interval: 90ms;
 		--entrance-extend: 90ms;
+		animation: slide-enter ease both 1;
+		animation-duration: calc(
+			var(--entrance-duration) + var(--entrance-extend) * var(--entrance-position)
+		);
+		animation-delay: calc(var(--entrance-interval) * var(--entrance-position));
 	}
 
 	[data-slide-controller="false"] .slide-entering-item,
 	[data-slide-controller="false"] .slide-entering-content > * {
 		animation: none;
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		.slide-entering-item,
-		.slide-entering-content > * {
-			animation: slide-enter ease both 1;
-			animation-duration: calc(
-				var(--entrance-duration) + var(--entrance-extend) * var(--entrance-position)
-			);
-			animation-delay: calc(var(--entrance-interval) * var(--entrance-position));
-		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
