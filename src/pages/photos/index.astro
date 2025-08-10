@@ -40,6 +40,7 @@ import { Image } from 'astro:assets';
 	.slide-entering-content > * {
 		/* Set `--entrance-position` on "sliding-entering-item" or children of "slide-entering-content". */
 		--entrance-position: 0;
+		--entrance-delay: 0;
 		--entrance-duration: 700ms;
 		--entrance-interval: 90ms;
 		--entrance-extend: 90ms;
@@ -47,7 +48,9 @@ import { Image } from 'astro:assets';
 		animation-duration: calc(
 			var(--entrance-duration) + var(--entrance-extend) * var(--entrance-position)
 		);
-		animation-delay: calc(var(--entrance-interval) * var(--entrance-position));
+		animation-delay: calc(
+			var(--entrance-delay) + var(--entrance-interval) * var(--entrance-position)
+		);
 	}
 
 	[data-slide-controller="false"] .slide-entering-item,
@@ -58,11 +61,11 @@ import { Image } from 'astro:assets';
 	@media (prefers-reduced-motion: reduce) {
 		.slide-entering-item,
 		.slide-entering-content > * {
-			animation: fade-in ease both 1;
-			animation-duration: calc(
-				var(--entrance-duration) + var(--entrance-extend) * var(--entrance-position)
-			);
-			animation-delay: calc(var(--entrance-interval) * var(--entrance-position));
+			--entrance-delay: 120ms;
+			--entrance-duration: 120ms;
+			--entrance-interval: 30ms;
+			--entrance-extend: 90ms;
+			animation-name: fade-in;
 		}
 	}
 
