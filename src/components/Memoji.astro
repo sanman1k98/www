@@ -9,7 +9,7 @@ const { class: className } = Astro.props;
 
 <div class:list={[className, "relative"]}>
 	<div
-		class="transform-gpu rounded-full from-sky-300 bg-gradient-to-tr shadow-xl outline-8 outline-white outline transition-all duration-500 hover:scale-105 hover:shadow-2xl lg:outline-12 md:outline-10 hover:brightness-105 hover:-translate-y-1"
+		class="rounded-full from-sky-300 bg-gradient-to-tr shadow-xl outline-8 outline-white outline transition-all duration-500 hover:scale-105 hover:shadow-2xl lg:outline-12 md:outline-10 hover:brightness-105 hover:-translate-y-1"
 	>
 		<Image
 			src={memoji}
@@ -18,7 +18,7 @@ const { class: className } = Astro.props;
 			class={`
         object-scale-down rounded-full
         shadow-inner shadow-sky-50
-        transform-gpu transition-all duration-350
+        transition-all duration-350
         hover:shadow-transparent hover:drop-shadow-md
         hover:scale-105 hover:-translate-y-1 hover:-skew-x-1 hover:rotate-1
       `}
