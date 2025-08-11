@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
+import { createElement, type FC, type JSXStyleProperties } from '@/lib/jsx-runtime';
 import { Resvg, type ResvgRenderOptions } from '@resvg/resvg-js';
-import { createElement } from 'react';
 import satori, { type Font as SatoriFont, type SatoriOptions } from 'satori';
 
 type FontOptions = Omit<SatoriFont, 'data'> & {
@@ -14,7 +14,7 @@ export type SatoriRenderOptions = Omit<SatoriOptions, 'fonts'> & {
 	fonts: FontOptions[];
 };
 
-export async function toSVG(Component: React.FC, opts: SatoriRenderOptions): Promise<string> {
+export async function toSVG(Component: FC, opts: SatoriRenderOptions): Promise<string> {
 	const { fonts: fontOptions, ...rest } = opts;
 
 	const fonts: SatoriFont[] = await Promise.all(
@@ -39,8 +39,8 @@ export async function toPNG(svg: string, opts: ResvgRenderOptions): Promise<Uint
 	return resvg.render().asPng();
 }
 
-export async function toHTML(Component: React.FC, opts: SatoriRenderOptions): Promise<string> {
-	const css: React.CSSProperties = {
+export async function toHTML(Component: FC, opts: SatoriRenderOptions): Promise<string> {
+	const css: JSXStyleProperties = {
 		height: opts.height,
 		width: opts.width,
 		overflow: 'clip',

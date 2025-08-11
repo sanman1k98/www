@@ -1,7 +1,7 @@
 /** @jsxRuntime automatic */
-/** @jsxImportSource react */
+/** @jsxImportSource #lib */
+import type { FC, JSXNode, JSXStyleProperties } from '@/lib/jsx-runtime';
 import type { SatoriRenderOptions } from '@/lib/render';
-import type React from 'react';
 import { join } from 'node:path';
 import { unoTheme } from '@/lib/theme';
 
@@ -26,12 +26,12 @@ export const renderOpts = {
 } satisfies SatoriRenderOptions;
 
 interface Props {
-	children?: React.ReactNode;
-	style?: React.CSSProperties;
+	children?: JSXNode;
+	style?: JSXStyleProperties;
 };
 
 /** The text "ns" with a color gradient across. */
-export const Favicon: React.FC<Props> = ({ style }) => (
+export const Favicon: FC<Props> = ({ style }) => (
 	<div
 		style={{
 			height: SIZE,
@@ -56,7 +56,7 @@ export const Favicon: React.FC<Props> = ({ style }) => (
 	</div>
 );
 
-const Background: React.FC<Props> = ({ children }) => (
+const Background: FC<Props> = ({ children }) => (
 	<div
 		style={{
 			backgroundImage: BG_GRADIENT,
@@ -69,7 +69,7 @@ const Background: React.FC<Props> = ({ children }) => (
 );
 
 /** `Favicon` with a subtle background gradient. */
-export const TouchIcon: React.FC<Props> = () => (
+export const TouchIcon: FC<Props> = () => (
 	<Background>
 		<Favicon
 			style={{
