@@ -2,16 +2,6 @@
 import { photos } from '@/content';
 import Page from '@/layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
-
-/**
- * Horizontally flowing masonry layout using (mostly) CSS.
- *
- * Use CSS grid to emulate a masonry layout. Calculate dimensions of each item
- * in the layout using fixed absolute units, then convert them into relative
- * units that scale with the viewport width.
- *
- * NOTE: calculations are done only for two and three column layouts.
- */
 ---
 
 <style is:global>
@@ -77,50 +67,48 @@ import { Image } from 'astro:assets';
 		gap: 6vw;
 	}
 
-	/* Two column masonry layout */
+	/* Two column fluid masonry layout */
 	@screen sm {
 		main {
-			/* Store <number> values because some calculations require a <number>/<integer> result */
-			--masonry-track: 1;
-			--masonry-col: calc(var(--masonry-track) * 42);
-			/* Define max sizes */
-			--masonry-max-col-w: 548px;
-			--masonry-max-track-size: calc(var(--masonry-max-col-w) / var(--masonry-col));
-			/* Multiply by `1vw` to convert <number> to a <length> */
-			grid-auto-rows: calc(1vw * var(--masonry-track));
-			grid-template-columns: repeat(
-				2,
-				min(calc(1vw * var(--masonry-col)), var(--masonry-max-col-w))
+			--masonry-cols: 2;
+			--masonry-col-max-w: 548px;
+			/* The width of a column relative to the width of the viewport. */
+			--masonry-col-rel-w: 42;
+			/* The size of the gutter relative to the width of the viewport. */
+			--masonry-gutter-rel-size: 2;
+
+			--masonry-track-rel-size: calc(var(--masonry-gutter-rel-size) / 2);
+			--masonry-cell-aspect-ratio: calc(var(--masonry-col-rel-w) / var(--masonry-track-rel-size));
+			--masonry-track-max-size: calc(var(--masonry-col-max-w) / var(--masonry-cell-aspect-ratio));
+
+			--masonry-col-fluid-w: min(calc(1vw * var(--masonry-col-rel-w)), var(--masonry-col-max-w));
+			--masonry-track-fluid-size: min(
+				calc(1vw * var(--masonry-track-rel-size)),
+				var(--masonry-track-max-size)
 			);
-			/* Have column gaps that are twice the size of the row tracks */
-			gap: 0 calc(1vw * calc(2 * var(--masonry-track)));
+
+			grid-auto-rows: var(--masonry-track-fluid-size);
+			grid-template-columns: repeat(var(--masonry-cols), var(--masonry-col-fluid-w));
+			column-gap: calc(2 * var(--masonry-track-fluid-size));
+			row-gap: 0;
 		}
 
-		/* Style wrapper div for each item in the layout */
+		/* Set child element's grid-row span based on its aspect-ratio. */
 		main > div {
-			/* Calculate how many rows to span given the aspect ratio, plus two rows for padding */
-			/* `calc()` will round to nearest integer */
-			grid-row: span calc(calc(calc(var(--masonry-col) * var(--ratio)) / var(--masonry-track)) + 2);
-			/* Add top and bottom padding to match the column gap */
-			padding-block: min(calc(1vw * var(--masonry-track)), var(--masonry-max-track-size));
-		}
-
-		/* Set each item to span the height within their parents  */
-		main > div > *:only-child {
-			height: 100%;
+			--masonry-item-aspect-ratio: calc(var(--w) / var(--h));
+			--masonry-item-row-span: calc(
+				var(--masonry-cell-aspect-ratio) / var(--masonry-item-aspect-ratio)
+			);
+			grid-row: span calc(var(--masonry-item-row-span) + 2);
+			padding-block: var(--masonry-track-fluid-size);
 		}
 	}
 
-	/* Three column masonry layout */
+	/* Three column fluid masonry layout */
 	@screen xl {
 		main {
-			--masonry-track: 1;
-			--masonry-col: calc(var(--masonry-track) * 28);
-			grid-auto-rows: min(calc(1vw * var(--masonry-track)), var(--masonry-max-track-size));
-			grid-template-columns: repeat(
-				3,
-				min(calc(1vw * var(--masonry-col)), var(--masonry-max-col-w))
-			);
+			--masonry-cols: 3;
+			--masonry-col-rel-w: 28;
 		}
 	}
 </style>
@@ -142,10 +130,10 @@ import { Image } from 'astro:assets';
 			const { slug, file, alt } = photo;
 			const { height: h, width: w } = file;
 			return (
-				<div class="slide-entering-item" style={{ "--entrance-position": i, "--ratio": h / w }}>
-					<figure class="overflow-clip border-12 border-white bg-white shadow-lg transition duration-350 hover:shadow-xl media-[(hover:hover)_and_(pointer:fine)]:hover:scale-102">
+				<div class="slide-entering-item" style={{ "--entrance-position": i, "--h": h, "--w": w }}>
+					<figure class="size-full overflow-clip border-12 border-white bg-white shadow-lg transition duration-350 hover:shadow-xl media-[(hover:hover)_and_(pointer:fine)]:hover:scale-102">
 						<a href={`/photos/${slug}`}>
-							<Image src={file} {alt} loading="eager" class="h-full w-full object-cover" />
+							<Image src={file} {alt} loading="eager" class="size-full object-cover" />
 						</a>
 					</figure>
 				</div>
