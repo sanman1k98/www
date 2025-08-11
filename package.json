@@ -15,6 +15,10 @@
 		"preview:resume": "BUILD='resume' astro preview --host",
 		"astro": "astro"
 	},
+	"imports": {
+		"#lib/jsx-runtime": "./src/lib/jsx-runtime.ts",
+		"#lib/jsx-dev-runtime": "./src/lib/jsx-runtime.ts"
+	},
 	"dependencies": {
 		"@astrojs/sitemap": "3.4.2",
 		"@fontsource-variable/quicksand": "^5.1.0",
