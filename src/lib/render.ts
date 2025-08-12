@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { createElement, type FC, type JSXStyleProperties } from '@/lib/jsx-runtime';
+import { createElement, type FC, type JSXStyleProperties } from '@/lib/satori-jsx';
 import { Resvg, type ResvgRenderOptions } from '@resvg/resvg-js';
 import satori, { type Font as SatoriFont, type SatoriOptions } from 'satori';
 

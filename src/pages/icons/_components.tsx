@@ -1,7 +1,7 @@
 /** @jsxRuntime automatic */
-/** @jsxImportSource #lib */
-import type { FC, JSXNode, JSXStyleProperties } from '@/lib/jsx-runtime';
+/** @jsxImportSource #satori/jsx */
 import type { SatoriRenderOptions } from '@/lib/render';
+import type { FC, JSXNode, JSXStyleProperties } from '@/lib/satori-jsx';
 import { join } from 'node:path';
 import { unoTheme } from '@/lib/theme';
 
