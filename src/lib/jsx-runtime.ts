@@ -8,6 +8,7 @@ export type FC<P = Record<string, any>> = (props: P) => JSXElement<P>;
 
 // eslint-disable-next-line ts/no-namespace
 export namespace JSX {
+	export type ElementType = string | FC;
 	export type Element = JSXElement;
 
 	// Don't support Class components.
@@ -41,6 +42,6 @@ export function createElement(type: string | FC, props: Record<string, any> = {}
 
 export const jsxs = jsx;
 export const jsxDEV = jsx;
-export function Fragment(props: JSX.ElementChildrenAttribute) {
+export function Fragment(props: { children?: JSXNode }) {
 	return props.children;
 }
