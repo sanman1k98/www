@@ -1,3 +1,16 @@
+/**
+ * @file
+ * Minimal JSX runtime for Satori.
+ *
+ * Use the `@jsxImportSource` pragma directive in files containing JSX to be consumded by Satori.
+ * The import mapping for this module is defined in the `package.json` "imports" field.
+ *
+ * @see {@link https://www.typescriptlang.org/tsconfig/#jsxImportSource TSConfig: using "jsxImportSource" or `@jsxImportSource` pragma directive}
+ * @see {@link https://docs.astro.build/en/guides/typescript/#errors-typing-multiple-jsx-frameworks-at-the-same-time Astro: Using multiple JSX frameworks at the same time}
+ * @see {@link https://nodejs.org/docs/latest/api/packages.html#subpath-imports Node.js: `package.json` subpath imports}
+ * @see {@link ../../package.json `package.json`}
+ */
+
 import type { JSX as ReactJSX } from 'react';
 
 // TODO: define custom subset of style properties supported by Satori.
