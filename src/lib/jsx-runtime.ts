@@ -48,6 +48,10 @@ export namespace JSX {
 
 	export interface Element extends JSXElement<any, any> { };
 
+	export interface ElementAttributesProperty {
+		props: Record<string, any>;
+	};
+
 	export interface ElementChildrenAttribute {
 		children: JSXNode;
 	};
