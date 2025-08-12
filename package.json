@@ -34,8 +34,8 @@
 		"exif-reader": "^2.0.1",
 		"fast-glob": "^3.3.2",
 		"github-slugger": "^2.0.0",
-		"react": "^18.3.1",
-		"satori": "^0.11.2",
+		"react": "^19.1.1",
+		"satori": "^0.16.2",
 		"sharp": "^0.33.5",
 		"unocss": "^0.63.4"
 	},
@@ -58,7 +58,7 @@
 		"eslint-plugin-astro": "^1.2.4",
 		"prettier": "^3.3.3",
 		"prettier-plugin-astro": "^0.14.1",
-		"react-dom": "^18.3.1",
+		"react-dom": "^19.1.1",
 		"typescript": "^5.6.3"
 	},
 	"trustedDependencies": [
