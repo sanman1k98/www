@@ -3,8 +3,8 @@ import type { ReactElement, JSX as ReactJSX, ReactNode } from 'react';
 export type { CSSProperties as JSXStyleProperties } from 'react';
 
 export type JSXNode = ReactNode;
-export type JSXElement = ReactElement;
-export type FC<P = Record<string, any>> = (props: P) => ReactElement<P>;
+export type JSXElement<P = Record<string, any>> = ReactElement<P>;
+export type FC<P = Record<string, any>> = (props: P) => JSXElement<P>;
 
 // eslint-disable-next-line ts/no-namespace
 export namespace JSX {
@@ -25,11 +25,11 @@ export namespace JSX {
 	};
 }
 
-export function jsx(type: string | FC, props: unknown): JSXElement {
+export function jsx(type: string | FC, props: Record<string, any>): JSXElement {
 	if (typeof type === 'string') {
 		return { type, props, key: null };
 	} else {
-		return type(props as object);
+		return type(props);
 	}
 }
 
