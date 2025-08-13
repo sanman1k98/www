@@ -47,7 +47,7 @@ export interface SatoriJSXProps {
 	[propName: string]: any;
 }
 
-export type FC<P = Record<string, any>> = (props: P) => JSXElement<P>;
+export type FC<P = Record<string, any>> = (props: P) => JSXNode;
 
 // eslint-disable-next-line ts/no-namespace
 export namespace JSX {
@@ -90,19 +90,17 @@ export function jsx(
 	type: string | FC,
 	props: Record<string, any>,
 	key: string | null = null,
-): ReactJSX.Element {
-	if (typeof type === 'string') {
-		return { type, props, key };
-	} else {
+): JSXNode {
+	if (typeof type === 'function')
 		return type(props);
-	}
+	return { type, props, key };
 }
 
 export function createElement(
 	type: string | FC,
 	props: Record<string, any> = {},
 	...children: JSXNode[]
-): JSXElement {
+): JSXNode {
 	props.children = children;
 	return jsx(type, props);
 }
