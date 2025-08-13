@@ -102,9 +102,8 @@ export function createElement(
 	type: string | FC,
 	props: Record<string, any> = {},
 	...children: JSXNode[]
-): ReactJSX.Element {
-	if (arguments.length > 3)
-		props.children = children;
+): JSXElement {
+	props.children = children;
 	return jsx(type, props);
 }
 
