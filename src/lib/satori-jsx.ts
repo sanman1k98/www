@@ -57,7 +57,7 @@ export namespace JSX {
 	 * @see {@link https://github.com/vercel/satori?tab=readme-ov-file#jsx Satori JSX documentation}
 	 */
 	export type ElementClass = never;
-	export type ElementType = string | FC;
+	export type ElementType = string | FC<any>;
 
 	export interface Element extends JSXElement<any, any> { };
 
