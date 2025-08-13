@@ -88,8 +88,8 @@ export namespace JSX {
 }
 
 export function jsx(
-	type: string | FC,
-	props: Record<string, any>,
+	type: string | FC<any>,
+	props: unknown,
 	key: string | null = null,
 ): JSXNode {
 	if (typeof type === 'function')
