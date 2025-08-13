@@ -25,15 +25,10 @@ export const renderOpts = {
 	}],
 } satisfies SatoriRenderOptions;
 
-interface Props {
-	children?: JSXNode;
-	style?: JSXStyleProperties;
-};
-
 const Initials: FC = () => 'ns';
 
 /** The text "ns" with a color gradient across. */
-export const Favicon: FC<Props> = ({ style }) => (
+export const Favicon: FC<{ style: JSXStyleProperties }> = (props?) => (
 	<div
 		style={{
 			height: SIZE,
@@ -51,14 +46,14 @@ export const Favicon: FC<Props> = ({ style }) => (
 			position: 'relative',
 			textOverflow: 'clip',
 			// Overrides
-			...style,
+			...props?.style,
 		}}
 	>
 		<Initials />
 	</div>
 );
 
-const Background: FC<Props> = ({ children }) => (
+const Background: FC<{ children: JSXNode }> = (props) => (
 	<div
 		style={{
 			backgroundImage: BG_GRADIENT,
@@ -66,12 +61,12 @@ const Background: FC<Props> = ({ children }) => (
 			display: 'flex',
 		}}
 	>
-		{children}
+		{props.children}
 	</div>
 );
 
 /** `Favicon` with a subtle background gradient. */
-export const TouchIcon: FC<Props> = () => (
+export const TouchIcon: FC = () => (
 	<Background>
 		<Favicon
 			style={{
