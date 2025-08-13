@@ -47,7 +47,8 @@ export interface SatoriJSXProps {
 	[propName: string]: any;
 }
 
-export type FC<P = Record<string, any>> = (props: P) => JSXNode;
+// eslint-disable-next-line ts/no-empty-object-type
+export type FC<P = {}> = (props: P) => JSXNode;
 
 // eslint-disable-next-line ts/no-namespace
 export namespace JSX {
