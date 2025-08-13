@@ -30,6 +30,8 @@ export async function toSVG(Component: FC, opts: SatoriRenderOptions): Promise<s
 	return await satori(createElement(Component), satoriOpts);
 }
 
+export type PNGRenderOptions = ResvgRenderOptions;
+
 export async function toPNG(svg: string, opts: ResvgRenderOptions): Promise<Uint8Array> {
 	const resvg = new Resvg(svg, {
 		font: { loadSystemFonts: false },
