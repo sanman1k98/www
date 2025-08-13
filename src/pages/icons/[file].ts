@@ -1,52 +1,43 @@
-/* eslint-disable antfu/no-top-level-await */
-import type { APIRoute, GetStaticPaths, InferGetStaticParamsType } from 'astro';
-import { toPNG, toSVG } from '@/lib/render';
+import type { APIRoute, InferGetStaticParamsType, InferGetStaticPropsType } from 'astro';
+import * as Render from '@/lib/render';
 import { Favicon, renderOpts, TouchIcon } from './_components';
 
-export const getStaticPaths = (() => {
-	const FILES = [
-		'favicon.png',
-		'favicon.svg',
-		'apple-touch-icon.png',
-	] as const;
-	return FILES.map((file) => ({ params: { file } }));
-}) satisfies GetStaticPaths;
+type PathItem =
+	| { params: { file: `${string}.svg` }; props: { svg: string } }
+	| { params: { file: `${string}.png` }; props: { svg: string; pngOpts: Render.PNGRenderOptions } };
 
-type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+export async function getStaticPaths() {
+	// Render and pass SVGs as props since `getStaticPaths` gets called only once.
+	const faviconSvg = await Render.toSVG(Favicon, renderOpts);
+	const touchIconSvg = await Render.toSVG(TouchIcon, renderOpts);
 
-const faviconSvg = await toSVG(Favicon, renderOpts);
-const touchIconSvg = await toSVG(TouchIcon, renderOpts);
-
-export const GET: APIRoute<never, Params> = async ({ params }) => {
-	const { file } = params;
-	let body: BodyInit;
-
-	switch (file) {
-		case 'favicon.svg':
-			body = faviconSvg;
-			break;
-
-		case 'favicon.png':
-			body = await toPNG(faviconSvg, {
-				fitTo: { mode: 'width', value: 48 },
-			});
-			break;
-
-		case 'apple-touch-icon.png':
-			body = await toPNG(touchIconSvg, {
-				fitTo: { mode: 'width', value: 180 },
-			});
-			break;
-	}
-
-	return new Response(
-		body,
+	return [
 		{
-			headers: {
-				'Content-Type': file.endsWith('svg')
-					? 'image/svg+xml'
-					: 'image/png',
+			params: { file: 'favicon.svg' },
+			props: { svg: faviconSvg },
+		},
+		{
+			params: { file: 'favicon.png' },
+			props: {
+				svg: faviconSvg,
+				pngOpts: { fitTo: { mode: 'width', value: 48 } },
 			},
 		},
-	);
+		{
+			params: { file: 'apple-touch-icon.png' },
+			props: {
+				svg: touchIconSvg,
+				pngOpts: { fitTo: { mode: 'width', value: 180 } },
+			},
+		},
+	] satisfies PathItem[];
+}
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+export const GET: APIRoute<Props, Params> = async ({ props: { svg, pngOpts } }) => {
+	const body: BodyInit = pngOpts ? await Render.toPNG(svg, pngOpts) : svg;
+	const headers: HeadersInit = { 'Content-Type': pngOpts ? 'image/png' : 'image/svg+xml' };
+	return new Response(body, { headers });
 };
