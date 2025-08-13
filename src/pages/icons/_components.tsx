@@ -30,6 +30,8 @@ interface Props {
 	style?: JSXStyleProperties;
 };
 
+const Initials: FC = () => 'ns';
+
 /** The text "ns" with a color gradient across. */
 export const Favicon: FC<Props> = ({ style }) => (
 	<div
@@ -52,7 +54,7 @@ export const Favicon: FC<Props> = ({ style }) => (
 			...style,
 		}}
 	>
-		ns
+		<Initials />
 	</div>
 );
 
