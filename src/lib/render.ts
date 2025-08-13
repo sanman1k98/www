@@ -14,16 +14,20 @@ export type SatoriRenderOptions = Omit<SatoriOptions, 'fonts'> & {
 	fonts: FontOptions[];
 };
 
+export async function getFonts(fonts: FontOptions[]): Promise<SatoriFont[]> {
+	return Promise.all(
+		fonts.map(async (font) => {
+			const { path, ...rest } = font;
+			const data = await readFile(path);
+			return { ...rest, data } as SatoriFont;
+		}),
+	);
+}
+
 export async function toSVG(Component: FC, opts: SatoriRenderOptions): Promise<string> {
 	const { fonts: fontOptions, ...rest } = opts;
 
-	const fonts: SatoriFont[] = await Promise.all(
-		fontOptions.map(async (font: FontOptions): Promise<SatoriFont> => {
-			const { path, ...rest } = font;
-			const data = await readFile(path);
-			return { ...rest, data };
-		}),
-	);
+	const fonts: SatoriFont[] = await getFonts(fontOptions);
 
 	const satoriOpts = { fonts, ...rest } as SatoriOptions;
 
