@@ -113,4 +113,57 @@ export type JSXNode =
  */
 
 // eslint-disable-next-line ts/no-empty-object-type
-export type FC<P = {}> = (props: P) => JSXNode | Promise<JSXNode>;
+interface FunctionComponent<P = {}> {
+	(props: P): JSXNode | Promise<JSXNode>;
+	/**
+	 * Used in debugging messages. You might want to set it
+	 * explicitly if you want to display a different name for
+	 * debugging purposes.
+	 *
+	 * @see {@link https://legacy.reactjs.org/docs/react-component.html#displayname Legacy React Docs}
+	 *
+	 * @example
+	 *
+	 * ```tsx
+	 *
+	 * const MyComponent: FC = () => {
+	 *   return <div>Hello!</div>
+	 * }
+	 *
+	 * MyComponent.displayName = 'MyAwesomeComponent'
+	 * ```
+	 */
+	displayName?: string | undefined;
+}
+
+/**
+ * Represents the type of a function component. Can optionally
+ * receive a type argument that represents the props the component
+ * receives.
+ *
+ * @template P The props the component accepts.
+ * @see {@link https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/function_components React TypeScript Cheatsheet}
+ * @alias for {@link FunctionComponent}
+ *
+ * @example
+ *
+ * ```tsx
+ * // With props:
+ * type Props = { name: string }
+ *
+ * const MyComponent: FC<Props> = (props) => {
+ *  return <div>{props.name}</div>
+ * }
+ * ```
+ *
+ * @example
+ *
+ * ```tsx
+ * // Without props:
+ * const MyComponentWithoutProps: FC = () => {
+ *   return <div>MyComponentWithoutProps</div>
+ * }
+ * ```
+ */
+// eslint-disable-next-line ts/no-empty-object-type
+export type FC<P = {}> = FunctionComponent<P>;
