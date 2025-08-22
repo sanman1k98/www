@@ -17,10 +17,10 @@ export function createElement<P extends {}>(
 	type: string | FC<P>,
 	props?: { key?: JSXKey | undefined | null } & Omit<P, 'children'>,
 	...children: JSXNode[]
-): JSXElement<P> {
+): JSXElement {
 	if (!props) {
 		const newProps = children.length ? { children } : {};
-		return jsx(type, newProps, null) as JSXElement<P>;
+		return jsx(type, newProps, null);
 	}
 
 	// Destructure key from props.
@@ -31,5 +31,5 @@ export function createElement<P extends {}>(
 	if (children.length)
 		restProps.children = children;
 
-	return jsx(type, restProps, key) as JSXElement<P>;
+	return jsx(type, restProps, key);
 }
