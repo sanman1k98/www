@@ -14,14 +14,24 @@ export type SatoriRenderOptions = Omit<SatoriOptions, 'fonts'> & {
 	fonts: FontOptions[];
 };
 
-export async function getFonts(fonts: FontOptions[]): Promise<SatoriFont[]> {
-	return Promise.all(
-		fonts.map(async (font) => {
+const fontCache = new WeakMap<FontOptions[], SatoriFont[]>();
+
+export async function getFonts(opts: FontOptions[]): Promise<SatoriFont[]> {
+	let fonts: SatoriFont[] | undefined = fontCache.get(opts);
+
+	if (fonts)
+		return fonts;
+
+	fonts = await Promise.all(
+		opts.map(async (font) => {
 			const { path, ...rest } = font;
 			const data = await readFile(path);
 			return { ...rest, data } as SatoriFont;
 		}),
 	);
+
+	fontCache.set(opts, fonts);
+	return fonts;
 }
 
 export async function toSVG(Component: FC, opts: SatoriRenderOptions): Promise<string> {
