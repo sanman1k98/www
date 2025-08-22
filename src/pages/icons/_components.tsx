@@ -1,6 +1,6 @@
 /** @jsxRuntime automatic */
 /** @jsxImportSource #satori/jsx */
-import type { SatoriRenderOptions } from '@/lib/render';
+import type { SVGRenderOptions } from '@/lib/render';
 import type { FC, JSXNode, JSXStyleProperties } from '@/lib/satori';
 import { join } from 'node:path';
 import { unoTheme } from '@/lib/theme';
@@ -23,7 +23,7 @@ export const renderOpts = {
 		path: FONT_PATH,
 		style: 'normal',
 	}],
-} satisfies SatoriRenderOptions;
+} satisfies SVGRenderOptions;
 
 const Initials: FC = () => 'ns';
 

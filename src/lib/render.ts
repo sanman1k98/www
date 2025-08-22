@@ -8,7 +8,7 @@ type FontOptions = Omit<SatoriFont, 'data'> & {
 };
 
 /** Requires either `height` or `width`. */
-export type SatoriRenderOptions = Omit<SatoriOptions, 'fonts'> & {
+export type SVGRenderOptions = Omit<SatoriOptions, 'fonts'> & {
 	height?: number;
 	width?: number;
 	fonts: FontOptions[];
@@ -34,7 +34,7 @@ export async function getFonts(opts: FontOptions[]): Promise<SatoriFont[]> {
 	return fonts;
 }
 
-export async function toSVG(Component: FC, opts: SatoriRenderOptions): Promise<string> {
+export async function toSVG(Component: FC, opts: SVGRenderOptions): Promise<string> {
 	const { fonts: fontOptions, ...rest } = opts;
 	const fonts: SatoriFont[] = await getFonts(fontOptions);
 	const satoriOpts = { fonts, ...rest } as SatoriOptions;
@@ -52,7 +52,7 @@ export async function toPNG(svg: string, opts: ResvgRenderOptions): Promise<Uint
 	return resvg.render().asPng();
 }
 
-export async function toHTML(Component: FC, opts: SatoriRenderOptions): Promise<string> {
+export async function toHTML(Component: FC, opts: SVGRenderOptions): Promise<string> {
 	const css: JSXStyleProperties = {
 		height: opts.height,
 		width: opts.width,
