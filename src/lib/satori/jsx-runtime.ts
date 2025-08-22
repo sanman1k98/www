@@ -15,9 +15,6 @@
 import type { JSX as ReactJSX } from 'react';
 import type { FC, JSXElement, JSXKey, JSXNode } from './types';
 
-// TODO: define custom subset of style properties supported by Satori.
-export type { CSSProperties as JSXStyleProperties } from 'react';
-
 // eslint-disable-next-line ts/no-namespace
 export namespace JSX {
 	/**
