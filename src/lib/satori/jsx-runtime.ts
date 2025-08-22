@@ -57,11 +57,19 @@ export namespace JSX {
 
 export function jsx(
 	type: string | FC<any>,
-	props: unknown,
-	key: string | null = null,
-): JSXNode {
-	if (typeof type === 'function')
-		return type(props);
+	props: Record<string, unknown>,
+	key?: JSXKey | undefined | null,
+): JSXElement {
+	if ('key' in props) {
+		// Destructure spread key from props.
+		const { key: keyProp, ...restProps } = props;
+		// Key param takes precedence over spread key prop.
+		key = arguments.length === 3 ? key : keyProp as JSXKey;
+		// Shallow copy of props without key.
+		props = restProps;
+	}
+	// Coerce key to string if not nullish.
+	key = (key ?? null) !== null ? String(key) : null;
 	return { type, props, key };
 }
 
