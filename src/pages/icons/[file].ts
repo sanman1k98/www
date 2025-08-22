@@ -1,6 +1,7 @@
 import type { APIRoute, InferGetStaticParamsType, InferGetStaticPropsType } from 'astro';
+import AppleTouchIcon from '@/components/satori/AppleTouchIcon';
+import Favicon from '@/components/satori/Favicon';
 import * as Render from '@/lib/render';
-import { Favicon, renderOpts, TouchIcon } from './_components';
 
 type PathItem =
 	| { params: { file: `${string}.svg` }; props: { svg: string } }
@@ -8,8 +9,8 @@ type PathItem =
 
 export async function getStaticPaths() {
 	// Render and pass SVGs as props since `getStaticPaths` gets called only once.
-	const faviconSvg = await Render.toSVG(Favicon, renderOpts);
-	const touchIconSvg = await Render.toSVG(TouchIcon, renderOpts);
+	const faviconSvg = await Render.toSVG(Favicon);
+	const touchIconSvg = await Render.toSVG(AppleTouchIcon);
 
 	return [
 		{
