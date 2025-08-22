@@ -16,8 +16,8 @@
 		"astro": "astro"
 	},
 	"imports": {
-		"#satori/jsx/jsx-runtime": "./src/lib/satori-jsx.ts",
-		"#satori/jsx/jsx-dev-runtime": "./src/lib/satori-jsx.ts"
+		"#satori/jsx/jsx-runtime": "./src/lib/satori/jsx-runtime.ts",
+		"#satori/jsx/jsx-dev-runtime": "./src/lib/satori/jsx-runtime.ts"
 	},
 	"dependencies": {
 		"@astrojs/sitemap": "3.4.2",
