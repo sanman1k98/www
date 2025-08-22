@@ -31,7 +31,7 @@ export async function toSVG(Component: FC, opts: SatoriRenderOptions): Promise<s
 
 	const satoriOpts = { fonts, ...rest } as SatoriOptions;
 
-	return await satori(Component({}), satoriOpts);
+	return await satori(createElement(Component), satoriOpts);
 }
 
 export type PNGRenderOptions = ResvgRenderOptions;
