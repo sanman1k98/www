@@ -5,6 +5,8 @@
  * @see {@link https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react/index.d.ts `@types/react`}
  */
 
+export type { CSSProperties as JSXStyleProperties } from 'react';
+
 /**
  * Represents a JSX element.
  *
