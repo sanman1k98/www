@@ -26,11 +26,8 @@ export async function getFonts(fonts: FontOptions[]): Promise<SatoriFont[]> {
 
 export async function toSVG(Component: FC, opts: SatoriRenderOptions): Promise<string> {
 	const { fonts: fontOptions, ...rest } = opts;
-
 	const fonts: SatoriFont[] = await getFonts(fontOptions);
-
 	const satoriOpts = { fonts, ...rest } as SatoriOptions;
-
 	return await satori(createElement(Component), satoriOpts);
 }
 

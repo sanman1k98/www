@@ -24,20 +24,17 @@ export namespace JSX {
 	 */
 	export type ElementClass = never;
 	export type ElementType = string | FC<any>;
-
 	export interface Element extends JSXElement<any, any> { };
 
 	export interface ElementAttributesProperty {
 		props: {};
 	};
-
 	export interface ElementChildrenAttribute {
 		children: {};
 	};
 
 	// TODO: define custom subset of IntrinsicElements supported by Satori.
 	export interface IntrinsicElements extends ReactJSX.IntrinsicElements { };
-
 	export interface IntrinsicAttributes {
 		/**
 		 * NOTE: The explicitly declared key will take precedence over key spread in via props.
