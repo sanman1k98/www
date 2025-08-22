@@ -40,15 +40,16 @@ export namespace JSX {
 
 	export interface IntrinsicAttributes {
 		/**
-		 * **INFO**: Allowed as prop, but will be ignored by Satori.
+		 * NOTE: The explicitly declared key will take precedence over key spread in via props.
+		 *
+		 * @example
+		 *
+		 * ```tsx
+		 * const props = { key: 'Hello', class: 'bg-red' }
+		 * const el = <div {...props} key='Hi' /> // `key` will be 'Hi'
+		 * ```
 		 */
 		key?: JSXKey | undefined | null;
-		/**
-		 * **WARNING**: React's `dangerouslySetInnerHTML` property is not supported by Satori.
-		 *
-		 * @see {@link https://github.com/vercel/satori?tab=readme-ov-file#jsx Satori JSX documentation}
-		 */
-		dangerouslySetInnerHTML?: never;
 	};
 }
 
