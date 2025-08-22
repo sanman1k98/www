@@ -13,7 +13,7 @@
  */
 
 import type { JSX as ReactJSX } from 'react';
-import type { FC, JSXElement, JSXKey, JSXNode } from './types';
+import type { FC, JSXElement, JSXKey } from './types';
 
 // eslint-disable-next-line ts/no-namespace
 export namespace JSX {
@@ -73,6 +73,6 @@ export function jsx(
 
 export const jsxs = jsx;
 export const jsxDEV = jsx;
-export function Fragment(props: { children?: JSXNode }) {
-	return props.children;
-}
+
+// HACK: Symbol used internally by React.
+export const Fragment = Symbol.for('react.fragment');
