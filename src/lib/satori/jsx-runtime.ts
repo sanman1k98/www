@@ -1,3 +1,4 @@
+/* eslint-disable ts/no-empty-object-type */
 /**
  * @file
  * Minimal JSX runtime for Satori.
@@ -12,43 +13,10 @@
  */
 
 import type { JSX as ReactJSX } from 'react';
+import type { FC, JSXElement, JSXNode } from './types';
 
 // TODO: define custom subset of style properties supported by Satori.
 export type { CSSProperties as JSXStyleProperties } from 'react';
-
-export interface JSXElement<
-	P = unknown,
-	T extends string | FC<P> = string | FC<P>,
-> {
-	type: T;
-	props: P;
-	key: string | null;
-};
-
-export type JSXNode =
-	| JSXElement
-	| string
-	| number
-	| bigint
-	| Iterable<JSXNode>
-	| boolean
-	| null
-	| undefined;
-
-// TODO: define supported Satori props.
-export interface SatoriJSXProps {
-	/**
-	 * Tailwind classes powered by `twrnc`.
-	 *
-	 * @see {@link https://github.com/jaredh159/tailwind-react-native-classnames `twrnc` documentation}
-	 * @experimental
-	 */
-	tw?: string;
-	[propName: string]: any;
-}
-
-// eslint-disable-next-line ts/no-empty-object-type
-export type FC<P = {}> = (props: P) => JSXNode;
 
 // eslint-disable-next-line ts/no-namespace
 export namespace JSX {
@@ -63,11 +31,11 @@ export namespace JSX {
 	export interface Element extends JSXElement<any, any> { };
 
 	export interface ElementAttributesProperty {
-		props: Record<string, any>;
+		props: {};
 	};
 
 	export interface ElementChildrenAttribute {
-		children: JSXNode;
+		children: {};
 	};
 
 	// TODO: define custom subset of IntrinsicElements supported by Satori.
