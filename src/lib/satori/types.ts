@@ -7,6 +7,8 @@
 
 export type { CSSProperties as JSXStyleProperties } from 'react';
 
+export type JSXKey = string | number | bigint;
+
 /**
  * Represents a JSX element.
  *

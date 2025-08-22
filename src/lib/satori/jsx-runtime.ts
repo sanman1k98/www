@@ -13,7 +13,7 @@
  */
 
 import type { JSX as ReactJSX } from 'react';
-import type { FC, JSXElement, JSXNode } from './types';
+import type { FC, JSXElement, JSXKey, JSXNode } from './types';
 
 // TODO: define custom subset of style properties supported by Satori.
 export type { CSSProperties as JSXStyleProperties } from 'react';
@@ -45,7 +45,7 @@ export namespace JSX {
 		/**
 		 * **INFO**: Allowed as prop, but will be ignored by Satori.
 		 */
-		key?: string | number | bigint | undefined | null;
+		key?: JSXKey | undefined | null;
 		/**
 		 * **WARNING**: React's `dangerouslySetInnerHTML` property is not supported by Satori.
 		 *
