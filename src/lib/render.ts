@@ -14,6 +14,8 @@ export type SVGRenderOptions = Omit<SatoriOptions, 'fonts'> & {
 	fonts: FontOptions[];
 };
 
+export type PNGRenderOptions = ResvgRenderOptions;
+
 const fontCache = new WeakMap<FontOptions[], SatoriFont[]>();
 
 export async function getFonts(opts: FontOptions[]): Promise<SatoriFont[]> {
@@ -34,14 +36,28 @@ export async function getFonts(opts: FontOptions[]): Promise<SatoriFont[]> {
 	return fonts;
 }
 
-export async function toSVG(Component: FC, opts: SVGRenderOptions): Promise<string> {
+/**
+ * Render a JSX function component to an SVG string.
+ *
+ * @param Component - A function component with an `svgRenderOptions` property.
+ * @param opts - Render options to use if not specified by `Component.svgRenderOptions`.
+ */
+// eslint-disable-next-line ts/no-empty-object-type
+export async function toSVG<P extends {}>(
+	Component: FC<P> & { svgRenderOptions?: SVGRenderOptions },
+	opts?: SVGRenderOptions,
+): Promise<string> {
+	if ('svgRenderOptions' in Component)
+		opts = Component.svgRenderOptions;
+
+	if (!opts)
+		throw new Error('Missing render options');
+
 	const { fonts: fontOptions, ...rest } = opts;
 	const fonts: SatoriFont[] = await getFonts(fontOptions);
 	const satoriOpts = { fonts, ...rest } as SatoriOptions;
 	return await satori(createElement(Component), satoriOpts);
 }
-
-export type PNGRenderOptions = ResvgRenderOptions;
 
 export async function toPNG(svg: string, opts: ResvgRenderOptions): Promise<Uint8Array> {
 	const resvg = new Resvg(svg, {
