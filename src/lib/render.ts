@@ -51,7 +51,7 @@ export async function toHTML(Component: FC, opts: SatoriRenderOptions): Promise<
 
 	return await import('react-dom/server')
 		.then((r) => r.renderToStaticMarkup(
-			createElement(
+			createElement<{ style: JSXStyleProperties }>(
 				'div',
 				{ style: css },
 				createElement(Component),
