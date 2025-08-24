@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
-import { createElement, type FC, type JSXStyleProperties } from '@/lib/satori';
 import { Resvg, type ResvgRenderOptions } from '@resvg/resvg-js';
 import satori, { type Font as SatoriFont, type SatoriOptions } from 'satori';
+import { createElement, type FC, type JSXStyleProperties } from './satori';
 
 type FontOptions = Omit<SatoriFont, 'data'> & {
 	path: string | URL;
