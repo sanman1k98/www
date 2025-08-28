@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { Resvg, type ResvgRenderOptions } from '@resvg/resvg-js';
 import satori, { type Font as SatoriFont, type SatoriOptions } from 'satori';
-import { createElement, type FC, type JSXStyleProperties } from './satori';
+import { createElement, type FC } from './satori';
 
 export type FontOptions = Omit<SatoriFont, 'data'> & {
 	path: string | URL;
@@ -66,21 +66,4 @@ export async function toPNG(svg: string, opts: ResvgRenderOptions): Promise<Uint
 	});
 
 	return resvg.render().asPng();
-}
-
-export async function toHTML(Component: FC, opts: SVGRenderOptions): Promise<string> {
-	const css: JSXStyleProperties = {
-		height: opts.height,
-		width: opts.width,
-		overflow: 'clip',
-	};
-
-	return await import('react-dom/server')
-		.then((r) => r.renderToStaticMarkup(
-			createElement<{ style: JSXStyleProperties }>(
-				'div',
-				{ style: css },
-				createElement(Component),
-			),
-		));
 }
