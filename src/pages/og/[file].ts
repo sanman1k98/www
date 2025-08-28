@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 			params: { file: 'social-card.png' },
 			props: {
 				svg: socialCardSvg,
-				pngOpts: { fitTo: { mode: 'original' } },
+				pngOpts: { fitTo: { mode: 'width', value: 1200 } },
 			},
 		},
 	] satisfies PathItem[];
