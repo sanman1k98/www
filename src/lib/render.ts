@@ -3,7 +3,7 @@ import { Resvg, type ResvgRenderOptions } from '@resvg/resvg-js';
 import satori, { type Font as SatoriFont, type SatoriOptions } from 'satori';
 import { createElement, type FC, type JSXStyleProperties } from './satori';
 
-type FontOptions = Omit<SatoriFont, 'data'> & {
+export type FontOptions = Omit<SatoriFont, 'data'> & {
 	path: string | URL;
 };
 
