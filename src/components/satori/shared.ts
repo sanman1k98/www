@@ -1,7 +1,6 @@
 import type { FontOptions } from '@/lib/render';
 import type { JSXNode, JSXStyleProperties } from '@/lib/satori';
 import { unoTheme } from '@/lib/theme';
-import quicksandFontPath from '@fontsource/quicksand/files/quicksand-latin-700-normal.woff?url';
 
 export type { SVGRenderOptions } from '@/lib/render';
 
@@ -15,6 +14,6 @@ export const BRAND_TEXT_GRADIENT = `linear-gradient(to right, ${unoTheme.colors.
 /** Reuse fonts for better Satori performance. */
 export const fonts = [{
 	name: 'Quicksand',
-	path: process.cwd() + quicksandFontPath,
+	path: process.cwd().concat('/node_modules/@fontsource/quicksand/files/quicksand-latin-700-normal.woff'),
 	style: 'normal',
 }] satisfies FontOptions[];
