@@ -34,7 +34,6 @@
 		"exif-reader": "^2.0.1",
 		"fast-glob": "^3.3.2",
 		"github-slugger": "^2.0.0",
-		"react": "^19.1.1",
 		"satori": "^0.16.2",
 		"sharp": "^0.33.5",
 		"unocss": "^0.63.4"
