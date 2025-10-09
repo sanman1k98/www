@@ -10,6 +10,13 @@ const envSchema = {
 		access: 'public',
 		optional: true,
 	}),
+	/**
+	 * Additional information to show in the header of the resume.
+	 */
+	PERSONAL_INFO: envField.string({
+		context: 'server',
+		access: 'secret',
+	}),
 	PERSONAL_EMAIL: envField.string({
 		context: 'server',
 		access: 'secret',

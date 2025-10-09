@@ -1,7 +1,9 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 import { socials } from '@/content';
-import { BUILD, PERSONAL_EMAIL, PERSONAL_PHONE } from 'astro:env/server';
+import { BUILD, PERSONAL_EMAIL, PERSONAL_INFO, PERSONAL_PHONE } from 'astro:env/server';
+
+const subtitleText = ['Full-Stack Engineer'];
 
 // Explicitly define array to specify order of dynamically-generated elements
 const links = [
@@ -11,6 +13,7 @@ const links = [
 ];
 
 if (BUILD === 'resume') {
+	subtitleText.push(PERSONAL_INFO);
   links.unshift(
     { text: PERSONAL_EMAIL, href: `mailto:${PERSONAL_EMAIL}`, icon: 'ph:envelope' },
     { text: PERSONAL_PHONE, href: `tel:${PERSONAL_PHONE}`, icon: 'ph:phone-outgoing' },
@@ -39,7 +42,13 @@ type Props = HTMLAttributes<'header'>;
 	</h1>
 
 	<div class="text-sm tracking-tight axis-mono-0.5 sm:text-base">
-		<p class="mb-1 text-slate-600 font-semibold">Full-Stack Engineer</p>
+		<p class="mb-1 text-slate-600 font-semibold -ml-3">
+			{
+				subtitleText.map((text) => (
+					<span class="border-r-1.5 px-3 last:border-r-0">{text}</span>
+				))
+			}
+		</p>
 
 		<address class="tracking-tight not-italic -ml-3">
 			<ul class="flex flex-wrap justify-start">
