@@ -16,6 +16,7 @@ const envSchema = {
 	PERSONAL_INFO: envField.string({
 		context: 'server',
 		access: 'secret',
+		optional: true,
 	}),
 	PERSONAL_EMAIL: envField.string({
 		context: 'server',

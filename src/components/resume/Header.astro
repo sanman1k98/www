@@ -13,7 +13,8 @@ const links = [
 ];
 
 if (BUILD === 'resume') {
-	subtitleText.push(PERSONAL_INFO);
+	if (PERSONAL_INFO)
+		subtitleText.push(PERSONAL_INFO);
   links.unshift(
     { text: PERSONAL_EMAIL, href: `mailto:${PERSONAL_EMAIL}`, icon: 'ph:envelope' },
     { text: PERSONAL_PHONE, href: `tel:${PERSONAL_PHONE}`, icon: 'ph:phone-outgoing' },
