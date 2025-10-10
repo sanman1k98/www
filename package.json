@@ -4,15 +4,15 @@
 	"scripts": {
 		"lint": "eslint .",
 		"eslint": "eslint",
-		"dev": "astro dev --host",
-		"start": "astro dev --host",
+		"dev": "astro dev",
+		"start": "astro dev",
 		"check": "astro check && tsc --noEmit",
 		"build": "astro build",
-		"preview": "astro preview --host",
+		"preview": "astro preview",
 		"deploy": "./scripts/deploy.sh && git push origin deploy",
-		"dev:resume": "BUILD='resume' astro dev --host",
+		"dev:resume": "BUILD='resume' astro dev",
 		"build:resume": "BUILD='resume' astro build",
-		"preview:resume": "BUILD='resume' astro preview --host",
+		"preview:resume": "BUILD='resume' astro preview",
 		"astro": "astro"
 	},
 	"imports": {
