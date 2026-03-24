@@ -23,12 +23,12 @@ export default antfu(
 				],
 			},
 		},
-		astro: {
-			overrides: {
-				'antfu/no-top-level-await': 'off',
-			},
-		},
+		astro: true,
 		unocss: true,
+		formatters: {
+			astro: true,
+			css: true,
+		},
 	},
 	{
 		name: 'user/overrides',
